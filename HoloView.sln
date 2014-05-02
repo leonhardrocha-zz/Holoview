@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tracker", "Tracker\Tracker.vcxproj", "{0C756FDF-8218-4D6A-8121-7AA5CB12869E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HoloviewLib", "HoloviewLib\HoloViewLib.vcxproj", "{7CE81028-73FE-5415-5112-639E90B73607}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Factory", "Factory\Factory.vcxproj", "{68351E09-FE17-4B53-AF59-3152FE4FCB69}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7CE81028-73FE-5415-5112-639E90B73607} = {7CE81028-73FE-5415-5112-639E90B73607}
+		{0C756FDF-8218-4D6A-8121-7AA5CB12869E} = {0C756FDF-8218-4D6A-8121-7AA5CB12869E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Holoview", "Holoview\Holoview.vcxproj", "{F2012380-39F4-4388-9416-F78B3237F2CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C756FDF-8218-4D6A-8121-7AA5CB12869E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0C756FDF-8218-4D6A-8121-7AA5CB12869E}.Debug|Win32.Build.0 = Debug|Win32
+		{0C756FDF-8218-4D6A-8121-7AA5CB12869E}.Release|Win32.ActiveCfg = Release|Win32
+		{0C756FDF-8218-4D6A-8121-7AA5CB12869E}.Release|Win32.Build.0 = Release|Win32
+		{7CE81028-73FE-5415-5112-639E90B73607}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7CE81028-73FE-5415-5112-639E90B73607}.Debug|Win32.Build.0 = Debug|Win32
+		{7CE81028-73FE-5415-5112-639E90B73607}.Release|Win32.ActiveCfg = Release|Win32
+		{7CE81028-73FE-5415-5112-639E90B73607}.Release|Win32.Build.0 = Release|Win32
+		{68351E09-FE17-4B53-AF59-3152FE4FCB69}.Debug|Win32.ActiveCfg = Debug|Win32
+		{68351E09-FE17-4B53-AF59-3152FE4FCB69}.Debug|Win32.Build.0 = Debug|Win32
+		{68351E09-FE17-4B53-AF59-3152FE4FCB69}.Release|Win32.ActiveCfg = Release|Win32
+		{68351E09-FE17-4B53-AF59-3152FE4FCB69}.Release|Win32.Build.0 = Release|Win32
+		{F2012380-39F4-4388-9416-F78B3237F2CB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F2012380-39F4-4388-9416-F78B3237F2CB}.Debug|Win32.Build.0 = Debug|Win32
+		{F2012380-39F4-4388-9416-F78B3237F2CB}.Release|Win32.ActiveCfg = Release|Win32
+		{F2012380-39F4-4388-9416-F78B3237F2CB}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
