@@ -5,6 +5,8 @@
 //------------------------------------------------------------------------------
 
 #pragma once
+#include "stdafx.h"
+#include "IAvatar.h"
 
 static const float EyeInside = 1.0f/18.0f;
 static const float EyeOutside = 1.0f/6.0f;
@@ -53,27 +55,28 @@ static const int CircleFirstPoint = LeftPupilFirstPoint+PointsPerPupil;;
 
 struct IFTImage;
 
-class EggAvatar
+
+class EggAvatar : public IAvatar
 {
 public:
     EggAvatar(void);
 
-    BOOL SetCandideAU(const float * AU, const int numberAU);
-    BOOL SetRandomAU();
+    bool SetCandideAU(const float * AU, const int numberAU);
+    bool SetRandomAU();
 
-    BOOL SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees);
-	BOOL GetRotations(float* pitchDegrees, float* yawDegrees, float* rollDegrees);
-    BOOL SetRandomRotations();
+    bool SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees);
+	bool GetRotations(float* pitchDegrees, float* yawDegrees, float* rollDegrees);
+    bool SetRandomRotations();
 
-    BOOL SetTranslations(const float tX, const float tY, const float tZ);
+    bool SetTranslations(const float tX, const float tY, const float tZ);
 
-    BOOL SetScaleAndTranslationToWindow(int height, int width);
+    bool SetScaleAndTranslationToWindow(int height, int width);
     void SetScale(float scale) { m_Scale = scale;}
     void SetTranslationX(float X){ m_TranslationX = X;}
     void SetTranslationY(float Y){ m_TranslationY = Y;}
 
-    BOOL DrawImage(IFTImage* pImage);
-    BOOL DrawBgLine(IFTImage* pImage, float x1, float y1, float x2, float y2, UINT32 color);
+    bool DrawImage(void* pImage);
+    bool DrawBgLine(IFTImage* pImage, float x1, float y1, float x2, float y2, UINT32 color);
 
 
     float m_FacePointLatLon[NumberFacePoints][2];

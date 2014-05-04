@@ -6,7 +6,7 @@
 #include "Factory.h"
 #include "WindowsKinectFactory.h"
 
-#include <QtWidgets/QApplication>
+#include "HoloviewApp.h"
 #include <QtWidgets/QApplication>
 
 #ifdef _DEBUG

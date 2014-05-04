@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="SingleFace.h" company="Microsoft">
+// <copyright file="TrackerManager.h" company="Microsoft">
 //     Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
@@ -15,11 +15,11 @@
 
 class KinectTracker;
 
-class SingleFace
+class TrackerManager
 {
 	friend class KinectTracker;
 public:
-    SingleFace::SingleFace()
+    TrackerManager::TrackerManager()
 		: m_hInst(NULL)
         , m_hWnd(NULL)
 		, m_lpCmdLine(L"")
@@ -35,30 +35,27 @@ public:
 {
 
 }	
-	~SingleFace()	{ UninitInstance();	};
+	~TrackerManager()	{ UninitInstance();	};
 	
 	HRESULT						Start();
-    int							Run(HINSTANCE hInst, PWSTR lpCmdLine, int nCmdShow);
 	HWND						GetHWnd() { return m_hWnd;};
 	HINSTANCE					GetInstance() { return m_hInst; };
-	BOOL						InitInstance();
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
-	KinectFaceTracker&			GetBestTracker();
+	KinectFaceTracker*			GetBestTracker();
 	float m_Pitch, m_Yaw, m_Roll;
 
 protected:
 
 	PWSTR m_lpCmdLine;
 	int m_nCmdShow;
-	std::vector<KinectFaceTracker>	m_FaceTrackers;
-	std::vector<HANDLE>			 m_FaceTrackingThreads;
-	HWND						createWindow(HWND parent, HINSTANCE instance);
-	BOOL                        InitInstance(HINSTANCE hInst, PWSTR lpCmdLine, int nCmdShow);
+	std::vector<KinectFaceTracker*>	m_pFaceTrackers;
+	std::vector<HANDLE>			m_FaceTrackingThreads;
+	//HWND						createWindow(HWND parent, HINSTANCE instance);
 	bool						IsTracking();
     void                        ParseCmdString(PWSTR lpCmdLine);
     void                        UninitInstance();
-    ATOM                        RegisterClass(PCWSTR szWindowClass);
+    //ATOM                        RegisterClass(PCWSTR szWindowClass);
     static LRESULT CALLBACK     WndProcStatic(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     LRESULT CALLBACK            WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

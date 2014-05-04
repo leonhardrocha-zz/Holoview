@@ -103,24 +103,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\eggavatar.h" />
+    <ClInclude Include="include\KinectFaceTracker.h" />
     <ClInclude Include="include\KinectSensor.h" />
     <ClInclude Include="include\KinectTracker.h" />
     <ClInclude Include="include\KinectTrackerFactory.h" />
-    <ClInclude Include="include\MultiFTHelper.h" />
     <ClInclude Include="include\Options.h" />
     <ClInclude Include="include\Resource.h" />
-    <ClInclude Include="include\SingleFace.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\TrackerManager.h" />
     <ClInclude Include="include\Visualize.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\eggavatar.cpp" />
+    <ClCompile Include="src\KinectFaceTracker.cpp" />
     <ClCompile Include="src\KinectSensor.cpp" />
     <ClCompile Include="src\KinectTracker.cpp" />
-    <ClCompile Include="src\MultiFTHelper.cpp" />
-    <ClCompile Include="src\SingleFace.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\TrackerManager.cpp" />
     <ClCompile Include="src\Visualize.cpp" />
   </ItemGroup>
   <ItemGroup>

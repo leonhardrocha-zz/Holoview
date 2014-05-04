@@ -9,36 +9,41 @@
 #include "stdafx.h"
 #include "TrackerManager.h"
 
-HWND	TrackerManager::createWindow(HWND parent, HINSTANCE instance)
-{
-	m_hInst = instance;
-
-	WCHAR szWindowClass[] = L"TrackerManager";            // the main window class name
-	//LoadString(m_hInst, IDC_TrackerManager, szWindowClass, ARRAYSIZE(szWindowClass));		
-
-	static ATOM windowClass = RegisterClass(szWindowClass);
-
-	m_hWnd = CreateWindow((TCHAR*)windowClass, 0, WS_CHILD|WS_CLIPSIBLINGS|WS_TABSTOP, 
-						CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, parent, NULL, instance, NULL);
-
-	return m_hWnd;
-}
-		
+//HWND	TrackerManager::createWindow(HWND parent, HINSTANCE instance)
+//{
+//	m_hInst = instance;
+//
+//	WCHAR szWindowClass[] = L"TrackerManager";            // the main window class name
+//	//LoadString(m_hInst, IDC_SINGLEFACE, szWindowClass, ARRAYSIZE(szWindowClass));		
+//
+//	static ATOM windowClass = RegisterClass(szWindowClass);
+//
+//	m_hWnd = CreateWindow((TCHAR*)windowClass, 0, WS_CHILD|WS_CLIPSIBLINGS|WS_TABSTOP, 
+//						CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, parent, NULL, instance, NULL);
+//
+//	return m_hWnd;
+//}
+//		
 
 HRESULT TrackerManager::Start()
 {      
 	int numSensors = 0;	
     NuiGetSensorCount(&numSensors);
-
+	m_pImageBuffer = FTCreateImage();
+    m_pVideoBuffer = FTCreateImage();	
 	for (int i =0; i < numSensors; i++)
 	{
-		KinectFaceTracker tracker;
-		if (tracker.InitTracker(FTHelperCallingBack, this))
+		KinectFaceTracker* tracker = new KinectFaceTracker();
+		if (tracker->InitTracker(FTHelperCallingBack, this))
 		{
-			m_FaceTrackers.push_back(tracker);
-			auto iterator = m_FaceTrackers.end();
-			HANDLE threadId = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (PVOID)&(*iterator), 0, 0);
-			m_FaceTrackingThreads.push_back(threadId);		
+			int result = tracker->StartFaceTracker(); 
+			m_pFaceTrackers.push_back(tracker);
+			HANDLE threadId = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (PVOID)tracker, 0, 0);
+			tracker->m_hFaceTrackingThread = threadId;
+			m_FaceTrackingThreads.push_back(threadId);					
+		} else
+		{
+			delete tracker;
 		}
 	}
 			  
@@ -47,107 +52,14 @@ HRESULT TrackerManager::Start()
 
 
 
-int TrackerManager::Run(HINSTANCE hInst, PWSTR lpCmdLine, int nCmdShow)
-{
-    MSG msg = {static_cast<HWND>(0), static_cast<UINT>(0), static_cast<WPARAM>(-1)};
-    if (InitInstance(hInst, lpCmdLine, nCmdShow))
-    {
-        // Main message loop:
-        while (GetMessage(&msg, NULL, 0, 0))
-        {
-            if (!TranslateAccelerator(msg.hwnd, m_hAccelTable, &msg))
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
-        }
-    }
-    UninitInstance();
-
-    return (int)msg.wParam;
-}
-
-// In this function, we save the instance handle, then create and display the main program window.
-BOOL TrackerManager::InitInstance(HINSTANCE hInstance, PWSTR lpCmdLine, int nCmdShow)
-{
-    m_hInst = hInstance; // Store instance handle in our global variable
-
-    ParseCmdString(lpCmdLine);
-
-    WCHAR szTitle[MaxLoadStringChars];                  // The title bar text
-    LoadString(m_hInst, IDS_APP_TITLE, szTitle, ARRAYSIZE(szTitle));
-
-    static const PCWSTR RES_MAP[] = { L"80x60", L"320x240", L"640x480", L"1280x960" };
-    static const PCWSTR IMG_MAP[] = { L"PLAYERID", L"RGB", L"YUV", L"YUV_RAW", L"DEPTH" };
-
-    // Add mode params in title
-    WCHAR szTitleComplete[MAX_PATH];
-    swprintf_s(szTitleComplete, L"%s -- Depth:%s:%s Color:%s:%s NearMode:%s, SeatedSkeleton:%s", szTitle,
-        IMG_MAP[m_depthType], (m_depthRes < 0)? L"ERROR": RES_MAP[m_depthRes], IMG_MAP[m_colorType], (m_colorRes < 0)? L"ERROR": RES_MAP[m_colorRes], m_bNearMode? L"ON": L"OFF",
-        m_bSeatedSkeletonMode?L"ON": L"OFF");
-
-    WCHAR szWindowClass[MaxLoadStringChars];            // the main window class name
-    LoadString(m_hInst, IDC_SINGLEFACE, szWindowClass, ARRAYSIZE(szWindowClass));
-
-    RegisterClass(szWindowClass);
-
-    m_hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_TrackerManager));
-
-    m_pImageBuffer = FTCreateImage();
-    m_pVideoBuffer = FTCreateImage();
-
-    m_hWnd = CreateWindow(szWindowClass, szTitleComplete, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, m_hInst, this);
-    if (!m_hWnd)
-    {
-        return FALSE;
-    }
-
-    ShowWindow(m_hWnd, nCmdShow);
-    UpdateWindow(m_hWnd);
-
-	return SUCCEEDED(m_MultiFTHelper.Init(	m_depthType,
-											m_depthRes,
-											m_bNearMode,
-											TRUE,
-											m_bSeatedSkeletonMode,
-											m_colorType,
-											m_colorRes,
-											m_hWnd,
-											FTHelperCallingBack, 
-											this ));
-}
-void TrackerManager::InitArgs(int argc, char **argv )
-{
-	auto requiredSize = mbstowcs( NULL, argv[0], 0) + 1;
-	m_lpCmdLine = new wchar_t[requiredSize];
-	mbstowcs(m_lpCmdLine, argv[0], requiredSize);
-	m_nCmdShow = argc;
-	ParseCmdString(m_lpCmdLine);
-}
-
-BOOL TrackerManager::InitInstance()
-{
-	ParseCmdString(m_lpCmdLine);
-	m_pImageBuffer = FTCreateImage();
-    m_pVideoBuffer = FTCreateImage();	
-	return SUCCEEDED(m_MultiFTHelper.Init(	m_depthType,
-											m_depthRes,
-											m_bNearMode,
-											TRUE,
-											m_bSeatedSkeletonMode,
-											m_colorType,
-											m_colorRes,
-											m_hWnd,
-											FTHelperCallingBack, 
-											this ));
-}
-
-
 void TrackerManager::UninitInstance()
 {
     // Clean up the memory allocated for Face Tracking and rendering.
-	m_MultiFTHelper.Stop();
+	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
+	{
+		(*tracker)->Stop();
+		delete *tracker;
+	}
 
     if (m_hAccelTable)
     {
@@ -175,26 +87,26 @@ void TrackerManager::UninitInstance()
 }
 
 
-// Register the window class.
-ATOM TrackerManager::RegisterClass(PCWSTR szWindowClass)
-{
-    WNDCLASSEX wcex = {0};
-
-    wcex.cbSize = sizeof(WNDCLASSEX);
-
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = &TrackerManager::WndProcStatic;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = m_hInst;
-    wcex.hIcon          = LoadIcon(m_hInst, MAKEINTRESOURCE(IDI_TrackerManager));
-    wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCE(IDC_TrackerManager);
-    wcex.lpszClassName  = szWindowClass;
-
-    return RegisterClassEx(&wcex);
-}
+//// Register the window class.
+//ATOM TrackerManager::RegisterClass(PCWSTR szWindowClass)
+//{
+//    WNDCLASSEX wcex = {0};
+//
+//    wcex.cbSize = sizeof(WNDCLASSEX);
+//
+//    wcex.style          = CS_HREDRAW | CS_VREDRAW;
+//    wcex.lpfnWndProc    = &TrackerManager::WndProcStatic;
+//    wcex.cbClsExtra     = 0;
+//    wcex.cbWndExtra     = 0;
+//    wcex.hInstance      = m_hInst;
+//    wcex.hIcon          = LoadIcon(m_hInst, MAKEINTRESOURCE(IDI_SINGLEFACE));
+//    wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
+//    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+//    wcex.lpszMenuName   = MAKEINTRESOURCE(IDC_SINGLEFACE);
+//    wcex.lpszClassName  = szWindowClass;
+//
+//    return RegisterClassEx(&wcex);
+//}
 
 LRESULT CALLBACK TrackerManager::WndProcStatic(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {    
@@ -284,8 +196,8 @@ INT_PTR CALLBACK TrackerManager::About(HWND hDlg, UINT message, WPARAM wParam, L
 BOOL TrackerManager::ShowVideo(HDC hdc, int width, int height, int originX, int originY)
 {
     // Now, copy a fraction of the camera image into the screen.
-	KinectFaceTracker& tracker = GetBestTracker();
-	IFTImage* colorImage = tracker.GetColorImage();
+	KinectFaceTracker* tracker = GetBestTracker();
+	IFTImage* colorImage = tracker->GetColorImage();
 	if (colorImage)
     {
         int iWidth = colorImage->GetWidth();
@@ -310,7 +222,7 @@ BOOL TrackerManager::ShowVideo(HDC hdc, int width, int height, int originX, int 
                 {
                     // video image too wide
                     float wx = w1/height;
-                    iLeft = (int)max(0, m_MultiFTHelper.GetXCenterFace() - wx / 2);
+                    iLeft = (int)max(0, tracker->GetXCenterFace() - wx / 2);
                     iRight = iLeft + (int)wx;
                     if (iRight > iWidth)
                     {
@@ -322,7 +234,7 @@ BOOL TrackerManager::ShowVideo(HDC hdc, int width, int height, int originX, int 
                 {
                     // video image too narrow
                     float hy = w2/width;
-                    iTop = (int)max(0, m_MultiFTHelper.GetYCenterFace() - hy / 2);
+                    iTop = (int)max(0, tracker->GetYCenterFace() - hy / 2);
                     iBottom = iTop + (int)hy;
                     if (iBottom > iHeight)
                     {
@@ -351,9 +263,9 @@ BOOL TrackerManager::ShowEggAvatar(HDC hdc, int width, int height, int originX, 
     static int errCount = 0;
     BOOL ret = FALSE;
 	
-	KinectFaceTracker& tracker = GetBestTracker();
+	KinectFaceTracker* tracker = GetBestTracker();
 
-	IAvatar* pEggAvatar = tracker.GetAvatar();
+	IAvatar* pEggAvatar = tracker->GetAvatar();
 	
 	if (m_pImageBuffer && SUCCEEDED(m_pImageBuffer->Allocate(width, height, FTIMAGEFORMAT_UINT8_B8G8R8A8)))
 	{
@@ -371,15 +283,15 @@ BOOL TrackerManager::ShowEggAvatar(HDC hdc, int width, int height, int originX, 
     return ret;
 }
 
-bool BestFaceTracking (KinectFaceTracker& i,KinectFaceTracker& j) 
+bool BestFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j) 
 { 
-	return (i.GetFaceConfidence()>j.GetFaceConfidence()); 
+	return (i->GetFaceConfidence()>j->GetFaceConfidence()); 
 }
 
-KinectFaceTracker& TrackerManager::GetBestTracker()
+KinectFaceTracker* TrackerManager::GetBestTracker()
 {
-	std::sort (m_FaceTrackers.begin(), m_FaceTrackers.end(), BestFaceTracking);
-	return *m_FaceTrackers.begin();
+	std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), BestFaceTracking);
+	return *m_pFaceTrackers.begin();
 }
 
 // Draw the egg head and the camera video with the mask superimposed.
@@ -393,13 +305,13 @@ BOOL TrackerManager::PaintWindow(HDC hdc, HWND hWnd)
     int height = rect.bottom - rect.top;
     int halfWidth = width/2;
     // Show the video on the right of the window
-	KinectFaceTracker& tracker = GetBestTracker();
+	KinectFaceTracker* tracker = GetBestTracker();
 
-	if (tracker.IsKinectPresent())
+	if (tracker->IsKinectPresent())
 	{
-		tracker.SetWindow(hWnd);
+		tracker->SetWindow(hWnd);
 
-		float pitch = tracker.GetPitch();
+		float pitch = tracker->GetPitch();
 
 		errCount += !ShowVideo(hdc, width - halfWidth, height, halfWidth, 0);
 
@@ -420,8 +332,8 @@ void TrackerManager::FTHelperCallingBack(PVOID pVoid)
     TrackerManager* pApp = reinterpret_cast<TrackerManager*>(pVoid);
     if (pApp)
     {
-		KinectFaceTracker& bestTracker = pApp->GetBestTracker();
-        IFTResult* pResult = bestTracker.GetResult();
+		KinectFaceTracker* bestTracker = pApp->GetBestTracker();
+        IFTResult* pResult = bestTracker->GetResult();
         if (pResult && SUCCEEDED(pResult->GetStatus()))
         {
             FLOAT* pAU = NULL;
@@ -431,7 +343,7 @@ void TrackerManager::FTHelperCallingBack(PVOID pVoid)
             FLOAT rotationXYZ[3];
             FLOAT translationXYZ[3];
             pResult->Get3DPose(&scale, rotationXYZ, translationXYZ);
-			IAvatar* pEggAvatar = bestTracker.GetAvatar();
+			IAvatar* pEggAvatar = bestTracker->GetAvatar();
 			if (pEggAvatar)
 			{
 				pEggAvatar->SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
@@ -440,6 +352,7 @@ void TrackerManager::FTHelperCallingBack(PVOID pVoid)
         }
     }
 }
+
 void TrackerManager::ParseCmdString(PWSTR lpCmdLine)
 {
     const WCHAR KEY_DEPTH[]                                 = L"-Depth";

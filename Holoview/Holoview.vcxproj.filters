@@ -104,6 +104,15 @@
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HoloviewApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_HoloviewApp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_HoloviewApp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetWindow.h">
@@ -142,6 +151,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Toolbar.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="HoloviewApp.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

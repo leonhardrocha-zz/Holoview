@@ -34,10 +34,12 @@ void AssetWindow::resizeWindow()
 	SetupScene();
 }
 
-//void AssetWindow::exposeEvent(QExposeEvent *event)
-//{
-//    Q_UNUSED(event);
-//
-//    if (isExposed())
-//        renderNow();
-//}
+void AssetWindow::exposeEvent(QExposeEvent *event)
+{
+    Q_UNUSED(event);
+
+    if (isExposed())
+	{
+        renderNow();
+	}
+}

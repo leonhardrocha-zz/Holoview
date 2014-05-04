@@ -1,15 +1,16 @@
 #include "ITracker.h"
 #include "ITrackerFactory.h"
-#include "SingleFace.h"
+#include "TrackerManager.h"
+#include "Synchronizable.h"
 
 #pragma once
-class KinectTracker :  public ITracker
+class KinectTracker :  public ITracker, Synchronizable
 {	
 public:
 	
 	KinectTracker::KinectTracker () 
 	{
-		tracker.InitInstance();
+		tracker.Start();
 	}
 
 	virtual void PaintEvent(void *message) 
@@ -23,16 +24,14 @@ public:
 
 	virtual void UpdateTracker()
 	{
-		if (tracker.m_pEggAvatar)
+		synchronized(KinectTracker)
 		{
-			m_Pitch = tracker.m_Pitch;
-			m_Yaw = tracker.m_Yaw;
-			m_Roll = tracker.m_Roll;
+			
 		}
 	}
 
 private:
-	SingleFace tracker;
+	TrackerManager tracker;
 	float m_Pitch, m_Yaw, m_Roll;
 
 };

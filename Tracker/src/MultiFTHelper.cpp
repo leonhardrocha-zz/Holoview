@@ -404,7 +404,11 @@ DWORD WINAPI MultiFTHelper::FaceTrackingThread()
 		auto bestSensor = GetBestTracker();
 		auto tracker = bestSensor.second;
 		
-		m_pKinectSensor = bestSensor.first;
+		m_pKinectSensor = bestSensor.first;		
+		EggAvatar* avatar = m_pKinectSensor->GetEggAvatar();
+		
+		avatar->GetRotations(&pitch, &yaw, &roll);
+				
 		tracker->CheckCameraInput();			
 		if (tracker->m_hWnd)
 		{

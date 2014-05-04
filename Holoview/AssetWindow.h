@@ -17,13 +17,9 @@ public:
 
 protected:
 
-	float m_Pitch;
-	float m_Yaw;
-	float m_Roll;
-	ITracker* m_pTracker;
 	//OpenGLWindow overrides
 	virtual void resizeWindow();
-	//virtual void exposeEvent(QExposeEvent *event);
+	virtual void exposeEvent(QExposeEvent *event);
 	OpenGL21Renderer renderer;
 
 };

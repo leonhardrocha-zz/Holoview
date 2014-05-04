@@ -81,8 +81,7 @@ public slots:
     void setCorner(int id);
     void switchLayoutDirection();
     void setDockOptions();
-
-    void createDockWidget();
+	void createDockWidget();
     void destroyDockWidget(QAction *action);
 
 private:

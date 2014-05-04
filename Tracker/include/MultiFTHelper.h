@@ -14,12 +14,11 @@
 
 typedef void (*FTHelperCallBack)(PVOID lpParam);
 
-
-
 class MultiFTHelper;
 
 typedef std::pair<KinectSensor*,MultiFTHelper*> TrackerPair;
 typedef std::vector<TrackerPair> TrackerPairVector;
+
 
 class MultiFTHelper
 {
@@ -42,6 +41,8 @@ public:
 	HRESULT GetTrackerResult();
 	int StartFaceTracker();
 	void CheckCameraInput();
+	float   		GetPitch()        { return(pitch);}
+
 	IFTResult*		GetResult()        { return(m_pFTResult);}
     IFTImage*		GetColorImage()    { return(m_colorImage);}
     float			GetXCenterFace()   { return(m_XCenterFace);}
@@ -52,9 +53,9 @@ public:
 	void		    SetWindow(HWND hWnd)	{ m_hWnd = hWnd;}
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
 	TrackerPair		GetBestTracker(); 
-	FTHelperCallBack     m_CallBack;
-    LPVOID               m_CallBackParam;
-	HANDLE               m_hFaceTrackingThread;
+	FTHelperCallBack			m_CallBack;
+    LPVOID						m_CallBackParam;
+	HANDLE						m_hFaceTrackingThread;
 	TrackerPair*				m_pBestSensorTrackerPair;
 	KinectSensor*               m_pKinectSensor;
 	protected:
@@ -72,7 +73,7 @@ public:
 	bool						m_KinectSensorPresent;
     float                       m_XCenterFace;
     float                       m_YCenterFace;
-
+	float pitch, yaw, roll;
 	TrackerPairVector	 validSensors;
 
 	HWND                 m_hWnd;

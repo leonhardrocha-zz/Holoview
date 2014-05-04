@@ -69,7 +69,7 @@ EggAvatar::EggAvatar()
 }
 
 
-BOOL EggAvatar::SetRandomAU()
+bool EggAvatar::SetRandomAU()
 {
     float AU[6];
     for (int i=0; i<6; i++)
@@ -83,9 +83,9 @@ BOOL EggAvatar::SetRandomAU()
     return(SetCandideAU(AU, 6));
 }
 
-BOOL EggAvatar::SetCandideAU(const float* AU, const int numberAU)
+bool EggAvatar::SetCandideAU(const float* AU, const int numberAU)
 {
-    BOOL ret = (numberAU >= 6);
+    bool ret = (numberAU >= 6);
     if (ret)
     {
         // Apply static coefficients to matching AU
@@ -161,7 +161,7 @@ BOOL EggAvatar::SetCandideAU(const float* AU, const int numberAU)
  * offset by that position so that the average correspond to neutral.
  */
 
-BOOL EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees)
+bool EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees)
 {
     if (m_HeadPoseFiltering)
     {
@@ -189,7 +189,7 @@ BOOL EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, c
     return TRUE;
 }
 
-BOOL EggAvatar::GetRotations(float* pitchDegrees, float* yawDegrees, float* rollDegrees)
+bool EggAvatar::GetRotations(float* pitchDegrees, float* yawDegrees, float* rollDegrees)
 {
 	*pitchDegrees = m_Pitch;
 	*yawDegrees = m_Yaw;
@@ -201,7 +201,7 @@ BOOL EggAvatar::GetRotations(float* pitchDegrees, float* yawDegrees, float* roll
 // We keep track of the translation as a way to check whether the
 // subject head's pose should be filtered. If the user moved
 // significantly, then the pose should probably be reset.
-BOOL EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
+bool EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
 {
     m_TxAverage += 0.05f*(tX-m_TxAverage);
     m_TyAverage += 0.05f*(tY-m_TxAverage);
@@ -222,7 +222,7 @@ BOOL EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
 }
 
 
-BOOL EggAvatar::SetRandomRotations()
+bool EggAvatar::SetRandomRotations()
 {
     float pitchDegrees = ((((float)(rand() & 1023)) / 1023) - 0.5f) * 90.0f;
     float yawDegrees = ((((float)(rand() & 1023)) / 1023) - 0.5f) * 90.0f;
@@ -232,7 +232,7 @@ BOOL EggAvatar::SetRandomRotations()
 }
 
 
-BOOL EggAvatar::SetScaleAndTranslationToWindow(int height, int width)
+bool EggAvatar::SetScaleAndTranslationToWindow(int height, int width)
 {
     m_Scale = ((float)min(height, width))/4;
     m_TranslationX = ((float) width)/2;
@@ -240,8 +240,9 @@ BOOL EggAvatar::SetScaleAndTranslationToWindow(int height, int width)
     return(TRUE);
 }
 
-BOOL EggAvatar::DrawImage(IFTImage* pImage)
+bool EggAvatar::DrawImage(void* image)
 {
+	IFTImage* pImage = static_cast<IFTImage*>(image);
     // Initialize internal points to mean shape plus animation units
     LatLonEye(false);
     LatLonEye(true);
@@ -659,7 +660,7 @@ bool EggAvatar::PointInsideCurve(float x, float y, int firstCurvePoint, int numb
     return ((nbCuts == 2) && ((y >= yValues[0] && y <= yValues[1])||(y >= yValues[1] && y <= yValues[0])));
 }
 
-BOOL EggAvatar::DrawBgLine(IFTImage* pImage, float x1, float y1, float x2, float y2, UINT32 color)
+bool EggAvatar::DrawBgLine(IFTImage* pImage, float x1, float y1, float x2, float y2, UINT32 color)
 {
     // First, get the box outline of the egg
     float cx1 = m_FacePointXYZ[CircleFirstPoint][0];

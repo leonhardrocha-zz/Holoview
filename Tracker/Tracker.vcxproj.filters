@@ -24,16 +24,10 @@
     <ClInclude Include="include\KinectTracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\MultiFTHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SingleFace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\stdafx.h">
@@ -48,18 +42,18 @@
     <ClInclude Include="include\KinectTrackerFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\KinectFaceTracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TrackerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\eggavatar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KinectSensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MultiFTHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SingleFace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
@@ -69,6 +63,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KinectTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KinectFaceTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TrackerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,6 @@
 #ifndef _ITRACKER_H
 #define _ITRACKER_H
+
 class ITracker
 {
 public:

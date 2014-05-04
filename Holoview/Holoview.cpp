@@ -6,7 +6,7 @@ Holoview::Holoview(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
 	: MainWindow(customSizeHints, parent, flags)
 {
-	ui.setupUi(this);
+	//ui.setupUi(this);
 
 	QSurfaceFormat format;
     format.setSamples(4);

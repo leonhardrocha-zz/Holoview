@@ -87,12 +87,14 @@
     <ClInclude Include="include\BaseStereoView.h" />
     <ClInclude Include="include\DualStereoView.h" />
     <ClInclude Include="include\HoloviewException.h" />
+    <ClInclude Include="include\IAvatar.h" />
     <ClInclude Include="include\ITracker.h" />
     <ClInclude Include="include\Matrices.h" />
     <ClInclude Include="include\MatrixMath.h" />
     <ClInclude Include="include\OpenGL21Renderer.h" />
     <ClInclude Include="include\OpenGLHelper.h" />
     <ClInclude Include="include\StereoView.h" />
+    <ClInclude Include="include\Synchronizable.h" />
     <ClInclude Include="include\ToeInStereoView.h" />
     <ClInclude Include="include\ITrackerFactory.h" />
     <ClInclude Include="include\Vectors.h" />
