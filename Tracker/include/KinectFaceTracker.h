@@ -8,11 +8,13 @@
 #pragma warning(disable:4786)
 #include <FaceTrackLib.h>
 #include "KinectSensor.h"
+#include "ITracker.h"
+#include "Callable.h"
 #include <vector>
 #include <queue>
 #include <map>
 
-typedef void (*FTCallBack)(PVOID lpParam);
+
 
 class TrackerConfig
 {
@@ -37,16 +39,16 @@ public:
 	NUI_IMAGE_RESOLUTION m_colorRes;
 };
 
-class KinectFaceTracker
+class KinectFaceTracker : public Callable
 {
 public:
-	KinectFaceTracker() : m_pKinectSensor(NULL), m_pFaceTracker(NULL), m_pFTResult(NULL), m_colorImage(NULL), m_depthImage(NULL) {};
-	bool InitTracker(FTCallBack callBack, LPVOID callBackParam);
+	KinectFaceTracker() : m_pKinectSensor(NULL), m_pFaceTracker(NULL), m_pFTResult(NULL), m_colorImage(NULL), m_depthImage(NULL) {};	
     ~KinectFaceTracker();
-	HRESULT Stop();
-	HRESULT GetTrackerResult();
-	int StartFaceTracker();
-	void CheckCameraInput();
+	HRESULT			Stop();
+	HRESULT			GetTrackerResult();
+	bool			Start();
+	bool			Init();
+	void			CheckCameraInput();
 	float   		GetPitch()         { return(pitch);}
 	IFTResult*		GetResult()        { return(m_pFTResult);}
     IFTImage*		GetColorImage()    { return(m_colorImage);}
@@ -54,29 +56,27 @@ public:
     float			GetYCenterFace()   { return(m_YCenterFace);}
     BOOL			IsMaskDraw()	   { return(m_config.m_DrawMask);}
     IFTFaceTracker* GetTracker()       { return(m_pFaceTracker);}
+	KinectSensor*   GetSensor()        { return(m_pKinectSensor);}
     BOOL			IsKinectPresent()  { return(IsKinectSensorPresent);}
-	void		    SetWindow(HWND hWnd)	{ m_hWnd = hWnd;}
+	void		    SetWindow(HWND hWnd){ m_hWnd = hWnd;}
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
-	IAvatar*		GetAvatar() { return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
-	float			GetFaceConfidence() { return m_faceConfidence.Weight; };
+	IAvatar*		GetAvatar()			{ return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
+	float			GetFaceConfidence() { return m_faceConfidence; };
  
-	static DWORD WINAPI  FaceTrackingStaticThread(PVOID lpParam);
-	
-	FTCallBack			 m_CallBack;
-    LPVOID               m_CallBackParam;
-	HANDLE               m_hFaceTrackingThread;
-	
-	KinectSensor*               m_pKinectSensor;
+	static DWORD WINAPI			FaceTrackingStaticThread(PVOID lpParam);	
+	HANDLE						GetThreadId() { return m_hFaceTrackingThread; };		
+
 	
 protected:
-	
+	KinectSensor*               m_pKinectSensor;
+	HANDLE						m_hFaceTrackingThread;	
 	IFTFaceTracker*             m_pFaceTracker;
     IFTResult*                  m_pFTResult;
     IFTImage*                   m_colorImage;
     IFTImage*                   m_depthImage;
     FT_VECTOR3D                 m_hint3D[2]; 
 	
-	FT_WEIGHTED_RECT			m_faceConfidence;
+	float						m_faceConfidence;
 
 	bool						IsKinectSensorPresent;
     float                       m_XCenterFace;

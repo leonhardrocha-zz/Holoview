@@ -56,8 +56,7 @@ int main(int argc, char *argv[])
 	QMap<QString, QSize> customSizeHints = parseCustomSizeHints(argc, argv);
 	Holoview mainWindow(customSizeHints);
 	mainWindow.menuBar()->addMenu("&File")->addAction("&Exit", &app, SLOT(quit()));		
-	KinectTracker tracker;
-	mainWindow.RegisterTracker(&tracker);
+	mainWindow.RegisterTracker(mainWindow.GetTracker());
 	mainWindow.AddTrackerDockWidget();
 
 	QWidget central(&mainWindow);	

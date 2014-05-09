@@ -17,6 +17,6 @@ protected:
 	virtual void ParseCustomSizeHints(int argc, char **argv);
 	QMap<QString, QSize> sizeHints;
 	Holoview* mainWindow;
-	KinectTracker tracker;
+	//KinectTracker tracker;
 	virtual void aboutToQuit(void);
 };

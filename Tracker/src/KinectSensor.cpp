@@ -40,6 +40,7 @@ KinectSensor::~KinectSensor()
     Release();
 }
 
+
 HRESULT KinectSensor::GetVideoConfiguration(FT_CAMERA_CONFIG* videoConfig)
 {
     if (!videoConfig)

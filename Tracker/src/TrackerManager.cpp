@@ -8,49 +8,48 @@
 //
 #include "stdafx.h"
 #include "TrackerManager.h"
+#include "TrackerException.h"
 
-//HWND	TrackerManager::createWindow(HWND parent, HINSTANCE instance)
-//{
-//	m_hInst = instance;
-//
-//	WCHAR szWindowClass[] = L"TrackerManager";            // the main window class name
-//	//LoadString(m_hInst, IDC_SINGLEFACE, szWindowClass, ARRAYSIZE(szWindowClass));		
-//
-//	static ATOM windowClass = RegisterClass(szWindowClass);
-//
-//	m_hWnd = CreateWindow((TCHAR*)windowClass, 0, WS_CHILD|WS_CLIPSIBLINGS|WS_TABSTOP, 
-//						CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, parent, NULL, instance, NULL);
-//
-//	return m_hWnd;
-//}
-//		
+bool TrackerManager::Start()
+{
+	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
+	{
+		if ((*tracker)->Start())
+		{
+			m_FaceTrackingThreads.push_back((*tracker)->GetThreadId());					
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
 
-HRESULT TrackerManager::Start()
+bool TrackerManager::Init()
 {      
 	int numSensors = 0;	
     NuiGetSensorCount(&numSensors);
+
 	m_pImageBuffer = FTCreateImage();
-    m_pVideoBuffer = FTCreateImage();	
-	for (int i =0; i < numSensors; i++)
+    m_pVideoBuffer = FTCreateImage();
+	int i;
+	for (i =0; i < numSensors; i++)
 	{
 		KinectFaceTracker* tracker = new KinectFaceTracker();
-		if (tracker->InitTracker(FTHelperCallingBack, this))
+		if (tracker->Init())
 		{
-			int result = tracker->StartFaceTracker(); 
+			tracker->SetTrackerCallback(FTHelperCallingBack, this);
 			m_pFaceTrackers.push_back(tracker);
-			HANDLE threadId = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (PVOID)tracker, 0, 0);
-			tracker->m_hFaceTrackingThread = threadId;
-			m_FaceTrackingThreads.push_back(threadId);					
 		} else
 		{
 			delete tracker;
 		}
 	}
 			  
-    return S_OK;
+    return (i == numSensors);
 }
-
-
 
 void TrackerManager::UninitInstance()
 {
@@ -86,28 +85,6 @@ void TrackerManager::UninitInstance()
     }
 }
 
-
-//// Register the window class.
-//ATOM TrackerManager::RegisterClass(PCWSTR szWindowClass)
-//{
-//    WNDCLASSEX wcex = {0};
-//
-//    wcex.cbSize = sizeof(WNDCLASSEX);
-//
-//    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-//    wcex.lpfnWndProc    = &TrackerManager::WndProcStatic;
-//    wcex.cbClsExtra     = 0;
-//    wcex.cbWndExtra     = 0;
-//    wcex.hInstance      = m_hInst;
-//    wcex.hIcon          = LoadIcon(m_hInst, MAKEINTRESOURCE(IDI_SINGLEFACE));
-//    wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
-//    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-//    wcex.lpszMenuName   = MAKEINTRESOURCE(IDC_SINGLEFACE);
-//    wcex.lpszClassName  = szWindowClass;
-//
-//    return RegisterClassEx(&wcex);
-//}
-
 LRESULT CALLBACK TrackerManager::WndProcStatic(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {    
 	static TrackerManager* pThis = NULL; // cheating, but since there is just one window now, it will suffice.
@@ -118,6 +95,14 @@ LRESULT CALLBACK TrackerManager::WndProcStatic(HWND hWnd, UINT message, WPARAM w
     return pThis ? pThis->WndProc(hWnd, message, wParam, lParam) : DefWindowProc(hWnd, message, wParam, lParam);
 }
 
+void TrackerManager::PaintEvent(void *message) 
+{	
+	MSG* msg = reinterpret_cast<MSG*>(message);
+	if (msg != NULL)
+	{
+		WndProc(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+	}
+}
 
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -141,9 +126,6 @@ LRESULT CALLBACK TrackerManager::WndProc(HWND hWnd, UINT message, WPARAM wParam,
         // Parse the menu selections:
         switch (wmId)
         {
-        case IDM_ABOUT:
-            DialogBox(m_hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-            break;
         case IDM_EXIT:
             PostQuitMessage(0);
             break;
@@ -170,26 +152,6 @@ LRESULT CALLBACK TrackerManager::WndProc(HWND hWnd, UINT message, WPARAM wParam,
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
-}
-
-// Message handler for about box.
-INT_PTR CALLBACK TrackerManager::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
 }
 
 // Drawing the video window
@@ -263,9 +225,7 @@ BOOL TrackerManager::ShowEggAvatar(HDC hdc, int width, int height, int originX, 
     static int errCount = 0;
     BOOL ret = FALSE;
 	
-	KinectFaceTracker* tracker = GetBestTracker();
-
-	IAvatar* pEggAvatar = tracker->GetAvatar();
+	IAvatar* pEggAvatar = m_pBestTracker->GetAvatar();
 	
 	if (m_pImageBuffer && SUCCEEDED(m_pImageBuffer->Allocate(width, height, FTIMAGEFORMAT_UINT8_B8G8R8A8)))
 	{
@@ -294,6 +254,7 @@ KinectFaceTracker* TrackerManager::GetBestTracker()
 	return *m_pFaceTrackers.begin();
 }
 
+
 // Draw the egg head and the camera video with the mask superimposed.
 BOOL TrackerManager::PaintWindow(HDC hdc, HWND hWnd)
 {
@@ -301,24 +262,24 @@ BOOL TrackerManager::PaintWindow(HDC hdc, HWND hWnd)
     BOOL ret = FALSE;
     RECT rect;
     GetClientRect(hWnd, &rect);
+	m_hWnd = hWnd;
     int width = rect.right - rect.left;
     int height = rect.bottom - rect.top;
     int halfWidth = width/2;
     // Show the video on the right of the window
-	KinectFaceTracker* tracker = GetBestTracker();
-
-	if (tracker->IsKinectPresent())
+	m_pBestTracker = GetBestTracker();	
+	if (m_pBestTracker->IsKinectPresent())
 	{
-		tracker->SetWindow(hWnd);
+		m_pBestTracker->SetWindow(hWnd);
 
-		float pitch = tracker->GetPitch();
+		float pitch = m_pBestTracker->GetPitch();
 
 		errCount += !ShowVideo(hdc, width - halfWidth, height, halfWidth, 0);
 
 		// Draw the egg avatar on the left of the window
 		errCount += !ShowEggAvatar(hdc, halfWidth, height, 0, 0);
 	}
-
+	
     return ret;
 }
 
@@ -327,7 +288,7 @@ BOOL TrackerManager::PaintWindow(HDC hdc, HWND hWnd)
 * after a face has been successfully tracked. The code in the call back passes the parameters
 * to the Egg Avatar, so it can be animated.
 */
-void TrackerManager::FTHelperCallingBack(PVOID pVoid)
+void TrackerManager::FTHelperCallingBack(void* pVoid)
 {
     TrackerManager* pApp = reinterpret_cast<TrackerManager*>(pVoid);
     if (pApp)
@@ -339,15 +300,21 @@ void TrackerManager::FTHelperCallingBack(PVOID pVoid)
             FLOAT* pAU = NULL;
             UINT numAU;
             pResult->GetAUCoefficients(&pAU, &numAU);
-            FLOAT scale;
-            FLOAT rotationXYZ[3];
-            FLOAT translationXYZ[3];
-            pResult->Get3DPose(&scale, rotationXYZ, translationXYZ);
+            //FLOAT scale;
+            //FLOAT rotationXYZ[3];
+            //FLOAT translationXYZ[3];
+            pResult->Get3DPose(&pApp->scale, pApp->rotationXYZ, pApp->translationXYZ);
 			IAvatar* pEggAvatar = bestTracker->GetAvatar();
+
 			if (pEggAvatar)
 			{
-				pEggAvatar->SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
-				pEggAvatar->SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
+				pEggAvatar->SetTranslations(pApp->translationXYZ[0], pApp->translationXYZ[1], pApp->translationXYZ[2]);
+				pEggAvatar->SetRotations(pApp->rotationXYZ[0], pApp->rotationXYZ[1], pApp->rotationXYZ[2]);
+			}
+
+			if (pApp->m_CallBack)
+			{
+				pApp->m_CallBack(pApp->m_CallBackParam);
 			}
         }
     }
@@ -464,6 +431,3 @@ void TrackerManager::ParseCmdString(PWSTR lpCmdLine)
 
     if(argv) LocalFree(argv);
 }
-
-
-

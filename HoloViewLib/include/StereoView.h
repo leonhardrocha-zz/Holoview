@@ -27,13 +27,16 @@ public:
 	virtual void SetupView();
 	virtual void SetupWindow();
 	virtual void SetupScene();
+
 // Overrides
 protected:
+	virtual void Init();
 	//	Main OpenGL functions.
 	virtual void RenderScene();
 	virtual void RenderStereoView();
 	virtual void RenderLeftView();
 	virtual void RenderRightView();
+	virtual void ResetWindow();
 	virtual void ResetLeftView();
 	virtual void ResetRightView();
 	virtual void DoOpenGLDraw();

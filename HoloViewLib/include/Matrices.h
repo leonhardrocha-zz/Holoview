@@ -20,7 +20,8 @@
 #define MATH_MATRICES_H
 
 #include "Vectors.h"
-
+namespace Util
+{
 ///////////////////////////////////////////////////////////////////////////
 // 2x2 matrix
 ///////////////////////////////////////////////////////////////////////////
@@ -707,7 +708,6 @@ inline void Matrix4::setColumn(int index, const float col[4])
 }
 
 
-
 inline void Matrix4::setColumn(int index, const Vector4& v)
 {
     m[index] = v.x;  m[index + 4] = v.y;  m[index + 8] = v.z;  m[index + 12] = v.w;
@@ -899,4 +899,5 @@ inline std::ostream& operator<<(std::ostream& os, const Matrix4& m)
     return os;
 }
 // END OF MATRIX4 INLINE //////////////////////////////////////////////////////
+}
 #endif

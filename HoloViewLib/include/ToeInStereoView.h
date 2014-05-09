@@ -14,6 +14,7 @@
 #include <GL/glu.h>
 #include <GL/freeglut.h>
 
+#include "Matrices.h"
 // ToeInStereoView window
 
 class ToeInStereoView : public DualStereoView
@@ -24,16 +25,15 @@ public:
 	ToeInStereoView();
 	virtual ~ToeInStereoView() {};
 	virtual void SetupView();
-
+	virtual void SetViewAngles(float pitch, float yaw, float roll);
+	Util::Matrix4 leftViewVectors;
+	Util::Matrix4 rightViewVectors;
 // Overrides
 protected:
+	virtual void Init();
 	//	Main OpenGL functions.
 	virtual void RenderLeftView();
 	virtual void RenderRightView();
-	float CameraRotationAngle;
-	float CameraRotationShift[3];
-	float leftViewAngles[4];
-	float rightViewAngles[4];
 };
 
 #endif

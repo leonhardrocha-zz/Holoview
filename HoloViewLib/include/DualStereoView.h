@@ -28,9 +28,8 @@ public:
 	virtual ~DualStereoView() {};
 
 	virtual void SetupView();
-	virtual void SetupDualStereoView();
 	virtual void SetupScene();
-
+	virtual void SetupWindow();
 	float VirtualPlanePosition[3];
 	enum ViewAngles { Pitch = 0, Yaw, Roll };
 // Overrides
@@ -39,6 +38,10 @@ protected:
 	virtual void RenderStereoView();
 	virtual void RenderLeftView();
 	virtual void RenderRightView();
+	virtual void ResetWindow();
+	virtual void ResetView();
+	virtual void ResetLeftView();
+	virtual void ResetRightView();
 	virtual void DoOpenGLResize(int nWidth, int nHeight);
 	StereoView rightStereoView;
 	StereoView leftStereoView;

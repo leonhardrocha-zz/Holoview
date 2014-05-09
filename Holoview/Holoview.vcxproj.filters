@@ -127,6 +127,12 @@
     <ClInclude Include="TrackerFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsKinectFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsFaceTracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Holoview.ui">

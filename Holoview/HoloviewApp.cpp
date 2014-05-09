@@ -7,7 +7,7 @@ HoloviewApp::HoloviewApp(int argc, char* argv[]) : QApplication(argc, argv)
 	ParseCustomSizeHints(argc,argv);
 	mainWindow = new Holoview(sizeHints);
 	mainWindow->menuBar()->addMenu("&File")->addAction("&Exit", this, SLOT(quit()));
-	mainWindow->RegisterTracker(&tracker);
+	//mainWindow->RegisterTracker(window.GetTracker());
 	mainWindow->AddTrackerDockWidget();
 
 	QWidget central(mainWindow);	

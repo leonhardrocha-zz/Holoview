@@ -9,39 +9,52 @@ DualStereoView::DualStereoView() : StereoView()
 	
 }
 
-void DualStereoView::SetupDualStereoView()
+void DualStereoView::ResetView()
+{
+	viewWidth = windowWidth;
+	viewHeight = windowHeight;
+	viewOffsetX = 0;
+	viewOffsetY = 0;
+
+	ResetLeftView();
+	ResetRightView();
+}
+
+
+void DualStereoView::ResetLeftView()
 {
 	leftStereoView.windowWidth = windowWidth;
 	leftStereoView.windowHeight = windowHeight;
 	leftStereoView.windowOffsetX = 0;
 	leftStereoView.windowOffsetY = 0;
+}
 
-	leftStereoView.viewWidth = viewWidth;
-	leftStereoView.viewHeight = viewHeight;
-	leftStereoView.viewOffsetX = 0;
-	leftStereoView.viewOffsetY = 0;
 
-	
-	leftStereoView.SetupView();
-		
+void DualStereoView::ResetRightView()
+{
 	rightStereoView.windowWidth = windowWidth;
 	rightStereoView.windowHeight = windowHeight;
-	rightStereoView.windowOffsetX = windowWidth / 2;
+	rightStereoView.windowOffsetX = windowWidth/2;
 	rightStereoView.windowOffsetY = 0;
-	
-	rightStereoView.viewWidth = viewWidth;
-	rightStereoView.viewHeight = viewHeight;
-	rightStereoView.viewOffsetX = viewWidth / 2;
-	rightStereoView.viewOffsetY = 0;
-	
-	rightStereoView.SetupView();
 }
 
 void DualStereoView::SetupView()
 {	
-	SetupDualStereoView();
 	leftStereoView.SetupView();
 	rightStereoView.SetupView();
+}
+
+
+void DualStereoView::ResetWindow()
+{
+	rightStereoView.ResetWindow();
+	leftStereoView.ResetWindow();
+}
+
+void DualStereoView::SetupWindow()
+{
+	rightStereoView.SetupWindow();
+	leftStereoView.SetupWindow();
 }
 
 void DualStereoView::SetupScene()

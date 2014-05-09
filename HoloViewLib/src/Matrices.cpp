@@ -20,6 +20,9 @@
 #include <algorithm>
 #include "Matrices.h"
 
+using namespace Util;
+
+
 const float DEG2RAD = 3.141593f / 180;
 
 
@@ -575,7 +578,7 @@ Matrix4& Matrix4::LookAt(const Vector3& vecPos, const Vector3& vecLookAt, bool R
 		m[0] = X.x;				m[4] = Y.x;				m[8] = Z.x;				m[12] = 0.0f;
 		m[1] = X.y;				m[5] = Y.y;				m[9] = Z.y;				m[13] = 0.0f;
 		m[2] = X.z;				m[6] = Y.z;				m[10] = Z.z;			m[14] = 0.0f;
-		m[3] = 1.0;/*-vecPos.dot(X);*/  m[7] = 1.0;/*-vecPos.dot(Y);*/	m[11] = 1.0;/*-vecPos.dot(Z);*/ m[15] = 1.0f;
+		m[3] = -vecPos.dot(X);  m[7] = -vecPos.dot(Y);	m[11] = -vecPos.dot(Z); m[15] = 1.0f;
 
 		return *this;
 	}

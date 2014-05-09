@@ -10,12 +10,13 @@
 #include "EggAvatar.h"
 #include "MultiFTHelper.h"
 #include "KinectFaceTracker.h"
+#include "Callable.h"
 #include <vector>
 
 
 class KinectTracker;
 
-class TrackerManager
+class TrackerManager : public Callable
 {
 	friend class KinectTracker;
 public:
@@ -31,39 +32,43 @@ public:
         , m_depthRes(NUI_IMAGE_RESOLUTION_320x240)
         , m_colorRes(NUI_IMAGE_RESOLUTION_640x480)
         , m_bNearMode(TRUE)
-        , m_bSeatedSkeletonMode(TRUE)	
+        , m_bSeatedSkeletonMode(TRUE)
 {
 
 }	
 	~TrackerManager()	{ UninitInstance();	};
 	
-	HRESULT						Start();
+
+	bool						Init();
+	bool						Start();
+	void						PaintEvent(void *message);
+	void						TrackEvent(void *message) {};
 	HWND						GetHWnd() { return m_hWnd;};
 	HINSTANCE					GetInstance() { return m_hInst; };
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
-	KinectFaceTracker*			GetBestTracker();
-	float m_Pitch, m_Yaw, m_Roll;
+	float						scale;
+    float						rotationXYZ[3];
+    float						translationXYZ[3];
 
 protected:
 
+
+	KinectFaceTracker*			m_pBestTracker;
+	KinectFaceTracker*			GetBestTracker();
 	PWSTR m_lpCmdLine;
 	int m_nCmdShow;
 	std::vector<KinectFaceTracker*>	m_pFaceTrackers;
 	std::vector<HANDLE>			m_FaceTrackingThreads;
-	//HWND						createWindow(HWND parent, HINSTANCE instance);
 	bool						IsTracking();
     void                        ParseCmdString(PWSTR lpCmdLine);
     void                        UninitInstance();
-    //ATOM                        RegisterClass(PCWSTR szWindowClass);
     static LRESULT CALLBACK     WndProcStatic(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
     LRESULT CALLBACK            WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-    static INT_PTR CALLBACK     About(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
     BOOL                        PaintWindow(HDC hdc, HWND hWnd);
     BOOL                        ShowVideo(HDC hdc, int width, int height, int originX, int originY);
     BOOL                        ShowEggAvatar(HDC hdc, int width, int height, int originX, int originY);
-    static void                 FTHelperCallingBack(LPVOID lpParam);
+    static void                 FTHelperCallingBack(void* lpParam);
     static int const            MaxLoadStringChars = 100;
     HINSTANCE                   m_hInst;
     HWND                        m_hWnd;

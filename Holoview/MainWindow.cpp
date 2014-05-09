@@ -333,7 +333,7 @@ bool MainWindow::AddTrackerDockWidget()
 
 	MyDock *trackerDock = new MyDock(name + QLatin1String(" Dock"), this, Qt::WindowFlags(0), frame);
 	trackerDock->setCustomSizeHint(m_customSizeHints.value("Tracker"));
-	//trackerDock->setFloating(true);
+	trackerDock->setFloating(true);
 	addDockWidget(Qt::RightDockWidgetArea, trackerDock);	
 	dockWidgetMenu->addMenu(trackerDock->menu);
 	

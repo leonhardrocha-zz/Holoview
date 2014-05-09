@@ -16,29 +16,26 @@ struct camera
 
 StereoView::StereoView()
 {
+	Init();
+}
+
+void StereoView::ResetWindow()
+{
 	windowWidth = 1024;
 	windowHeight = 768;
 	windowOffsetX = 0;
 	windowOffsetY = 0;
-	
-	viewWidth = windowWidth;
-	viewHeight = windowHeight;
-	viewOffsetX = 0;
-	viewOffsetY = 0;
+	aspect = double(windowWidth)/double(windowHeight);		//screen aspect ratio	
 }
-
 
 void StereoView::SetupWindow()
-{	
-	glEnable(GL_LINE_SMOOTH);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+{
+
 }
 
-void StereoView::SetupView()
-{
+void StereoView::Init()
+{	
 	fovy = 45;                                          //field of view in y-axis
-	aspect = double(windowWidth)/double(windowHeight);		//screen aspect ratio
 	IOD = 0.1;
 	CameraPosition[0] = 0;
 	CameraPosition[1] = 0;
@@ -49,10 +46,17 @@ void StereoView::SetupView()
 	LightPosition[0] = 0;
 	LightPosition[1] = 0;
 	LightPosition[2] = 0;
-
 	nearZ = 0.1;                                        //near clipping plane
 	farZ = 10;                                        //far clipping plane
-	
+
+	ResetWindow();
+	ResetLeftView();
+	ResetRightView();
+}
+
+
+void StereoView::SetupView()
+{	
 	double top = nearZ*tan(DTR*fovy/2);                    //sets top of frustum based on fovy and near clipping plane
     double right = aspect*top;                             //sets right of frustum based on aspect ratio
 	double frustumshift = (IOD/2)*nearZ/ abs(CameraPosition[2] - LookAtPosition[2]);
@@ -95,6 +99,9 @@ void StereoView::SetupScene()
 	glLightfv(GL_LIGHT0, GL_SPECULAR,  lightSpec);
 	glLightfv(GL_LIGHT0, GL_POSITION,  LightPosition);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glEnable(GL_LINE_SMOOTH);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void StereoView::RenderLeftView()
@@ -168,7 +175,7 @@ void StereoView::ResetRightView()
 {
 	viewWidth = windowWidth/2;		
 	viewHeight = windowHeight;
-	viewOffsetX = viewWidth;
+	viewOffsetX = viewWidth/2;
 	viewOffsetY = 0;
 	SetupView();
 }

@@ -3,63 +3,130 @@
 #include "ToeInStereoView.h"
 #include <cmath>
 #define PI 3.14159265
-ToeInStereoView::ToeInStereoView()
+ToeInStereoView::ToeInStereoView() : DualStereoView()
 {
+	Init();
 }
 
-void ToeInStereoView::SetupView()
+void ToeInStereoView::Init()
 {
 	fovy = 45;                                          //field of view in y-axis
-	aspect = double(windowWidth)/double(windowHeight);		//screen aspect ratio
 	nearZ = 0.1;                                        //near clipping plane
 	farZ = 10.0;                                        //far clipping plane
 	IOD = 0.1;
 	
 	CameraPosition[0] = 0;
 	CameraPosition[1] = 0;
-	CameraPosition[2] = 3;
+	CameraPosition[2] = 1;
 	LookAtPosition[0] = 0;
 	LookAtPosition[1] = 0;
-	LookAtPosition[2] = -1;
-	LightPosition[0] = 0;
-	LightPosition[1] = 0;
-	LightPosition[2] = 0;
+	LookAtPosition[2] =-1;
+	LightPosition[0]  = 0;
+	LightPosition[1]  = 0;
+	LightPosition[2]  = 1;
+	
+	leftViewAngles[3]  = 1.0;
+	rightViewAngles[3] = 1.0;
+	
+}
 
-	SetupDualStereoView();
+void ToeInStereoView::SetupView()
+{
 
-	CameraRotationAngle = 30.0;
-	CameraRotationShift[0] = (float)(LookAtPosition[0] * sin(CameraRotationAngle*PI/180));
-	CameraRotationShift[1] = (float)(LookAtPosition[1] * sin(CameraRotationAngle*PI/180));
-	CameraRotationShift[2] = (float)(LookAtPosition[2] * sin(CameraRotationAngle*PI/180));
+	leftStereoView.SetupView();
+	rightStereoView.SetupView();
+}
 
+void ToeInStereoView::SetViewAngles(float pitch, float yaw, float roll)
+{
+	leftViewVectors.setColumn(0, CameraPosition);
+	leftViewVectors.setColumn(1, LookAtPosition);
+	leftViewVectors.setColumn(2, LightPosition);
+	
+	leftViewAngles[ViewAngles::Pitch] = pitch;
+	leftViewAngles[ViewAngles::Yaw]   = yaw;
+	leftViewAngles[ViewAngles::Roll]  = roll;
+
+	leftViewVectors.rotateX(pitch);
+	leftViewVectors.rotateY(yaw);
+	leftViewVectors.rotateZ(roll);
+
+	rightViewVectors.setColumn(0, CameraPosition);
+	rightViewVectors.setColumn(1, LookAtPosition);
+	rightViewVectors.setColumn(2, LightPosition);
+
+	rightViewAngles[ViewAngles::Pitch] = pitch;
+	rightViewAngles[ViewAngles::Yaw]   = -yaw;
+	rightViewAngles[ViewAngles::Roll]  = roll;
+
+	rightViewVectors.rotateX(pitch);
+	rightViewVectors.rotateY(-yaw);
+	rightViewVectors.rotateZ(roll);
 }
 
 void ToeInStereoView::RenderLeftView()
 {
 	leftStereoView.ResetLeftView();
+
+	const float* m = leftViewVectors.get();
 			
-	glRotatef(-CameraRotationAngle, 0.0, 1.0, 0.0);
+	gluLookAt(m[0],
+			  m[4],
+			  m[8],
+			  m[1],
+			  m[5],
+			  m[9],
+			  0.0,
+			  1.0,
+			  0.0);
 
 	leftStereoView.RenderLeftView();
 
 	leftStereoView.ResetRightView();
-			
-	glRotatef(-CameraRotationAngle, 0.0, 1.0, 0.0);
+	
+	
+	gluLookAt(m[0],
+			  m[4],
+			  m[8],
+			  m[1],
+			  m[5],
+			  m[9],
+			  0.0,
+			  1.0,
+			  0.0);
 
 	leftStereoView.RenderRightView();
 }
 
 void ToeInStereoView::RenderRightView()
 {	
+	const float* m = leftViewVectors.get();
+			
 	rightStereoView.ResetLeftView();
 
-	glRotatef(CameraRotationAngle, 0.0, 1.0, 0.0);
+	gluLookAt(m[0],
+			  m[4],
+			  m[8],
+			  m[1],
+			  m[5],
+			  m[9],
+			  0.0,
+			  1.0,
+			  0.0);
 
 	rightStereoView.RenderLeftView();
 	
 	rightStereoView.ResetRightView();
 
-	glRotatef(CameraRotationAngle, 0.0, 1.0, 0.0);
+	gluLookAt(m[0],
+			  m[4],
+			  m[8],
+			  m[1],
+			  m[5],
+			  m[9],
+			  0.0,
+			  1.0,
+			  0.0);
 
 	rightStereoView.RenderRightView();
 }

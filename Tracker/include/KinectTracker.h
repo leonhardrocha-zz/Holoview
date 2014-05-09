@@ -1,37 +1,43 @@
+#pragma once
 #include "ITracker.h"
 #include "ITrackerFactory.h"
 #include "TrackerManager.h"
-#include "Synchronizable.h"
 
-#pragma once
-class KinectTracker :  public ITracker, Synchronizable
+class KinectTracker :  public ITracker
 {	
 public:
 	
-	KinectTracker::KinectTracker () 
+	KinectTracker::KinectTracker () : m_TrackCallBack(KinectTracker::TrackCallback), m_TrackCallBackParam(this)
 	{
-		tracker.Start();
+		trackerManager.SetTrackerCallback(m_TrackCallBack, m_TrackCallBackParam);
+		if (trackerManager.Init())
+		{
+			trackerManager.Start();
+		}
 	}
 
 	virtual void PaintEvent(void *message) 
 	{	
-		MSG* msg = reinterpret_cast<MSG*>(message);
-		if (msg != NULL)
-		{
-			tracker.WndProc(msg->hwnd, msg->message, msg->wParam, msg->lParam);
-		}
+		trackerManager.PaintEvent(message);
 	}
 
-	virtual void UpdateTracker()
-	{
-		synchronized(KinectTracker)
-		{
-			
-		}
+	virtual void TrackEvent(void *message)=0;
+
+	static void TrackCallback(void *param) 
+	{	
+		KinectTracker* pThis = static_cast<KinectTracker*>(param);
+		pThis->m_Pitch = pThis->trackerManager.rotationXYZ[0];
+		pThis->m_Yaw   = pThis->trackerManager.rotationXYZ[1];
+		pThis->m_Roll  = pThis->trackerManager.rotationXYZ[2];	
+		pThis->TrackEvent((void*)pThis->trackerManager.rotationXYZ); 
 	}
+
+	float m_Pitch, m_Yaw, m_Roll;
 
 private:
-	TrackerManager tracker;
-	float m_Pitch, m_Yaw, m_Roll;
+
+	TrackerManager trackerManager;
+	FTCallBack m_TrackCallBack;
+	void* m_TrackCallBackParam;
 
 };

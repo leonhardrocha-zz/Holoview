@@ -28,7 +28,7 @@ struct MyMaterial{
 
 void OpenGL21Renderer::Initialize()
 {
-	Modelname = "../../Models/airplane/Airplane AN-2 N200314.3DS";
+	Modelname = "C:/Program Files/Assimp/test/models/Collada/duck.dae";//"../../Models/airplane/Airplane AN-2 N200314.3DS";
 	if(!reader.Import3DFromFile(Modelname))
 	{
 		throw new ResourceNotFoundException(Modelname);

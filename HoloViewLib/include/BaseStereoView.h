@@ -19,6 +19,7 @@ public:
 	virtual void SetupScene() = 0;
 
 protected:
+	virtual void Init() = 0;
 	virtual void RenderStereoView() = 0;
 	virtual void RenderLeftView() = 0;
 	virtual void RenderRightView() = 0;

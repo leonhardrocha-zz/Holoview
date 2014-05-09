@@ -39,13 +39,16 @@
     <ClInclude Include="include\Visualize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\KinectTrackerFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\KinectFaceTracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TrackerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TrackerException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Callable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

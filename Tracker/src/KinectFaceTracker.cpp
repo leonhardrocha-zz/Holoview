@@ -6,9 +6,10 @@
 
 #include "stdafx.h"
 #include "KinectFaceTracker.h"
+#include "TrackerException.h"
 #include "Visualize.h"
 
-bool KinectFaceTracker::InitTracker(FTCallBack callBack, LPVOID callBackParam)
+bool KinectFaceTracker::Init()
 {
 	m_pKinectSensor = new KinectSensor();
 	HRESULT hr1 = m_pKinectSensor->Init(m_config.m_depthType, 
@@ -18,13 +19,68 @@ bool KinectFaceTracker::InitTracker(FTCallBack callBack, LPVOID callBackParam)
 										m_config.m_colorType,
 										m_config.m_colorRes,
 										m_config.m_bSeatedSkeletonMode);
-	IsKinectSensorPresent = SUCCEEDED(hr1);
-	m_CallBack = callBack;
-	m_CallBackParam = callBackParam;
 	
+	IsKinectSensorPresent = SUCCEEDED(hr1);
+	
+	FT_CAMERA_CONFIG videoConfig;
+    FT_CAMERA_CONFIG depthConfig;
+    FT_CAMERA_CONFIG* pDepthConfig = NULL;
+
+	if (IsKinectSensorPresent)
+    {        
+        m_pKinectSensor->GetVideoConfiguration(&videoConfig);
+        m_pKinectSensor->GetDepthConfiguration(&depthConfig);
+        pDepthConfig = &depthConfig;
+        m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0, 0, 0);
+    }
+    else
+    {
+		throw new TrackerInitializationException("Could not detect the Kinect sensor");
+		return false;
+    }
+
+	// Try to start the face tracker.
+    m_pFaceTracker = FTCreateFaceTracker();
+    if (!m_pFaceTracker)
+    {
+		throw new TrackerInitializationException("Could not create the face tracker");
+		return false;
+    }
+
+    HRESULT hr = m_pFaceTracker->Initialize(&videoConfig, pDepthConfig, NULL, NULL); 
+    if (FAILED(hr))
+    {
+		throw new TrackerInitializationException("Could not initilize the face tracker video config");
+        return false;
+    }
+
+    hr = m_pFaceTracker->CreateFTResult(&m_pFTResult);
+    if (FAILED(hr) || !m_pFTResult)
+    {
+        throw new TrackerInitializationException("Could not create face tracker result");
+        return false;
+    }
+
+    // Initialize the RGB image.
+    m_colorImage = FTCreateImage();
+    if (!m_colorImage || FAILED(hr = m_colorImage->Allocate(videoConfig.Width, videoConfig.Height, FTIMAGEFORMAT_UINT8_B8G8R8X8)))
+    {
+        throw new TrackerInitializationException("Could not initilize the face tracker RGB image");
+		return false;
+    }
+
+    if (pDepthConfig)
+    {
+        m_depthImage = FTCreateImage();
+        if (!m_depthImage || FAILED(hr = m_depthImage->Allocate(depthConfig.Width, depthConfig.Height, FTIMAGEFORMAT_UINT16_D13P3)))
+        {
+            throw new TrackerInitializationException("Could not initilize the face tracker depth image");
+			return false;
+        }
+    }
+
 	return IsKinectSensorPresent;
 }
-
 
 KinectFaceTracker::~KinectFaceTracker()
 {
@@ -145,72 +201,10 @@ HRESULT KinectFaceTracker::Stop()
 }
 
 
-int KinectFaceTracker::StartFaceTracker()
+bool KinectFaceTracker::Start()
 {
-	FT_CAMERA_CONFIG videoConfig;
-    FT_CAMERA_CONFIG depthConfig;
-    FT_CAMERA_CONFIG* pDepthConfig = NULL;
-
-	if (IsKinectSensorPresent)
-    {        
-        m_pKinectSensor->GetVideoConfiguration(&videoConfig);
-        m_pKinectSensor->GetDepthConfiguration(&depthConfig);
-        pDepthConfig = &depthConfig;
-        m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0, 0, 0);
-    }
-    else
-    {
-		WCHAR errorText[MAX_PATH];
-		ZeroMemory(errorText, sizeof(WCHAR) * MAX_PATH);
-		wsprintf(errorText, L"Could not initialize the Kinect sensor; \n");
-		MessageBoxW(m_hWnd, errorText, L"Face Tracker Initialization Error\n", MB_OK);
-		return 1;
-    }
-
-	// Try to start the face tracker.
-    m_pFaceTracker = FTCreateFaceTracker();
-    if (!m_pFaceTracker)
-    {
-        MessageBoxW(m_hWnd, L"Could not create the face tracker.\n", L"Face Tracker Initialization Error\n", MB_OK);
-        return 2;
-    }
-
-    HRESULT hr = m_pFaceTracker->Initialize(&videoConfig, pDepthConfig, NULL, NULL); 
-    if (FAILED(hr))
-    {
-        WCHAR path[512], buffer[1024];
-        GetCurrentDirectoryW(ARRAYSIZE(path), path);
-        wsprintf(buffer, L"Could not initialize face tracker (%s). hr=0x%x", path, hr);
-
-        MessageBoxW(m_hWnd, /*L"Could not initialize the face tracker.\n"*/ buffer, L"Face Tracker Initialization Error\n", MB_OK);
-
-        return 3;
-    }
-
-    hr = m_pFaceTracker->CreateFTResult(&m_pFTResult);
-    if (FAILED(hr) || !m_pFTResult)
-    {
-        MessageBoxW(m_hWnd, L"Could not initialize the face tracker result.\n", L"Face Tracker Initialization Error\n", MB_OK);
-        return 4;
-    }
-
-    // Initialize the RGB image.
-    m_colorImage = FTCreateImage();
-    if (!m_colorImage || FAILED(hr = m_colorImage->Allocate(videoConfig.Width, videoConfig.Height, FTIMAGEFORMAT_UINT8_B8G8R8X8)))
-    {
-        return 5;
-    }
-
-    if (pDepthConfig)
-    {
-        m_depthImage = FTCreateImage();
-        if (!m_depthImage || FAILED(hr = m_depthImage->Allocate(depthConfig.Width, depthConfig.Height, FTIMAGEFORMAT_UINT16_D13P3)))
-        {
-            return 6;
-        }
-    }
-
-	return 0;
+	m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
+	return true;
 }
 
 
@@ -227,7 +221,7 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingStaticThread(PVOID lpParam)
 
 DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
 {     
-	while (m_ApplicationIsRunning && IsKinectSensorPresent)
+	while (m_ApplicationIsRunning)
     {	
 		HRESULT hrFT = GetTrackerResult();				
 		auto trackingStatus = m_pFTResult->GetStatus();
@@ -238,9 +232,10 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
 			EggAvatar* avatar = m_pKinectSensor->GetEggAvatar();
 			avatar->GetRotations(&pitch, &yaw, &roll);
 		}
+
 		CheckCameraInput();			
 		if (m_hWnd)
-		{
+		{			
 			InvalidateRect(m_hWnd, NULL, FALSE);
 			UpdateWindow(m_hWnd);
 		}
@@ -282,13 +277,14 @@ HRESULT KinectFaceTracker::GetTrackerResult()
 			RECT roi;
 			HRESULT hr = m_pFTResult->GetFaceRect(&roi);
 			bool  hasFoundFace = (SUCCEEDED(hr) && (roi.bottom != roi.top && roi.left != roi.right));
-			FT_WEIGHTED_RECT faceConfidence;
+			FT_WEIGHTED_RECT* faceConfidence = new FT_WEIGHTED_RECT();
 			UINT pFaceCount = 1;
-			hr = m_pFaceTracker->DetectFaces(&sensorData, hasFoundFace ? &roi : NULL, &faceConfidence, &pFaceCount);
-			if (SUCCEEDED(hr))
+			hr = m_pFaceTracker->DetectFaces(&sensorData, hasFoundFace ? &roi : NULL, faceConfidence, &pFaceCount);
+			if (SUCCEEDED(hr) && hasFoundFace)
 			{
-				m_faceConfidence = faceConfidence;
+				m_faceConfidence = faceConfidence->Weight;
 			}
+			delete faceConfidence;
         }
     }
 
