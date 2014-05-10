@@ -51,8 +51,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /Q /Y "$(SolutionDir)bin\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -68,8 +67,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /Q /Y "$(SolutionDir)bin\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -84,6 +82,7 @@
     <None Include="..\bin\glew32.dll" />
     <None Include="..\bin\ILU.dll" />
     <None Include="..\bin\ILUT.dll" />
+    <None Include="..\bin\Microsoft.Kinect.dll" />
     <None Include="..\bin\vld_x86.dll" />
     <None Include="..\include\assimp\color4.inl" />
     <None Include="..\include\assimp\material.inl" />
@@ -209,6 +208,7 @@
     <ClInclude Include="..\include\assimp\vector2.h" />
     <ClInclude Include="..\include\assimp\vector3.h" />
     <ClInclude Include="..\include\assimp\version.h" />
+    <ClInclude Include="..\include\FaceTrackLib.h" />
     <ClInclude Include="..\include\GL\freeglut.h" />
     <ClInclude Include="..\include\GL\freeglut_ext.h" />
     <ClInclude Include="..\include\GL\freeglut_std.h" />
@@ -224,6 +224,10 @@
     <ClInclude Include="..\include\IL\ilut_config.h" />
     <ClInclude Include="..\include\IL\ilu_region.h" />
     <ClInclude Include="..\include\IL\il_wrap.h" />
+    <ClInclude Include="..\include\NuiApi.h" />
+    <ClInclude Include="..\include\NuiImageCamera.h" />
+    <ClInclude Include="..\include\NuiSensor.h" />
+    <ClInclude Include="..\include\NuiSkeleton.h" />
     <ClInclude Include="..\include\vld.h" />
     <ClInclude Include="..\include\vld_def.h" />
   </ItemGroup>
@@ -235,6 +239,7 @@
     <Library Include="..\lib\glew32.lib" />
     <Library Include="..\lib\ILU.lib" />
     <Library Include="..\lib\ILUT.lib" />
+    <Library Include="..\lib\Kinect10.lib" />
     <Library Include="..\lib\vld.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

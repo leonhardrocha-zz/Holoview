@@ -339,6 +339,9 @@
     <None Include="..\bin\vld_x86.dll">
       <Filter>Runtime Files</Filter>
     </None>
+    <None Include="..\bin\Microsoft.Kinect.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\GL\freeglut.h">
@@ -494,6 +497,21 @@
     <ClInclude Include="..\include\vld_def.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\FaceTrackLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NuiApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NuiImageCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NuiSensor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\NuiSkeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\assimp.lib">
@@ -518,6 +536,9 @@
       <Filter>Library Files</Filter>
     </Library>
     <Library Include="..\lib\vld.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\Kinect10.lib">
       <Filter>Library Files</Filter>
     </Library>
   </ItemGroup>
