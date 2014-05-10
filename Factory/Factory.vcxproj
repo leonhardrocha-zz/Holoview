@@ -96,6 +96,9 @@
     <ClInclude Include="include\Factory.h" />
     <ClInclude Include="include\KinectTrackerFactory.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Factory.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

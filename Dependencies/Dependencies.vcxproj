@@ -76,6 +76,7 @@
     <None Include="..\bin\Assimp32.dll" />
     <None Include="..\bin\D3DCompiler_42.dll" />
     <None Include="..\bin\D3DX9_42.dll" />
+    <None Include="..\bin\dbghelp.dll" />
     <None Include="..\bin\DevIL.dll" />
     <None Include="..\bin\FaceTrackData.dll" />
     <None Include="..\bin\FaceTrackLib.dll" />
@@ -83,6 +84,7 @@
     <None Include="..\bin\glew32.dll" />
     <None Include="..\bin\ILU.dll" />
     <None Include="..\bin\ILUT.dll" />
+    <None Include="..\bin\vld_x86.dll" />
     <None Include="..\include\assimp\color4.inl" />
     <None Include="..\include\assimp\material.inl" />
     <None Include="..\include\assimp\matrix3x3.inl" />
@@ -222,6 +224,8 @@
     <ClInclude Include="..\include\IL\ilut_config.h" />
     <ClInclude Include="..\include\IL\ilu_region.h" />
     <ClInclude Include="..\include\IL\il_wrap.h" />
+    <ClInclude Include="..\include\vld.h" />
+    <ClInclude Include="..\include\vld_def.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\assimp.lib" />
@@ -231,6 +235,7 @@
     <Library Include="..\lib\glew32.lib" />
     <Library Include="..\lib\ILU.lib" />
     <Library Include="..\lib\ILUT.lib" />
+    <Library Include="..\lib\vld.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

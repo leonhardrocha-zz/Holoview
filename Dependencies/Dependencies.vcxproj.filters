@@ -333,6 +333,12 @@
     <None Include="Models\Collada\teapots_reference.png">
       <Filter>Model Files\collada</Filter>
     </None>
+    <None Include="..\bin\dbghelp.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\vld_x86.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\GL\freeglut.h">
@@ -482,6 +488,12 @@
     <ClInclude Include="..\include\assimp\Compiler\pushpack1.h">
       <Filter>Header Files\assimp\Compiler</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\vld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\vld_def.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\assimp.lib">
@@ -503,6 +515,9 @@
       <Filter>Library Files</Filter>
     </Library>
     <Library Include="..\lib\ILUT.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\vld.lib">
       <Filter>Library Files</Filter>
     </Library>
   </ItemGroup>
