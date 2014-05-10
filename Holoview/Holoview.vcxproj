@@ -275,6 +275,9 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
+    <ProjectReference Include="..\Tracker\Tracker.vcxproj">
+      <Project>{0c756fdf-8218-4d6a-8121-7aa5cb12869e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -68,7 +68,8 @@
       <AdditionalLibraryDirectories>$(LibDir);$(FTSDK_DIR)lib\x86;$(KINECTSDK10_DIR)lib\x86;C:\Program Files (x86)\Visual Leak Detector\lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /b /v $(OutDir)$(TargetName)$(TargetExt) $(ProjectDir)bin</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
