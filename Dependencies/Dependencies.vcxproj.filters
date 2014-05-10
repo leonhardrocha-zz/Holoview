@@ -1,0 +1,509 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\GL">
+      <UniqueIdentifier>{8a7ce3a0-6d9d-4ff6-ae79-44af12fb1b4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\assimp">
+      <UniqueIdentifier>{ec2675f1-5724-4039-9746-5d2c874315f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IL">
+      <UniqueIdentifier>{f336b1af-bdb1-4ab7-94b5-956a08a37cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\assimp\Compiler">
+      <UniqueIdentifier>{6ac90faf-a0cb-4c73-b5d7-ef5fb34d8877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>*.dll</Extensions>
+    </Filter>
+    <Filter Include="Library Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>*.lib</Extensions>
+    </Filter>
+    <Filter Include="Model Files">
+      <UniqueIdentifier>{f27a0211-483b-4d20-851b-7d5b36ee2d70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model Files\3ds">
+      <UniqueIdentifier>{95673842-7027-4884-8460-cbb1b4425bd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model Files\blend">
+      <UniqueIdentifier>{8bec976e-0458-4309-95d2-199a6f899ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model Files\collada">
+      <UniqueIdentifier>{dcd6021c-14d3-4110-8894-df1d4bf37571}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\bin\Assimp32.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\D3DCompiler_42.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\D3DX9_42.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\DevIL.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\FaceTrackData.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\FaceTrackLib.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\freeglut.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\glew32.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\ILU.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\ILUT.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\include\assimp\color4.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
+    <None Include="..\include\assimp\material.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
+    <None Include="..\include\assimp\matrix3x3.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
+    <None Include="..\include\assimp\matrix4x4.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
+    <None Include="..\include\assimp\quaternion.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
+    <None Include="..\include\assimp\vector2.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
+    <None Include="..\include\assimp\vector3.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
+    <None Include="..\include\IL\config.h.win">
+      <Filter>Header Files\IL</Filter>
+    </None>
+    <None Include="Models\3DS\CameraRollAnim.3ds">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\CameraRollAnimWithChildObject.3ds">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\cube_with_diffuse_texture.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\cube_with_specular_texture.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\cubes_with_alpha.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\CWALL02.jpg">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\fels.3ds">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\IMAGE1.bmp">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\IMAGE2.jpg">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\RotatingCube.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\TargetCameraAnim.3ds">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\test.png">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\test1.3ds">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\testFormatDetection">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\textures.txt">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\airplane\Airplane AN-2 N200314.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\airplane\Airplane AN-2 N200314.gsm">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\airplane\archibase.net.txt">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\airplane\CM (2).jpg">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\airplane\CM.jpg">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\airplane\OM.jpg">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\airplane\RM.jpg">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\note.txt">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_Cube.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_Cube_ScaleUV2x_clampUV.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_Normal.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_OffsetU0.5_ScaleUV2_Rotate45_clampUV.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_OffsetU0.56V0.5_ScaleU10V2_Rotate45.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_OffsetUV0.5.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_OffsetUV0.5-clampUV.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_OffsetUV0.5-mirrorUV.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_ScaleUV1-2_OffsetUV0-0.9_Rotate-72_mirrorU.3ds">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_ScaleUV2x.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_ScaleUV2x_Rotate45.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransform_ScaleUV10-2_OffsetUV10-mirrorUV.3DS">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\3DS\UVTransformTest\UVTransformTestImg.png">
+      <Filter>Model Files\3ds</Filter>
+    </None>
+    <None Include="Models\BLEND\4Cubes4Mats_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\BlenderDefault_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\BlenderDefault_250.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\BlenderDefault_250_Compressed.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\BlenderDefault_262.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\CubeHierarchy_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\HUMAN.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\HUMAN.source.txt">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\MirroredCube_252.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\NoisyTexturedCube_VoronoiGlob_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\SmoothVsSolidCube_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\Suzanne_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\SuzanneSubdiv_252.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\TexturedCube_ImageGlob_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\TexturedPlane_ImageUv_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\TexturedPlane_ImageUvPacked_248.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\TorusLightsCams_250_compressed.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\BLEND\yxa_1.blend">
+      <Filter>Model Files\blend</Filter>
+    </None>
+    <None Include="Models\Collada\AsXML.xml">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\Cinema4D.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\COLLADA.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\Collada_Sample.jpg">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\COLLADA_triangulate.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\ConcavePolygon.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\cube.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\cube_emptyTags.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\cube_triangulate.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\cube_UTF8BOM.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\cube_UTF16LE.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\cube_with_2UVs.DAE">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\duck.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\duck_sample.jpg">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\duck_triangulate.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\duckCM.tga">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\earthCylindrical.DAE">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\kwxport_test_vcolors.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\kwxport_test_vcolors.dae.source.txt">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\regr01.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\sphere.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\sphere_sample.jpg">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\sphere_triangulate.dae">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\teapot_instancenodes.DAE">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\teapots.DAE">
+      <Filter>Model Files\collada</Filter>
+    </None>
+    <None Include="Models\Collada\teapots_reference.png">
+      <Filter>Model Files\collada</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\GL\freeglut.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GL\freeglut_ext.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GL\freeglut_std.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GL\glew.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GL\glut.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GL\glxew.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GL\wglew.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\ai_assert.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\anim.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\camera.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\cexport.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\cfileio.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\cimport.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\color4.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\config.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\DefaultLogger.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\defs.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\Exporter.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\Importer.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\importerdesc.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\IOStream.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\IOSystem.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\light.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\Logger.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\LogStream.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\material.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\matrix3x3.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\matrix4x4.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\mesh.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\NullLogger.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\postprocess.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\ProgressHandler.hpp">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\quaternion.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\scene.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\texture.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\types.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\vector2.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\vector3.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\version.h">
+      <Filter>Header Files\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\config.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\devil_internal_exports.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\il.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\il_wrap.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\ilu.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\ilu_region.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\ilut.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\IL\ilut_config.h">
+      <Filter>Header Files\IL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\Compiler\poppack1.h">
+      <Filter>Header Files\assimp\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\assimp\Compiler\pushpack1.h">
+      <Filter>Header Files\assimp\Compiler</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\lib\assimp.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\DevIL.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\FaceTrackLib.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\freeglut.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\glew32.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\ILU.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\ILUT.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

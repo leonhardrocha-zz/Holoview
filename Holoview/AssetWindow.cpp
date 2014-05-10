@@ -3,7 +3,6 @@
 
 AssetWindow::AssetWindow() : ToeInStereoView()
 {
-	tracker.SetTrackerCallback(AssetWindow::TrackerUpdateStatic, this);
 }
 
 void AssetWindow::ResetWindow()
@@ -23,6 +22,7 @@ void AssetWindow::initialize()
 	SetupScene();
 	renderer.Initialize();
 	SetRenderer((BaseAssetRenderer&) renderer);
+	tracker.SetTrackerCallback(AssetWindow::TrackerUpdateStatic, this);
 }
 
 void AssetWindow::render()
@@ -30,6 +30,7 @@ void AssetWindow::render()
     glClear(GL_COLOR_BUFFER_BIT);
 	RenderStereoView();
 }
+
 
 void AssetWindow::RenderScene()
 {
@@ -50,13 +51,13 @@ void AssetWindow::resizeWindow()
 	SetupScene();
 }
 
-void AssetWindow::exposeEvent(QExposeEvent *event)
-{
-    Q_UNUSED(event);
-
-    if (isExposed())
-	{
-		//tracker.UpdateTracker();
-        renderNow();
-	}
-}
+//void AssetWindow::exposeEvent(QExposeEvent *event)
+//{
+//    Q_UNUSED(event);
+//
+//    if (isExposed())
+//	{
+//		//TrackerUpdateStatic(this);
+//        renderNow();
+//	}
+//}

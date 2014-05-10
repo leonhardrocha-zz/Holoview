@@ -21,7 +21,7 @@ protected:
 	static void TrackerUpdateStatic(void* lpParam);
 	//OpenGLWindow overrides
 	virtual void resizeWindow();
-	virtual void exposeEvent(QExposeEvent *event);
+	/*virtual void exposeEvent(QExposeEvent *event);*/
 	OpenGL21Renderer renderer;
 	WindowsFaceTracker tracker;
 };

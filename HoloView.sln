@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Factory", "Factory\Factory.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Holoview", "Holoview\Holoview.vcxproj", "{F2012380-39F4-4388-9416-F78B3237F2CB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dependencies", "Dependencies\Dependencies.vcxproj", "{C8FF07CF-A07C-4D41-89DB-072E0604295B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -35,6 +37,10 @@ Global
 		{F2012380-39F4-4388-9416-F78B3237F2CB}.Debug|Win32.Build.0 = Debug|Win32
 		{F2012380-39F4-4388-9416-F78B3237F2CB}.Release|Win32.ActiveCfg = Release|Win32
 		{F2012380-39F4-4388-9416-F78B3237F2CB}.Release|Win32.Build.0 = Release|Win32
+		{C8FF07CF-A07C-4D41-89DB-072E0604295B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C8FF07CF-A07C-4D41-89DB-072E0604295B}.Debug|Win32.Build.0 = Debug|Win32
+		{C8FF07CF-A07C-4D41-89DB-072E0604295B}.Release|Win32.ActiveCfg = Release|Win32
+		{C8FF07CF-A07C-4D41-89DB-072E0604295B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
