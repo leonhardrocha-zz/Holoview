@@ -44,7 +44,7 @@ local.properties
 
 # User-specific files
 *.suo
-*.user
+#*.user
 *.sln.docstates
 
 # Build results
@@ -53,7 +53,7 @@ local.properties
 [Rr]elease/
 x64/
 build/
-[Bb]in/
+#[Bb]in/
 [Oo]bj/
 
 # MSTest test Results

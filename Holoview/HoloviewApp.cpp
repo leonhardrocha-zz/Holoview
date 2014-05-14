@@ -12,7 +12,10 @@ HoloviewApp::HoloviewApp(int argc, char* argv[]) : QApplication(argc, argv)
 
 	QWidget central(mainWindow);	
 	QWidget trackerWidget(&central);
+
 	mainWindow->show();
+
+
 }
 
 void HoloviewApp::Usage()

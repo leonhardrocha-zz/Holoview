@@ -62,6 +62,11 @@ int main(int argc, char *argv[])
 	QWidget central(&mainWindow);	
 	QWidget trackerWidget(&central);
 	mainWindow.show();
+
+	//ViewerWidget* viewWidget = new ViewerWidget();
+ //   viewWidget->setGeometry( 100, 100, 800, 600 );
+ //   viewWidget->show();
+
 	app.exec();
 	return 0;
 }

@@ -4,9 +4,17 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{DFE36E9A-CCD8-40F1-8F65-188C624620F2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a060d984-449f-4d65-8a4c-8619fdfc484e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="osgviewerQt.cpp">
+    <ClInclude Include="ViewerWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ViewerWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

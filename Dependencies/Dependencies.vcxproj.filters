@@ -37,6 +37,9 @@
     <Filter Include="Model Files\collada">
       <UniqueIdentifier>{dcd6021c-14d3-4110-8894-df1d4bf37571}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model Files\osg">
+      <UniqueIdentifier>{928601c7-fd5d-4f17-a409-4fb80d0f78aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\Assimp32.dll">
@@ -333,6 +336,162 @@
     <None Include="Models\Collada\teapots_reference.png">
       <Filter>Model Files\collada</Filter>
     </None>
+    <None Include="..\bin\osg111-osgAnimationrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgDBrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgFXrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgGArd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgManipulatorrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgParticlerd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgPresentationrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgQtrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgShadowrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgSimrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgTerrainrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgTextrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgUtilrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgViewerrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgVolumerd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\osg111-osgWidgetrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\ot20-OpenThreadsd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="..\bin\ot20-OpenThreadsrd.dll">
+      <Filter>Runtime Files</Filter>
+    </None>
+    <None Include="Models\OSG\avatar.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\axes.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\bignathan.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\cessna.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\cessna.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\cessnafire.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\cessnafire.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\clock.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\cow.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\cow.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\cube_mapped_torus.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\dumptruck.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\dumptruck.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\example.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\fountain.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\glider.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\glider.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\glsl_confetti.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\glsl_julia.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\glsl_mandelbrot.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\glsl_simple.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\Jansens.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\lz.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\lz.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\morphing.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\morphtarget_shape0.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\morphtarget_shape1.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\nathan.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\osgcool.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\robot.osg">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\skydome.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\SmokeBox.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
+    <None Include="Models\OSG\spaceship.osgt">
+      <Filter>Model Files\osg</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\GL\freeglut.h">
@@ -503,6 +662,63 @@
       <Filter>Library Files</Filter>
     </Library>
     <Library Include="..\lib\ILUT.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\OpenThreadsd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\OpenThreadsrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgAnimationrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgDBrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgFXrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgGArd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgManipulatorrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgParticlerd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgPresentationrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgQtrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgShadowrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgSimrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgTerrainrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgTextrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgUtilrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgViewerrd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgVolumerd.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\osgWidgetrd.lib">
       <Filter>Library Files</Filter>
     </Library>
   </ItemGroup>

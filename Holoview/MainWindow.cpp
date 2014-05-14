@@ -42,6 +42,7 @@
 #include "mainwindow.h"
 #include "MyDock.h"
 #include "TrackerFrame.h"
+#include "OsgFrame.h"
 #include "toolbar.h"
 #include <QDockWidget>
 #include <QAction>
@@ -336,7 +337,18 @@ bool MainWindow::AddTrackerDockWidget()
 	trackerDock->setFloating(true);
 	addDockWidget(Qt::RightDockWidgetArea, trackerDock);	
 	dockWidgetMenu->addMenu(trackerDock->menu);
+
 	
+	/*QString osgName = QString::fromLatin1("OSG");
+	OSGFrame *osgFrame = new OSGFrame(name + QLatin1String(" Frame"), this);
+    frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
+	
+	MyDock *osgDock = new MyDock(osgName + QLatin1String(" Dock"), this, Qt::WindowFlags(0), osgFrame);
+	osgDock->setCustomSizeHint(m_customSizeHints.value("OSG"));
+	osgDock->setFloating(true);
+	addDockWidget(Qt::LeftDockWidgetArea, osgDock);	
+	dockWidgetMenu->addMenu(osgDock->menu);*/
+
 	return true;
 }
 void MainWindow::setCorner(int id)

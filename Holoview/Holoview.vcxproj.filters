@@ -133,6 +133,12 @@
     <ClInclude Include="WindowsFaceTracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OsgFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Holoview.ui">
@@ -161,6 +167,9 @@
     </CustomBuild>
     <CustomBuild Include="HoloviewApp.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="HoloviewMainForm.ui">
+      <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

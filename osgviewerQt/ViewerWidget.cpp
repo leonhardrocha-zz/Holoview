@@ -12,6 +12,7 @@
 #include <osgQt/GraphicsWindowQt>
 
 #include <iostream>
+#include <new>
 
 class ViewerWidget : public QWidget, public osgViewer::CompositeViewer
 {
@@ -106,8 +107,20 @@ int main( int argc, char** argv )
     while (arguments.read("--CullThreadPerCameraDrawThreadPerContext")) threadingModel = osgViewer::ViewerBase::CullThreadPerCameraDrawThreadPerContext;
 
     QApplication app(argc, argv);
-    ViewerWidget* viewWidget = new ViewerWidget(threadingModel);
-    viewWidget->setGeometry( 100, 100, 800, 600 );
-    viewWidget->show();
+    ViewerWidget* viewWidget;
+
+	try
+    { 
+		viewWidget = new ViewerWidget(threadingModel);
+		viewWidget->setGeometry( 100, 100, 800, 600 );
+		viewWidget->show();
+        /*root = osgDB::readNodeFile("cessna.osg");
+        viewer.setSceneData(root.get()); */
+    }
+    catch(std::bad_alloc)
+    { 
+        std::cout << "a bad_alloc exception just occured"; 
+    }
+    
     return app.exec();
 }

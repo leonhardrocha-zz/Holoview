@@ -36,7 +36,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -47,6 +52,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(BinDir)*.* $(OutDir)</Command>
+      <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,6 +82,25 @@
     <None Include="..\bin\glew32.dll" />
     <None Include="..\bin\ILU.dll" />
     <None Include="..\bin\ILUT.dll" />
+    <None Include="..\bin\osg111-osgAnimationrd.dll" />
+    <None Include="..\bin\osg111-osgDBrd.dll" />
+    <None Include="..\bin\osg111-osgFXrd.dll" />
+    <None Include="..\bin\osg111-osgGArd.dll" />
+    <None Include="..\bin\osg111-osgManipulatorrd.dll" />
+    <None Include="..\bin\osg111-osgParticlerd.dll" />
+    <None Include="..\bin\osg111-osgPresentationrd.dll" />
+    <None Include="..\bin\osg111-osgQtrd.dll" />
+    <None Include="..\bin\osg111-osgrd.dll" />
+    <None Include="..\bin\osg111-osgShadowrd.dll" />
+    <None Include="..\bin\osg111-osgSimrd.dll" />
+    <None Include="..\bin\osg111-osgTerrainrd.dll" />
+    <None Include="..\bin\osg111-osgTextrd.dll" />
+    <None Include="..\bin\osg111-osgUtilrd.dll" />
+    <None Include="..\bin\osg111-osgViewerrd.dll" />
+    <None Include="..\bin\osg111-osgVolumerd.dll" />
+    <None Include="..\bin\osg111-osgWidgetrd.dll" />
+    <None Include="..\bin\ot20-OpenThreadsd.dll" />
+    <None Include="..\bin\ot20-OpenThreadsrd.dll" />
     <None Include="..\include\assimp\color4.inl" />
     <None Include="..\include\assimp\material.inl" />
     <None Include="..\include\assimp\matrix3x3.inl" />
@@ -164,6 +189,39 @@
     <None Include="Models\Collada\teapots.DAE" />
     <None Include="Models\Collada\teapots_reference.png" />
     <None Include="Models\Collada\teapot_instancenodes.DAE" />
+    <None Include="Models\OSG\avatar.osg" />
+    <None Include="Models\OSG\axes.osgt" />
+    <None Include="Models\OSG\bignathan.osg" />
+    <None Include="Models\OSG\cessna.osg" />
+    <None Include="Models\OSG\cessna.osgt" />
+    <None Include="Models\OSG\cessnafire.osg" />
+    <None Include="Models\OSG\cessnafire.osgt" />
+    <None Include="Models\OSG\clock.osgt" />
+    <None Include="Models\OSG\cow.osg" />
+    <None Include="Models\OSG\cow.osgt" />
+    <None Include="Models\OSG\cube_mapped_torus.osgt" />
+    <None Include="Models\OSG\dumptruck.osg" />
+    <None Include="Models\OSG\dumptruck.osgt" />
+    <None Include="Models\OSG\example.osg" />
+    <None Include="Models\OSG\fountain.osgt" />
+    <None Include="Models\OSG\glider.osg" />
+    <None Include="Models\OSG\glider.osgt" />
+    <None Include="Models\OSG\glsl_confetti.osgt" />
+    <None Include="Models\OSG\glsl_julia.osgt" />
+    <None Include="Models\OSG\glsl_mandelbrot.osgt" />
+    <None Include="Models\OSG\glsl_simple.osgt" />
+    <None Include="Models\OSG\Jansens.osg" />
+    <None Include="Models\OSG\lz.osg" />
+    <None Include="Models\OSG\lz.osgt" />
+    <None Include="Models\OSG\morphing.osg" />
+    <None Include="Models\OSG\morphtarget_shape0.osg" />
+    <None Include="Models\OSG\morphtarget_shape1.osg" />
+    <None Include="Models\OSG\nathan.osg" />
+    <None Include="Models\OSG\osgcool.osgt" />
+    <None Include="Models\OSG\robot.osg" />
+    <None Include="Models\OSG\skydome.osgt" />
+    <None Include="Models\OSG\SmokeBox.osgt" />
+    <None Include="Models\OSG\spaceship.osgt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\assimp\ai_assert.h" />
@@ -224,6 +282,25 @@
     <Library Include="..\lib\glew32.lib" />
     <Library Include="..\lib\ILU.lib" />
     <Library Include="..\lib\ILUT.lib" />
+    <Library Include="..\lib\OpenThreadsd.lib" />
+    <Library Include="..\lib\OpenThreadsrd.lib" />
+    <Library Include="..\lib\osgAnimationrd.lib" />
+    <Library Include="..\lib\osgDBrd.lib" />
+    <Library Include="..\lib\osgFXrd.lib" />
+    <Library Include="..\lib\osgGArd.lib" />
+    <Library Include="..\lib\osgManipulatorrd.lib" />
+    <Library Include="..\lib\osgParticlerd.lib" />
+    <Library Include="..\lib\osgPresentationrd.lib" />
+    <Library Include="..\lib\osgQtrd.lib" />
+    <Library Include="..\lib\osgrd.lib" />
+    <Library Include="..\lib\osgShadowrd.lib" />
+    <Library Include="..\lib\osgSimrd.lib" />
+    <Library Include="..\lib\osgTerrainrd.lib" />
+    <Library Include="..\lib\osgTextrd.lib" />
+    <Library Include="..\lib\osgUtilrd.lib" />
+    <Library Include="..\lib\osgViewerrd.lib" />
+    <Library Include="..\lib\osgVolumerd.lib" />
+    <Library Include="..\lib\osgWidgetrd.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,7 @@
 #include "ITrackerFactory.h"
 #include "Factory.h"
 #include "WindowsKinectFactory.h"
+#include "ViewerWidget.h"
 
 class Holoview : public MainWindow
 {
@@ -21,7 +22,9 @@ public:
 private:
 	/*Ui_HoloviewClass ui;*/
 	Ui::HoloviewClass ui;
+
 	AssetWindow window;
+	/*ViewerWidget osgWindow;*/
 	QWidget *oglContainer;
 
 };

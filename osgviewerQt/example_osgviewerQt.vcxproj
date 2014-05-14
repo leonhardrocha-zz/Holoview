@@ -18,11 +18,11 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -34,10 +34,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibDir)</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">osgviewerQtLib</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibDir)</OutDir>
@@ -68,6 +68,7 @@
       <WarningLevel>Level4</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -83,7 +84,7 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\..\lib\OpenThreadsd.lib;..\..\lib\osgd.lib;..\..\lib\osgDBd.lib;..\..\lib\osgUtild.lib;..\..\lib\osgGAd.lib;..\..\lib\osgViewerd.lib;..\..\lib\osgTextd.lib;..\..\lib\osgWidgetd.lib;..\..\lib\osgQtd.lib;opengl32.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5OpenGLd.lib;..\..\lib\osgWidgetd.lib;..\..\lib\osgViewerd.lib;..\..\lib\osgGAd.lib;..\..\lib\osgTextd.lib;..\..\lib\osgDBd.lib;..\..\3rdParty\x86\lib\zlibd.lib;..\..\lib\osgUtild.lib;..\..\lib\osgd.lib;..\..\lib\OpenThreadsd.lib;opengl32.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5Cored.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenThreadsrd.lib;osgrd.lib;osgDBrd.lib;osgUtilrd.lib;osgGArd.lib;osgViewerrd.lib;osgTextrd.lib;osgWidgetrd.lib;osgQtrd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;opengl32.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5Widgetsd.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5OpenGLd.lib;zlib.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5Guid.lib;C:\Qt\Qt5.2.1\5.2.1\msvc2010_opengl\lib\Qt5Cored.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OSG_LIB_PATH);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>osgviewerQtd.lib</ImportLibrary>
@@ -93,8 +94,11 @@
       </Version>
     </Link>
     <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <Lib>
+      <AdditionalDependencies>OpenThreadsrd.lib;osgrd.lib;osgDBrd.lib;osgUtilrd.lib;osgGArd.lib;osgViewerrd.lib;osgTextrd.lib;osgWidgetrd.lib;osgQtrd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -113,6 +117,7 @@
       </DebugInformationFormat>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;QT_NO_DEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;QT_NO_DEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -138,8 +143,11 @@
       </Version>
     </Link>
     <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <Lib>
+      <AdditionalDependencies>OpenThreadsrd.lib;osgrd.lib;osgDBrd.lib;osgUtilrd.lib;osgGArd.lib;osgViewerrd.lib;osgTextrd.lib;osgWidgetrd.lib;osgQtrd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <!--<ItemGroup>
     <ProjectReference Include="C:/Users/UDESC/Downloads/OpenSceneGraph-3.3.1/src/OpenThreads/win32/OpenThreads.vcxproj">
@@ -174,7 +182,10 @@
     </ProjectReference>
   </ItemGroup>-->
   <ItemGroup>
-    <ClCompile Include="osgviewerQt.cpp" />
+    <ClCompile Include="ViewerWidget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ViewerWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

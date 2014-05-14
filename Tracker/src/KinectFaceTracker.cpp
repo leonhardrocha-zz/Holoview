@@ -194,7 +194,7 @@ HRESULT KinectFaceTracker::Stop()
     m_ApplicationIsRunning = false;
     if (m_hFaceTrackingThread)
     {
-        WaitForSingleObject(m_hFaceTrackingThread, 1000);
+        WaitForSingleObject(m_hFaceTrackingThread, INFINITE);
     }
     m_hFaceTrackingThread = 0;
     return S_OK;
