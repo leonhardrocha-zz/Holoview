@@ -8,25 +8,22 @@
 #include <FaceTrackLib.h>
 #include "resource.h"
 #include "EggAvatar.h"
-#include "MultiFTHelper.h"
 #include "KinectFaceTracker.h"
 #include "Callable.h"
+#include "ITracker.h"
 #include <vector>
 
 
 class KinectTracker;
 
-class TrackerManager : public Callable
+class TrackerManager : public ITracker
 {
 	friend class KinectTracker;
 public:
     TrackerManager::TrackerManager()
 		: m_hInst(NULL)
-        , m_hWnd(NULL)
 		, m_lpCmdLine(L"")
         , m_hAccelTable(NULL)
-        , m_pImageBuffer(NULL)
-        , m_pVideoBuffer(NULL)
         , m_depthType(NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX)
         , m_colorType(NUI_IMAGE_TYPE_COLOR)
         , m_depthRes(NUI_IMAGE_RESOLUTION_320x240)
@@ -41,40 +38,34 @@ public:
 
 	bool						Init();
 	bool						Start();
-	void						PaintEvent(void *message);
-	void						TrackEvent(void *message) {};
-	HWND						GetHWnd() { return m_hWnd;};
 	HINSTANCE					GetInstance() { return m_hInst; };
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
-	float						scale;
-    float						rotationXYZ[3];
-    float						translationXYZ[3];
+	TrackingResults				GetTrackingResults(int id=0);
 
 protected:
 
+	virtual		void			PaintEvent(void *message, int id=0);
+	virtual		void			TrackEvent(void *message, int id=0);
 
-	KinectFaceTracker*			m_pBestTracker;
-	KinectFaceTracker*			GetBestTracker();
-	PWSTR m_lpCmdLine;
-	int m_nCmdShow;
 	std::vector<KinectFaceTracker*>	m_pFaceTrackers;
 	std::vector<HANDLE>			m_FaceTrackingThreads;
-	bool						IsTracking();
+
+	float						scale;
+    float						rotationXYZ[3];
+    float						translationXYZ[3];
+	KinectFaceTracker*			m_pBestTracker;
+	PWSTR						m_lpCmdLine;
+	int							m_nCmdShow;
     void                        ParseCmdString(PWSTR lpCmdLine);
     void                        UninitInstance();
-    static LRESULT CALLBACK     WndProcStatic(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-    LRESULT CALLBACK            WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-    BOOL                        PaintWindow(HDC hdc, HWND hWnd);
-    BOOL                        ShowVideo(HDC hdc, int width, int height, int originX, int originY);
-    BOOL                        ShowEggAvatar(HDC hdc, int width, int height, int originX, int originY);
-    static void                 FTHelperCallingBack(void* lpParam);
+	bool						IsTracking();
+	virtual		KinectFaceTracker*			GetBestTracker(int id=0);
     static int const            MaxLoadStringChars = 100;
+
     HINSTANCE                   m_hInst;
-    HWND                        m_hWnd;
+    /*HWND                        m_hWnd;*/
     HACCEL                      m_hAccelTable;
-    IFTImage*                   m_pImageBuffer;
-    IFTImage*                   m_pVideoBuffer;
     NUI_IMAGE_TYPE              m_depthType;
     NUI_IMAGE_TYPE              m_colorType;
     NUI_IMAGE_RESOLUTION        m_depthRes;
@@ -83,3 +74,9 @@ protected:
     BOOL                        m_bSeatedSkeletonMode;
 };
 
+class MultiTrackerManager : public TrackerManager
+{
+protected:
+	virtual		BOOL            PaintWindow(KinectFaceTracker *tracker, HDC hdc, HWND hWnd); 
+
+};

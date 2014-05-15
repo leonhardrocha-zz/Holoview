@@ -19,6 +19,7 @@ public:
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~Holoview();
 	ITracker* GetTracker() { return window.GetTracker(); };
+
 private:
 	/*Ui_HoloviewClass ui;*/
 	Ui::HoloviewClass ui;

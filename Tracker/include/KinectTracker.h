@@ -5,39 +5,67 @@
 
 class KinectTracker :  public ITracker
 {	
+
 public:
 	
-	KinectTracker::KinectTracker () : m_TrackCallBack(KinectTracker::TrackCallback), m_TrackCallBackParam(this)
+	KinectTracker::KinectTracker() 
+	{	
+		m_pTrackerManager = new TrackerManager();
+	};
+	
+	KinectTracker::~KinectTracker() 
 	{
-		trackerManager.SetTrackerCallback(m_TrackCallBack, m_TrackCallBackParam);
-		if (trackerManager.Init())
+		if(m_pTrackerManager)
 		{
-			trackerManager.Start();
+			delete m_pTrackerManager;
 		}
+	};
+
+	bool Init()
+	{
+		if(m_pTrackerManager)
+		{
+			m_pTrackerManager->SetTrackerCallback(TrackCallback, (void*)this, NULL);
+			return m_pTrackerManager->Init();
+		}
+		
+		return false;
 	}
 
-	virtual void PaintEvent(void *message) 
+	bool Start()
+	{
+		if(m_pTrackerManager)
+		{			
+			return m_pTrackerManager->Start();
+		}
+		
+		return false;
+	}
+	
+	virtual void PaintEvent(void *message, int id=0) 
 	{	
-		trackerManager.PaintEvent(message);
+		m_pTrackerManager->PaintEvent(message, id);
 	}
 
-	virtual void TrackEvent(void *message)=0;
+	virtual void TrackEvent(void *message, int id=0)=0;
 
-	static void TrackCallback(void *param) 
+	virtual TrackingResults GetTrackingResults(int id=0)
+	{
+		ITracker* pTrackerManager = GetTrackerManager();
+		return pTrackerManager->GetTrackingResults();
+	}
+
+	static void TrackCallback(void *param, void* args=NULL) 
 	{	
-		KinectTracker* pThis = static_cast<KinectTracker*>(param);
-		pThis->m_Pitch = pThis->trackerManager.rotationXYZ[0];
-		pThis->m_Yaw   = pThis->trackerManager.rotationXYZ[1];
-		pThis->m_Roll  = pThis->trackerManager.rotationXYZ[2];	
-		pThis->TrackEvent((void*)pThis->trackerManager.rotationXYZ); 
+		KinectTracker* pThis = reinterpret_cast<KinectTracker*>(param);				
+		pThis->TrackEvent(pThis->m_CallBackParam);
 	}
 
-	float m_Pitch, m_Yaw, m_Roll;
+	ITracker* GetTrackerManager() { return m_pTrackerManager; } ;
 
 private:
 
-	TrackerManager trackerManager;
-	FTCallBack m_TrackCallBack;
-	void* m_TrackCallBackParam;
+	ITracker* m_pTrackerManager;
 
 };
+

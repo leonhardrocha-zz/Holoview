@@ -5,6 +5,8 @@
 class ITrackerFactory
 {
 public:
+	virtual void Init();
+	virtual void Start();
     virtual ITracker *CreateTracker()=0;
 };
 

@@ -47,6 +47,7 @@
 #include "QTextEdit"
 #include "ITracker.h"
 #include "DockFrame.h"
+#include "WindowsFaceTracker.h"
 
 class ToolBar;
 QT_FORWARD_DECLARE_CLASS(QMenu)
@@ -68,9 +69,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
-	void RegisterTracker(ITracker* tracker) { m_pTracker = tracker; };
-	ITracker* GetTracker() { return m_pTracker; };
-	bool MainWindow::AddTrackerDockWidget();
+	bool AddTrackerDockWidget(ITracker* tracker);
+	bool AddMultiTrackerDockWidget(ITracker* tracker);
 protected:
     void showEvent(QShowEvent *event);
 
@@ -89,9 +89,7 @@ private:
     void setupMenuBar();
     void setupDockWidgets(const QMap<QString, QSize> &customSizeHints);
 	QMap<QString, QSize> m_customSizeHints;
-	ITracker* m_pTracker;
 
-	
 };
 
 

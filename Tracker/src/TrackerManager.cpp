@@ -32,15 +32,12 @@ bool TrackerManager::Init()
 	int numSensors = 0;	
     NuiGetSensorCount(&numSensors);
 
-	m_pImageBuffer = FTCreateImage();
-    m_pVideoBuffer = FTCreateImage();
 	int i;
 	for (i =0; i < numSensors; i++)
 	{
-		KinectFaceTracker* tracker = new KinectFaceTracker();
+		KinectFaceTracker* tracker = new KinectFaceTracker(this, i);
 		if (tracker->Init())
 		{
-			tracker->SetTrackerCallback(FTHelperCallingBack, this);
 			m_pFaceTrackers.push_back(tracker);
 		} else
 		{
@@ -56,7 +53,7 @@ void TrackerManager::UninitInstance()
     // Clean up the memory allocated for Face Tracking and rendering.
 	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
 	{
-		(*tracker)->Stop();
+		(*tracker)->Stop();		
 		delete *tracker;
 	}
 
@@ -65,259 +62,49 @@ void TrackerManager::UninitInstance()
         DestroyAcceleratorTable(m_hAccelTable);
         m_hAccelTable = NULL;
     }
-
-	if (m_hWnd)
-	{
-		DestroyWindow(m_hWnd);
-		m_hWnd = NULL;
-	}
-
-    if (m_pImageBuffer)
-    {
-        m_pImageBuffer->Release();
-        m_pImageBuffer = NULL;
-    }
-
-    if (m_pVideoBuffer)
-    {
-        m_pVideoBuffer->Release();
-        m_pVideoBuffer = NULL;
-    }
 }
 
-LRESULT CALLBACK TrackerManager::WndProcStatic(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{    
-	static TrackerManager* pThis = NULL; // cheating, but since there is just one window now, it will suffice.
-    if (WM_CREATE == message)
-    {
-        pThis = reinterpret_cast<TrackerManager*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
-    }
-    return pThis ? pThis->WndProc(hWnd, message, wParam, lParam) : DefWindowProc(hWnd, message, wParam, lParam);
-}
-
-void TrackerManager::PaintEvent(void *message) 
-{	
-	MSG* msg = reinterpret_cast<MSG*>(message);
-	if (msg != NULL)
+void TrackerManager::PaintEvent(void *message, int id)
+{
+	KinectFaceTracker *tracker = m_pFaceTrackers[id]; //todo: get best tracker
+	if (tracker)
 	{
-		WndProc(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+		tracker->PaintEvent(message, id);
 	}
 }
 
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE:  Processes messages for the main window.
-//
-//  WM_COMMAND  - process the application menu
-//  WM_KEYUP    - Exit in response to ESC key
-//  WM_PAINT    - Paint the main window
-//  WM_DESTROY  - post a quit message and return
-LRESULT CALLBACK TrackerManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void TrackerManager::TrackEvent(void *message, int id)
 {
-    UINT wmId, wmEvent;
-    PAINTSTRUCT ps;
-    HDC hdc;
-
-    switch (message)
-    {
-    case WM_COMMAND:
-        wmId    = LOWORD(wParam);
-        wmEvent = HIWORD(wParam);
-        // Parse the menu selections:
-        switch (wmId)
-        {
-        case IDM_EXIT:
-            PostQuitMessage(0);
-            break;
-        default:
-            return DefWindowProc(hWnd, message, wParam, lParam);
-        }
-        break;
-    case WM_KEYUP:
-        if (wParam == VK_ESCAPE)
-        {
-            PostQuitMessage(0);
-        }
-        break;
-    case WM_PAINT:
-        hdc = BeginPaint(hWnd, &ps);
-        // Draw the avatar window and the video window
-        PaintWindow(hdc, hWnd);
-        EndPaint(hWnd, &ps);
-        break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
-}
-
-// Drawing the video window
-BOOL TrackerManager::ShowVideo(HDC hdc, int width, int height, int originX, int originY)
-{
-    // Now, copy a fraction of the camera image into the screen.
-	KinectFaceTracker* tracker = GetBestTracker();
-	IFTImage* colorImage = tracker->GetColorImage();
-	if (colorImage)
-    {
-        int iWidth = colorImage->GetWidth();
-        int iHeight = colorImage->GetHeight();
-        if (iWidth > 0 && iHeight > 0)
-        {
-            int iTop = 0;
-            int iBottom = iHeight;
-            int iLeft = 0;
-            int iRight = iWidth;
-
-            // Keep a separate buffer.
-            if (m_pVideoBuffer && SUCCEEDED(m_pVideoBuffer->Allocate(iWidth, iHeight, FTIMAGEFORMAT_UINT8_B8G8R8A8)))
-            {
-                // Copy do the video buffer while converting bytes
-                colorImage->CopyTo(m_pVideoBuffer, NULL, 0, 0);
-
-                // Compute the best approximate copy ratio.
-                float w1 = (float)iHeight * (float)width;
-                float w2 = (float)iWidth * (float)height;
-                if (w2 > w1 && height > 0)
-                {
-                    // video image too wide
-                    float wx = w1/height;
-                    iLeft = (int)max(0, tracker->GetXCenterFace() - wx / 2);
-                    iRight = iLeft + (int)wx;
-                    if (iRight > iWidth)
-                    {
-                        iRight = iWidth;
-                        iLeft = iRight - (int)wx;
-                    }
-                }
-                else if (w1 > w2 && width > 0)
-                {
-                    // video image too narrow
-                    float hy = w2/width;
-                    iTop = (int)max(0, tracker->GetYCenterFace() - hy / 2);
-                    iBottom = iTop + (int)hy;
-                    if (iBottom > iHeight)
-                    {
-                        iBottom = iHeight;
-                        iTop = iBottom - (int)hy;
-                    }
-                }
-                int const bmpPixSize = m_pVideoBuffer->GetBytesPerPixel();
-                SetStretchBltMode(hdc, HALFTONE);
-                BITMAPINFO bmi = {sizeof(BITMAPINFO), iWidth, iHeight, 1, static_cast<WORD>(bmpPixSize * CHAR_BIT), BI_RGB, m_pVideoBuffer->GetStride() * iHeight, 5000, 5000, 0, 0};
-                if (0 == StretchDIBits(hdc, originX, originY, width, height,
-                    iLeft, iBottom, iRight-iLeft, iTop-iBottom, m_pVideoBuffer->GetBuffer(), &bmi, DIB_RGB_COLORS, SRCCOPY))
-                {
-                    return FALSE;
-                }
-            }
-        }
-		return TRUE;
-    }
-    return FALSE;
-}
-
-// Drawing code
-BOOL TrackerManager::ShowEggAvatar(HDC hdc, int width, int height, int originX, int originY)
-{
-    static int errCount = 0;
-    BOOL ret = FALSE;
-	
-	IAvatar* pEggAvatar = m_pBestTracker->GetAvatar();
-	
-	if (m_pImageBuffer && SUCCEEDED(m_pImageBuffer->Allocate(width, height, FTIMAGEFORMAT_UINT8_B8G8R8A8)))
+	if (m_CallBack)
 	{
-		memset(m_pImageBuffer->GetBuffer(), 0, m_pImageBuffer->GetStride() * height); // clear to black
-		
-		pEggAvatar->SetScaleAndTranslationToWindow(height, width);
-		pEggAvatar->DrawImage(static_cast<PVOID>(m_pImageBuffer));
-
-		BITMAPINFO bmi = {sizeof(BITMAPINFO), width, height, 1, static_cast<WORD>(m_pImageBuffer->GetBytesPerPixel() * CHAR_BIT), BI_RGB, m_pImageBuffer->GetStride() * height, 5000, 5000, 0, 0};
-		errCount += (0 == StretchDIBits(hdc, 0, 0, width, height, 0, 0, width, height, m_pImageBuffer->GetBuffer(), &bmi, DIB_RGB_COLORS, SRCCOPY));
-
-		ret = TRUE;
-	}
-
-    return ret;
+		(*m_CallBack)(m_CallBackParam, NULL);
+	}	
 }
 
-bool BestFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j) 
+
+bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j) 
 { 
 	return (i->GetFaceConfidence()>j->GetFaceConfidence()); 
 }
 
-KinectFaceTracker* TrackerManager::GetBestTracker()
+KinectFaceTracker* TrackerManager::GetBestTracker(int id)
 {
-	std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), BestFaceTracking);
-	return *m_pFaceTrackers.begin();
+	std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+	return m_pFaceTrackers[id];
 }
 
 
-// Draw the egg head and the camera video with the mask superimposed.
-BOOL TrackerManager::PaintWindow(HDC hdc, HWND hWnd)
-{
-    static int errCount = 0;
-    BOOL ret = FALSE;
-    RECT rect;
-    GetClientRect(hWnd, &rect);
-	m_hWnd = hWnd;
-    int width = rect.right - rect.left;
-    int height = rect.bottom - rect.top;
-    int halfWidth = width/2;
-    // Show the video on the right of the window
-	m_pBestTracker = GetBestTracker();	
-	if (m_pBestTracker->IsKinectPresent())
-	{
-		m_pBestTracker->SetWindow(hWnd);
 
-		float pitch = m_pBestTracker->GetPitch();
-
-		errCount += !ShowVideo(hdc, width - halfWidth, height, halfWidth, 0);
-
-		// Draw the egg avatar on the left of the window
-		errCount += !ShowEggAvatar(hdc, halfWidth, height, 0, 0);
-	}
-	
-    return ret;
-}
 
 /*
 * The "Face Tracker" helper class is generic. It will call back this function
 * after a face has been successfully tracked. The code in the call back passes the parameters
 * to the Egg Avatar, so it can be animated.
 */
-void TrackerManager::FTHelperCallingBack(void* pVoid)
+
+TrackingResults	TrackerManager::GetTrackingResults(int id)
 {
-    TrackerManager* pApp = reinterpret_cast<TrackerManager*>(pVoid);
-    if (pApp)
-    {
-		KinectFaceTracker* bestTracker = pApp->GetBestTracker();
-        IFTResult* pResult = bestTracker->GetResult();
-        if (pResult && SUCCEEDED(pResult->GetStatus()))
-        {
-            FLOAT* pAU = NULL;
-            UINT numAU;
-            pResult->GetAUCoefficients(&pAU, &numAU);
-            //FLOAT scale;
-            //FLOAT rotationXYZ[3];
-            //FLOAT translationXYZ[3];
-            pResult->Get3DPose(&pApp->scale, pApp->rotationXYZ, pApp->translationXYZ);
-			IAvatar* pEggAvatar = bestTracker->GetAvatar();
-
-			if (pEggAvatar)
-			{
-				pEggAvatar->SetTranslations(pApp->translationXYZ[0], pApp->translationXYZ[1], pApp->translationXYZ[2]);
-				pEggAvatar->SetRotations(pApp->rotationXYZ[0], pApp->rotationXYZ[1], pApp->rotationXYZ[2]);
-			}
-
-			if (pApp->m_CallBack)
-			{
-				pApp->m_CallBack(pApp->m_CallBackParam);
-			}
-        }
-    }
+	return static_cast<TrackingResults>(rotationXYZ);
 }
 
 void TrackerManager::ParseCmdString(PWSTR lpCmdLine)

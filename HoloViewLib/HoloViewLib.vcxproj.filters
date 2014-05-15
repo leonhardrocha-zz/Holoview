@@ -78,6 +78,9 @@
     <ClInclude Include="include\IAvatar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Callable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

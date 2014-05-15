@@ -112,7 +112,6 @@
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
-    <ClInclude Include="include\Callable.h" />
     <ClInclude Include="include\TrackerException.h" />
     <ClInclude Include="include\TrackerManager.h" />
     <ClInclude Include="include\Visualize.h" />
@@ -122,6 +121,7 @@
     <ClCompile Include="src\KinectFaceTracker.cpp" />
     <ClCompile Include="src\KinectSensor.cpp" />
     <ClCompile Include="src\KinectTracker.cpp" />
+    <ClCompile Include="src\MultiTrackerManager.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\TrackerManager.cpp" />
     <ClCompile Include="src\Visualize.cpp" />

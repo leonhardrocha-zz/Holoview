@@ -39,41 +39,66 @@ public:
 	NUI_IMAGE_RESOLUTION m_colorRes;
 };
 
-class KinectFaceTracker : public Callable
+class KinectFaceTracker : public ITracker
 {
 public:
-	KinectFaceTracker() : m_pKinectSensor(NULL), m_pFaceTracker(NULL), m_pFTResult(NULL), m_colorImage(NULL), m_depthImage(NULL) {};	
+	KinectFaceTracker(ITracker* parent=NULL, int id=0) : 
+		  m_parent(parent), 
+		  m_id(id), 
+		  m_hWnd(NULL), 
+		  m_pKinectSensor(NULL), 
+		  m_pFaceTracker(NULL), 
+		  m_pFTResult(NULL), 
+		  m_colorImage(NULL), 
+		  m_depthImage(NULL),
+		  m_pImageBuffer(NULL),
+          m_pVideoBuffer(NULL)
+		  {};	
     ~KinectFaceTracker();
 	HRESULT			Stop();
 	HRESULT			GetTrackerResult();
 	bool			Start();
 	bool			Init();
 	void			CheckCameraInput();
-	float   		GetPitch()         { return(pitch);}
-	IFTResult*		GetResult()        { return(m_pFTResult);}
-    IFTImage*		GetColorImage()    { return(m_colorImage);}
-    float			GetXCenterFace()   { return(m_XCenterFace);}
-    float			GetYCenterFace()   { return(m_YCenterFace);}
-    BOOL			IsMaskDraw()	   { return(m_config.m_DrawMask);}
-    IFTFaceTracker* GetTracker()       { return(m_pFaceTracker);}
-	KinectSensor*   GetSensor()        { return(m_pKinectSensor);}
-    BOOL			IsKinectPresent()  { return(IsKinectSensorPresent);}
-	void		    SetWindow(HWND hWnd){ m_hWnd = hWnd;}
+	int   			GetId()			  { return(m_id);};
+	float   		GetPitch()         { return(pitch);};
+	IFTResult*		GetResult()        { return(m_pFTResult);};
+    IFTImage*		GetColorImage()    { return(m_colorImage);};
+    float			GetXCenterFace()   { return(m_XCenterFace);};
+    float			GetYCenterFace()   { return(m_YCenterFace);};
+    BOOL			IsMaskDraw()	   { return(m_config.m_DrawMask);};
+    IFTFaceTracker* GetTracker()       { return(m_pFaceTracker);};
+	KinectSensor*   GetSensor()        { return(m_pKinectSensor);};
+    BOOL			IsKinectPresent()  { return(IsKinectSensorPresent);};
+	HWND			GetWindow()			{ return m_hWnd;};
+	void		    SetWindow(HWND hWnd){ m_hWnd = hWnd;};
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
 	IAvatar*		GetAvatar()			{ return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
 	float			GetFaceConfidence() { return m_faceConfidence; };
- 
+	TrackingResults	GetTrackingResults (int id=0);
+	void			PaintEvent(void *message, int id=0);
+	void			TrackEvent(void *message, int id=0);
+	static void		FTCallback(void* param, void* args=NULL);
 	static DWORD WINAPI			FaceTrackingStaticThread(PVOID lpParam);	
 	HANDLE						GetThreadId() { return m_hFaceTrackingThread; };		
+	BOOL            ShowVideo(HDC hdc, int width, int height, int originX, int originY);
+    BOOL            ShowEggAvatar(HDC hdc, int width, int height, int originX, int originY);
+	BOOL			PaintWindow(HDC hdc, HWND hWnd);
 
 	
 protected:
+		
+	IFTImage*                   m_pImageBuffer;
+    IFTImage*                   m_pVideoBuffer;
+	ITracker*					m_parent;
+	int							m_id;
 	KinectSensor*               m_pKinectSensor;
 	HANDLE						m_hFaceTrackingThread;	
 	IFTFaceTracker*             m_pFaceTracker;
     IFTResult*                  m_pFTResult;
     IFTImage*                   m_colorImage;
     IFTImage*                   m_depthImage;
+	
     FT_VECTOR3D                 m_hint3D[2]; 
 	
 	float						m_faceConfidence;
@@ -88,10 +113,9 @@ protected:
 	bool						m_ApplicationIsRunning;
 	TrackerConfig				m_config;
 
-    BOOL SubmitFraceTrackingResult(IFTResult* pResult);
-    void SetCenterOfImage(IFTResult* pResult);
-	DWORD WINAPI FaceTrackingThread();
 
-	
+    BOOL						SubmitFraceTrackingResult(IFTResult* pResult);
+    void						SetCenterOfImage(IFTResult* pResult);
+	DWORD						WINAPI FaceTrackingThread();	
 };
 

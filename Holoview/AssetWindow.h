@@ -1,8 +1,10 @@
+#pragma once
+#include "ITracker.h"
 #include "OpenGLHelper.h"
 #include "OpenGLWindow.h"
 #include "KinectTracker.h"
 #include "WindowsFaceTracker.h"
-#pragma once
+
 class AssetWindow : public OpenGLWindow, ToeInStereoView
 {
 public:
@@ -18,10 +20,9 @@ public:
 	ITracker* GetTracker() { return static_cast<KinectTracker*>(&tracker); };
 
 protected:
-	static void TrackerUpdateStatic(void* lpParam);
+	static void TrackerUpdateStatic(void* lpParam, void* args=NULL);
 	//OpenGLWindow overrides
 	virtual void resizeWindow();
-	/*virtual void exposeEvent(QExposeEvent *event);*/
 	OpenGL21Renderer renderer;
 	WindowsFaceTracker tracker;
 };

@@ -1,18 +1,21 @@
+#pragma once
 #include "Factory.h"
 #include "ITrackerFactory.h"
 #include "KinectTrackerFactory.h"
+#include "KinectTracker.h"
 
-#pragma once
-class WindowsFaceTracker :  public KinectTracker, public Callable
+
+class WindowsFaceTracker :  public KinectTracker
 {
 public:
-	WindowsFaceTracker () : KinectTracker() {};
+	WindowsFaceTracker () {};
 private:
-	void TrackEvent(void *message)
+	void TrackEvent(void *message, int id=0)
 	{
 		if (m_CallBack)
 		{
-			m_CallBack(m_CallBackParam);
+			(*m_CallBack)(m_CallBackParam, NULL);
 		}
 	}
 };
+

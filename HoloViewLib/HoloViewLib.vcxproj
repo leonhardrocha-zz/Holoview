@@ -95,6 +95,7 @@
     <ClInclude Include="include\AssetReader.h" />
     <ClInclude Include="include\BaseAssetRenderer.h" />
     <ClInclude Include="include\BaseStereoView.h" />
+    <ClInclude Include="include\Callable.h" />
     <ClInclude Include="include\DualStereoView.h" />
     <ClInclude Include="include\HoloviewException.h" />
     <ClInclude Include="include\IAvatar.h" />

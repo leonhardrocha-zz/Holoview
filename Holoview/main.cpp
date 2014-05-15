@@ -55,10 +55,11 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	QMap<QString, QSize> customSizeHints = parseCustomSizeHints(argc, argv);
 	Holoview mainWindow(customSizeHints);
-	mainWindow.menuBar()->addMenu("&File")->addAction("&Exit", &app, SLOT(quit()));		
-	mainWindow.RegisterTracker(mainWindow.GetTracker());
-	mainWindow.AddTrackerDockWidget();
-
+	mainWindow.menuBar()->addMenu("&File")->addAction("&Exit", &app, SLOT(quit()));
+	ITracker* tracker = mainWindow.GetTracker();
+	tracker->Init();	
+	mainWindow.AddMultiTrackerDockWidget(tracker);
+	tracker->Start();
 	QWidget central(&mainWindow);	
 	QWidget trackerWidget(&central);
 	mainWindow.show();

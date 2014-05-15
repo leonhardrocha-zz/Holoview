@@ -7,9 +7,7 @@ Holoview::Holoview(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
 	: MainWindow(customSizeHints, parent, flags)
 {
-	ui.setupUi(this);
-
-	
+	//ui.setupUi(this);
 
 	QSurfaceFormat format;
     format.setSamples(4);
@@ -21,10 +19,6 @@ Holoview::Holoview(const QMap<QString, QSize> &customSizeHints,
 	oglContainer->setMaximumSize(1280,960);
 	oglContainer->setFocusPolicy(Qt::TabFocus);	
 	setCentralWidget(oglContainer);
-
-	Ui::MainWindow *form = new Ui::MainWindow();
-	
-
 }
 
 Holoview::~Holoview()
