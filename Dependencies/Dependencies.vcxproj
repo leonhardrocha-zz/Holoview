@@ -21,7 +21,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -69,6 +69,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(BinDir)*.* $(OutDir)</Command>
+      <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

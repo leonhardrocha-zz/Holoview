@@ -6,7 +6,6 @@
 #include <QPaintEngine>
 #include <QThread>
 #include "DockFrame.h"
-#include "ViewerWidget.h"
 
 class  OSGFrame :  public DockFrame
 {

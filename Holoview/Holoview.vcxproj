@@ -60,7 +60,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OSG_LIB_PATH);$(KINECTSDK10_DIR)lib\x86;$(FTSDK_DIR)lib\x86;$(SolutionDir)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>osgViewerQtLib.lib;ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factory.lib;Tracker.lib;Kinect10.lib;FaceTrackLib.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;OpenThreadsrd.lib;osgrd.lib;osgDBrd.lib;osgUtilrd.lib;osgGArd.lib;osgViewerrd.lib;osgTextrd.lib;osgWidgetrd.lib;osgQtrd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factoryd.lib;Trackerd.lib;Kinect10.lib;FaceTrackLib.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;OpenThreadsrd.lib;osgrd.lib;osgDBrd.lib;osgUtilrd.lib;osgGArd.lib;osgViewerrd.lib;osgTextrd.lib;osgWidgetrd.lib;osgQtrd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -92,7 +92,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OSG_LIB_PATH);$(KINECTSDK10_DIR)lib\x86;$(FTSDK_DIR)lib\x86;$(SolutionDir)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>osgViewerQtLib.lib;ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factory.lib;Tracker.lib;Kinect10.lib;FaceTrackLib.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;opengl32.lib;glu32.lib;Qt5Widgets.lib;%(AdditionalDependencies);OpenThreadsrd.lib;osgrd.lib;osgDBrd.lib;osgUtilrd.lib;osgGArd.lib;osgViewerrd.lib;osgTextrd.lib;osgWidgetrd.lib;osgQtrd.lib</AdditionalDependencies>
+      <AdditionalDependencies>ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factory.lib;Tracker.lib;Kinect10.lib;FaceTrackLib.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;opengl32.lib;glu32.lib;Qt5Widgets.lib;%(AdditionalDependencies);OpenThreadsrd.lib;osgrd.lib;osgDBrd.lib;osgUtilrd.lib;osgGArd.lib;osgViewerrd.lib;osgTextrd.lib;osgWidgetrd.lib;osgQtrd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

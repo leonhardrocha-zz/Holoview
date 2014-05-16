@@ -8,7 +8,6 @@
 #include "ITrackerFactory.h"
 #include "Factory.h"
 #include "WindowsKinectFactory.h"
-#include "ViewerWidget.h"
 
 class Holoview : public MainWindow
 {
