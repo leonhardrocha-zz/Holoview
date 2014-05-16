@@ -42,7 +42,7 @@ public:
 	}
 	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
 	{	
-		m_pTracker->PaintEvent(message, id);
+		m_pTracker->PaintEvent(message, &id);
 		return true;
 	}
 	ITracker* m_pTracker;

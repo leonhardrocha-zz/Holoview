@@ -10,7 +10,7 @@ class WindowsFaceTracker :  public KinectTracker
 public:
 	WindowsFaceTracker () {};
 private:
-	void TrackEvent(void *message, int id=0)
+	void TrackEvent(void *message, void* args=NULL)
 	{
 		if (m_CallBack)
 		{

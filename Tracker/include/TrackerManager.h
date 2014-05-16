@@ -41,12 +41,12 @@ public:
 	HINSTANCE					GetInstance() { return m_hInst; };
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
-	TrackingResults				GetTrackingResults(int id=0);
+	TrackingResults				GetTrackingResults(TrackingArgs args=NULL);
 
 protected:
 
-	virtual		void			PaintEvent(void *message, int id=0);
-	virtual		void			TrackEvent(void *message, int id=0);
+	virtual		void			PaintEvent(void *message, TrackingArgs args=NULL);
+	virtual		void			TrackEvent(void *message, TrackingArgs args=NULL);
 
 	std::vector<KinectFaceTracker*>	m_pFaceTrackers;
 	std::vector<HANDLE>			m_FaceTrackingThreads;
@@ -60,7 +60,7 @@ protected:
     void                        ParseCmdString(PWSTR lpCmdLine);
     void                        UninitInstance();
 	bool						IsTracking();
-	virtual		KinectFaceTracker*			GetBestTracker(int id=0);
+	virtual		KinectFaceTracker*			GetBestTracker(TrackingArgs args=0);
     static int const            MaxLoadStringChars = 100;
 
     HINSTANCE                   m_hInst;

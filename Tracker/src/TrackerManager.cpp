@@ -35,7 +35,7 @@ bool TrackerManager::Init()
 	int i;
 	for (i =0; i < numSensors; i++)
 	{
-		KinectFaceTracker* tracker = new KinectFaceTracker(this, i);
+		KinectFaceTracker* tracker = new KinectFaceTracker(this);
 		if (tracker->Init())
 		{
 			m_pFaceTrackers.push_back(tracker);
@@ -64,16 +64,16 @@ void TrackerManager::UninitInstance()
     }
 }
 
-void TrackerManager::PaintEvent(void *message, int id)
+void TrackerManager::PaintEvent(void *message, TrackingArgs args)
 {
-	KinectFaceTracker *tracker = m_pFaceTrackers[id]; //todo: get best tracker
+	KinectFaceTracker *tracker = GetBestTracker(args);//m_pFaceTrackers[id]; //todo: get best tracker
 	if (tracker)
 	{
-		tracker->PaintEvent(message, id);
+		tracker->PaintEvent(message, args);
 	}
 }
 
-void TrackerManager::TrackEvent(void *message, int id)
+void TrackerManager::TrackEvent(void *message, TrackingArgs args)
 {
 	if (m_CallBack)
 	{
@@ -87,9 +87,10 @@ bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j)
 	return (i->GetFaceConfidence()>j->GetFaceConfidence()); 
 }
 
-KinectFaceTracker* TrackerManager::GetBestTracker(int id)
+KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 {
 	std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+	int id = args == NULL ? 0 : *(reinterpret_cast<int*>(args));
 	return m_pFaceTrackers[id];
 }
 
@@ -102,9 +103,11 @@ KinectFaceTracker* TrackerManager::GetBestTracker(int id)
 * to the Egg Avatar, so it can be animated.
 */
 
-TrackingResults	TrackerManager::GetTrackingResults(int id)
+TrackingResults	TrackerManager::GetTrackingResults(TrackingArgs args)
 {
-	return static_cast<TrackingResults>(rotationXYZ);
+	int id = args == NULL ? 0 : *(reinterpret_cast<int*>(args));
+	ITracker* tracker = m_pFaceTrackers[id];
+	return tracker->GetTrackingResults(args);
 }
 
 void TrackerManager::ParseCmdString(PWSTR lpCmdLine)

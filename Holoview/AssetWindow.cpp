@@ -40,7 +40,8 @@ void AssetWindow::RenderScene()
 void AssetWindow::TrackerUpdateStatic(void* lpParam, void* args)
 {
 	AssetWindow* pThis = reinterpret_cast<AssetWindow*>(lpParam);
-	auto results = pThis->tracker.GetTrackingResults();
+	float* rotation = static_cast<float*>(pThis->tracker.GetTrackingResults());
+	pThis->SetViewAngles(rotation[Pitch], rotation[Yaw], rotation[Roll]);
 	pThis->render();
 }
 

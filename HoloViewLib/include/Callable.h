@@ -1,13 +1,19 @@
 #ifndef _CALLABLE_H
 #define _CALLABLE_H
 
-typedef void (*FTCallBack)(void* lpParam, void* args);
+typedef void *TrackingResults;
+typedef void *TrackingArgs;
+typedef void (*FTCallBack)(void* lpParam, TrackingArgs args);
+
+#ifndef NULL
+#define NULL 0
+#endif
 
 class Callable
 {
 public:
-	Callable() : m_CallBack(0), m_CallBackParam(0) {};
-	void SetTrackerCallback(FTCallBack callBack, void* callBackParam, void* callBackArgs=0)
+	Callable() : m_CallBack(NULL), m_CallBackParam(NULL) {};
+	void SetTrackerCallback(FTCallBack callBack, void* callBackParam, TrackingArgs callBackArgs=NULL)
 	{
 		m_CallBack = callBack;
 		m_CallBackParam = callBackParam;
@@ -17,7 +23,7 @@ protected:
 
 	FTCallBack					m_CallBack;
 	void*						m_CallBackParam;
-	void*						m_CallBackArgs;
+	TrackingArgs				m_CallBackArgs;
 
 };
 #endif

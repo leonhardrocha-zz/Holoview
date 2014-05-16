@@ -256,10 +256,12 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
 		m_LastTrackSucceeded = SUCCEEDED(hrFT) && SUCCEEDED(trackingStatus);
 		if (m_LastTrackSucceeded)
 		{
+			GetTrackingResults();
 			SetCenterOfImage(m_pFTResult);
+			CheckCameraInput();
 		}
 
-		CheckCameraInput();			
+		
 		if (m_hWnd)
 		{			
 			InvalidateRect(m_hWnd, NULL, FALSE);
@@ -332,17 +334,20 @@ void KinectFaceTracker::CheckCameraInput()
     SetCenterOfImage(m_pFTResult);
 }
 
-void KinectFaceTracker::PaintEvent(void *message, int id)
+void KinectFaceTracker::PaintEvent(void *message, TrackingArgs args)
 {
 	MSG* msg = reinterpret_cast<MSG*>(message);
 	if (msg != NULL)
 	{
 		PAINTSTRUCT ps;
-		SetWindow(msg->hwnd);
-		HDC hdc= BeginPaint(msg->hwnd, &ps);
+		if (!m_hWnd)
+		{
+			m_hWnd = msg->hwnd;
+		}
+		HDC hdc= BeginPaint(m_hWnd, &ps);
 		// Draw the avatar window and the video window
-		PaintWindow(hdc, msg->hwnd);
-		EndPaint(msg->hwnd, &ps);
+		PaintWindow(hdc, m_hWnd);
+		EndPaint(m_hWnd, &ps);
 	}
 }
 
@@ -367,25 +372,22 @@ BOOL KinectFaceTracker::PaintWindow(HDC hdc, HWND hWnd)
     return ret;
 }
 
-void KinectFaceTracker::TrackEvent(void *message, int id)
+void KinectFaceTracker::TrackEvent(void *message, TrackingArgs args)
 {
 	if(m_parent)
 	{
-		m_parent->TrackEvent(message, id);
+		m_parent->TrackEvent(message, args);
 	}
 }
 
-TrackingResults	KinectFaceTracker::GetTrackingResults (int id) 
+TrackingResults	KinectFaceTracker::GetTrackingResults (TrackingArgs args) 
 { 
 	IFTResult* pResult = GetResult();
     if (pResult && SUCCEEDED(pResult->GetStatus()))
     {
         FLOAT* pAU = NULL;
         UINT numAU;
-		float scale;
-		float rotationXYZ[3];
-		float translationXYZ[3];
-        pResult->GetAUCoefficients(&pAU, &numAU);
+	    pResult->GetAUCoefficients(&pAU, &numAU);
         pResult->Get3DPose(&scale, rotationXYZ, translationXYZ);
 		
 		IAvatar* pEggAvatar = GetAvatar();
@@ -395,16 +397,16 @@ TrackingResults	KinectFaceTracker::GetTrackingResults (int id)
 			pEggAvatar->SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
 		}
 
-		return static_cast<TrackingResults>(rotationXYZ);
 	}
+	return static_cast<TrackingResults>(rotationXYZ);
 }
 
-void KinectFaceTracker::FTCallback(void* param, void* args)
+void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
 {
     KinectFaceTracker* pThis = reinterpret_cast<KinectFaceTracker*>(param);
     if (pThis)
     {		
-		pThis->TrackEvent(pThis->GetTrackingResults(), pThis->GetId()); 		
+		pThis->TrackEvent(pThis->GetTrackingResults(), (void*)pThis->GetId()); 		
     }
 }
 

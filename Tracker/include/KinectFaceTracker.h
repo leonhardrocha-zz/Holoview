@@ -42,9 +42,8 @@ public:
 class KinectFaceTracker : public ITracker
 {
 public:
-	KinectFaceTracker(ITracker* parent=NULL, int id=0) : 
+	KinectFaceTracker(ITracker* parent=NULL, TrackingArgs args=NULL) : 
 		  m_parent(parent), 
-		  m_id(id), 
 		  m_hWnd(NULL), 
 		  m_pKinectSensor(NULL), 
 		  m_pFaceTracker(NULL), 
@@ -75,10 +74,10 @@ public:
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
 	IAvatar*		GetAvatar()			{ return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
 	float			GetFaceConfidence() { return m_faceConfidence; };
-	TrackingResults	GetTrackingResults (int id=0);
-	void			PaintEvent(void *message, int id=0);
-	void			TrackEvent(void *message, int id=0);
-	static void		FTCallback(void* param, void* args=NULL);
+	TrackingResults	GetTrackingResults (TrackingArgs args=NULL);
+	void			PaintEvent(void *message, TrackingArgs args=NULL);
+	void			TrackEvent(void *message, TrackingArgs args=NULL);
+	static void		FTCallback(void* param, TrackingArgs args=NULL);
 	static DWORD WINAPI			FaceTrackingStaticThread(PVOID lpParam);	
 	HANDLE						GetThreadId() { return m_hFaceTrackingThread; };		
 	BOOL            ShowVideo(HDC hdc, int width, int height, int originX, int originY);
@@ -107,7 +106,10 @@ protected:
     float                       m_XCenterFace;
     float                       m_YCenterFace;
 	float						pitch, yaw, roll;
-
+	float						scale;
+	float						rotationXYZ[3];
+	float						translationXYZ[3];
+    
 	HWND						m_hWnd;
 	bool						m_LastTrackSucceeded;
 	bool						m_ApplicationIsRunning;
