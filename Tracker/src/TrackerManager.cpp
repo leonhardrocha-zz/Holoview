@@ -89,7 +89,7 @@ bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j)
 
 KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 {
-	std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+	//std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
 	int id = args == NULL ? 0 : *(reinterpret_cast<int*>(args));
 	return m_pFaceTrackers[id];
 }
