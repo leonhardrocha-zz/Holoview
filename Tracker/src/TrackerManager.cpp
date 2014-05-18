@@ -73,14 +73,16 @@ void TrackerManager::PaintEvent(void *message, TrackingArgs args)
 	}
 }
 
-void TrackerManager::TrackEvent(void *message, TrackingArgs args)
+void TrackerManager::TrackEvent(void* message, TrackingArgs args)
 {
-	if (m_CallBack)
+	//std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+	if(m_CallBack)
 	{
-		(*m_CallBack)(m_CallBackParam, NULL);
-	}	
-}
-
+		void* viewArgs = static_cast<void*>(GetTrackingResults(message));
+		m_CallBackArgs = viewArgs;
+		(m_CallBack)(m_CallBackParam, m_CallBackArgs);
+	}
+};
 
 bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j) 
 { 
@@ -88,10 +90,10 @@ bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j)
 }
 
 KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
-{
-	//std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+{	
 	int id = args == NULL ? 0 : *(reinterpret_cast<int*>(args));
-	return m_pFaceTrackers[id];
+	m_pBestTracker = m_pFaceTrackers[id];
+	return m_pBestTracker;
 }
 
 
@@ -103,11 +105,44 @@ KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 * to the Egg Avatar, so it can be animated.
 */
 
-TrackingResults	TrackerManager::GetTrackingResults(TrackingArgs args)
+TrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
 {
-	int id = args == NULL ? 0 : *(reinterpret_cast<int*>(args));
-	ITracker* tracker = m_pFaceTrackers[id];
-	return tracker->GetTrackingResults(args);
+	WeightResults();
+	return &m_weightedResults;
+}
+
+void TrackerManager::WeightResults()
+{
+	m_weightedResults.eulerAngles[Pitch] = 0;
+	m_weightedResults.eulerAngles[Yaw] = 0;
+	m_weightedResults.eulerAngles[Roll] = 0;
+	m_weightedResults.Translation[Xaxis] = 0;
+	m_weightedResults.Translation[Yaxis] = 0;
+	m_weightedResults.Translation[Zaxis] = 0;
+	
+	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
+	{
+		(*tracker)->UpdateAvatarPose();
+		TrackingResults* results = (*tracker)->GetTrackingResults();
+		m_weightedResults.eulerAngles[Pitch] += results->eulerAngles[Pitch];
+		m_weightedResults.eulerAngles[Yaw] += results->eulerAngles[Yaw];
+		m_weightedResults.eulerAngles[Roll] += results->eulerAngles[Roll];
+		m_weightedResults.Translation[Xaxis] += results->Translation[Xaxis];
+		m_weightedResults.Translation[Yaxis] += results->Translation[Yaxis];
+		m_weightedResults.Translation[Zaxis] += results->Translation[Zaxis];
+	}
+
+	int numOfTrackers = m_pFaceTrackers.size();
+
+	if (numOfTrackers > 0)
+	{
+		m_weightedResults.eulerAngles[Pitch] /=  numOfTrackers;
+		m_weightedResults.eulerAngles[Yaw] /= numOfTrackers;
+		m_weightedResults.eulerAngles[Roll] /= numOfTrackers;
+		m_weightedResults.Translation[Xaxis] /= numOfTrackers;
+		m_weightedResults.Translation[Yaxis] /= numOfTrackers;
+		m_weightedResults.Translation[Zaxis] /= numOfTrackers;
+	}
 }
 
 void TrackerManager::ParseCmdString(PWSTR lpCmdLine)

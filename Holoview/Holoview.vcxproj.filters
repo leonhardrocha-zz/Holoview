@@ -130,9 +130,6 @@
     <ClInclude Include="WindowsKinectFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowsFaceTracker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OsgFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>

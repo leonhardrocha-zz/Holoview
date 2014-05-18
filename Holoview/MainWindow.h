@@ -47,7 +47,7 @@
 #include "QTextEdit"
 #include "ITracker.h"
 #include "DockFrame.h"
-#include "WindowsFaceTracker.h"
+#include "KinectTracker.h"
 
 class ToolBar;
 QT_FORWARD_DECLARE_CLASS(QMenu)

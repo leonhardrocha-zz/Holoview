@@ -186,16 +186,17 @@ bool EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, c
     m_Yaw = -(yawDegrees - m_ReportedYawAverage)/180.0f;
     m_Roll = (rollDegrees-m_ReportedRollAverage)/180.0f;
     m_FacingUser = (abs(m_Pitch) < 0.2f && abs(m_Yaw) < 0.2f);
+
+	m_Pose.eulerAngles[Pitch] = m_Pitch;
+	m_Pose.eulerAngles[Yaw] = m_Yaw;
+	m_Pose.eulerAngles[Roll] = m_Roll;
+
     return TRUE;
 }
 
-bool EggAvatar::GetRotations(float* pitchDegrees, float* yawDegrees, float* rollDegrees)
+AvatarPose* EggAvatar::GetPose()
 {
-	*pitchDegrees = m_Pitch;
-	*yawDegrees = m_Yaw;
-	*rollDegrees = m_Roll;
-
-	return TRUE;
+	return &m_Pose;
 }
 
 // We keep track of the translation as a way to check whether the
@@ -217,6 +218,10 @@ bool EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
         m_TzAverage = tZ;
         m_SamePositionCount = 0;
     }
+
+	m_Pose.Translation[Xaxis] = m_TxAverage;
+	m_Pose.Translation[Yaxis] = m_TyAverage;
+	m_Pose.Translation[Zaxis] = m_TzAverage;
 
     return TRUE;
 }

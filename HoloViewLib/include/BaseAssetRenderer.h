@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
-
+#include "IAvatar.h"
 #include "AssetReader.h"
 
 class BaseAssetRenderer

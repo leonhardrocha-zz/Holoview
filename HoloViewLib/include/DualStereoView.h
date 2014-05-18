@@ -31,7 +31,7 @@ public:
 	virtual void SetupScene();
 	virtual void SetupWindow();
 	float VirtualPlanePosition[3];
-	enum ViewAngles { Pitch = 0, Yaw, Roll };
+
 // Overrides
 protected:
 	//	Main OpenGL functions.

@@ -1,5 +1,6 @@
 // ToeInStereoView.cpp : implementation of the ToeInStereoView class
 //
+
 #include "ToeInStereoView.h"
 #include <cmath>
 #define PI 3.14159265

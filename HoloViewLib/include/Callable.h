@@ -1,7 +1,6 @@
 #ifndef _CALLABLE_H
 #define _CALLABLE_H
 
-typedef void *TrackingResults;
 typedef void *TrackingArgs;
 typedef void (*FTCallBack)(void* lpParam, TrackingArgs args);
 
@@ -17,7 +16,7 @@ public:
 	{
 		m_CallBack = callBack;
 		m_CallBackParam = callBackParam;
-		m_CallBackParam = callBackArgs;
+		m_CallBackArgs = callBackArgs;
 	};
 protected:
 

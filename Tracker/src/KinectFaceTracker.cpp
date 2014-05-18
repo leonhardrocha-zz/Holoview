@@ -9,6 +9,7 @@
 #include "TrackerException.h"
 #include "Visualize.h"
 
+
 bool KinectFaceTracker::Init()
 {
 	m_pKinectSensor = new KinectSensor();
@@ -30,7 +31,7 @@ bool KinectFaceTracker::Init()
 
 	if (IsKinectSensorPresent)
     {        
-		SetTrackerCallback(FTCallback, this, NULL);
+		SetTrackerCallback(FTCallback, this);
         m_pKinectSensor->GetVideoConfiguration(&videoConfig);
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
@@ -137,7 +138,7 @@ KinectFaceTracker::~KinectFaceTracker()
 	{
 		delete m_pKinectSensor;
 		m_pKinectSensor = NULL;
-	}	
+	}
 }
 
  
@@ -147,7 +148,7 @@ BOOL KinectFaceTracker::SubmitFraceTrackingResult(IFTResult* pResult)
     {
         if (m_CallBack)
         {
-            (*m_CallBack)(m_CallBackParam, NULL);
+            (*m_CallBack)(m_CallBackParam, this);
         }
 
         if (IsMaskDraw())
@@ -256,7 +257,6 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
 		m_LastTrackSucceeded = SUCCEEDED(hrFT) && SUCCEEDED(trackingStatus);
 		if (m_LastTrackSucceeded)
 		{
-			GetTrackingResults();
 			SetCenterOfImage(m_pFTResult);
 			CheckCameraInput();
 		}
@@ -380,15 +380,18 @@ void KinectFaceTracker::TrackEvent(void *message, TrackingArgs args)
 	}
 }
 
-TrackingResults	KinectFaceTracker::GetTrackingResults (TrackingArgs args) 
+void KinectFaceTracker::UpdateAvatarPose() 
 { 
 	IFTResult* pResult = GetResult();
     if (pResult && SUCCEEDED(pResult->GetStatus()))
     {
         FLOAT* pAU = NULL;
         UINT numAU;
+		float rotationXYZ[3];
+		float translationXYZ[3];
+		float scale;
 	    pResult->GetAUCoefficients(&pAU, &numAU);
-        pResult->Get3DPose(&scale, rotationXYZ, translationXYZ);
+        pResult->Get3DPose(&scale, rotationXYZ,translationXYZ);
 		
 		IAvatar* pEggAvatar = GetAvatar();
 		if (pEggAvatar)
@@ -396,17 +399,19 @@ TrackingResults	KinectFaceTracker::GetTrackingResults (TrackingArgs args)
 			pEggAvatar->SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
 			pEggAvatar->SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
 		}
-
 	}
-	return static_cast<TrackingResults>(rotationXYZ);
 }
 
 void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
 {
     KinectFaceTracker* pThis = reinterpret_cast<KinectFaceTracker*>(param);
     if (pThis)
-    {		
-		pThis->TrackEvent(pThis->GetTrackingResults(), (void*)pThis->GetId()); 		
+    {
+		pThis->UpdateAvatarPose();
+		//IAvatar* pEggAvatar = pThis->GetAvatar();
+		//AvatarPose* lastPose = pEggAvatar->GetPose(); //same thread?
+		void *message = static_cast<void*>(pThis->GetTrackingResults());
+		pThis->TrackEvent(message, args); 		
     }
 }
 

@@ -107,6 +107,7 @@
     <ClInclude Include="include\IAvatar.h" />
     <ClInclude Include="include\ITracker.h" />
     <ClInclude Include="include\Matrices.h" />
+    <ClInclude Include="include\MatrixHelper.h" />
     <ClInclude Include="include\MatrixMath.h" />
     <ClInclude Include="include\OpenGL21Renderer.h" />
     <ClInclude Include="include\OpenGLHelper.h" />

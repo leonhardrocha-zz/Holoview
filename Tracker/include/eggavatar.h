@@ -60,12 +60,12 @@ class EggAvatar : public IAvatar
 {
 public:
     EggAvatar(void);
-
+	AvatarPose* GetPose();
     bool SetCandideAU(const float * AU, const int numberAU);
     bool SetRandomAU();
 
     bool SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees);
-	bool GetRotations(float* pitchDegrees, float* yawDegrees, float* rollDegrees);
+	AvatarPose GetRotations();
     bool SetRandomRotations();
 
     bool SetTranslations(const float tX, const float tY, const float tZ);
@@ -111,7 +111,8 @@ public:
     float m_TyAverage;
     float m_TzAverage;
     unsigned int m_SamePositionCount;
-
+protected:
+	AvatarPose m_Pose;
 private:
     void LatLonEye(const bool left);
     void LatLonEyeBrow(const bool left);

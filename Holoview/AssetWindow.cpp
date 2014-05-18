@@ -22,7 +22,7 @@ void AssetWindow::initialize()
 	SetupScene();
 	renderer.Initialize();
 	SetRenderer((BaseAssetRenderer&) renderer);
-	tracker.SetTrackerCallback(AssetWindow::TrackerUpdateStatic, this, NULL);
+	tracker.SetTrackerCallback(AssetWindow::TrackerUpdateStatic, this);
 }
 
 void AssetWindow::render()
@@ -40,8 +40,8 @@ void AssetWindow::RenderScene()
 void AssetWindow::TrackerUpdateStatic(void* lpParam, void* args)
 {
 	AssetWindow* pThis = reinterpret_cast<AssetWindow*>(lpParam);
-	float* rotation = static_cast<float*>(pThis->tracker.GetTrackingResults());
-	pThis->SetViewAngles(rotation[Pitch], rotation[Yaw], rotation[Roll]);
+	TrackingResults* results = static_cast<TrackingResults*>(args);	
+	pThis->SetViewAngles(results->eulerAngles[Pitch], results->eulerAngles[Yaw], results->eulerAngles[Roll]);
 	pThis->render();
 }
 

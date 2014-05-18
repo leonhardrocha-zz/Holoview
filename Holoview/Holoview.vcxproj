@@ -158,7 +158,6 @@
     <ClInclude Include="AssetWindow.h" />
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h" />
     <ClInclude Include="OsgFrame.h" />
-    <ClInclude Include="WindowsFaceTracker.h" />
     <ClInclude Include="WindowsKinectFactory.h" />
     <CustomBuild Include="HoloviewApp.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

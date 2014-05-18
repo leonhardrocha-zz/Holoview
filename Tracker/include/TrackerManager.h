@@ -20,8 +20,9 @@ class TrackerManager : public ITracker
 {
 	friend class KinectTracker;
 public:
-    TrackerManager::TrackerManager()
-		: m_hInst(NULL)
+    TrackerManager::TrackerManager(ITracker* parent=NULL, TrackingArgs args=NULL)
+		: m_parent(parent)
+		, m_hInst(NULL)
 		, m_lpCmdLine(L"")
         , m_hAccelTable(NULL)
         , m_depthType(NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX)
@@ -41,7 +42,7 @@ public:
 	HINSTANCE					GetInstance() { return m_hInst; };
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
-	TrackingResults				GetTrackingResults(TrackingArgs args=NULL);
+	TrackingResults*				GetTrackingResults(TrackingArgs args=NULL);
 
 protected:
 
@@ -51,9 +52,8 @@ protected:
 	std::vector<KinectFaceTracker*>	m_pFaceTrackers;
 	std::vector<HANDLE>			m_FaceTrackingThreads;
 
-	float						scale;
-    float						rotationXYZ[3];
-    float						translationXYZ[3];
+	ITracker*					m_parent;
+	TrackingResults				m_weightedResults;
 	KinectFaceTracker*			m_pBestTracker;
 	PWSTR						m_lpCmdLine;
 	int							m_nCmdShow;
@@ -62,7 +62,7 @@ protected:
 	bool						IsTracking();
 	virtual		KinectFaceTracker*			GetBestTracker(TrackingArgs args=0);
     static int const            MaxLoadStringChars = 100;
-
+	void						WeightResults();
     HINSTANCE                   m_hInst;
     /*HWND                        m_hWnd;*/
     HACCEL                      m_hAccelTable;

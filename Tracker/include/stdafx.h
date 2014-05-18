@@ -23,7 +23,4 @@
 #include <memory.h>
 #include <crtdbg.h>
 #include <map>
-
-#ifndef _DEBUG
-#define _ITERATOR_DEBUG_LEVEL_ 0
-#endif
+#include <minmax.h>

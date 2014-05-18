@@ -74,7 +74,7 @@ public:
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
 	IAvatar*		GetAvatar()			{ return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
 	float			GetFaceConfidence() { return m_faceConfidence; };
-	TrackingResults	GetTrackingResults (TrackingArgs args=NULL);
+	TrackingResults*	GetTrackingResults (TrackingArgs args=NULL) { return static_cast<TrackingResults*>( GetAvatar()->GetPose());};
 	void			PaintEvent(void *message, TrackingArgs args=NULL);
 	void			TrackEvent(void *message, TrackingArgs args=NULL);
 	static void		FTCallback(void* param, TrackingArgs args=NULL);
@@ -83,10 +83,9 @@ public:
 	BOOL            ShowVideo(HDC hdc, int width, int height, int originX, int originY);
     BOOL            ShowEggAvatar(HDC hdc, int width, int height, int originX, int originY);
 	BOOL			PaintWindow(HDC hdc, HWND hWnd);
-
-	
+	void			UpdateAvatarPose();
 protected:
-		
+	AvatarPose*					m_lastPose;
 	IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;
 	ITracker*					m_parent;
