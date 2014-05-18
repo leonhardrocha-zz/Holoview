@@ -42,7 +42,7 @@ public:
 class KinectFaceTracker : public ITracker
 {
 public:
-	KinectFaceTracker(ITracker* parent=NULL, TrackingArgs args=NULL) : 
+	KinectFaceTracker(ITracker* parent=NULL, int id=0) : 
 		  m_parent(parent), 
 		  m_hWnd(NULL), 
 		  m_pKinectSensor(NULL), 
@@ -51,7 +51,8 @@ public:
 		  m_colorImage(NULL), 
 		  m_depthImage(NULL),
 		  m_pImageBuffer(NULL),
-          m_pVideoBuffer(NULL)
+          m_pVideoBuffer(NULL),
+		  m_id(id)
 		  {};	
     ~KinectFaceTracker();
 	HRESULT			Stop();

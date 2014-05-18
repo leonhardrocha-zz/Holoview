@@ -31,7 +31,7 @@ bool KinectFaceTracker::Init()
 
 	if (IsKinectSensorPresent)
     {        
-		SetTrackerCallback(FTCallback, this);
+		SetTrackerCallback(FTCallback, this, &m_id);
         m_pKinectSensor->GetVideoConfiguration(&videoConfig);
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
@@ -148,7 +148,7 @@ BOOL KinectFaceTracker::SubmitFraceTrackingResult(IFTResult* pResult)
     {
         if (m_CallBack)
         {
-            (*m_CallBack)(m_CallBackParam, this);
+            (*m_CallBack)(m_CallBackParam, m_CallBackArgs);
         }
 
         if (IsMaskDraw())
@@ -411,7 +411,8 @@ void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
 		//IAvatar* pEggAvatar = pThis->GetAvatar();
 		//AvatarPose* lastPose = pEggAvatar->GetPose(); //same thread?
 		void *message = static_cast<void*>(pThis->GetTrackingResults());
-		pThis->TrackEvent(message, args); 		
+		int *pid = static_cast<int*>(args);
+		pThis->TrackEvent(message, pid); 		
     }
 }
 

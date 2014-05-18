@@ -32,10 +32,10 @@ bool TrackerManager::Init()
 	int numSensors = 0;	
     NuiGetSensorCount(&numSensors);
 
-	int i;
-	for (i =0; i < numSensors; i++)
+	int id;
+	for (id=0; id < numSensors; id++)
 	{
-		KinectFaceTracker* tracker = new KinectFaceTracker(this);
+		KinectFaceTracker* tracker = new KinectFaceTracker(this, id);
 		if (tracker->Init())
 		{
 			m_pFaceTrackers.push_back(tracker);
@@ -45,7 +45,7 @@ bool TrackerManager::Init()
 		}
 	}
 			  
-    return (i == numSensors);
+    return (id == numSensors);
 }
 
 void TrackerManager::UninitInstance()
@@ -78,7 +78,7 @@ void TrackerManager::TrackEvent(void* message, TrackingArgs args)
 	//std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
 	if(m_CallBack)
 	{
-		void* viewArgs = static_cast<void*>(GetTrackingResults(message));
+		void* viewArgs = static_cast<void*>(GetTrackingResults(args));
 		m_CallBackArgs = viewArgs;
 		(m_CallBack)(m_CallBackParam, m_CallBackArgs);
 	}
@@ -91,7 +91,7 @@ bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j)
 
 KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 {	
-	int id = args == NULL ? 0 : *(reinterpret_cast<int*>(args));
+	int id = args == NULL ? 0 : *(static_cast<int*>(args));
 	m_pBestTracker = m_pFaceTrackers[id];
 	return m_pBestTracker;
 }
@@ -107,7 +107,18 @@ KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 
 TrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
 {
-	WeightResults();
+	//WeightResults();
+	int id = args == NULL ? 0 : *(static_cast<int*>(args));
+	ITracker *tracker = m_pFaceTrackers[id];
+	
+	TrackingResults* results = tracker->GetTrackingResults();
+	m_weightedResults.eulerAngles[Pitch] = results->eulerAngles[Pitch];
+	m_weightedResults.eulerAngles[Yaw] = results->eulerAngles[Yaw];
+	m_weightedResults.eulerAngles[Roll] = results->eulerAngles[Roll];
+	m_weightedResults.Translation[Xaxis] = results->Translation[Xaxis];
+	m_weightedResults.Translation[Yaxis] = results->Translation[Yaxis];
+	m_weightedResults.Translation[Zaxis] = results->Translation[Zaxis];
+
 	return &m_weightedResults;
 }
 
