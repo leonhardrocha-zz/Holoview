@@ -143,6 +143,7 @@
     <ClCompile Include="Holoview.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="HoloviewApp.cpp" />
+    <ClCompile Include="KinectWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="ModelWindow.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="AssetWindow.h" />
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h" />
+    <ClInclude Include="KinectWindow.h" />
     <ClInclude Include="OsgFrame.h" />
     <ClInclude Include="WindowsKinectFactory.h" />
     <CustomBuild Include="HoloviewApp.h">

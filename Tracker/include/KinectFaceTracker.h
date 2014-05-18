@@ -10,6 +10,7 @@
 #include "KinectSensor.h"
 #include "ITracker.h"
 #include "Callable.h"
+#include "TrackingResults.h"
 #include <vector>
 #include <queue>
 #include <map>
@@ -75,7 +76,7 @@ public:
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
 	IAvatar*		GetAvatar()			{ return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
 	float			GetFaceConfidence() { return m_faceConfidence; };
-	TrackingResults*	GetTrackingResults (TrackingArgs args=NULL) { return static_cast<TrackingResults*>( GetAvatar()->GetPose());};
+	TrackingResults*	GetTrackingResults (TrackingArgs args=NULL) { return &m_View;};
 	void			PaintEvent(void *message, TrackingArgs args=NULL);
 	void			TrackEvent(void *message, TrackingArgs args=NULL);
 	static void		FTCallback(void* param, TrackingArgs args=NULL);
@@ -86,7 +87,7 @@ public:
 	BOOL			PaintWindow(HDC hdc, HWND hWnd);
 	void			UpdateAvatarPose();
 protected:
-	AvatarPose*					m_lastPose;
+	TrackingResults				m_View;
 	IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;
 	ITracker*					m_parent;

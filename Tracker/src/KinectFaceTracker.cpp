@@ -8,7 +8,7 @@
 #include "KinectFaceTracker.h"
 #include "TrackerException.h"
 #include "Visualize.h"
-
+#include "IAvatar.h"
 
 bool KinectFaceTracker::Init()
 {
@@ -35,7 +35,20 @@ bool KinectFaceTracker::Init()
         m_pKinectSensor->GetVideoConfiguration(&videoConfig);
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
+				
+		m_View.camera.position[Xaxis] = 0;
+		m_View.camera.position[Yaxis] = 0;
+		m_View.camera.position[Zaxis] = 0;
+		m_View.camera.target[Xaxis] = 0;
+		m_View.camera.target[Yaxis] = -0.20f;
+		m_View.camera.target[Zaxis] = depthConfig.FocalLength/100.0f;
+		m_View.camera.upVector[Xaxis] = 0;
+		m_View.camera.upVector[Yaxis] = 1;
+		m_View.camera.upVector[Zaxis] = 0;
+
+		
         m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0, 0, 0);
+
     }
     else
     {
@@ -399,6 +412,7 @@ void KinectFaceTracker::UpdateAvatarPose()
 			pEggAvatar->SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
 			pEggAvatar->SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
 		}
+		m_View.avatar.SetAvatarPose(*pEggAvatar->GetPose());
 	}
 }
 
@@ -408,8 +422,6 @@ void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
     if (pThis)
     {
 		pThis->UpdateAvatarPose();
-		//IAvatar* pEggAvatar = pThis->GetAvatar();
-		//AvatarPose* lastPose = pEggAvatar->GetPose(); //same thread?
 		void *message = static_cast<void*>(pThis->GetTrackingResults());
 		int *pid = static_cast<int*>(args);
 		pThis->TrackEvent(message, pid); 		

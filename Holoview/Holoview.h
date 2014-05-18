@@ -3,6 +3,7 @@
 
 #include "MainWindow.h"
 #include "AssetWindow.h"
+#include "KinectWindow.h"
 #include "ui_Holoview.h"
 
 #include "ITrackerFactory.h"
@@ -23,7 +24,7 @@ private:
 	/*Ui_HoloviewClass ui;*/
 	Ui::HoloviewClass ui;
 
-	AssetWindow window;
+	KinectWindow window;
 	/*ViewerWidget osgWindow;*/
 	QWidget *oglContainer;
 

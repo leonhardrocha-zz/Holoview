@@ -9,6 +9,7 @@
 #include <FaceTrackLib.h>
 #include <NuiApi.h>
 #include <NuiSensor.h>
+#include "IAvatar.h"
 #include "EggAvatar.h"
 
 class KinectSensor
@@ -40,6 +41,7 @@ public:
 protected:
     IFTImage*   m_VideoBuffer;
     IFTImage*   m_DepthBuffer;
+
 
     FT_VECTOR3D m_NeckPoint[NUI_SKELETON_COUNT];
     FT_VECTOR3D m_HeadPoint[NUI_SKELETON_COUNT];

@@ -1,4 +1,5 @@
-﻿//------------------------------------------------------------------------------
+﻿#pragma once
+//------------------------------------------------------------------------------
 // <copyright file="TrackerManager.cpp" company="Microsoft">
 //     Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
@@ -109,52 +110,11 @@ TrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
 {
 	//WeightResults();
 	int id = args == NULL ? 0 : *(static_cast<int*>(args));
-	ITracker *tracker = m_pFaceTrackers[id];
-	
-	TrackingResults* results = tracker->GetTrackingResults();
-	m_weightedResults.eulerAngles[Pitch] = results->eulerAngles[Pitch];
-	m_weightedResults.eulerAngles[Yaw] = results->eulerAngles[Yaw];
-	m_weightedResults.eulerAngles[Roll] = results->eulerAngles[Roll];
-	m_weightedResults.Translation[Xaxis] = results->Translation[Xaxis];
-	m_weightedResults.Translation[Yaxis] = results->Translation[Yaxis];
-	m_weightedResults.Translation[Zaxis] = results->Translation[Zaxis];
+	KinectFaceTracker *tracker = m_pFaceTrackers[id];
 
-	return &m_weightedResults;
+	return tracker->GetTrackingResults();
 }
 
-void TrackerManager::WeightResults()
-{
-	m_weightedResults.eulerAngles[Pitch] = 0;
-	m_weightedResults.eulerAngles[Yaw] = 0;
-	m_weightedResults.eulerAngles[Roll] = 0;
-	m_weightedResults.Translation[Xaxis] = 0;
-	m_weightedResults.Translation[Yaxis] = 0;
-	m_weightedResults.Translation[Zaxis] = 0;
-	
-	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
-	{
-		(*tracker)->UpdateAvatarPose();
-		TrackingResults* results = (*tracker)->GetTrackingResults();
-		m_weightedResults.eulerAngles[Pitch] += results->eulerAngles[Pitch];
-		m_weightedResults.eulerAngles[Yaw] += results->eulerAngles[Yaw];
-		m_weightedResults.eulerAngles[Roll] += results->eulerAngles[Roll];
-		m_weightedResults.Translation[Xaxis] += results->Translation[Xaxis];
-		m_weightedResults.Translation[Yaxis] += results->Translation[Yaxis];
-		m_weightedResults.Translation[Zaxis] += results->Translation[Zaxis];
-	}
-
-	int numOfTrackers = m_pFaceTrackers.size();
-
-	if (numOfTrackers > 0)
-	{
-		m_weightedResults.eulerAngles[Pitch] /=  numOfTrackers;
-		m_weightedResults.eulerAngles[Yaw] /= numOfTrackers;
-		m_weightedResults.eulerAngles[Roll] /= numOfTrackers;
-		m_weightedResults.Translation[Xaxis] /= numOfTrackers;
-		m_weightedResults.Translation[Yaxis] /= numOfTrackers;
-		m_weightedResults.Translation[Zaxis] /= numOfTrackers;
-	}
-}
 
 void TrackerManager::ParseCmdString(PWSTR lpCmdLine)
 {

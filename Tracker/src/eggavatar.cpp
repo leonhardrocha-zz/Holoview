@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 
 #include "StdAfx.h"
-#include "eggavatar.h"
+
 #include <FaceTrackLib.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -219,9 +219,9 @@ bool EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
         m_SamePositionCount = 0;
     }
 
-	m_Pose.Translation[Xaxis] = m_TxAverage;
-	m_Pose.Translation[Yaxis] = m_TyAverage;
-	m_Pose.Translation[Zaxis] = m_TzAverage;
+	m_Pose.translation[Xaxis] = m_TxAverage;
+	m_Pose.translation[Yaxis] = m_TyAverage;
+	m_Pose.translation[Zaxis] = m_TzAverage;
 
     return TRUE;
 }

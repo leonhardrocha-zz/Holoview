@@ -48,6 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>$(ProjectDir)src;$(VCInstallDir)atlmfc\src\mfc;$(VCInstallDir)atlmfc\src\mfcm;$(VCInstallDir)atlmfc\src\atl;$(VCInstallDir)crt\src;</SourcePath>
     <OutDir>$(SolutionDir)lib\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ExecutablePath>$(ProjectDir)bin;$(VCInstallDir)bin;$(WindowsSdkDir)bin\NETFX 4.0 Tools;$(WindowsSdkDir)bin;$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(FrameworkSDKDir)\bin;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
@@ -91,11 +92,13 @@
     <ClCompile Include="src\BaseAssetRenderer.cpp" />
     <ClCompile Include="src\DualStereoView.cpp" />
     <ClCompile Include="src\ITrackFactory.cpp" />
+    <ClCompile Include="src\KinectView.cpp" />
     <ClCompile Include="src\Matrices.cpp" />
     <ClCompile Include="src\OpenGL21Renderer.cpp" />
     <ClCompile Include="src\OpenGLHelper.cpp" />
     <ClCompile Include="src\StereoView.cpp" />
     <ClCompile Include="src\ToeInStereoView.cpp" />
+    <ClCompile Include="src\TrackingResults.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AssetReader.h" />
@@ -106,8 +109,8 @@
     <ClInclude Include="include\HoloviewException.h" />
     <ClInclude Include="include\IAvatar.h" />
     <ClInclude Include="include\ITracker.h" />
+    <ClInclude Include="include\KinectView.h" />
     <ClInclude Include="include\Matrices.h" />
-    <ClInclude Include="include\MatrixHelper.h" />
     <ClInclude Include="include\MatrixMath.h" />
     <ClInclude Include="include\OpenGL21Renderer.h" />
     <ClInclude Include="include\OpenGLHelper.h" />
@@ -116,6 +119,7 @@
     <ClInclude Include="include\ToeInStereoView.h" />
     <ClInclude Include="include\ITrackerFactory.h" />
     <ClInclude Include="include\Vectors.h" />
+    <ClInclude Include="include\TrackingResults.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

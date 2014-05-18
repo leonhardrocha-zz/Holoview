@@ -28,6 +28,12 @@
     <ClCompile Include="src\ToeInStereoView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\KinectView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TrackingResults.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Vectors.h">
@@ -81,7 +87,10 @@
     <ClInclude Include="include\Callable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\MatrixHelper.h">
+    <ClInclude Include="include\TrackingResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KinectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

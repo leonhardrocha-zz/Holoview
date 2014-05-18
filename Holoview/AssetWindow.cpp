@@ -41,7 +41,7 @@ void AssetWindow::TrackerUpdateStatic(void* lpParam, void* args)
 {
 	AssetWindow* pThis = reinterpret_cast<AssetWindow*>(lpParam);
 	TrackingResults* results = static_cast<TrackingResults*>(args);	
-	pThis->SetViewAngles(results->eulerAngles[Pitch], results->eulerAngles[Yaw], results->eulerAngles[Roll]);
+	pThis->SetViewAngles(results->avatar.eulerAngles[Pitch], results->avatar.eulerAngles[Yaw], results->avatar.eulerAngles[Roll]);
 	pThis->render();
 }
 

@@ -1,6 +1,7 @@
 #ifndef _TOEIN_STEREO_VIEW_H_
 #define _TOEIN_STEREO_VIEW_H_
 
+#include "TrackingResults.h"
 #include "DualStereoView.h"
 #include <vector>
 #include <map>
@@ -34,6 +35,8 @@ protected:
 	//	Main OpenGL functions.
 	virtual void RenderLeftView();
 	virtual void RenderRightView();
+	AvatarPose avatarPose;
+	CameraPose cameraPose;
 };
 
 #endif

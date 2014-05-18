@@ -2,8 +2,8 @@
 #define _ITRACKER_H
 #include "Callable.h"
 #include "IAvatar.h"
+#include "TrackingResults.h"
 
-typedef AvatarPose TrackingResults;
 
 class ITracker : public Callable
 {

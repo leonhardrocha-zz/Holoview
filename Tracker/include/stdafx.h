@@ -15,7 +15,7 @@
 // Windows Header Files:
 #include <windows.h>
 #include <Shellapi.h>
-
+#include "eggavatar.h"
 // C RunTime Header Files
 #include <stdio.h>
 #include <stdlib.h>

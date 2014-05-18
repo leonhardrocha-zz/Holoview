@@ -42,7 +42,7 @@ public:
 	HINSTANCE					GetInstance() { return m_hInst; };
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
-	TrackingResults*				GetTrackingResults(TrackingArgs args=NULL);
+	TrackingResults*			GetTrackingResults(TrackingArgs args=NULL);
 
 protected:
 
@@ -53,7 +53,6 @@ protected:
 	std::vector<HANDLE>			m_FaceTrackingThreads;
 
 	ITracker*					m_parent;
-	TrackingResults				m_weightedResults;
 	KinectFaceTracker*			m_pBestTracker;
 	PWSTR						m_lpCmdLine;
 	int							m_nCmdShow;
@@ -62,7 +61,6 @@ protected:
 	bool						IsTracking();
 	virtual		KinectFaceTracker*			GetBestTracker(TrackingArgs args=0);
     static int const            MaxLoadStringChars = 100;
-	void						WeightResults();
     HINSTANCE                   m_hInst;
     /*HWND                        m_hWnd;*/
     HACCEL                      m_hAccelTable;
