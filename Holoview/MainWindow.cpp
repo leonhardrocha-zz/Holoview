@@ -97,7 +97,7 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     center->setMinimumSize(400, 205);
     setCentralWidget(center);
 
-    setupToolBar();
+    //setupToolBar();
     setupMenuBar();
     setupDockWidgets(customSizeHints);
 
@@ -331,8 +331,7 @@ bool MainWindow::AddMultiTrackerDockWidget(ITracker *tracker)
 
 		MyDock *trackerDock = new MyDock(QLatin1String(" Dock"), this, Qt::WindowFlags(0), frame);
 		trackerDock->setCustomSizeHint(m_customSizeHints.value("Tracker"));
-		trackerDock->setFloating(true);
-		addDockWidget(Qt::RightDockWidgetArea, trackerDock);	
+		addDockWidget(Qt::LeftDockWidgetArea, trackerDock);	
 		dockWidgetMenu->addMenu(trackerDock->menu);
 	}
 	return true;

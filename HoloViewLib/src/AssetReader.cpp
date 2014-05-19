@@ -71,7 +71,7 @@ bool AssetReader::Import3DFromFile( const std::string& pFile)
 		SetupLog();
 	}
 
-	scene = importer.ReadFile( pFile, aiProcessPreset_TargetRealtime_Quality);
+	scene = importer.ReadFile( pFile, aiProcessPreset_TargetRealtime_MaxQuality );
 
 	// If the import failed, report it
 	if( !scene)
@@ -83,12 +83,16 @@ bool AssetReader::Import3DFromFile( const std::string& pFile)
 	// Now we can access the file's contents.
 	printf("Import of scene %s succeeded.",pFile.c_str());
 
-	aiVector3D scene_min, scene_max, scene_center;
-	GetBoundingBox(&scene_min, &scene_max);
+	GetBoundingBox(&scene_min, &scene_max);	
 	float tmp;
-	tmp = scene_max.x-scene_min.x;
+	tmp = scene_max.x - scene_min.x;
 	tmp = scene_max.y - scene_min.y > tmp?scene_max.y - scene_min.y:tmp;
 	tmp = scene_max.z - scene_min.z > tmp?scene_max.z - scene_min.z:tmp;
+
+	scene_center.x = (scene_max.x + scene_min.x)/2;
+	scene_center.y = (scene_max.y + scene_min.y)/2;
+	scene_center.z = (scene_max.z + scene_min.z)/2;
+
 	scaleFactor = 1.f / tmp;
 
 	// We're done. Everything will be cleaned up by the importer destructor

@@ -73,9 +73,13 @@ struct CameraPoseGlm
 class TrackingResults
 {	
 public:
-	TrackingResults()
+	TrackingResults() : 
+		  Transform(glm::mat4(1.0f)),
+		  ModelView(glm::mat4(1.0f)),
+		  Projection(glm::mat4(1.0f)),
+		  View(glm::mat4(1.0f)),
+		  Model(glm::mat4(1.0f))
 	{
-		UpdateTransforms();
 	}
 
 	virtual void UpdateModelTransform();

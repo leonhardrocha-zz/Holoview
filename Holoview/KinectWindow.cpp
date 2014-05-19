@@ -10,10 +10,14 @@ void KinectWindow::ResetWindow()
 	SetupWindow(width(), height());
 }
 
-void KinectWindow::ResetView()
+void KinectWindow::SetupWindow(int width, int height)
 {
-	SetupView(width(), height());
+	windowWidth = width;
+	windowHeight = height;
+	viewWidth = width;
+	viewHeight = height;
 }
+
 
 void KinectWindow::initialize()
 {
@@ -25,8 +29,11 @@ void KinectWindow::initialize()
 
 void KinectWindow::render()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-	RenderView();
+	if (m_pResults)
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
+		RenderView();
+	}
 }
 
 void KinectWindow::TrackerUpdateStatic(void* lpParam, void* args)
@@ -39,14 +46,13 @@ void KinectWindow::TrackerUpdateStatic(void* lpParam, void* args)
 
 void KinectWindow::SetTrackingResults(TrackingResults *pResults)
 {
-	results.avatar.SetAvatarPose(pResults->GetAvatarPose());
-	results.camera.SetCameraPose(pResults->GetCameraPose());
-	results.UpdateTransforms();
+	m_pResults = pResults;
+	SetupScene();
 }
 
 void KinectWindow::resizeWindow()
 {
 	ResetWindow();
 	ResetView();
-	SetupScene();
+	render();
 }

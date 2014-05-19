@@ -78,10 +78,10 @@ void TrackerManager::TrackEvent(void* message, TrackingArgs args)
 {
 	//std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
 	if(m_CallBack)
-	{
+	{		
 		void* viewArgs = static_cast<void*>(GetTrackingResults(args));
 		m_CallBackArgs = viewArgs;
-		(m_CallBack)(m_CallBackParam, m_CallBackArgs);
+		(m_CallBack)(m_CallBackParam, m_CallBackArgs);		
 	}
 };
 

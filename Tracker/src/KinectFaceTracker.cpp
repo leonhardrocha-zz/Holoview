@@ -36,15 +36,15 @@ bool KinectFaceTracker::Init()
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
 				
-		m_View.camera.position[Xaxis] = 0;
-		m_View.camera.position[Yaxis] = 0;
-		m_View.camera.position[Zaxis] = 0;
-		m_View.camera.target[Xaxis] = 0;
-		m_View.camera.target[Yaxis] = -0.20f;
-		m_View.camera.target[Zaxis] = depthConfig.FocalLength/100.0f;
-		m_View.camera.upVector[Xaxis] = 0;
-		m_View.camera.upVector[Yaxis] = 1;
-		m_View.camera.upVector[Zaxis] = 0;
+		m_View.camera.target[Xaxis] = 0.0f;
+		m_View.camera.target[Yaxis] = 0.0f;
+		m_View.camera.target[Zaxis] = 0.0f;
+		m_View.camera.position[Xaxis] = m_id==1 ?  0.0f :-0.4f ;
+		m_View.camera.position[Yaxis] = m_id==1 ? -0.7f : 0.2f;
+		m_View.camera.position[Zaxis] = m_id==1 ?  1.2f : 0.5f;
+		m_View.camera.upVector[Xaxis] = m_id==1 ?  0.0f : 0.0f;
+		m_View.camera.upVector[Yaxis] = m_id==1 ?  1.0f : 0.4f;
+		m_View.camera.upVector[Zaxis] = m_id==1 ?  0.0f :-0.3f;
 
 		
         m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0, 0, 0);
@@ -422,12 +422,17 @@ void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
     if (pThis)
     {
 		pThis->UpdateAvatarPose();
-		void *message = static_cast<void*>(pThis->GetTrackingResults());
+		void *message = static_cast<void*>(pThis->GetTrackingResults(args));
 		int *pid = static_cast<int*>(args);
 		pThis->TrackEvent(message, pid); 		
     }
 }
 
+TrackingResults* KinectFaceTracker::GetTrackingResults(TrackingArgs args)
+{
+	m_View.UpdateTransforms();
+	return &m_View;
+}
 // Drawing the video window
 BOOL KinectFaceTracker::ShowVideo(HDC hdc, int width, int height, int originX, int originY)
 {

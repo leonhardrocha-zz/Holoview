@@ -14,6 +14,7 @@ struct MyMesh{
 
 std::vector<struct MyMesh> myMeshes;
 
+
 // This is for a shader uniform block
 struct MyMaterial{
 
@@ -28,7 +29,16 @@ struct MyMaterial{
 
 void OpenGL21Renderer::Initialize()
 {
-	Modelname = "../Dependencies/Models/3DS/airplane/Airplane AN-2 N200314.3DS";
+	/*Modelname = "../Dependencies/Models/3DS/airplane/Airplane AN-2 N200314.3DS";*/
+	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Skull/Skull N070211.3DS";*/
+	Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/Collada/duck.dae";
+	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/ironman/Mark 42 Helm.obj";*/
+	viewUp[Xaxis] = 0;
+	viewUp[Yaxis] = 1;
+	viewUp[Zaxis] = 0;
+	viewFront[Xaxis] = 1;
+	viewFront[Yaxis] = 0;
+	viewFront[Zaxis] = 0;
 	if(!reader.Import3DFromFile(Modelname))
 	{
 		throw new ResourceNotFoundException(Modelname);
@@ -105,7 +115,7 @@ void OpenGL21Renderer::LoadGLTextures(std::string directory)
 		}
 		else 
 		{
-			printf("Couldn't load Image: %s\n", filename.c_str());
+			throw new ResourceNotFoundException(filename.c_str());
 		}
 	}
 	/* Because we have already copied image data into texture data
@@ -204,9 +214,21 @@ void OpenGL21Renderer::Render()
 {
 	float scaleFactor = reader.GetScaleFactor();
 	// sets the model matrix to a scale matrix so that the model fits in the window
-	glScalef(scaleFactor, scaleFactor, scaleFactor);
+	glScalef(scaleFactor, scaleFactor, flipZ ? -scaleFactor : scaleFactor);
+	aiVector3D sceneCenter = reader.GetCenter();
+	glTranslatef( -sceneCenter.x, -sceneCenter.y, -sceneCenter.z );
+	if(scene_list == 0) 
+	{
+        scene_list = glGenLists(1);
+        glNewList(scene_list, GL_COMPILE);
+            // now begin at the root node of the imported data and traverse
+            // the scenegraph by multiplying subsequent local transforms
+            // together on GL's matrix stack.
+        RecursiveRender(scene, scene->mRootNode);
+        glEndList();
+    }
+    glCallList(scene_list);
 
-	RecursiveRender(scene, scene->mRootNode);
 }
 
 

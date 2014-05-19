@@ -24,7 +24,7 @@
 class OpenGL21Renderer : BaseAssetRenderer
 {
 public:
-	OpenGL21Renderer() {};
+	OpenGL21Renderer() : scene_list(0) {};
 	~OpenGL21Renderer() { };
 	virtual void Initialize();
 	virtual void Render();
@@ -32,7 +32,8 @@ public:
 	std::string Modelname;
 
 protected:
-
+	bool flipZ;
+	int scene_list;
 	const aiScene* scene;
 	AssetReader reader;
 	virtual void LoadGLTextures(std::string directory);
@@ -41,6 +42,8 @@ protected:
 
 private:
 	float modelviewMatrix[16];
+	float viewUp[3];
+	float viewFront[3];
 	std::map<std::string, GLuint> textureIdMap;	
 };
 

@@ -6,7 +6,7 @@ void TrackingResults::UpdateModelTransform()
 	glm::quat quaternion = glm::quat(avatar.eulerAngles);
 	glm::mat4 modelRotation = glm::toMat4(quaternion);
 		
-	Model = modelRotation * modelTranslation * avatar.scale;
+	Model =  modelTranslation * modelRotation * avatar.scale;
 }
 void TrackingResults::UpdateViewTransform()
 { 				

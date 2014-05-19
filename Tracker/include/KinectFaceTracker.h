@@ -76,7 +76,7 @@ public:
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
 	IAvatar*		GetAvatar()			{ return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
 	float			GetFaceConfidence() { return m_faceConfidence; };
-	TrackingResults*	GetTrackingResults (TrackingArgs args=NULL) { return &m_View;};
+	TrackingResults*	GetTrackingResults (TrackingArgs args=NULL);
 	void			PaintEvent(void *message, TrackingArgs args=NULL);
 	void			TrackEvent(void *message, TrackingArgs args=NULL);
 	static void		FTCallback(void* param, TrackingArgs args=NULL);
