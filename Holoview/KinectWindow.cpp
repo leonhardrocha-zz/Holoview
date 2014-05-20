@@ -29,11 +29,13 @@ void KinectWindow::initialize()
 
 void KinectWindow::render()
 {
-	if (m_pResults)
+	if (m_pResults.empty())
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		RenderView();
+		return;
 	}
+
+	glClear(GL_COLOR_BUFFER_BIT);
+	RenderView();
 }
 
 void KinectWindow::TrackerUpdateStatic(void* lpParam, void* args)
@@ -44,10 +46,16 @@ void KinectWindow::TrackerUpdateStatic(void* lpParam, void* args)
 	pThis->render();
 }
 
-void KinectWindow::SetTrackingResults(TrackingResults *pResults)
+void KinectWindow::SetTrackingResults(TrackingResults* results, void* args)
 {
-	m_pResults = pResults;
-	SetupScene();
+	int id = (args != NULL) ? *static_cast<int*>(args) : 0;
+	auto index = m_pResults.find(id);
+	if (index == m_pResults.end())
+	{
+		m_pResults.insert(m_pResults.end(), std::pair<int,TrackingResults*>(id, results));
+	}
+	m_pResults[id] = results;
+	//SetupScene();
 }
 
 void KinectWindow::resizeWindow()

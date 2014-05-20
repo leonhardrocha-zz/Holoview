@@ -14,7 +14,7 @@ public:
     virtual void render();
 	virtual void SetupWindow(int width, int height);
     virtual void ResetWindow();
-	virtual void SetTrackingResults(TrackingResults *results);
+	virtual void SetTrackingResults(TrackingResults *results, void* args = NULL);
 	ITracker* GetTracker() { return &tracker; };
 
 protected:
@@ -23,8 +23,6 @@ protected:
 	virtual void resizeWindow();
 	OpenGL21Renderer renderer;
 	KinectTracker tracker;
-
-	float aspect;
 	int windowWidth;
 	int windowHeight;
 };

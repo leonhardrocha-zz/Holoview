@@ -3,7 +3,7 @@
 
 #include "BaseAssetRenderer.h"
 #include "TrackingResults.h"
-
+#include <vector>
 class KinectView
 {
 public:
@@ -11,8 +11,7 @@ public:
 public:
 	KinectView::KinectView() : 
 	viewWidth(1024),
-	viewHeight(768),
-	m_pResults(NULL)
+	viewHeight(768)
 	{	
 	}
 
@@ -32,8 +31,9 @@ protected:
 protected:
 	int viewWidth;
 	int viewHeight;
-	float m_cameraPosition[3];
-	TrackingResults *m_pResults;
+	float aspect;
+	CameraPose m_3rdPersonView;
+	std::map<int, TrackingResults*> m_pResults;
 	BaseAssetRenderer *assetRenderer;
 };
 

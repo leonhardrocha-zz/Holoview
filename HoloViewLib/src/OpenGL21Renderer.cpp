@@ -33,6 +33,7 @@ void OpenGL21Renderer::Initialize()
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Skull/Skull N070211.3DS";*/
 	Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/Collada/duck.dae";
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/ironman/Mark 42 Helm.obj";*/
+	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Head Model.obj";*/
 	viewUp[Xaxis] = 0;
 	viewUp[Yaxis] = 1;
 	viewUp[Zaxis] = 0;
@@ -202,7 +203,6 @@ void OpenGL21Renderer::ApplyMaterial(const aiMaterial *mtl)
 	glPolygonMode(GL_FRONT_AND_BACK, fill_mode);
 
 	max = 1;
-
 	if((AI_SUCCESS == aiGetMaterialIntegerArray(mtl, AI_MATKEY_TWOSIDED, &two_sided, &max)) && two_sided)
 		glDisable(GL_CULL_FACE);
 	else 
@@ -212,6 +212,10 @@ void OpenGL21Renderer::ApplyMaterial(const aiMaterial *mtl)
 
 void OpenGL21Renderer::Render()
 {
+	if (Modelname == "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/Collada/duck.dae")
+	{
+		glRotatef(90 , 0, 1, 0); //duck
+	}
 	float scaleFactor = reader.GetScaleFactor();
 	// sets the model matrix to a scale matrix so that the model fits in the window
 	glScalef(scaleFactor, scaleFactor, flipZ ? -scaleFactor : scaleFactor);

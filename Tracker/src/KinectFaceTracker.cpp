@@ -36,15 +36,15 @@ bool KinectFaceTracker::Init()
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
 				
-		m_View.camera.target[Xaxis] = 0.0f;
-		m_View.camera.target[Yaxis] = 0.0f;
-		m_View.camera.target[Zaxis] = 0.0f;
-		m_View.camera.position[Xaxis] = m_id==1 ?  0.0f :-0.4f ;
-		m_View.camera.position[Yaxis] = m_id==1 ? -0.7f : 0.2f;
-		m_View.camera.position[Zaxis] = m_id==1 ?  1.2f : 0.5f;
+		m_View.camera.target[Xaxis] = 0.8f;
+		m_View.camera.target[Yaxis] = 1.2f;
+		m_View.camera.target[Zaxis] = 1.5f;
+		m_View.camera.position[Xaxis] = m_id==1 ?  0.8f : 1.6f;
+		m_View.camera.position[Yaxis] = m_id==1 ?  1.3f : 0.8f;
+		m_View.camera.position[Zaxis] = m_id==1 ?  0.1f : 0.5f;
 		m_View.camera.upVector[Xaxis] = m_id==1 ?  0.0f : 0.0f;
-		m_View.camera.upVector[Yaxis] = m_id==1 ?  1.0f : 0.4f;
-		m_View.camera.upVector[Zaxis] = m_id==1 ?  0.0f :-0.3f;
+		m_View.camera.upVector[Yaxis] = m_id==1 ?  1.0f : 1.0f;
+		m_View.camera.upVector[Zaxis] = m_id==1 ?  0.0f : 0.0f;
 
 		
         m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0, 0, 0);
