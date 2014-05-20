@@ -37,6 +37,9 @@ void KinectView::ResetView()
 	m_3rdPersonView.upVector[Xaxis] = 0.0f;
 	m_3rdPersonView.upVector[Yaxis] = 1.0f;
 	m_3rdPersonView.upVector[Zaxis] = 0.0f;
+	m_3rdPersonView.target[Xaxis] = 0.8f;
+	m_3rdPersonView.target[Yaxis] = 1.2f;
+	m_3rdPersonView.target[Zaxis] = 1.5f;
 }
 
 void KinectView::SetupView()
@@ -69,13 +72,11 @@ void KinectView::SetupScene()
 	{
 		return;
 	}
-	AvatarPoseGlm& avatar = m_pResults[0]->avatar;
-	CameraPoseGlm& camera = m_pResults[0]->camera;
+	AvatarPose& avatar = m_pResults[0]->avatar;
+	CameraPose& camera = m_pResults[0]->camera;
 	glMatrixMode(GL_MODELVIEW);
 	
-	//gluLookAt(m_cameraPosition[Xaxis], m_cameraPosition[Yaxis], m_cameraPosition[Zaxis],
-	//		  camera.position[Xaxis] + avatar.translation[Xaxis], camera.position[Yaxis] + avatar.translation[Yaxis], camera.position[Zaxis] + avatar.translation[Zaxis],
-	//		  0, 1, 0);
+	//glMultMatrixf(glm::value_ptr(glm::lookAt(m_3rdPersonView.position, m_3rdPersonView.target, m_3rdPersonView.upVector)));
 	
 	/*gluLookAt(camera.position[Xaxis], camera.position[Yaxis], camera.position[Zaxis],
 			  camera.target[Xaxis],   camera.target[Yaxis],   camera.target[Zaxis],

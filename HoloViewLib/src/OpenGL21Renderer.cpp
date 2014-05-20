@@ -31,7 +31,7 @@ void OpenGL21Renderer::Initialize()
 {
 	/*Modelname = "../Dependencies/Models/3DS/airplane/Airplane AN-2 N200314.3DS";*/
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Skull/Skull N070211.3DS";*/
-	Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/Collada/duck.dae";
+	Modelname = "../Dependencies/Models/Collada/duck.dae";
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/ironman/Mark 42 Helm.obj";*/
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Head Model.obj";*/
 	viewUp[Xaxis] = 0;
@@ -212,7 +212,7 @@ void OpenGL21Renderer::ApplyMaterial(const aiMaterial *mtl)
 
 void OpenGL21Renderer::Render()
 {
-	if (Modelname == "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/Collada/duck.dae")
+	if (Modelname.compare("duck.dae") > 0 );
 	{
 		glRotatef(90 , 0, 1, 0); //duck
 	}

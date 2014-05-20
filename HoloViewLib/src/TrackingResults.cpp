@@ -41,13 +41,9 @@ AvatarPose TrackingResults::GetAvatarPose()
 {
 	AvatarPose result;
 	 
-	result.eulerAngles[Pitch] = avatar.eulerAngles.x;
-	result.eulerAngles[Yaw]   = avatar.eulerAngles.y;
-	result.eulerAngles[Roll]  = avatar.eulerAngles.z;
-	result.translation[Xaxis] = avatar.translation.x;
-	result.translation[Yaxis] = avatar.translation.y;
-	result.translation[Zaxis] = avatar.translation.z;
-	result.scale = avatar.scale[0][0];
+	result.eulerAngles = avatar.eulerAngles;
+	result.translation = avatar.translation;
+	result.scale = avatar.scale;
 	
 	return result;
 }
@@ -56,15 +52,9 @@ CameraPose TrackingResults::GetCameraPose()
 {
 	CameraPose result;
 		
-	result.position[Xaxis] = camera.position.x;
-	result.position[Yaxis] = camera.position.y;
-	result.position[Zaxis] = camera.position.z;
-	result.target[Xaxis] = camera.target.x;
-	result.target[Yaxis] = camera.target.y;
-	result.target[Zaxis] = camera.target.z;
-	result.upVector[Xaxis] = camera.upVector.x;
-	result.upVector[Yaxis] = camera.upVector.y;
-	result.upVector[Zaxis] = camera.upVector.z;
+	result.position = camera.position;
+	result.target = camera.target;
+	result.upVector = camera.upVector;
 
 	return result;
 }
