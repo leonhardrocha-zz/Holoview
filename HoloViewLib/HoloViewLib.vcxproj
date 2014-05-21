@@ -91,6 +91,7 @@
     <ClCompile Include="src\AssetReader.cpp" />
     <ClCompile Include="src\BaseAssetRenderer.cpp" />
     <ClCompile Include="src\DualStereoView.cpp" />
+    <ClCompile Include="src\InverseTrackingResults.cpp" />
     <ClCompile Include="src\ITrackFactory.cpp" />
     <ClCompile Include="src\KinectView.cpp" />
     <ClCompile Include="src\Matrices.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="include\DualStereoView.h" />
     <ClInclude Include="include\HoloviewException.h" />
     <ClInclude Include="include\IAvatar.h" />
+    <ClInclude Include="include\InverseTrackingResults.h" />
     <ClInclude Include="include\ITracker.h" />
     <ClInclude Include="include\KinectView.h" />
     <ClInclude Include="include\Matrices.h" />

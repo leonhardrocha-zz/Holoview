@@ -9,7 +9,9 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/epsilon.hpp>
 
 enum PoseAngles { Pitch = 0, Yaw, Roll };
 enum PoseTranlation { Xaxis = 0, Yaxis, Zaxis };
@@ -70,38 +72,100 @@ struct CameraPose
 	glm::vec3 upVector;
 };
 
+struct CameraCoordSystem
+{
+	CameraCoordSystem() :
+		m(glm::mat4(1.0f))
+	{
+	}
+
+	CameraCoordSystem(const glm::mat4 ref) :
+		m(ref)
+	{
+	}
+
+	glm::vec3 GetTranslation()
+	{
+		glm::vec4 translation = glm::column(m, 3);
+		return glm::vec3(translation.x, translation.y, translation.z);
+	}
+
+	glm::vec3 GetEulerAngles()
+	{		
+		glm::quat q = glm::toQuat(m);
+		return glm::eulerAngles(q);
+	}
+
+	glm::mat4 m;
+};
+
 class TrackingResults
-{	
+{
 public:
 	TrackingResults() : 
-		  Transform(glm::mat4(1.0f)),
+		  CameraView(glm::mat4(1.0f)),
 		  ModelView(glm::mat4(1.0f)),
 		  Projection(glm::mat4(1.0f)),
 		  View(glm::mat4(1.0f)),
 		  Model(glm::mat4(1.0f))
 	{
 	}
+	AvatarPose TransformAvatarPose(const AvatarPose& pose);
+    void SetAvatarPose(const AvatarPose& pose);
+	void SetCameraPose(const CameraPose& pose);
+	AvatarPose GetAvatarPose();
+	CameraPose GetCameraPose();
+
+	glm::mat4 GetModel() { UpdateModelTransform(); return Model; }
+
+	glm::mat4 GetView() 
+	{ 
+		UpdateViewTransform(); 
+		return View; 
+	}
+
+	glm::mat4 GetProjection() 
+	{ 
+		UpdateProjectionTransform(); 
+		return Projection; 
+	}
+
+	glm::mat4 GetModelView()
+	{
+		UpdateModelTransform();
+		UpdateViewTransform();
+		UpdateModelViewTransform();
+		return ModelView;
+	}
+
+	glm::mat4 GetCameraView() 
+	{ 
+		UpdateModelTransform();
+		UpdateViewTransform();
+		UpdateModelViewTransform();
+		UpdateCameraViewTransform();
+		return CameraView; 
+	}
+
+	virtual CameraCoordSystem GetCameraCoordSystem();
+	int trackerId;
+protected:
 
 	virtual void UpdateModelTransform();
 	virtual void UpdateViewTransform();		
 	virtual void UpdateProjectionTransform();
-	void UpdateTransforms();	
-	
-	AvatarPose GetAvatarPose();
-	CameraPose GetCameraPose();
-
-	AvatarPose avatar;
-	CameraPose camera;
-
-	glm::mat4 Transform;
+	virtual void UpdateModelViewTransform();	
+	virtual void UpdateCameraViewTransform();
+	glm::mat4 CameraView;
 	glm::mat4 ModelView;
 	glm::mat4 Projection; 
 	glm::mat4 Model;
 	glm::mat4 View;
 
-protected:
-
-
+	AvatarPose avatar;
+	CameraPose camera;
 };
+
+
 
 #endif

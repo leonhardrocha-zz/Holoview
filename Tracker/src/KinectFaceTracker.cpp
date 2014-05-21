@@ -32,20 +32,22 @@ bool KinectFaceTracker::Init()
 	if (IsKinectSensorPresent)
     {        
 		SetTrackerCallback(FTCallback, this, &m_id);
+		m_View.trackerId = m_id;
         m_pKinectSensor->GetVideoConfiguration(&videoConfig);
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
-				
-		m_View.camera.target[Xaxis] = 0.8f;
-		m_View.camera.target[Yaxis] = 1.2f;
-		m_View.camera.target[Zaxis] = 1.5f;
-		m_View.camera.position[Xaxis] = m_id==1 ?  0.8f : 1.6f;
-		m_View.camera.position[Yaxis] = m_id==1 ?  1.3f : 0.8f;
-		m_View.camera.position[Zaxis] = m_id==1 ?  0.1f : 0.5f;
-		m_View.camera.upVector[Xaxis] = m_id==1 ?  0.0f : 0.0f;
-		m_View.camera.upVector[Yaxis] = m_id==1 ?  1.0f : 1.0f;
-		m_View.camera.upVector[Zaxis] = m_id==1 ?  0.0f : 0.0f;
-
+		
+		CameraPose camera;
+		camera.target[Xaxis] = 0.8f;
+		camera.target[Yaxis] = 1.2f;
+		camera.target[Zaxis] = 1.5f;
+		camera.position[Xaxis] = m_id==1 ?  0.8f : 1.6f;
+		camera.position[Yaxis] = m_id==1 ?  1.3f : 0.8f;
+		camera.position[Zaxis] = m_id==1 ?  0.1f : 0.5f;
+		camera.upVector[Xaxis] = m_id==1 ?  0.0f : 0.0f;
+		camera.upVector[Yaxis] = m_id==1 ?  1.0f : 1.0f;
+		camera.upVector[Zaxis] = m_id==1 ?  0.0f : 0.0f;
+		m_View.SetCameraPose(camera);
 		
         m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0, 0, 0);
 
@@ -95,8 +97,10 @@ bool KinectFaceTracker::Init()
 			return false;
         }
     }
-
-
+	if (m_parent)
+	{
+		m_pCriticalSection = static_cast<CRITICAL_SECTION*>(m_parent->GetCriticalSection());
+	}
 	return IsKinectSensorPresent;
 }
 
@@ -412,7 +416,18 @@ void KinectFaceTracker::UpdateAvatarPose()
 			pEggAvatar->SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
 			pEggAvatar->SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
 		}
-		m_View.avatar.SetAvatarPose(*pEggAvatar->GetPose());
+		if (m_parent)
+		{
+			if(m_pCriticalSection)
+			{
+				EnterCriticalSection(m_pCriticalSection);
+			}
+			m_View.SetAvatarPose(*pEggAvatar->GetPose());
+			if(m_pCriticalSection)
+			{
+				LeaveCriticalSection(m_pCriticalSection);
+			}
+		}
 	}
 }
 
@@ -430,7 +445,6 @@ void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
 
 TrackingResults* KinectFaceTracker::GetTrackingResults(TrackingArgs args)
 {
-	m_View.UpdateTransforms();
 	return &m_View;
 }
 // Drawing the video window

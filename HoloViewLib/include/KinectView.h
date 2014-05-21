@@ -32,8 +32,7 @@ protected:
 	int viewWidth;
 	int viewHeight;
 	float aspect;
-	CameraPose m_3rdPersonView;
-	std::map<int, TrackingResults*> m_pResults;
+
 	BaseAssetRenderer *assetRenderer;
 };
 

@@ -53,6 +53,7 @@ public:
 		  m_depthImage(NULL),
 		  m_pImageBuffer(NULL),
           m_pVideoBuffer(NULL),
+		  m_pCriticalSection(NULL),
 		  m_id(id)
 		  {};	
     ~KinectFaceTracker();
@@ -86,7 +87,12 @@ public:
     BOOL            ShowEggAvatar(HDC hdc, int width, int height, int originX, int originY);
 	BOOL			PaintWindow(HDC hdc, HWND hWnd);
 	void			UpdateAvatarPose();
+	bool						m_LastTrackSucceeded;
+	bool						m_ApplicationIsRunning;
+	void*			GetCriticalSection() { return static_cast<void*>(m_pCriticalSection); };
 protected:
+	CRITICAL_SECTION*			m_pCriticalSection;
+
 	TrackingResults				m_View;
 	IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;
@@ -112,8 +118,6 @@ protected:
 	float						translationXYZ[3];
     
 	HWND						m_hWnd;
-	bool						m_LastTrackSucceeded;
-	bool						m_ApplicationIsRunning;
 	TrackerConfig				m_config;
 
 

@@ -31,9 +31,9 @@ void OpenGL21Renderer::Initialize()
 {
 	/*Modelname = "../Dependencies/Models/3DS/airplane/Airplane AN-2 N200314.3DS";*/
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Skull/Skull N070211.3DS";*/
-	Modelname = "../Dependencies/Models/Collada/duck.dae";
+	/*Modelname = "../Dependencies/Models/Collada/duck.dae"*/;
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/ironman/Mark 42 Helm.obj";*/
-	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Head Model.obj";*/
+	Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/STL/teste.stl";
 	viewUp[Xaxis] = 0;
 	viewUp[Yaxis] = 1;
 	viewUp[Zaxis] = 0;

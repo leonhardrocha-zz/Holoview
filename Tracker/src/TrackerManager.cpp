@@ -10,6 +10,7 @@
 #include "stdafx.h"
 #include "TrackerManager.h"
 #include "TrackerException.h"
+#include "InverseTrackingResults.h"
 
 bool TrackerManager::Start()
 {
@@ -34,18 +35,18 @@ bool TrackerManager::Init()
     NuiGetSensorCount(&numSensors);
 
 	int id;
+	InitializeCriticalSection(&m_CriticalSection);		
 	for (id=0; id < numSensors; id++)
 	{
 		KinectFaceTracker* tracker = new KinectFaceTracker(this, id);
 		if (tracker->Init())
 		{
-			m_pFaceTrackers.push_back(tracker);
+			m_pFaceTrackers.push_back(tracker);			
 		} else
 		{
 			delete tracker;
 		}
-	}
-			  
+	}		  
     return (id == numSensors);
 }
 
@@ -77,13 +78,66 @@ void TrackerManager::PaintEvent(void *message, TrackingArgs args)
 void TrackerManager::TrackEvent(void* message, TrackingArgs args)
 {
 	//std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+	EnterCriticalSection(&m_CriticalSection);
 	if(m_CallBack)
-	{		
-		void* viewArgs = static_cast<void*>(GetTrackingResults(args));
+	{
+		TrackingResults* results = GetTrackingResults(args);
+		void* viewArgs = static_cast<void*>(results);
+
+		AvatarPose avgPose;
+		avgPose = GetAverageCameraModel(args);
 		m_CallBackArgs = viewArgs;
-		(m_CallBack)(m_CallBackParam, m_CallBackArgs);		
+		(m_CallBack)(m_CallBackParam, m_CallBackArgs);
 	}
+	LeaveCriticalSection(&m_CriticalSection);
 };
+
+AvatarPose TrackerManager::GetAverageCameraModel(TrackingArgs args)
+{
+	AvatarPose avgPose;
+	int numTrackers = 0;
+	std::vector<glm::vec3> test;
+	for (auto it = m_pFaceTrackers.begin(); it != m_pFaceTrackers.end(); it++)
+	{
+		KinectFaceTracker* tracker = (*it);
+		auto invResult = new InverseTrackingResults(*(tracker->GetTrackingResults(args)));
+		if (tracker->m_LastTrackSucceeded) {
+			CameraCoordSystem coordSys = invResult->GetCameraCoordSystem();
+			avgPose.translation += coordSys.GetTranslation();
+			auto angles = coordSys.GetEulerAngles();
+			avgPose.eulerAngles += angles;
+			test.push_back(angles);
+			numTrackers++;
+		}
+		delete invResult;
+	}
+	if (numTrackers > 1)
+	{
+		avgPose.translation /= numTrackers;
+		avgPose.eulerAngles /= numTrackers;
+	}
+	glm::vec3 last(0.0f);
+	for (auto it = test.begin(); it != test.end(); it++)
+	{
+		auto equal = glm::epsilonEqual(avgPose.eulerAngles, *it, 1.0f);
+		glm::vec3 diff = *it - last;
+		last = *it;
+		//if (!equal.x)
+		//{
+		//	throw new TrackerException("Error in x");
+		//}
+		//if (!equal.y)
+		//{
+		//	throw new TrackerException("Error in y");
+		//}
+		//if (!equal.z)
+		//{
+		//	throw new TrackerException("Error in z");
+		//}
+	}
+
+	return avgPose;
+}
 
 bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j) 
 { 
@@ -111,7 +165,6 @@ TrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
 	//WeightResults();
 	int id = args == NULL ? 0 : *(static_cast<int*>(args));
 	KinectFaceTracker *tracker = m_pFaceTrackers[id];
-
 	return tracker->GetTrackingResults();
 }
 

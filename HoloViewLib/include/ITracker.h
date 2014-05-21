@@ -13,6 +13,7 @@ public:
 	virtual TrackingResults* GetTrackingResults(TrackingArgs args=NULL)=0;
 	virtual void PaintEvent(void *message, TrackingArgs args=NULL)=0;
 	virtual void TrackEvent(void *message, TrackingArgs args=NULL)=0;
+	virtual void* GetCriticalSection()=0;
 };
 
 #endif

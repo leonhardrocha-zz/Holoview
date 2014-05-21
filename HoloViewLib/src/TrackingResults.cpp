@@ -1,5 +1,11 @@
 #include "TrackingResults.h"
 
+CameraCoordSystem TrackingResults::GetCameraCoordSystem()
+{
+	CameraCoordSystem coordSys;
+	return coordSys;
+}
+
 void TrackingResults::UpdateModelTransform()
 {
 	glm::mat4 modelTranslation = glm::translate(glm::mat4(1.0f), avatar.translation +  camera.position); 
@@ -17,6 +23,7 @@ void TrackingResults::UpdateModelTransform()
 	
 	Model =  modelTranslation * modelRotation * avatar.scale;
 }
+
 void TrackingResults::UpdateViewTransform()
 { 				
 	View = glm::lookAt(camera.position, camera.target, camera.upVector);
@@ -27,34 +34,36 @@ void TrackingResults::UpdateProjectionTransform()
 	Projection = glm::perspective(45.0f, 4.0f/3.0f, 0.01f, 10.0f);
 }
 
-void TrackingResults::UpdateTransforms()
+void TrackingResults::UpdateModelViewTransform()
 {
-	UpdateModelTransform();
-	UpdateViewTransform();
-	UpdateProjectionTransform();
-
 	ModelView = View * Model;
-	Transform = Projection * ModelView;
+}
+
+void TrackingResults::UpdateCameraViewTransform()
+{
+	CameraView = Projection * ModelView;
 }
 	
 AvatarPose TrackingResults::GetAvatarPose()
 {
-	AvatarPose result;
-	 
-	result.eulerAngles = avatar.eulerAngles;
-	result.translation = avatar.translation;
-	result.scale = avatar.scale;
+	AvatarPose result = avatar;	
 	
 	return result;
 }
 
 CameraPose TrackingResults::GetCameraPose()
 {
-	CameraPose result;
+	CameraPose result = camera;
 		
-	result.position = camera.position;
-	result.target = camera.target;
-	result.upVector = camera.upVector;
-
 	return result;
+}
+
+void TrackingResults::SetAvatarPose(const AvatarPose& pose)
+{
+	avatar = pose;
+}
+
+void TrackingResults::SetCameraPose(const CameraPose& pose)
+{
+	camera = pose;
 }

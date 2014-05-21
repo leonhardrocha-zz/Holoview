@@ -43,9 +43,11 @@ public:
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
 	TrackingResults*			GetTrackingResults(TrackingArgs args=NULL);
+	AvatarPose					GetAverageCameraModel(TrackingArgs args=NULL);
+	void*						GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };
 
 protected:
-
+	CRITICAL_SECTION m_CriticalSection;	
 	virtual		void			PaintEvent(void *message, TrackingArgs args=NULL);
 	virtual		void			TrackEvent(void *message, TrackingArgs args=NULL);
 
