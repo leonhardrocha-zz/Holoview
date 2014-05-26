@@ -35,8 +35,8 @@ protected:
 	//	Main OpenGL functions.
 	virtual void RenderLeftView();
 	virtual void RenderRightView();
-	AvatarPose avatarPose;
-	CameraPose cameraPose;
+	Pose avatarPose;
+	Pose cameraPose;
 };
 
 #endif

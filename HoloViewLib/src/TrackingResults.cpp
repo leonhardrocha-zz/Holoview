@@ -8,25 +8,18 @@ CameraCoordSystem TrackingResults::GetCameraCoordSystem()
 
 void TrackingResults::UpdateModelTransform()
 {
-	glm::mat4 modelTranslation = glm::translate(glm::mat4(1.0f), avatar.translation +  camera.position); 
-
-	//glm::quat quaternion = glm::quat(1.0f,
-	//								 glm::radians(avatar.eulerAngles[Pitch]),
-	//								 glm::radians(avatar.eulerAngles[Yaw]),
-	//								 glm::radians(avatar.eulerAngles[Roll]));
-	//
-	//glm::mat4 modelRotation = glm::toMat4(quaternion);
-	glm::mat4 modelRotation = glm::mat4(1.0f);
-	modelRotation = glm::rotate(modelRotation, avatar.eulerAngles[Pitch], glm::vec3(1.0f, 0.0f, 0.0f));
-	modelRotation = glm::rotate(modelRotation, avatar.eulerAngles[Yaw],   glm::vec3(0.0f, 1.0f, 0.0f));
-	modelRotation = glm::rotate(modelRotation, avatar.eulerAngles[Roll],  glm::vec3(0.0f, 0.0f, 1.0f));
-	
-	Model =  modelTranslation * modelRotation * avatar.scale;
+	glm::mat4 rotation = glm::toMat4(avatar.eulerAngles);
+	//glm::mat4 rotation = glm::mat4(1.0f);
+	//rotation = glm::rotate(rotation, avatar.eulerAngles.x, glm::vec3(1,0,0));
+	//rotation = glm::rotate(rotation, avatar.eulerAngles.y, glm::vec3(0,1,0));
+	//rotation = glm::rotate(rotation, avatar.eulerAngles.z, glm::vec3(0,0,1));
+	glm::mat4 translation = glm::translate(glm::mat4(1.0f), camera.position + avatar.translation);
+	Model = translation * rotation * avatar.scale;
 }
 
 void TrackingResults::UpdateViewTransform()
 { 				
-	View = glm::lookAt(camera.position, camera.target, camera.upVector);
+	View = glm::lookAt(camera.position, camera.target, camera.viewUp);
 }
 
 void TrackingResults::UpdateProjectionTransform()
@@ -41,29 +34,31 @@ void TrackingResults::UpdateModelViewTransform()
 
 void TrackingResults::UpdateCameraViewTransform()
 {
-	CameraView = Projection * ModelView;
+	CameraView = glm::translate(ModelView, avatar.translation);
 }
 	
-AvatarPose TrackingResults::GetAvatarPose()
+Pose TrackingResults::GetAvatarPose()
 {
-	AvatarPose result = avatar;	
+	Pose result = avatar;	
 	
 	return result;
 }
 
-CameraPose TrackingResults::GetCameraPose()
+Pose TrackingResults::GetCameraPose()
 {
-	CameraPose result = camera;
-		
+	Pose result = camera;	
+	
 	return result;
 }
 
-void TrackingResults::SetAvatarPose(const AvatarPose& pose)
+
+void TrackingResults::SetAvatarPose(const Pose& pose)
 {
 	avatar = pose;
 }
 
-void TrackingResults::SetCameraPose(const CameraPose& pose)
+void TrackingResults::SetCameraPose(const Pose& pose)
 {
 	camera = pose;
 }
+

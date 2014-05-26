@@ -1,14 +1,26 @@
 #include "InverseTrackingResults.h"
 
+Pose InverseTrackingResults::GetAvatarPose()
+{
+	Pose result;
+	UpdateViewTransform();
+	result.eulerAngles = glm::toQuat(View);
+	glm::vec4 t = glm::column(View, 3);
+	result.translation = glm::vec3(t.x, t.y, t.z);
+	result.scale = glm::mat4(1.0f/avatar.scale[0][0]);
+	return result;
+}
+
+
+void InverseTrackingResults::SetAvatarPose(const Pose& pose)
+{
+	avatar = pose;
+}
+
+
 void InverseTrackingResults::UpdateModelTransform()
 {
 	Model = glm::affineInverse(m_parent.GetModel());
-}
-
-CameraCoordSystem InverseTrackingResults::GetCameraCoordSystem()
-{
-	CameraCoordSystem coordSys(GetModelView());
-	return coordSys;
 }
 
 void InverseTrackingResults::UpdateViewTransform()
@@ -23,7 +35,7 @@ void InverseTrackingResults::UpdateProjectionTransform()
 
 void InverseTrackingResults::UpdateModelViewTransform()
 {
-	ModelView = Model * View;
+	ModelView = glm::affineInverse(m_parent.GetModelView());
 }
 
 void InverseTrackingResults::UpdateCameraViewTransform()

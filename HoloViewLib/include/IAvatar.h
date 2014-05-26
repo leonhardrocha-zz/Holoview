@@ -4,7 +4,7 @@
 class IAvatar
 {
 public:
-	virtual AvatarPose* GetPose()=0;
+	virtual Pose* GetPose()=0;
 	virtual bool SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees)=0;
     virtual bool SetRandomRotations()=0;
     virtual bool SetTranslations(const float tX, const float tY, const float tZ)=0;

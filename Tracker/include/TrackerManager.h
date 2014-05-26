@@ -43,7 +43,7 @@ public:
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
 	TrackingResults*			GetTrackingResults(TrackingArgs args=NULL);
-	AvatarPose					GetAverageCameraModel(TrackingArgs args=NULL);
+	Pose						GetAverageCameraModel(TrackingResults* results=NULL);
 	void*						GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };
 
 protected:

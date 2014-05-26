@@ -70,6 +70,7 @@ public:
     MainWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	bool AddTrackerDockWidget(ITracker* tracker);
+	bool AddOSGWidget();
 	bool AddMultiTrackerDockWidget(ITracker* tracker);
 protected:
     void showEvent(QShowEvent *event);

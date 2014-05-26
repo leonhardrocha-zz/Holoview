@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 	ITracker* tracker = mainWindow.GetTracker();
 	tracker->Init();	
 	mainWindow.AddMultiTrackerDockWidget(tracker);
+	//mainWindow.AddOSGWidget();
 	tracker->Start();
 	QWidget central(&mainWindow);	
 	QWidget trackerWidget(&central);

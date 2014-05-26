@@ -16,6 +16,7 @@ public:
     virtual void ResetWindow();
 	virtual void SetupView();
 	virtual void SetupScene();
+	virtual void RenderScene();
 	virtual void SetTrackingResults(int trackedId, TrackingResults *results);
 	ITracker* GetTracker() { return &tracker; };
 
@@ -27,7 +28,7 @@ protected:
 	KinectTracker tracker;	
 	TrackingResults* m_pResults;
 
-	CameraPose m_3rdPersonView;
+	Pose m_3rdPersonView;
 	int windowWidth;
 	int windowHeight;
 

@@ -175,17 +175,17 @@ bool EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, c
 
     m_Pitch = (pitchDegrees - m_ReportedPitchAverage)/180.0f;
     m_Yaw = -(yawDegrees - m_ReportedYawAverage)/180.0f;
-    m_Roll = (rollDegrees-m_ReportedRollAverage)/180.0f;
+    m_Roll = (rollDegrees - m_ReportedRollAverage)/180.0f;
     m_FacingUser = (abs(m_Pitch) < 0.2f && abs(m_Yaw) < 0.2f);
 
-	m_Pose.eulerAngles[Pitch] = pitchDegrees;
-	m_Pose.eulerAngles[Yaw] = yawDegrees;
-	m_Pose.eulerAngles[Roll] = rollDegrees;
+	m_Pose.eulerAngles.x = m_Pitch;
+	m_Pose.eulerAngles.y = -m_Yaw;
+	m_Pose.eulerAngles.z = m_Roll;
 
     return TRUE;
 }
 
-AvatarPose* EggAvatar::GetPose()
+Pose* EggAvatar::GetPose()
 {
 	return &m_Pose;
 }
@@ -210,9 +210,9 @@ bool EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
         m_SamePositionCount = 0;
     }
 
-	m_Pose.translation[Xaxis] = tX;
-	m_Pose.translation[Yaxis] = tY;
-	m_Pose.translation[Zaxis] = tZ;
+	m_Pose.translation.x = tX;
+	m_Pose.translation.y = tY;
+	m_Pose.translation.z = tZ;
 
     return TRUE;
 }

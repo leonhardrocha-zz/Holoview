@@ -348,19 +348,24 @@ bool MainWindow::AddTrackerDockWidget(ITracker* tracker)
 	addDockWidget(Qt::RightDockWidgetArea, trackerDock);	
 	dockWidgetMenu->addMenu(trackerDock->menu);
 
-	
-	/*QString osgName = QString::fromLatin1("OSG");
-	OSGFrame *osgFrame = new OSGFrame(name + QLatin1String(" Frame"), this);
-    frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
+	return true;
+}
+
+bool MainWindow::AddOSGWidget()
+{
+	QString osgName = QString::fromLatin1("OSG");
+	OSGFrame *osgFrame = new OSGFrame(osgName + QLatin1String(" Frame"), this);
+    osgFrame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 	
 	MyDock *osgDock = new MyDock(osgName + QLatin1String(" Dock"), this, Qt::WindowFlags(0), osgFrame);
 	osgDock->setCustomSizeHint(m_customSizeHints.value("OSG"));
-	osgDock->setFloating(true);
-	addDockWidget(Qt::LeftDockWidgetArea, osgDock);	
-	dockWidgetMenu->addMenu(osgDock->menu);*/
+	osgDock->setFloating(false);
+	addDockWidget(Qt::RightDockWidgetArea, osgDock);	
+	dockWidgetMenu->addMenu(osgDock->menu);
 
 	return true;
 }
+
 void MainWindow::setCorner(int id)
 {
     switch (id) {

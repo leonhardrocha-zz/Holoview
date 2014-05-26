@@ -24,7 +24,7 @@ void KinectView::ResetView()
 	float lightDif[] = {0.8f, 0.8f, 0.8f, 1.0f};
 	float lightAmb[] = {0.1f, 0.1f, 0.1f, 1.0f};
 	float lightSpc[] = {0.1f, 0.1f, 0.1f, 1.0f};
-	float lightPos[] = {0.8f, 1.2f, 1.0f, 1.0f};	
+	float lightPos[] = {0.8f, 1.2f, 0.0f, 1.0f};	
 
 	glLightfv(GL_LIGHT0, GL_DIFFUSE,  lightDif);
 	glLightfv(GL_LIGHT0, GL_AMBIENT,  lightAmb);
@@ -58,14 +58,16 @@ void KinectView::SetupScene()
 void  KinectView::RenderView()
 {
 	ResetView();	
-	ResetScene();
-	{
-		glPushMatrix();
-		SetupView();
+	SetupView();
+	{		
+		glPushMatrix();		
 		{
-			glPushMatrix();
+			ResetScene();	
 			SetupScene();
-			RenderScene();
+			glPushMatrix();
+			{				
+				RenderScene();
+			}
 			glPopMatrix();	
 		}
 		glPopMatrix();	

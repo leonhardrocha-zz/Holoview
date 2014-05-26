@@ -24,13 +24,13 @@
 class OpenGL21Renderer : BaseAssetRenderer
 {
 public:
-	OpenGL21Renderer() : scene_list(0) {};
+	OpenGL21Renderer() : scene_list(0), m_enableTexture(true) {};
 	~OpenGL21Renderer() { };
 	virtual void Initialize();
 	virtual void Render();
 
 	std::string Modelname;
-
+	bool m_enableTexture;
 protected:
 	bool flipZ;
 	int scene_list;

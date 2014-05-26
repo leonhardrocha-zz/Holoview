@@ -4,6 +4,7 @@
 #ifdef _DEBUG
 //#define GLM_MESSAGES
 #endif
+#define GLM_FORCE_RADIANS
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp> 
 #include <glm/gtx/quaternion.hpp>
@@ -16,60 +17,33 @@
 enum PoseAngles { Pitch = 0, Yaw, Roll };
 enum PoseTranlation { Xaxis = 0, Yaxis, Zaxis };
 
-//struct AvatarPose
-//{
-//	float eulerAngles[3];
-//	float translation[3]; 
-//	float scale;
-//};
-//
-//struct CameraPose
-//{
-//	float position[3];
-//	float target[3];
-//	float upVector[3];
-//};
-
-struct AvatarPose
+struct Pose
 {
-	AvatarPose() :	
+	Pose() :	
 		eulerAngles(glm::vec3(0.0f)),
 		translation(glm::vec3(0.0f)),
-		scale(glm::mat4(1.0f))
-	{
-	}
-
-	void SetAvatarPose(AvatarPose& pose)
-	{
-		eulerAngles = glm::vec3(pose.eulerAngles[Pitch], pose.eulerAngles[Yaw], pose.eulerAngles[Roll]);
-		translation = glm::vec3(pose.translation[Xaxis], pose.translation[Yaxis], pose.translation[Zaxis]);
-		scale = glm::mat4(scale);
-	}
-
-	glm::vec3 eulerAngles;
-	glm::vec3 translation; 
-	glm::mat4 scale;
-};
-
-struct CameraPose
-{
-	CameraPose() :	
+		scale(glm::mat4(1.0f)),
 		position(glm::vec3(0.0f)),
 		target(glm::vec3(0.0f)),
-		upVector(glm::vec3(0.0f, 1.0f, 0.0f))
-	{
-	}
+		viewUp(glm::vec3(0.0f, 1.0f, 0.0f))
 
+	{	};
 
-	void SetCameraPose(CameraPose& pose)
-	{
-		position = glm::vec3(pose.position);
-		target = glm::vec3(pose.target);
-		upVector =  glm::vec3(pose.upVector);
-	}
+	Pose(Pose &parent) :	
+		eulerAngles(parent.eulerAngles),
+		translation(parent.translation),
+		scale(parent.scale),
+		position(parent.position),
+		target(parent.target),
+		viewUp(parent.viewUp)
+	{	};
+
+	glm::quat eulerAngles;
+	glm::vec3 translation; 
+	glm::mat4 scale;
 	glm::vec3 position;
 	glm::vec3 target;
-	glm::vec3 upVector;
+	glm::vec3 viewUp;
 };
 
 struct CameraCoordSystem
@@ -110,13 +84,16 @@ public:
 		  Model(glm::mat4(1.0f))
 	{
 	}
-	AvatarPose TransformAvatarPose(const AvatarPose& pose);
-    void SetAvatarPose(const AvatarPose& pose);
-	void SetCameraPose(const CameraPose& pose);
-	AvatarPose GetAvatarPose();
-	CameraPose GetCameraPose();
+    virtual void SetAvatarPose(const Pose& pose);
+	virtual void SetCameraPose(const Pose& pose);
+	virtual Pose GetAvatarPose();
+	virtual Pose GetCameraPose();
 
-	glm::mat4 GetModel() { UpdateModelTransform(); return Model; }
+	glm::mat4 GetModel() 
+	{ 
+		UpdateModelTransform(); 
+		return Model; 
+	}
 
 	glm::mat4 GetView() 
 	{ 
@@ -162,8 +139,8 @@ protected:
 	glm::mat4 Model;
 	glm::mat4 View;
 
-	AvatarPose avatar;
-	CameraPose camera;
+	Pose avatar;
+	Pose camera;
 };
 
 

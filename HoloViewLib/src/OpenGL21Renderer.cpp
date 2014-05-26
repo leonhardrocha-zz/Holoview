@@ -31,15 +31,11 @@ void OpenGL21Renderer::Initialize()
 {
 	/*Modelname = "../Dependencies/Models/3DS/airplane/Airplane AN-2 N200314.3DS";*/
 	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/Skull/Skull N070211.3DS";*/
-	/*Modelname = "../Dependencies/Models/Collada/duck.dae"*/;
-	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/ironman/Mark 42 Helm.obj";*/
-	Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/STL/teste.stl";
-	viewUp[Xaxis] = 0;
-	viewUp[Yaxis] = 1;
-	viewUp[Zaxis] = 0;
-	viewFront[Xaxis] = 1;
-	viewFront[Yaxis] = 0;
-	viewFront[Zaxis] = 0;
+	Modelname = "../Dependencies/Models/Collada/duck.dae";
+	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/3DS/kinect/kinect.3ds";*/
+	/*Modelname = "C:/Users/UDESC/Documents/GitHub/Holoview/Dependencies/Models/STL/kinect sensor.stl";*/
+	/*m_enableTexture = false;*/
+
 	if(!reader.Import3DFromFile(Modelname))
 	{
 		throw new ResourceNotFoundException(Modelname);
@@ -214,13 +210,20 @@ void OpenGL21Renderer::Render()
 {
 	if (Modelname.compare("duck.dae") > 0 );
 	{
-		glRotatef(90 , 0, 1, 0); //duck
+		glRotatef(80 , 0, 1, 0); //duck
 	}
-	float scaleFactor = reader.GetScaleFactor();
+	if (!(Modelname.compare("kinect.3ds") > 0 ))
+	{
+	float scaleFactor = reader.GetScaleFactor();	
 	// sets the model matrix to a scale matrix so that the model fits in the window
-	glScalef(scaleFactor, scaleFactor, flipZ ? -scaleFactor : scaleFactor);
+	glScalef(scaleFactor, scaleFactor, scaleFactor);
 	aiVector3D sceneCenter = reader.GetCenter();
 	glTranslatef( -sceneCenter.x, -sceneCenter.y, -sceneCenter.z );
+	} else
+	{
+		glRotatef(-90 , 0, 1, 0); //kinect
+	}
+
 	if(scene_list == 0) 
 	{
         scene_list = glGenLists(1);
@@ -264,7 +267,10 @@ void OpenGL21Renderer::RecursiveRender (const aiScene *sc, const aiNode* nd)
 		if(mesh->mTextureCoords == NULL) {
 			glDisable(GL_TEXTURE_2D);
 		} else {
-			glEnable(GL_TEXTURE_2D);
+			if (m_enableTexture)
+			{
+				glEnable(GL_TEXTURE_2D);
+			}
 		}
 
 		for (t = 0; t < mesh->mNumFaces; ++t) {

@@ -6,6 +6,7 @@
 #include <QPaintEngine>
 #include <QThread>
 #include "DockFrame.h"
+#include "ViewerWidget.h"
 
 class  OSGFrame :  public DockFrame
 {
@@ -19,11 +20,11 @@ public:
 	}
 	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
 	{	
-		//osgViewer.nativeEvent(eventType, message, result);
+		osgViewer.nativeEvent(eventType, message, result);
 		return true;
 	}
 
-	//ViewerWidget osgViewer;
+	ViewerWidget osgViewer;
 };
 
 #endif

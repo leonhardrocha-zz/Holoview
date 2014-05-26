@@ -9,13 +9,13 @@ public:
 	InverseTrackingResults() : TrackingResults() {};
 
 
-	InverseTrackingResults(TrackingResults& parent) : TrackingResults()
+	InverseTrackingResults(const TrackingResults& parent) : TrackingResults()
 	{
-		m_parent = parent;
-		avatar.SetAvatarPose(parent.GetAvatarPose());
-		camera.SetCameraPose(parent.GetCameraPose());
+		m_parent = parent;	
 	};
-	virtual CameraCoordSystem GetCameraCoordSystem();
+	
+	virtual Pose GetAvatarPose();
+	virtual void SetAvatarPose(const Pose& pose);
 	protected:
 
 	virtual void UpdateModelTransform();
