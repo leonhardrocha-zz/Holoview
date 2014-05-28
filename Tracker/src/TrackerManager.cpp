@@ -81,9 +81,17 @@ void TrackerManager::TrackEvent(void* message, TrackingArgs args)
 	EnterCriticalSection(&m_CriticalSection);
 	if(m_CallBack)
 	{
-		TrackingResults* pResults = static_cast<TrackingResults*>(message);		
-		pResults->SetAvatarPose(GetAverageCameraModel(pResults));
-		pResults->SetCameraPose(pResults->GetCameraPose());
+		TrackingResults* pResults = static_cast<TrackingResults*>(message);
+		int* id = static_cast<int*>(args);
+		/*if (*id == 0)*/
+		{
+		/*	Pose pose = pResults->GetAvatarPose();
+			pose.eulerAngles = glm::vec3(.0f, .0f, .0f);
+			pResults->SetAvatarPose(pose);*/
+		}
+		Pose avgPose = GetAverageCameraModel(pResults);
+		//pResults->SetAvatarPose(avgPose);
+		/*pResults->SetCameraPose(pResults->GetCameraPose());*/
 		void* viewArgs = static_cast<void*>(pResults);
 		m_CallBackArgs = viewArgs;
 		(m_CallBack)(m_CallBackParam, m_CallBackArgs);
@@ -96,19 +104,23 @@ Pose TrackerManager::GetAverageCameraModel(TrackingResults* results)
 	int numTrackers = 0;
 	std::vector<glm::quat> angles;
 	Pose averagePose;
+	glm::quat q;
 	bool first = true;
 	for (auto it = m_pFaceTrackers.begin(); it != m_pFaceTrackers.end(); ++it)
 	{
 		KinectFaceTracker* tracker = (*it);	
 		if (tracker->m_LastTrackSucceeded) 
 		{
-			TrackingResults* pResults =  tracker->GetTrackingResults();
-			InverseTrackingResults invResults(*pResults);
-			Pose avatarPose = pResults->GetAvatarPose();			
-			averagePose.eulerAngles = first ? avatarPose.eulerAngles : glm::slerp(avatarPose.eulerAngles, averagePose.eulerAngles , 0.5f);
-			averagePose.translation = first ? avatarPose.translation : averagePose.translation;
-			//averagePose.translation = first ? avatarPose.translation : 0.5f * avatarPose.translation + 0.5f * averagePose.translation;
-			first = false;
+			TrackingResults* pResults =  tracker->GetTrackingResults();			
+			Pose avatarPose = pResults->GetPose();			
+			if (first)
+			{
+				averagePose = avatarPose;
+				first = false;
+			}
+			glm::vec3 deg2 = glm::degrees(avatarPose.eulerAngles);
+			averagePose.eulerAngles = 0.5f * avatarPose.eulerAngles + 0.5f * averagePose.eulerAngles ;
+			averagePose.translation = 0.5f * avatarPose.translation + 0.5f * averagePose.translation;
 			auto equal = glm::epsilonEqual(averagePose.eulerAngles, avatarPose.eulerAngles, 1.0f);
 
 			//if (!equal.x)

@@ -50,6 +50,7 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
     return result;
 }
 
+
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);

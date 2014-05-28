@@ -69,7 +69,7 @@ void KinectWindow::SetupScene()
 	glMatrixMode(GL_MODELVIEW);	
 	/*glMultMatrixf(glm::value_ptr(glm::lookAt(m_3rdPersonView.position, m_3rdPersonView.target, m_3rdPersonView.upVector)));*/
 	/*InverseTrackingResults inv(*m_pResults);*/
-	glm::mat4 modelView = m_pResults->GetModelView();		
+	glm::mat4 modelView = m_pResults->GetCameraView();		
 	glMultMatrixf(glm::value_ptr(modelView));
 	
 }

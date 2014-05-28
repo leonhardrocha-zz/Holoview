@@ -4,17 +4,12 @@ Pose InverseTrackingResults::GetAvatarPose()
 {
 	Pose result;
 	UpdateViewTransform();
-	result.eulerAngles = glm::toQuat(View);
+    glm::quat q =glm::toQuat(View);
+	result.eulerAngles = glm::eulerAngles(q);
 	glm::vec4 t = glm::column(View, 3);
 	result.translation = glm::vec3(t.x, t.y, t.z);
-	result.scale = glm::mat4(1.0f/avatar.scale[0][0]);
+	result.scale = 1.0f;
 	return result;
-}
-
-
-void InverseTrackingResults::SetAvatarPose(const Pose& pose)
-{
-	avatar = pose;
 }
 
 

@@ -22,7 +22,7 @@ struct Pose
 	Pose() :	
 		eulerAngles(glm::vec3(0.0f)),
 		translation(glm::vec3(0.0f)),
-		scale(glm::mat4(1.0f)),
+		scale(1.0f),
 		position(glm::vec3(0.0f)),
 		target(glm::vec3(0.0f)),
 		viewUp(glm::vec3(0.0f, 1.0f, 0.0f))
@@ -38,39 +38,13 @@ struct Pose
 		viewUp(parent.viewUp)
 	{	};
 
-	glm::quat eulerAngles;
+	float scale;
+	glm::quat rotation;
+	glm::vec3 eulerAngles;
 	glm::vec3 translation; 
-	glm::mat4 scale;
 	glm::vec3 position;
 	glm::vec3 target;
 	glm::vec3 viewUp;
-};
-
-struct CameraCoordSystem
-{
-	CameraCoordSystem() :
-		m(glm::mat4(1.0f))
-	{
-	}
-
-	CameraCoordSystem(const glm::mat4 ref) :
-		m(ref)
-	{
-	}
-
-	glm::vec3 GetTranslation()
-	{
-		glm::vec4 translation = glm::column(m, 3);
-		return glm::vec3(translation.x, translation.y, translation.z);
-	}
-
-	glm::vec3 GetEulerAngles()
-	{		
-		glm::quat q = glm::toQuat(m);
-		return glm::eulerAngles(q);
-	}
-
-	glm::mat4 m;
 };
 
 class TrackingResults
@@ -84,8 +58,10 @@ public:
 		  Model(glm::mat4(1.0f))
 	{
 	}
+	virtual void SetPose(const Pose& pose);
     virtual void SetAvatarPose(const Pose& pose);
 	virtual void SetCameraPose(const Pose& pose);
+	virtual Pose GetPose();
 	virtual Pose GetAvatarPose();
 	virtual Pose GetCameraPose();
 
@@ -124,7 +100,6 @@ public:
 		return CameraView; 
 	}
 
-	virtual CameraCoordSystem GetCameraCoordSystem();
 	int trackerId;
 protected:
 

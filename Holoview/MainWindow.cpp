@@ -330,7 +330,7 @@ bool MainWindow::AddMultiTrackerDockWidget(ITracker *tracker)
 		frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 
 		MyDock *trackerDock = new MyDock(QLatin1String(" Dock"), this, Qt::WindowFlags(0), frame);
-		trackerDock->setCustomSizeHint(m_customSizeHints.value("Tracker"));
+		trackerDock->setCustomSizeHint(QSize(320,200)/*m_customSizeHints.value("Tracker")*/);
 		addDockWidget(Qt::LeftDockWidgetArea, trackerDock);	
 		dockWidgetMenu->addMenu(trackerDock->menu);
 	}
