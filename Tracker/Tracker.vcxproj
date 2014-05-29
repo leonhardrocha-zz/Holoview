@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>$(ProjectDir)src;$(VCInstallDir)atlmfc\src\mfc;$(VCInstallDir)atlmfc\src\mfcm;$(VCInstallDir)atlmfc\src\atl;$(VCInstallDir)crt\src;</SourcePath>
     <OutDir>$(SolutionDir)lib\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)include;$(SolutionDir)HoloviewLib\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
@@ -78,7 +78,7 @@
     <Lib>
       <AdditionalLibraryDirectories>$(LibDir);$(FTSDK_DIR)lib\x86;$(KINECTSDK10_DIR)lib\x86;C:\Program Files (x86)\Visual Leak Detector\lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
-      <OutputFile>$(OutDir)$(TargetName)d$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

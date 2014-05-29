@@ -1,9 +1,12 @@
 ### Personal libs
-Factory.lib
-HoloviewLib.lib
-osgviewerQtLib.lib
-Tracker.lib
-
+lib/Factory.lib
+lib/HoloviewLib.lib
+lib/osgviewerQtLib.lib
+lib/Tracker.lib
+lib/Factoryd.lib
+lib/HoloviewLibd.lib
+lib/osgviewerQtLibd.lib
+lib/Trackerd.lib
 #################
 ## Eclipse
 #################
@@ -219,3 +222,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+

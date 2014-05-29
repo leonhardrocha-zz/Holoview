@@ -55,6 +55,78 @@
     <Filter Include="Header Files\glm\virtrev">
       <UniqueIdentifier>{f37d00fc-af1b-4eb2-8a4e-1bfbb89ce34d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\osg">
+      <UniqueIdentifier>{6263f962-517b-4018-83a3-5b7e5d47b13b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\OpenThreads">
+      <UniqueIdentifier>{6867e583-be19-4849-9790-24b915a1fa56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osg">
+      <UniqueIdentifier>{d5736172-fad0-4b07-8bb0-32c152d82611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgAnimation">
+      <UniqueIdentifier>{e73263d0-76b4-4626-8a95-b7c2346a91fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgDB">
+      <UniqueIdentifier>{5ab5f01e-a4c9-4ea9-8dac-6f5def84696c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgFX">
+      <UniqueIdentifier>{bb3e8bed-36fb-4a37-b2da-4132065d4be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgGA">
+      <UniqueIdentifier>{ca1260a1-b520-40f0-a400-e38e03abe392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgManipulator">
+      <UniqueIdentifier>{a8f4f5d7-033a-4938-9b3f-4acde4a7e7fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgParticle">
+      <UniqueIdentifier>{7f43a530-ef9e-4c0f-abc5-e4a769df9ee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgPresentation">
+      <UniqueIdentifier>{508c2985-9bdc-4bde-94ad-6c1f6f4eaad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgQt">
+      <UniqueIdentifier>{1f3a2efd-742d-46f9-9641-3f2fe9a5bb0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgShadow">
+      <UniqueIdentifier>{aa61bd03-628c-45a2-a803-153326454ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgSim">
+      <UniqueIdentifier>{369ebed9-7266-4899-8445-b2a7703605ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgTerrain">
+      <UniqueIdentifier>{d93d281b-a5de-4e97-ac86-4ea3355fa8ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgText">
+      <UniqueIdentifier>{c9809e3f-cc02-465c-a322-e5bf10f047b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgUtil">
+      <UniqueIdentifier>{ad1a0758-cc2a-4d1e-8193-c215cc0406e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgViewer">
+      <UniqueIdentifier>{30e0a597-f271-479f-ad32-2b82ee293e25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgVolume">
+      <UniqueIdentifier>{bc63eeca-89ef-4458-b0fb-2eceba59decd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgWidget">
+      <UniqueIdentifier>{02f3cfa5-2dcf-4a24-abc4-20bdbcb00e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgViewer\api">
+      <UniqueIdentifier>{192cd520-a602-4f9e-911d-3a4fabf1a26e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgViewer\config">
+      <UniqueIdentifier>{24076b35-81f5-4580-b4b1-82b649be9772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\osg\osgViewer\api\Win32">
+      <UniqueIdentifier>{930525e5-b14a-4ae8-9ff7-6808178489be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files\osg">
+      <UniqueIdentifier>{0cfd5502-4c13-4ad3-933b-7389b3fce9e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library Files\osg">
+      <UniqueIdentifier>{f851af16-d5f9-49cb-813b-fa04d618c9b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\Assimp32.dll">
@@ -350,63 +422,6 @@
     </None>
     <None Include="Models\Collada\teapots_reference.png">
       <Filter>Model Files\collada</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgAnimationrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgDBrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgFXrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgGArd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgManipulatorrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgParticlerd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgPresentationrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgQtrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgShadowrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgSimrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgTerrainrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgTextrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgUtilrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgViewerrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgVolumerd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\osg111-osgWidgetrd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\ot20-OpenThreadsd.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\ot20-OpenThreadsrd.dll">
-      <Filter>Runtime Files</Filter>
     </None>
     <None Include="Models\OSG\avatar.osg">
       <Filter>Model Files\osg</Filter>
@@ -818,6 +833,1818 @@
     </None>
     <None Include="..\include\glm\gtx\wrap.inl">
       <Filter>Header Files\glm\gtx</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Block">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Condition">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Config">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Exports">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Mutex">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\ReadWriteMutex">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\ReentrantMutex">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\ScopedLock">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Thread">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Version">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Atomic">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\OpenThreads\Barrier">
+      <Filter>Header Files\osg\OpenThreads</Filter>
+    </None>
+    <None Include="..\include\osg\osg\AnimationPath">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ApplicationUsage">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ArgumentParser">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Array">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ArrayDispatchers">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\AudioStream">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\AutoTransform">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Billboard">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BlendColor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BlendEquation">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BlendFunc">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BoundingBox">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BoundingSphere">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BoundsChecking">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\buffered_value">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BufferIndexBinding">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\BufferObject">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Camera">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CameraNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CameraView">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ClampColor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ClearNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ClipNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ClipPlane">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ClusterCullingCallback">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CollectOccludersVisitor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ColorMask">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ColorMatrix">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ComputeBoundsVisitor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Config">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ConvexPlanarOccluder">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ConvexPlanarPolygon">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CoordinateSystemNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CopyOp">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CullFace">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CullingSet">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CullSettings">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\CullStack">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\DeleteHandler">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Depth">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\DisplaySettings">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Drawable">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\DrawPixels">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Endian">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Export">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\fast_back_stack">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Fog">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\FragmentProgram">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\FrameBufferObject">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\FrameStamp">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\FrontFace">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Geode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Geometry">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GL">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GL2Extensions">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GLBeginEndAdapter">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GLExtensions">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GLObjects">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GLU">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GraphicsContext">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GraphicsCostEstimator">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\GraphicsThread">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Group">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Hint">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Image">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ImageSequence">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ImageStream">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ImageUtils">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\io_utils">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\KdTree">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Light">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\LightModel">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\LightSource">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\LineSegment">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\LineStipple">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\LineWidth">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\LOD">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\LogicOp">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Material">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Math">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Matrix">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Matrixd">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Matrixf">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\MatrixTransform">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\MixinVector">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Multisample">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Node">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\NodeCallback">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\NodeTrackerCallback">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\NodeVisitor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Notify">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Object">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Observer">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\observer_ptr">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ObserverNodePath">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\OccluderNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\OcclusionQueryNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\OperationThread">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PagedLOD">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PatchParameter">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Plane">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Point">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PointSprite">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PolygonMode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PolygonOffset">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PolygonStipple">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Polytope">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PositionAttitudeTransform">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PrimitiveRestartIndex">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\PrimitiveSet">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Program">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Projection">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ProxyNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Quat">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ref_ptr">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Referenced">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\RenderInfo">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\SampleMaski">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Scissor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Sequence">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ShadeModel">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Shader">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ShaderAttribute">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ShaderComposer">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ShadowVolumeOccluder">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Shape">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ShapeDrawable">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\State">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\StateAttribute">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\StateAttributeCallback">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\StateSet">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Stats">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Stencil">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\StencilTwoSided">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Switch">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TemplatePrimitiveFunctor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TexEnv">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TexEnvCombine">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TexEnvFilter">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TexGen">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TexGenNode">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TexMat">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Texture">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Texture1D">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Texture2D">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Texture2DArray">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Texture2DMultisample">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Texture3D">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TextureBuffer">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TextureCubeMap">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TextureRectangle">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Timer">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TransferFunction">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Transform">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TriangleFunctor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\TriangleIndexFunctor">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Uniform">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\UserDataContainer">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\ValueObject">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2b">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2d">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2f">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2i">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2s">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2ub">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2ui">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec2us">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3b">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3d">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3f">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3i">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3s">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3ub">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3ui">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec3us">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4b">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4d">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4f">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4i">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4s">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4ub">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4ui">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Vec4us">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Version">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\VertexProgram">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\View">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\Viewport">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osg\AlphaFunc">
+      <Filter>Header Files\osg\osg</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Browser">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Canvas">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\EventInterface">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Export">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Frame">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Input">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Label">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Lua">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\PdfReader">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Python">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\ScriptEngine">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\StyleInterface">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\StyleManager">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Table">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Types">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\UIObjectParent">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Util">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Version">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\ViewerEventHandlers">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\VncClient">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Widget">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Window">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\WindowManager">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgWidget\Box">
+      <Filter>Header Files\osg\osgWidget</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\Locator">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\Property">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\RayTracedTechnique">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\Version">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\Volume">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\VolumeTechnique">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\VolumeTile">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\Export">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\FixedFunctionTechnique">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgVolume\Layer">
+      <Filter>Header Files\osg\osgVolume</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\config\SingleScreen">
+      <Filter>Header Files\osg\osgViewer\config</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\config\SingleWindow">
+      <Filter>Header Files\osg\osgViewer\config</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\config\SphericalDisplay">
+      <Filter>Header Files\osg\osgViewer\config</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\config\WoWVxDisplay">
+      <Filter>Header Files\osg\osgViewer\config</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\config\AcrossAllScreens">
+      <Filter>Header Files\osg\osgViewer\config</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\config\PanoramicSphericalDisplay">
+      <Filter>Header Files\osg\osgViewer\config</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\Renderer">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\Scene">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\Version">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\View">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\Viewer">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\ViewerBase">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\ViewerEventHandlers">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\CompositeViewer">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\Export">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\GraphicsWindow">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\Keystone">
+      <Filter>Header Files\osg\osgViewer</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\api\Win32\GraphicsWindowWin32">
+      <Filter>Header Files\osg\osgViewer\api\Win32</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\api\Win32\PixelBufferWin32">
+      <Filter>Header Files\osg\osgViewer\api\Win32</Filter>
+    </None>
+    <None Include="..\include\osg\osgViewer\api\Win32\GraphicsHandleWin32">
+      <Filter>Header Files\osg\osgViewer\api\Win32</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\DrawElementTypeSimplifier">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\EdgeCollector">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\Export">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\GLObjectsVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\HalfWayMapGenerator">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\HighlightMapGenerator">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\IncrementalCompileOperation">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\IntersectionVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\IntersectVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\LineSegmentIntersector">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\MeshOptimizers">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\OperationArrayFunctor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\Optimizer">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\PerlinNoise">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\PlaneIntersector">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\PolytopeIntersector">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\PositionalStateContainer">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\PrintVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\ReflectionMapGenerator">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\RenderBin">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\RenderLeaf">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\RenderStage">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\ReversePrimitiveFunctor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\SceneGraphBuilder">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\SceneView">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\ShaderGen">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\Simplifier">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\SmoothingVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\StateGraph">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\Statistics">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\TangentSpaceGenerator">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\Tessellator">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\TransformAttributeFunctor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\TransformCallback">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\TriStripVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\UpdateVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\Version">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\ConvertVec">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\CubeMapGenerator">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\CullVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\DelaunayTriangulator">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgUtil\DisplayRequirementsVisitor">
+      <Filter>Header Files\osg\osgUtil</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Font">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Font3D">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Glyph">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\KerningType">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\String">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Style">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Text">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Text3D">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\TextBase">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Version">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\Export">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgText\FadeText">
+      <Filter>Header Files\osg\osgText</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\Layer">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\Locator">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\Terrain">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\TerrainTechnique">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\TerrainTile">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\ValidDataOperator">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\Version">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\Export">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgTerrain\GeometryTechnique">
+      <Filter>Header Files\osg\osgTerrain</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\ColorRange">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\DOFTransform">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\ElevationSlice">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\Export">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\GeographicLocation">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\HeightAboveTerrain">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\Impostor">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\ImpostorSprite">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\InsertImpostorsVisitor">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\LightPoint">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\LightPointNode">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\LightPointSystem">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\LineOfSight">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\MultiSwitch">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\ObjectRecordData">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\OverlayNode">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\ScalarBar">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\ScalarsToColors">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\Sector">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\ShapeAttribute">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\SphereSegment">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\Version">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\VisibilityGroup">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgSim\BlinkSequence">
+      <Filter>Header Files\osg\osgSim</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\DebugShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\Export">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\LightSpacePerspectiveShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\MinimalCullBoundsShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\MinimalDrawBoundsShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\MinimalShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\OccluderGeometry">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ParallelSplitShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ProjectionShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ShadowedScene">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ShadowSettings">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ShadowTechnique">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ShadowTexture">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ShadowVolume">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\SoftShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\StandardShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\Version">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ViewDependentShadowMap">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ViewDependentShadowTechnique">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgShadow\ConvexPolyhedron">
+      <Filter>Header Files\osg\osgShadow</Filter>
+    </None>
+    <None Include="..\include\osg\osgQt\QFontImplementation">
+      <Filter>Header Files\osg\osgQt</Filter>
+    </None>
+    <None Include="..\include\osg\osgQt\QGraphicsViewAdapter">
+      <Filter>Header Files\osg\osgQt</Filter>
+    </None>
+    <None Include="..\include\osg\osgQt\QWebViewImage">
+      <Filter>Header Files\osg\osgQt</Filter>
+    </None>
+    <None Include="..\include\osg\osgQt\QWidgetImage">
+      <Filter>Header Files\osg\osgQt</Filter>
+    </None>
+    <None Include="..\include\osg\osgQt\Export">
+      <Filter>Header Files\osg\osgQt</Filter>
+    </None>
+    <None Include="..\include\osg\osgQt\GraphicsWindowQt">
+      <Filter>Header Files\osg\osgQt</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\PickEventHandler">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\PropertyManager">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\SlideEventHandler">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\SlideShowConstructor">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\Timeout">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\AnimationMaterial">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\CompileSlideCallback">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\Export">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgPresentation\KeyEventHandler">
+      <Filter>Header Files\osg\osgPresentation</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\AngularAccelOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\AngularDampingOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\BounceOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\BoxPlacer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\CenteredPlacer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\CompositePlacer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ConnectedParticleSystem">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ConstantRateCounter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Counter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\DampingOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\DomainOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Emitter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ExplosionDebrisEffect">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ExplosionEffect">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ExplosionOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Export">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\FireEffect">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\FluidFrictionOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\FluidProgram">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ForceOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Interpolator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\LinearInterpolator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ModularEmitter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ModularProgram">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\MultiSegmentPlacer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Operator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\OrbitOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Particle">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ParticleEffect">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ParticleProcessor">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ParticleSystem">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\ParticleSystemUpdater">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Placer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\PointPlacer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\PrecipitationEffect">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Program">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\RadialShooter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\RandomRateCounter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\range">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\SectorPlacer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\SegmentPlacer">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Shooter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\SinkOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\SmokeEffect">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\SmokeTrailEffect">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\VariableRateCounter">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\Version">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgParticle\AccelOperator">
+      <Filter>Header Files\osg\osgParticle</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\CommandManager">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Constraint">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Dragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Export">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Projector">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\RotateCylinderDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\RotateSphereDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Scale1DDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Scale2DDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\ScaleAxisDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Selection">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\TabBoxDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\TabBoxTrackballDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\TabPlaneDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\TabPlaneTrackballDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\TrackballDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Translate1DDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Translate2DDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\TranslateAxisDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\TranslatePlaneDragger">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Version">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\AntiSquish">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgManipulator\Command">
+      <Filter>Header Files\osg\osgManipulator</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\CameraViewSwitchManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\Device">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\DriveManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\EventQueue">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\EventVisitor">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\Export">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\FirstPersonManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\FlightManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\GUIActionAdapter">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\GUIEventAdapter">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\GUIEventHandler">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\KeySwitchMatrixManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\MultiTouchTrackballManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\NodeTrackerManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\OrbitManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\SphericalManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\StandardManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\StateSetManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\TerrainManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\TrackballManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\UFOManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\Version">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\AnimationPathManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgGA\CameraManipulator">
+      <Filter>Header Files\osg\osgGA</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\BumpMapping">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Cartoon">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Effect">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Export">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\MultiTextureControl">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Outline">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Registry">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Scribe">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\SpecularHighlights">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Technique">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Validator">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\Version">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgFX\AnisotropicLighting">
+      <Filter>Header Files\osg\osgFX</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Callbacks">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ConvertUTF">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\DatabasePager">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\DatabaseRevisions">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\DataTypes">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\DotOsgWrapper">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\DynamicLibrary">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Export">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ExternalFileWriter">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\FileCache">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\FileNameUtils">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\FileUtils">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\fstream">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ImageOptions">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ImagePager">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ImageProcessor">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Input">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\InputStream">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ObjectWrapper">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Options">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Output">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\OutputStream">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ParameterOutput">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\PluginQuery">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ReaderWriter">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\ReadFile">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Registry">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Serializer">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\SharedStateManager">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\StreamOperator">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Version">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\WriteFile">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\XmlParser">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\Archive">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgDB\AuthenticationMap">
+      <Filter>Header Files\osg\osgDB</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\ActionBlendIn">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\ActionBlendOut">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\ActionCallback">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\ActionStripAnimation">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\ActionVisitor">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Animation">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\AnimationManagerBase">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\AnimationUpdateCallback">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\BasicAnimationManager">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Bone">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\BoneMapVisitor">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Channel">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\CubicBezier">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\EaseMotion">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Export">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\FrameAction">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Interpolator">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Keyframe">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\LinkVisitor">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\MorphGeometry">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\RigGeometry">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\RigTransform">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\RigTransformHardware">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\RigTransformSoftware">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Sampler">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Skeleton">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StackedMatrixElement">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StackedQuaternionElement">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StackedRotateAxisElement">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StackedScaleElement">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StackedTransform">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StackedTransformElement">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StackedTranslateElement">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StatsHandler">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\StatsVisitor">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Target">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Timeline">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\TimelineAnimationManager">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\UpdateBone">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\UpdateMaterial">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\UpdateMatrixTransform">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Vec3Packed">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\VertexInfluence">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\Action">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\include\osg\osgAnimation\ActionAnimation">
+      <Filter>Header Files\osg\osgAnimation</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgQt.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgQtd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgShadow.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgShadowd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgSim.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgSimd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgTerrain.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgTerraind.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgText.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgTextd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgUtil.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgUtild.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgViewer.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgViewerd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgVolume.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgVolumed.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgWidget.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgWidgetd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\ot20-OpenThreads.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\ot20-OpenThreadsd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osg.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgAnimation.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgAnimationd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgDB.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgDBd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgFX.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgFXd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgGA.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgGAd.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgManipulator.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgManipulatord.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgParticle.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgParticled.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgPresentation.dll">
+      <Filter>Runtime Files\osg</Filter>
+    </None>
+    <None Include="..\bin\osg100-osgPresentationd.dll">
+      <Filter>Runtime Files\osg</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1429,62 +3256,113 @@
     <Library Include="..\lib\ILUT.lib">
       <Filter>Library Files</Filter>
     </Library>
+    <Library Include="..\lib\OpenThreads.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgWidgetd.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
     <Library Include="..\lib\OpenThreadsd.lib">
-      <Filter>Library Files</Filter>
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\OpenThreadsrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osg.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgAnimationrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgAnimation.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgDBrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgAnimationd.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgFXrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgd.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgGArd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgDB.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgManipulatorrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgDBd.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgParticlerd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgFX.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgPresentationrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgFXd.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgQtrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgGA.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgGAd.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgShadowrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgManipulator.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgSimrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgManipulatord.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgTerrainrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgParticle.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgTextrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgParticled.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgUtilrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgPresentation.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgViewerrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgPresentationd.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgVolumerd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgQt.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
-    <Library Include="..\lib\osgWidgetrd.lib">
-      <Filter>Library Files</Filter>
+    <Library Include="..\lib\osgQtd.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgShadow.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgShadowd.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgSim.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgSimd.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgTerrain.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgTerraind.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgText.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgTextd.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgUtil.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgUtild.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgViewer.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgViewerd.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgVolume.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgVolumed.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgWidget.lib">
+      <Filter>Library Files\osg</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
