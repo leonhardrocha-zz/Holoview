@@ -51,7 +51,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(BinDir)*.* $(OutDir)</Command>
+      <Command>xcopy /Y "$(SolutionDir)bin\*.*" "$(OutDir)"</Command>
       <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -68,7 +68,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y $(BinDir)*.* $(OutDir)</Command>
+      <Command>xcopy /Y "$(SolutionDir)bin\*.*" "$(OutDir)"</Command>
       <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
