@@ -1,26 +1,28 @@
 #include "ViewerWidget.h"
 
-ViewerWidget::ViewerWidget(osgViewer::ViewerBase::ThreadingModel threadingModel) : QWidget()
+ViewerWidget::ViewerWidget(QWidget* parent) : QWidget(parent)
 {
-    setThreadingModel(threadingModel);
+    setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
 
     // disable the default setting of viewer.done() by pressing Escape.
     setKeyEventSetsDone(0);
 	auto instance = osgDB::Registry::instance();
-    QWidget* widget1 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("cow.osgt") );
-    QWidget* widget2 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("glider.osgt") );
-    QWidget* widget3 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("axes.osgt") );
-    QWidget* widget4 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("fountain.osgt") );
-    QWidget* popupWidget = addViewWidget( createGraphicsWindow(900,100,320,240,"Popup window",true), osgDB::readNodeFile("dumptruck.osgt") );
-    popupWidget->show();
+
+    QWidget* widget1 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae") );
+    //QWidget* widget2 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("glider.osgt") );
+    //QWidget* widget3 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("axes.osgt") );
+    //QWidget* widget4 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("fountain.osgt") );
 
     QGridLayout* grid = new QGridLayout;
     grid->addWidget( widget1, 0, 0 );
-    grid->addWidget( widget2, 0, 1 );
-    grid->addWidget( widget3, 1, 0 );
-    grid->addWidget( widget4, 1, 1 );
+    //grid->addWidget( widget2, 0, 1 );
+    //grid->addWidget( widget3, 1, 0 );
+    //grid->addWidget( widget4, 1, 1 );
     setLayout( grid );
 
+	RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
+	setAttribute(Qt::WA_NativeWindow);
+	setAttribute(Qt::WA_PaintOnScreen);	
     connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
     _timer.start( 10 );
 }
@@ -63,11 +65,6 @@ osgQt::GraphicsWindowQt* ViewerWidget::createGraphicsWindow( int x, int y, int w
     traits->samples = ds->getNumMultiSamples();
 
     return new osgQt::GraphicsWindowQt(traits.get());
-}
-
-bool ViewerWidget::nativeEvent(const QByteArray& eventType, void * message, long *result)
-{
-	return true;
 }
 
 void ViewerWidget::paintEvent( QPaintEvent* event )

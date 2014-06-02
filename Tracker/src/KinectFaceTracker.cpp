@@ -350,7 +350,7 @@ void KinectFaceTracker::PaintEvent(void *message, TrackingArgs args)
 	if (msg != NULL)
 	{
 		PAINTSTRUCT ps;
-		if (!m_hWnd)
+		if (m_hWnd == NULL)
 		{
 			m_hWnd = msg->hwnd;
 		}

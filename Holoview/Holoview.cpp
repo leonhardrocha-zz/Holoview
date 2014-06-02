@@ -8,17 +8,9 @@ Holoview::Holoview(const QMap<QString, QSize> &customSizeHints,
 	: MainWindow(customSizeHints, parent, flags)
 {
 	//ui.setupUi(this);
-
-	QSurfaceFormat format;
-    format.setSamples(4);
-	window.setFormat(format);
-	window.resize(640, 480);	
-	window.setAnimating(true);
-	QWidget *oglContainer = QWidget::createWindowContainer(&window);
-	oglContainer->setMinimumSize(640,480);
-	oglContainer->setMaximumSize(1280,960);
-	oglContainer->setFocusPolicy(Qt::TabFocus);	
-	setCentralWidget(oglContainer);
+    viewWidget.setGeometry( 100, 100, 800, 600 );
+    //viewWidget.show();
+	setCentralWidget(&viewWidget);
 }
 
 Holoview::~Holoview()

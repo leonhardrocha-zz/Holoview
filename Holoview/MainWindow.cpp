@@ -324,13 +324,13 @@ void MainWindow::setupDockWidgets(const QMap<QString, QSize> &customSizeHints)
 
 bool MainWindow::AddMultiTrackerDockWidget(ITracker *tracker)
 {
-	for (int i =0; i< 2; i++)
+	for (int i =0; i< 4; i++)
 	{
 		MultiTrackerFrame *frame = new MultiTrackerFrame(i, this,  tracker);
 		frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 
 		MyDock *trackerDock = new MyDock(QLatin1String(" Dock"), this, Qt::WindowFlags(0), frame);
-		trackerDock->setCustomSizeHint(QSize(320,200)/*m_customSizeHints.value("Tracker")*/);
+		trackerDock->setCustomSizeHint(m_customSizeHints.value("Tracker"));
 		addDockWidget(Qt::LeftDockWidgetArea, trackerDock);	
 		dockWidgetMenu->addMenu(trackerDock->menu);
 	}
@@ -344,7 +344,7 @@ bool MainWindow::AddTrackerDockWidget(ITracker* tracker)
 
 	MyDock *trackerDock = new MyDock(name + QLatin1String(" Dock"), this, Qt::WindowFlags(0), frame);
 	trackerDock->setCustomSizeHint(m_customSizeHints.value("Tracker"));
-	trackerDock->setFloating(true);
+	trackerDock->setFloating(false);
 	addDockWidget(Qt::RightDockWidgetArea, trackerDock);	
 	dockWidgetMenu->addMenu(trackerDock->menu);
 
@@ -354,10 +354,11 @@ bool MainWindow::AddTrackerDockWidget(ITracker* tracker)
 bool MainWindow::AddOSGWidget()
 {
 	QString osgName = QString::fromLatin1("OSG");
-	OSGFrame *osgFrame = new OSGFrame(osgName + QLatin1String(" Frame"), this);
-    osgFrame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 	
-	MyDock *osgDock = new MyDock(osgName + QLatin1String(" Dock"), this, Qt::WindowFlags(0), osgFrame);
+	ViewerWidget* osgWidget = new ViewerWidget();
+	/*OSGFrame *osgFrame = new OSGFrame(osgName + QLatin1String(" Frame"), this);
+    osgFrame->setFrameStyle(QFrame::Box | QFrame::Sunken);*/
+	MyDock *osgDock = new MyDock(osgName + QLatin1String(" Dock"), this, Qt::WindowFlags(0), osgWidget);
 	osgDock->setCustomSizeHint(m_customSizeHints.value("OSG"));
 	osgDock->setFloating(false);
 	addDockWidget(Qt::RightDockWidgetArea, osgDock);	

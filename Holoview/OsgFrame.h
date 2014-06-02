@@ -20,8 +20,13 @@ public:
 	}
 	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
 	{	
-		osgViewer.nativeEvent(eventType, message, result);
+		osgViewer.frame();
 		return true;
+	}
+
+	virtual void paintEvent( QPaintEvent* e )
+	{ 
+		osgViewer.frame();
 	}
 
 	ViewerWidget osgViewer;

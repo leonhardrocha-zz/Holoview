@@ -12,12 +12,12 @@
 class ViewerWidget : public QWidget, public osgViewer::CompositeViewer
 {
 public:
-    ViewerWidget(osgViewer::ViewerBase::ThreadingModel threadingModel=osgViewer::CompositeViewer::SingleThreaded);
+    ViewerWidget(QWidget* parent = (QWidget*)0);
     QWidget* addViewWidget( osgQt::GraphicsWindowQt* gw, osg::Node* scene );
     osgQt::GraphicsWindowQt* createGraphicsWindow( int x, int y, int w, int h, const std::string& name="", bool windowDecoration=false );
-    virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result);
-	
+    
+
 protected:
-	virtual void paintEvent( QPaintEvent* event );
+	virtual void paintEvent( QPaintEvent* event );	
     QTimer _timer;
 };

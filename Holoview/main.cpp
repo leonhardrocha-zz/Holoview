@@ -58,19 +58,46 @@ int main(int argc, char *argv[])
 	Holoview mainWindow(customSizeHints);
 	mainWindow.menuBar()->addMenu("&File")->addAction("&Exit", &app, SLOT(quit()));
 	ITracker* tracker = mainWindow.GetTracker();
-	tracker->Init();	
+	tracker->Init();
 	mainWindow.AddMultiTrackerDockWidget(tracker);
-	//mainWindow.AddOSGWidget();
+	/*mainWindow.AddOSGWidget();*/
 	tracker->Start();
-	QWidget central(&mainWindow);	
-	QWidget trackerWidget(&central);
 	mainWindow.show();
-
-	//ViewerWidget* viewWidget = new ViewerWidget();
- //   viewWidget->setGeometry( 100, 100, 800, 600 );
- //   viewWidget->show();
-
 	app.exec();
 	return 0;
 }
 
+//int main( int argc, char** argv )
+//{
+//    osg::ArgumentParser arguments(&argc, argv);
+//
+//#if QT_VERSION >= 0x050000
+//    // Qt5 is currently crashing and reporting "Cannot make QOpenGLContext current in a different thread" when the viewer is run multi-threaded, this is regression from Qt4
+//    osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::SingleThreaded;
+//#else
+//    osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::CullDrawThreadPerContext;
+//#endif
+//
+//    while (arguments.read("--SingleThreaded")) threadingModel = osgViewer::ViewerBase::SingleThreaded;
+//    while (arguments.read("--CullDrawThreadPerContext")) threadingModel = osgViewer::ViewerBase::CullDrawThreadPerContext;
+//    while (arguments.read("--DrawThreadPerContext")) threadingModel = osgViewer::ViewerBase::DrawThreadPerContext;
+//    while (arguments.read("--CullThreadPerCameraDrawThreadPerContext")) threadingModel = osgViewer::ViewerBase::CullThreadPerCameraDrawThreadPerContext;
+//
+//    QApplication app(argc, argv);
+//    ViewerWidget* viewWidget;
+//
+//	try
+//    { 
+//		viewWidget = new ViewerWidget();
+//		viewWidget->setGeometry( 100, 100, 800, 600 );
+//		viewWidget->show();
+//        /*root = osgDB::readNodeFile("cessna.osg");
+//        viewer.setSceneData(root.get()); */
+//    }
+//    catch(std::bad_alloc)
+//    { 
+//        std::cout << "a bad_alloc exception just occured"; 
+//    }
+//    
+//    return app.exec();
+//}

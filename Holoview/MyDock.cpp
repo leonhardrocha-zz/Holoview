@@ -18,7 +18,7 @@
 #include <QBitmap>
 #include <QtDebug>
 
-MyDock::MyDock(const QString &name, QWidget *parent, Qt::WindowFlags flags, DockFrame *frame)
+MyDock::MyDock(const QString &name, QWidget *parent, Qt::WindowFlags flags, QWidget *frame)
     : QDockWidget(parent, flags), m_dockFrame(frame)
 {
     setObjectName(name + QLatin1String(" Dock Widget"));

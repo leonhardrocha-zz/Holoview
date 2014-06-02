@@ -127,38 +127,26 @@
     <Filter Include="Library Files\osg">
       <UniqueIdentifier>{f851af16-d5f9-49cb-813b-fa04d618c9b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime Files\osg\Release">
+      <UniqueIdentifier>{92827f33-90a5-4719-9bf8-7815bd1c0066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files\osg\Debug">
+      <UniqueIdentifier>{fc86f9ff-7ee0-40d2-83c0-6db2a9da5aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files\osg\Debug\plugins">
+      <UniqueIdentifier>{2684afd0-b81a-4905-a266-5819db879e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files\osg\Release\plugins">
+      <UniqueIdentifier>{6cc030af-f407-49ab-a893-df89ba25ff9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files\osg\Debug\3rdparty">
+      <UniqueIdentifier>{b8e126bf-f993-47b9-a9ad-516c5c512fef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files\osg\Release\3rdparty">
+      <UniqueIdentifier>{8d070262-dbf7-400b-8f57-f5b3b5f0b832}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\bin\Assimp32.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\D3DCompiler_42.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\D3DX9_42.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\DevIL.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\FaceTrackData.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\FaceTrackLib.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\freeglut.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\glew32.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\ILU.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="..\bin\ILUT.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
     <None Include="..\include\assimp\color4.inl">
       <Filter>Header Files\assimp</Filter>
     </None>
@@ -2538,113 +2526,683 @@
     <None Include="..\include\osg\osgAnimation\ActionAnimation">
       <Filter>Header Files\osg\osgAnimation</Filter>
     </None>
-    <None Include="..\bin\osg100-osgQt.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\Assimp32.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgQtd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\D3DCompiler_42.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgShadow.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\D3DX9_42.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgShadowd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\DevIL.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgSim.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\FaceTrackData.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgSimd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\FaceTrackLib.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgTerrain.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\freeglut.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgTerraind.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\gdal17.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgText.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\glew32.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgTextd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\ILU.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgUtil.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\ILUT.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgUtild.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\libtiff.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgViewer.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\libxml2.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgViewerd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\nvtt.dll">
+      <Filter>Runtime Files</Filter>
     </None>
-    <None Include="..\bin\osg100-osgVolume.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgAnimationd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgVolumed.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgWidget.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgDBd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgWidgetd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgFXd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\ot20-OpenThreads.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgGAd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\ot20-OpenThreadsd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgManipulatord.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osg.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgParticled.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgAnimation.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgPresentationd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgAnimationd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgQtd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgShadowd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgDB.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgSimd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgDBd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgTerraind.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgFX.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgTextd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgFXd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgUtild.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgGA.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgViewerd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgGAd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgVolumed.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgManipulator.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\osg100-osgWidgetd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgManipulatord.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\ot20-OpenThreadsd.dll">
+      <Filter>Runtime Files\osg\Debug</Filter>
     </None>
-    <None Include="..\bin\osg100-osgParticle.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_3dcd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
     </None>
-    <None Include="..\bin\osg100-osgParticled.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_3dsd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
     </None>
-    <None Include="..\bin\osg100-osgPresentation.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_acd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
     </None>
-    <None Include="..\bin\osg100-osgPresentationd.dll">
-      <Filter>Runtime Files\osg</Filter>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_bmpd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_bspd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_bvhd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_cfgd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_curld.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_daed.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_ddsd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osganimationd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgfxd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgparticled.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgshadowd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgsimd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgterraind.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgtextd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgviewerd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgvolumed.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_deprecated_osgwidgetd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_dotd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_dwd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_dxfd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_freetyped.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_gdald.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_gifd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_glsld.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_gzd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_hdrd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_ived.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_jpegd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_ktxd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_logod.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_lwod.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_lwsd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_md2d.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_mdld.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_normalsd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_nvttd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_objd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_ogrd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_openflightd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_oscd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_osgad.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_osgshadowd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_osgterraind.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_osgtgzd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_osgviewerd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_p3dd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_picd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_plyd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_pngd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_pnmd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_povd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_pvrd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_revisionsd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_rgbd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_rotd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_scaled.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osganimationd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgfxd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osggad.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgmanipulatord.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgparticled.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgshadowd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgsimd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgterraind.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgtextd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgviewerd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_serializers_osgvolumed.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_shpd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_stld.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_tgad.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_tgzd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_tiffd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_transd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_trkd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_txfd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_txpd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_vtfd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_xd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\plugins\osgdb_zipd.dll">
+      <Filter>Runtime Files\osg\Debug\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\3rdparty\glut32D.dll">
+      <Filter>Runtime Files\osg\Debug\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\3rdparty\libcollada14dom21-d.dll">
+      <Filter>Runtime Files\osg\Debug\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\3rdparty\libcurlD.dll">
+      <Filter>Runtime Files\osg\Debug\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_3dc.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_3ds.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_ac.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_bmp.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_bsp.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_bvh.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_cfg.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_curl.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_dae.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_dds.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osg.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osganimation.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgfx.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgparticle.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgshadow.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgsim.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgterrain.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgtext.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgviewer.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgvolume.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_deprecated_osgwidget.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_dot.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_dw.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_dxf.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_freetype.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_gdal.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_gif.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_glsl.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_gz.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_hdr.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_ive.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_jpeg.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_ktx.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_logo.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_lwo.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_lws.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_md2.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_mdl.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_normals.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_nvtt.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_obj.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_ogr.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_openflight.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osc.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osg.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osga.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osgd.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osgshadow.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osgterrain.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osgtgz.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_osgviewer.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_p3d.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_pic.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_ply.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_png.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_pnm.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_pov.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_pvr.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_revisions.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_rgb.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_rot.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_scale.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osg.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osganimation.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgfx.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgga.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgmanipulator.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgparticle.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgshadow.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgsim.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgterrain.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgtext.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgviewer.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_serializers_osgvolume.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_shp.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_stl.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_tga.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_tgz.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_tiff.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_trans.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_trk.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_txf.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_txp.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_vtf.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_x.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\plugins\osgdb_zip.dll">
+      <Filter>Runtime Files\osg\Release\plugins</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osg.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgAnimation.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgDB.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgFX.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgGA.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgManipulator.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgParticle.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgPresentation.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgQt.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgShadow.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgSim.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgTerrain.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgText.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgUtil.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgViewer.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgVolume.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\osg100-osgWidget.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\ot20-OpenThreads.dll">
+      <Filter>Runtime Files\osg\Release</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\3rdparty\glut32.dll">
+      <Filter>Runtime Files\osg\Release\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\3rdparty\libcollada14dom21.dll">
+      <Filter>Runtime Files\osg\Release\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\3rdparty\libcurl.dll">
+      <Filter>Runtime Files\osg\Release\3rdparty</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
