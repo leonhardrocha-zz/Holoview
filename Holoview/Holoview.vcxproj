@@ -150,6 +150,7 @@
     <ClCompile Include="ModelWindow.cpp" />
     <ClCompile Include="MyDock.cpp" />
     <ClCompile Include="OpenGLWindow.cpp" />
+    <ClCompile Include="OsgWindow.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -161,6 +162,7 @@
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h" />
     <ClInclude Include="KinectWindow.h" />
     <ClInclude Include="OsgFrame.h" />
+    <ClInclude Include="OsgWindow.h" />
     <ClInclude Include="WindowsKinectFactory.h" />
     <CustomBuild Include="HoloviewApp.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

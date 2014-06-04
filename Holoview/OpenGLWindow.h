@@ -55,7 +55,7 @@ public:
 
     virtual void render(QPainter *painter);
     virtual void render();
-	virtual void resizeWindow() {};
+    virtual void resizeWindow() {};
 
     virtual void initialize();
 

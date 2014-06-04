@@ -1,15 +1,18 @@
 #pragma once
+#include "IView.h"
 #include "ITracker.h"
 #include "OpenGLHelper.h"
 #include "OpenGLWindow.h"
 #include "KinectTracker.h"
-#include "KinectView.h"
+#include "OsgKinectView.h"
+#include "TrackingResults.h"
+#include "ViewerWidget.h"
 
-class KinectWindow : public OpenGLWindow, KinectView
+class OsgWindow : public OpenGLWindow, OsgKinectView
 {
 public:
-	KinectWindow();
-	~KinectWindow() {};
+	OsgWindow();
+	~OsgWindow() {};
 	virtual void initialize();
     virtual void render();
 	virtual void SetupWindow(int width, int height);
@@ -19,12 +22,14 @@ public:
 	virtual void RenderScene();
 	virtual void SetTrackingResults(int trackedId, TrackingResults *results);
 	ITracker* GetTracker() { return &tracker; };
+	ViewerWidget* GetViewer() { return &viewer; };
 
 protected:
 	static void TrackerUpdateStatic(void* lpParam, void* args=NULL);
 	//OpenGLWindow overrides
 	virtual void resizeWindow();
-	OpenGL21Renderer renderer;
+	ViewerWidget viewer;
+    OsgScene scene;
 	KinectTracker tracker;
 	TrackingResults* m_pResults;
 

@@ -28,13 +28,19 @@
     <ClCompile Include="src\ToeInStereoView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KinectView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\TrackingResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\InverseTrackingResults.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLKinectView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OsgKinectView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KinectView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,10 +99,19 @@
     <ClInclude Include="include\TrackingResults.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\InverseTrackingResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLKinectView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OsgKinectView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\KinectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\InverseTrackingResults.h">
+    <ClInclude Include="include\IView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

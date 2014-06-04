@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tracker", "Tracker\Tracker.vcxproj", "{0C756FDF-8218-4D6A-8121-7AA5CB12869E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HoloviewLib", "HoloviewLib\HoloViewLib.vcxproj", "{8CB18462-5377-F135-CF08-F7816DEFEE47}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52965829-F97A-492F-8016-718E737A6088} = {52965829-F97A-492F-8016-718E737A6088}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Factory", "Factory\Factory.vcxproj", "{68351E09-FE17-4B53-AF59-3152FE4FCB69}"
 	ProjectSection(ProjectDependencies) = postProject

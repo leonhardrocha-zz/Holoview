@@ -2,27 +2,19 @@
 
 ViewerWidget::ViewerWidget(QWidget* parent) : QWidget(parent)
 {
-    setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
-
-    // disable the default setting of viewer.done() by pressing Escape.
+	setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
     setKeyEventSetsDone(0);
-	auto instance = osgDB::Registry::instance();
+}
 
-    QWidget* widget1 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae") );
-    //QWidget* widget2 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("glider.osgt") );
-    //QWidget* widget3 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("axes.osgt") );
-    //QWidget* widget4 = addViewWidget( createGraphicsWindow(0,0,100,100), osgDB::readNodeFile("fountain.osgt") );
-
+void ViewerWidget::Init()
+{
+    QWidget* widget1 = addViewWidget( createGraphicsWindow(0,0,800,600), m_scene.GetRoot() );
     QGridLayout* grid = new QGridLayout;
     grid->addWidget( widget1, 0, 0 );
-    //grid->addWidget( widget2, 0, 1 );
-    //grid->addWidget( widget3, 1, 0 );
-    //grid->addWidget( widget4, 1, 1 );
     setLayout( grid );
-
-	RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
-	setAttribute(Qt::WA_NativeWindow);
-	setAttribute(Qt::WA_PaintOnScreen);	
+    RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
+    setAttribute(Qt::WA_NativeWindow);
+    setAttribute(Qt::WA_PaintOnScreen);
     connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
     _timer.start( 10 );
 }
@@ -34,6 +26,11 @@ QWidget* ViewerWidget::addViewWidget( osgQt::GraphicsWindowQt* gw, osg::Node* sc
 
     osg::Camera* camera = view->getCamera();
     camera->setGraphicsContext( gw );
+	/*osg::Matrixd viewMatrix;
+	osg::Matrixd projectionMatrix;
+	camera->setViewMatrix( viewMatrix );
+	camera->setProjectionMatrix( projectionMatrix );
+	camera->setViewport( new osg::Viewport(x, y, w, h) );*/
 
     const osg::GraphicsContext::Traits* traits = gw->getTraits();
 
@@ -51,6 +48,13 @@ QWidget* ViewerWidget::addViewWidget( osgQt::GraphicsWindowQt* gw, osg::Node* sc
 osgQt::GraphicsWindowQt* ViewerWidget::createGraphicsWindow( int x, int y, int w, int h, const std::string& name, bool windowDecoration)
 {
     osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
+	ds->setStereo(true);
+	ds->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
+	ds->setDisplayType(osg::DisplaySettings::MONITOR);
+	
+	ds->setSplitStereoHorizontalEyeMapping(osg::DisplaySettings::LEFT_EYE_LEFT_VIEWPORT);
+
+
     osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
     traits->windowName = name;
     traits->windowDecoration = windowDecoration;
@@ -63,8 +67,10 @@ osgQt::GraphicsWindowQt* ViewerWidget::createGraphicsWindow( int x, int y, int w
     traits->stencil = ds->getMinimumNumStencilBits();
     traits->sampleBuffers = ds->getMultiSamples();
     traits->samples = ds->getNumMultiSamples();
-
-    return new osgQt::GraphicsWindowQt(traits.get());
+	
+	//traits->quadBufferStereo = true;
+    
+	return new osgQt::GraphicsWindowQt(traits.get());
 }
 
 void ViewerWidget::paintEvent( QPaintEvent* event )

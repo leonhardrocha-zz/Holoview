@@ -8,8 +8,8 @@ class KinectTracker :  public TrackerManager
 
 public:
 	KinectTracker::KinectTracker(ITracker* parent=NULL) : TrackerManager(parent) {};
+
 protected:
 private:
-
 };
 

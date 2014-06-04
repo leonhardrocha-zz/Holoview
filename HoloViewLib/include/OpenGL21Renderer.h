@@ -1,6 +1,7 @@
 #ifndef _OPENGL21_RENDERER_H_
 #define _OPENGL21_RENDERER_H_
 
+#include "AssetReader.h"
 #include "BaseAssetRenderer.h"
 #include <vector>
 #include <map>

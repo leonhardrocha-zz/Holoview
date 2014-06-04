@@ -182,9 +182,13 @@
     </ProjectReference>
   </ItemGroup>-->
   <ItemGroup>
+    <ClCompile Include="OsgScene.cpp" />
+    <ClCompile Include="PickerHandler.cpp" />
     <ClCompile Include="ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="OsgScene.h" />
+    <ClInclude Include="PickerHandler.h" />
     <ClInclude Include="ViewerWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

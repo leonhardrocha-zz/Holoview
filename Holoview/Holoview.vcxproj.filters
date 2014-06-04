@@ -110,10 +110,13 @@
     <ClCompile Include="GeneratedFiles\Release\moc_HoloviewApp.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="MyDock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="KinectWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyDock.cpp">
+    <ClCompile Include="OsgWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,6 +143,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="KinectWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OsgWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

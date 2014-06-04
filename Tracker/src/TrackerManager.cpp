@@ -35,8 +35,9 @@ bool TrackerManager::Init()
     NuiGetSensorCount(&numSensors);
 
 	int id;
+	bool initOk = true;
 	InitializeCriticalSection(&m_CriticalSection);		
-	for (id=0; id < numSensors; id++)
+	for (id=0; id < 1; id++)
 	{
 		KinectFaceTracker* tracker = new KinectFaceTracker(this, id);
 		if (tracker->Init())
@@ -44,10 +45,11 @@ bool TrackerManager::Init()
 			m_pFaceTrackers.push_back(tracker);			
 		} else
 		{
+			initOk = false;
 			delete tracker;
 		}
 	}		  
-    return (id == numSensors);
+    return initOk;
 }
 
 void TrackerManager::UninitInstance()
@@ -164,7 +166,6 @@ KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 
 TrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
 {
-	//WeightResults();
 	int id = args == NULL ? 0 : *(static_cast<int*>(args));
 	KinectFaceTracker *tracker = m_pFaceTrackers[id];
 	return tracker->GetTrackingResults();

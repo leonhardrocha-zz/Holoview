@@ -4,7 +4,7 @@
 #include "MainWindow.h"
 #include "AssetWindow.h"
 #include "KinectWindow.h"
-#include "ViewerWidget.h"
+#include "OsgWindow.h"
 #include "ui_Holoview.h"
 
 #include "ITrackerFactory.h"
@@ -25,7 +25,7 @@ private:
 	/*Ui_HoloviewClass ui;*/
 	Ui::HoloviewClass ui;
 	KinectWindow trackerWindow;
-	ViewerWidget viewWidget;
+	OsgWindow osgWindow;
 };
 
 #endif // HOLOVIEW_H
