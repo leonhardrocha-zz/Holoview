@@ -14,10 +14,7 @@
     <ClInclude Include="ViewerWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PickerHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OsgScene.h">
+    <ClInclude Include="PickHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -25,10 +22,7 @@
     <ClCompile Include="ViewerWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PickerHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OsgScene.cpp">
+    <ClCompile Include="PickHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

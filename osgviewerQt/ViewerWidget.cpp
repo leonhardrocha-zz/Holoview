@@ -1,16 +1,24 @@
 #include "ViewerWidget.h"
 
-ViewerWidget::ViewerWidget(QWidget* parent) : QWidget(parent)
+#ifdef _DEBUG
+#include "vld.h"
+#endif
+
+ViewerWidget::ViewerWidget(QWidget* parent, osg::ref_ptr<osgViewer::View> view, osg::ref_ptr<osg::Group> scene) : QWidget(parent), m_osgView(view), m_osgScene(scene)
 {
-	setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
+    setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
     setKeyEventSetsDone(0);
+}
+
+ViewerWidget::~ViewerWidget() 
+{
 }
 
 void ViewerWidget::Init()
 {
-    QWidget* widget1 = addViewWidget( createGraphicsWindow(0,0,800,600), m_scene.GetRoot() );
+    m_qtWidget = addViewWidget( m_osgView, createGraphicsWindow(0, 0, 800, 600) , m_osgScene );
     QGridLayout* grid = new QGridLayout;
-    grid->addWidget( widget1, 0, 0 );
+    grid->addWidget( m_qtWidget, 0, 0 );
     setLayout( grid );
     RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
     setAttribute(Qt::WA_NativeWindow);
@@ -19,9 +27,32 @@ void ViewerWidget::Init()
     _timer.start( 10 );
 }
 
-QWidget* ViewerWidget::addViewWidget( osgQt::GraphicsWindowQt* gw, osg::Node* scene )
+osgQt::GraphicsWindowQt* ViewerWidget::createGraphicsWindow( int x, int y, int w, int h, const std::string& name, bool windowDecoration)
 {
-    osgViewer::View* view = new osgViewer::View;
+    osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
+    ds->setStereo(true);
+    ds->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
+    ds->setDisplayType(osg::DisplaySettings::MONITOR);
+    ds->setSplitStereoHorizontalEyeMapping(osg::DisplaySettings::LEFT_EYE_LEFT_VIEWPORT);
+
+    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
+    traits->windowName = name;
+    traits->windowDecoration = windowDecoration;
+    traits->x = x;
+    traits->y = y;
+    traits->width = w;
+    traits->height = h;
+    traits->doubleBuffer = true;
+    traits->alpha = ds->getMinimumNumAlphaBits();
+    traits->stencil = ds->getMinimumNumStencilBits();
+    traits->sampleBuffers = ds->getMultiSamples();
+    traits->samples = ds->getNumMultiSamples();
+  
+	return new osgQt::GraphicsWindowQt(traits.get());
+}
+
+QWidget* ViewerWidget::addViewWidget(osgViewer::View *view, osgQt::GraphicsWindowQt* gw, osg::Node* scene )
+{
     addView( view );
 
     osg::Camera* camera = view->getCamera();
@@ -43,34 +74,6 @@ QWidget* ViewerWidget::addViewWidget( osgQt::GraphicsWindowQt* gw, osg::Node* sc
     view->setCameraManipulator( new osgGA::TrackballManipulator );
 
     return gw->getGLWidget();
-}
-
-osgQt::GraphicsWindowQt* ViewerWidget::createGraphicsWindow( int x, int y, int w, int h, const std::string& name, bool windowDecoration)
-{
-    osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
-	ds->setStereo(true);
-	ds->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
-	ds->setDisplayType(osg::DisplaySettings::MONITOR);
-	
-	ds->setSplitStereoHorizontalEyeMapping(osg::DisplaySettings::LEFT_EYE_LEFT_VIEWPORT);
-
-
-    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
-    traits->windowName = name;
-    traits->windowDecoration = windowDecoration;
-    traits->x = x;
-    traits->y = y;
-    traits->width = w;
-    traits->height = h;
-    traits->doubleBuffer = true;
-    traits->alpha = ds->getMinimumNumAlphaBits();
-    traits->stencil = ds->getMinimumNumStencilBits();
-    traits->sampleBuffers = ds->getMultiSamples();
-    traits->samples = ds->getNumMultiSamples();
-	
-	//traits->quadBufferStereo = true;
-    
-	return new osgQt::GraphicsWindowQt(traits.get());
 }
 
 void ViewerWidget::paintEvent( QPaintEvent* event )

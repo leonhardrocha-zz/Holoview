@@ -4,7 +4,8 @@
 #include "MainWindow.h"
 #include "AssetWindow.h"
 #include "KinectWindow.h"
-#include "OsgWindow.h"
+#include "HoloviewWindow.h"
+#include "ViewerWidget.h"
 #include "ui_Holoview.h"
 
 #include "ITrackerFactory.h"
@@ -19,13 +20,12 @@ public:
 	Holoview(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~Holoview();
-	ITracker* GetTracker() { return trackerWindow.GetTracker(); };
+	ITracker* GetTracker() { return holoWindow.GetTracker(); };
 
 private:
 	/*Ui_HoloviewClass ui;*/
 	Ui::HoloviewClass ui;
-	KinectWindow trackerWindow;
-	OsgWindow osgWindow;
+	HoloviewWindow holoWindow;
 };
 
 #endif // HOLOVIEW_H

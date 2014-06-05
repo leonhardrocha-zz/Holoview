@@ -284,7 +284,7 @@ void MainWindow::setupDockWidgets(const QMap<QString, QSize> &customSizeHints)
 
 bool MainWindow::AddMultiTrackerDockWidget(ITracker *tracker)
 {
-	for (int i =0; i< 1; i++)
+    for (int i =0; i< TrackerManager::MaxNumOfSensors; i++)
 	{
 		MultiTrackerFrame *frame = new MultiTrackerFrame(i, this,  tracker);
 		frame->setFrameStyle(QFrame::Box | QFrame::Sunken);

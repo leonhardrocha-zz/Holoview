@@ -53,18 +53,17 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
 
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
-	QMap<QString, QSize> customSizeHints = parseCustomSizeHints(argc, argv);
-	Holoview mainWindow(customSizeHints);
-	mainWindow.menuBar()->addMenu("&File")->addAction("&Exit", &app, SLOT(quit()));
-	ITracker* tracker = mainWindow.GetTracker();
-	tracker->Init();
-	mainWindow.AddMultiTrackerDockWidget(tracker);
-	/*mainWindow.AddOSGWidget();*/
-	tracker->Start();
-	mainWindow.show();
-	app.exec();
-	return 0;
+    QApplication app(argc, argv);
+    QMap<QString, QSize> customSizeHints = parseCustomSizeHints(argc, argv);
+    Holoview mainWindow(customSizeHints);
+    ITracker* tracker = mainWindow.GetTracker();
+    tracker->Init();
+    TrackerManager::MaxNumOfSensors = 1;
+    TrackerManager::NumOfSensors = 1;
+    mainWindow.AddMultiTrackerDockWidget(tracker);
+    tracker->Start();
+    mainWindow.show();
+	return app.exec();
 }
 
 //int main( int argc, char** argv )

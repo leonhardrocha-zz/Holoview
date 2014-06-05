@@ -7,9 +7,8 @@ Holoview::Holoview(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
 	: MainWindow(customSizeHints, parent, flags)
 {
-    osgWindow.initialize();
-    auto viewer = osgWindow.GetViewer();
-	setCentralWidget(viewer);
+    holoWindow.initialize();
+    setCentralWidget(holoWindow.GetViewerWidget());
 }
 
 Holoview::~Holoview()

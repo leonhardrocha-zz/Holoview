@@ -116,7 +116,7 @@
     <ClCompile Include="KinectWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OsgWindow.cpp">
+    <ClCompile Include="HoloviewWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -145,7 +145,7 @@
     <ClInclude Include="KinectWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OsgWindow.h">
+    <ClInclude Include="HoloviewWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

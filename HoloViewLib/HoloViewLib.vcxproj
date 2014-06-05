@@ -98,7 +98,6 @@
     <ClCompile Include="src\Matrices.cpp" />
     <ClCompile Include="src\OpenGL21Renderer.cpp" />
     <ClCompile Include="src\OpenGLHelper.cpp" />
-    <ClCompile Include="src\OsgKinectView.cpp" />
     <ClCompile Include="src\StereoView.cpp" />
     <ClCompile Include="src\ToeInStereoView.cpp" />
     <ClCompile Include="src\TrackingResults.cpp" />
@@ -120,7 +119,6 @@
     <ClInclude Include="include\MatrixMath.h" />
     <ClInclude Include="include\OpenGL21Renderer.h" />
     <ClInclude Include="include\OpenGLHelper.h" />
-    <ClInclude Include="include\OsgKinectView.h" />
     <ClInclude Include="include\StereoView.h" />
     <ClInclude Include="include\Synchronizable.h" />
     <ClInclude Include="include\ToeInStereoView.h" />

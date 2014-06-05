@@ -32,11 +32,11 @@ public:
         , m_bNearMode(TRUE)
         , m_bSeatedSkeletonMode(TRUE)
 {
-
 }	
 	~TrackerManager()	{ UninitInstance();	};
 	
-
+    static int NumOfSensors;
+    static int MaxNumOfSensors;
 	bool						Init();
 	bool						Start();
 	HINSTANCE					GetInstance() { return m_hInst; };

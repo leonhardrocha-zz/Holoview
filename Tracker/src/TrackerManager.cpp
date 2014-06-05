@@ -12,6 +12,9 @@
 #include "TrackerException.h"
 #include "InverseTrackingResults.h"
 
+int TrackerManager::MaxNumOfSensors = 4;
+int TrackerManager::NumOfSensors = 0;
+
 bool TrackerManager::Start()
 {
 	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
@@ -30,19 +33,18 @@ bool TrackerManager::Start()
 }
 
 bool TrackerManager::Init()
-{      
-	int numSensors = 0;	
-    NuiGetSensorCount(&numSensors);
-
+{
+    NuiGetSensorCount(&NumOfSensors);
+    int NumOfSensorsToInit = NumOfSensors > MaxNumOfSensors ? MaxNumOfSensors : NumOfSensors;
 	int id;
 	bool initOk = true;
-	InitializeCriticalSection(&m_CriticalSection);		
-	for (id=0; id < 1; id++)
+	InitializeCriticalSection(&m_CriticalSection);
+	for (id=0; id < NumOfSensorsToInit; id++)
 	{
 		KinectFaceTracker* tracker = new KinectFaceTracker(this, id);
 		if (tracker->Init())
 		{
-			m_pFaceTrackers.push_back(tracker);			
+			m_pFaceTrackers.push_back(tracker);
 		} else
 		{
 			initOk = false;

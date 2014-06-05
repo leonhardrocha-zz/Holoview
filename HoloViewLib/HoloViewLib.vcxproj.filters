@@ -37,9 +37,6 @@
     <ClCompile Include="src\GLKinectView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\OsgKinectView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KinectView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -103,9 +100,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GLKinectView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\OsgKinectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\KinectView.h">

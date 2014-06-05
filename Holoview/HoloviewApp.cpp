@@ -5,25 +5,33 @@
 HoloviewApp::HoloviewApp(int argc, char* argv[]) : QApplication(argc, argv) 
 {
 	ParseCustomSizeHints(argc,argv);
-	mainWindow = new Holoview(sizeHints);
-	mainWindow->menuBar()->addMenu("&File")->addAction("&Exit", this, SLOT(quit()));
-	//mainWindow->RegisterTracker(window.GetTracker());
-	
+    if (_appInstance)
+    {
+        delete _appInstance;
+    }
+    _appInstance = this;
+    _appInstance->ArgsCount = argc;
+    _appInstance->Args = argv;
 
-	QWidget central(mainWindow);	
-	QWidget trackerWidget(&central);
+}
 
-	mainWindow->show();
-
-
+void HoloviewApp::Run()
+{
+    HoloviewApp *app = static_cast<HoloviewApp *>(QCoreApplication::instance());
+    Holoview mainWindow(app->sizeHints);
+    ITracker* tracker = mainWindow.GetTracker();
+    TrackerManager::MaxNumOfSensors = 1;
+    tracker->Init();
+    tracker->Start();
+    mainWindow.AddMultiTrackerDockWidget(tracker);
+    mainWindow.show();
+    exec();
 }
 
 void HoloviewApp::Usage()
 {
     qWarning() << "Usage: mainwindow [-SizeHint<color> <width>x<height>] ...";
 }
-
-
 void HoloviewApp::aboutToQuit(void)
 {
 	delete mainWindow;
