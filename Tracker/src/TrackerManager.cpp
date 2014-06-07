@@ -21,7 +21,7 @@ bool TrackerManager::Start()
 	{
 		if ((*tracker)->Start())
 		{
-			m_FaceTrackingThreads.push_back((*tracker)->GetThreadId());					
+			m_FaceTrackingThreads.push_back((*tracker)->GetThreadId());
 		}
 		else
 		{
@@ -59,7 +59,7 @@ void TrackerManager::UninitInstance()
     // Clean up the memory allocated for Face Tracking and rendering.
 	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
 	{
-		(*tracker)->Stop();		
+		(*tracker)->Stop();
 		delete *tracker;
 	}
 

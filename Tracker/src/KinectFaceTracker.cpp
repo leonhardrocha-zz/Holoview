@@ -233,7 +233,7 @@ HRESULT KinectFaceTracker::Stop()
 	}
     if (m_hFaceTrackingThread)
     {
-        WaitForSingleObject(m_hFaceTrackingThread, INFINITE);
+        WaitForSingleObject(m_hFaceTrackingThread, 5000/*INFINITE*/);
     }
     m_hFaceTrackingThread = 0;
     return S_OK;
@@ -314,15 +314,18 @@ HRESULT KinectFaceTracker::GetTrackerResult()
 
 			RECT roi;
 			HRESULT hr = m_pFTResult->GetFaceRect(&roi);
-			bool  hasFoundFace = (SUCCEEDED(hr) && (roi.bottom != roi.top && roi.left != roi.right));
-			FT_WEIGHTED_RECT* faceConfidence = new FT_WEIGHTED_RECT();
-			UINT pFaceCount = 1;
-			hr = m_pFaceTracker->DetectFaces(&sensorData, hasFoundFace ? &roi : NULL, faceConfidence, &pFaceCount);
-			if (SUCCEEDED(hr) && hasFoundFace)
-			{
-				m_faceConfidence = faceConfidence->Weight;
-			}
-			delete faceConfidence;
+			bool  hasFoundFace = SUCCEEDED(hr) && SUCCEEDED(m_pFTResult->GetStatus());
+            if(hasFoundFace)
+            {
+			    FT_WEIGHTED_RECT* faceConfidence = new FT_WEIGHTED_RECT();
+			    UINT pFaceCount = 1;
+			    hr = m_pFaceTracker->DetectFaces(&sensorData, hasFoundFace ? &roi : NULL, faceConfidence, &pFaceCount);
+			    if (SUCCEEDED(hr))
+			    {
+				    m_faceConfidence = faceConfidence->Weight;
+			    }
+			    delete faceConfidence;
+            }
         }
     }
 

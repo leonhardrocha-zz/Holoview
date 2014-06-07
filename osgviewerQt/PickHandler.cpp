@@ -1,5 +1,6 @@
 #include "PickHandler.h"
 
+
 osg::Node* PickHandler::getOrCreateSelectionBox()
 {
 	if ( !m_selectionBox )
@@ -26,24 +27,34 @@ bool PickHandler::handle( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdap
 		return false;
 	}
 	
-	osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+	osgViewer::View* viewer = dynamic_cast<osgViewer::View*>(&aa);
 	if ( viewer )
 	{
 		osg::ref_ptr<osgUtil::LineSegmentIntersector> intersector =	new osgUtil::LineSegmentIntersector(osgUtil::Intersector::WINDOW, ea.getX(), ea.getY());
 		osgUtil::IntersectionVisitor iv( intersector.get() );
 		iv.setTraversalMask( ~0x1 );
-		viewer->getCamera()->accept( iv );
+        auto camera = viewer->getCamera();
+		camera->accept( iv );
 		if ( intersector->containsIntersections() )
 		{
 			osgUtil::LineSegmentIntersector::Intersection result =*(intersector->getIntersections().begin());
 			osg::BoundingBox bb = result.drawable->getBound();
 			osg::Vec3 worldCenter = bb.center() * osg::computeLocalToWorld(result.nodePath);
-			m_selectionBox->setMatrix(osg::Matrix::scale(bb.xMax()-bb.xMin(),
-									 bb.yMax()-bb.yMin(),
-									 bb.zMax()-bb.zMin()) *
-									 osg::Matrix::translate(worldCenter) );
-
-		}
+            m_selectionBox->setMatrix(osg::Matrix::scale(bb.xMax()-bb.xMin(),
+									                     bb.yMax()-bb.yMin(),
+									                     bb.zMax()-bb.zMin()) *
+									                     osg::Matrix::translate(worldCenter) );
+            auto clearMask = camera->getClearMask();
+            osg::DisplaySettings::instance()->setMinimumNumStencilBits(1); 
+            camera->setClearMask(clearMask | GL_STENCIL_BUFFER_BIT); 
+            camera->setClearStencil(0);
+            int last = result.nodePath.size()-1;
+            auto node = result.nodePath[last];
+            if (node)
+            {
+                m_selection->addChild(node);
+            }
+        } 
 	}
 	return false;
 }

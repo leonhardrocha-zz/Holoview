@@ -1,12 +1,10 @@
 #include "stdafx.h"
-#include "Holoview.h"
+#include "HoloWindow.h"
 #include "AssetWindow.h"
 #include "MainWindow.h"
 #include "ITrackerFactory.h"
 #include "Factory.h"
 #include "WindowsKinectFactory.h"
-
-#include "HoloviewApp.h"
 #include <QtWidgets/QApplication>
 
 #ifdef _DEBUG
@@ -51,52 +49,26 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
 }
 
 
+void TrackerUpdateStatic(void* lpParam, void* args)
+{
+    KinectTracker* pThis = reinterpret_cast<KinectTracker*>(lpParam);
+    TrackingResults* results = static_cast<TrackingResults*>(args);
+    pThis->GetTrackingResults();
+}
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QMap<QString, QSize> customSizeHints = parseCustomSizeHints(argc, argv);
-    Holoview mainWindow(customSizeHints);
-    ITracker* tracker = mainWindow.GetTracker();
-    tracker->Init();
+    HoloWindow mainWindow(customSizeHints);
+    KinectTracker tracker;
     TrackerManager::MaxNumOfSensors = 1;
     TrackerManager::NumOfSensors = 1;
-    mainWindow.AddMultiTrackerDockWidget(tracker);
-    tracker->Start();
+    tracker.Init();
+    tracker.SetTrackerCallback(TrackerUpdateStatic, &tracker);
+    mainWindow.AddMultiTrackerDockWidget(&tracker);
+    tracker.Start();
     mainWindow.show();
 	return app.exec();
 }
 
-//int main( int argc, char** argv )
-//{
-//    osg::ArgumentParser arguments(&argc, argv);
-//
-//#if QT_VERSION >= 0x050000
-//    // Qt5 is currently crashing and reporting "Cannot make QOpenGLContext current in a different thread" when the viewer is run multi-threaded, this is regression from Qt4
-//    osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::SingleThreaded;
-//#else
-//    osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::CullDrawThreadPerContext;
-//#endif
-//
-//    while (arguments.read("--SingleThreaded")) threadingModel = osgViewer::ViewerBase::SingleThreaded;
-//    while (arguments.read("--CullDrawThreadPerContext")) threadingModel = osgViewer::ViewerBase::CullDrawThreadPerContext;
-//    while (arguments.read("--DrawThreadPerContext")) threadingModel = osgViewer::ViewerBase::DrawThreadPerContext;
-//    while (arguments.read("--CullThreadPerCameraDrawThreadPerContext")) threadingModel = osgViewer::ViewerBase::CullThreadPerCameraDrawThreadPerContext;
-//
-//    QApplication app(argc, argv);
-//    ViewerWidget* viewWidget;
-//
-//	try
-//    { 
-//		viewWidget = new ViewerWidget();
-//		viewWidget->setGeometry( 100, 100, 800, 600 );
-//		viewWidget->show();
-//        /*root = osgDB::readNodeFile("cessna.osg");
-//        viewer.setSceneData(root.get()); */
-//    }
-//    catch(std::bad_alloc)
-//    { 
-//        std::cout << "a bad_alloc exception just occured"; 
-//    }
-//    
-//    return app.exec();
-//}

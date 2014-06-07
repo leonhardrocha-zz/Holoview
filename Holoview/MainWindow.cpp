@@ -52,19 +52,81 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     setObjectName("MainWindow");
     setWindowTitle("Qt Main Window Example");
 
-    center = new QTextEdit(this);
-    center->setReadOnly(true);
-    center->setMinimumSize(400, 205);
-    setCentralWidget(center);
+    //center = new QTextEdit(this);
+    //center->setReadOnly(true);
+    //center->setMinimumSize(800, 600);
+    //setCentralWidget(center);
 
-    //setupToolBar();
-    setupMenuBar();
-    setupDockWidgets(customSizeHints);
+    setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
+    setWindowState(windowState() | Qt::WindowFullScreen);
+
+    ExtendToFullScreen(this);
 
     statusBar()->showMessage(tr("Status Bar"));
+    setupMenuBar();
+
+    //setupToolBar();
+    setupDockWidgets(customSizeHints);
+
+    menuBarRect = menuBar()->geometry();
+    statusBarRect = statusBar()->geometry();
+    menuBarRect.setBottom( menuBarRect.bottom() + menuBarRect.height() );
+    statusBarRect.setBottom( statusBarRect.top() - statusBarRect.height() );
+    statusBar()->hide();
+    menuBar()->hide();
+    setMouseTracking(true);
+
 }
 
+void MainWindow::ExtendToFullScreen(QWidget* widget)
+{
+  if (!widget)
+  {
+    return;
+  }
 
+  QDesktopWidget* desktop = QApplication::desktop();
+  
+  int numOfScreens = desktop->numScreens();
+  int desk_x = 0;
+  int desk_y = 0;
+  for (int i = 0; i < numOfScreens; i++)
+  {
+    QRect desk_rect = desktop->screenGeometry(i);
+    desk_x += desk_rect.width();
+    desk_y = desk_y > desk_rect.height() ? desk_y : desk_rect.height();
+  }
+  widget->setFixedWidth(desk_x);
+  widget->setFixedHeight(desk_y);
+}
+
+void MainWindow::mouseMoveEvent ( QMouseEvent * event )
+{
+    QPoint mousePos = event->pos();
+
+    if( menuBarRect.contains(mousePos) )
+    {
+        menuBar()->show();
+        isMenuBarOn = true;
+    }
+    else
+    {
+        menuBar()->hide();
+        isMenuBarOn = false;
+    }
+
+    if( statusBarRect.contains(mousePos) )
+    {
+        statusBar()->show();
+        isStatusBarOn = true;
+    }
+    else
+    {
+        statusBar()->hide();
+        isStatusBarOn = false;
+    }
+    QMainWindow::mouseMoveEvent(event);
+}
 
 void MainWindow::actionTriggered(QAction *action)
 {
@@ -73,7 +135,7 @@ void MainWindow::actionTriggered(QAction *action)
 
 void MainWindow::setupToolBar()
 {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 1; ++i) {
         ToolBar *tb = new ToolBar(QString::fromLatin1("Tool Bar %1").arg(i + 1), this);
         toolBars.append(tb);
         addToolBar(tb);

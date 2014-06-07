@@ -74,7 +74,7 @@ public:
 	bool AddMultiTrackerDockWidget(ITracker* tracker);
 protected:
     void showEvent(QShowEvent *event);
-
+    void mouseMoveEvent ( QMouseEvent * event );
 public slots:
     void actionTriggered(QAction *action);
     void saveLayout();
@@ -84,13 +84,16 @@ public slots:
     void setDockOptions();
 	void createDockWidget();
     void destroyDockWidget(QAction *action);
-
+    void ExtendToFullScreen(QWidget* widget);
 private:
     void setupToolBar();
     void setupMenuBar();
     void setupDockWidgets(const QMap<QString, QSize> &customSizeHints);
-	QMap<QString, QSize> m_customSizeHints;
-
+    QMap<QString, QSize> m_customSizeHints;
+    QRect menuBarRect;
+    QRect statusBarRect;
+    bool isMenuBarOn;
+    bool isStatusBarOn;
 };
 
 

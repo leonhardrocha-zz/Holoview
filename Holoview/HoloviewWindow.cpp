@@ -16,11 +16,24 @@ void HoloviewWindow::SetupWindow(int width, int height)
 void HoloviewWindow::initialize()
 {
     osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae");
-    m_osgScene->addChild(m_osgPicker->getOrCreateSelectionBox());
+    osg::ref_ptr<osg::Group> modelGroup = new osg::Group;
+    modelGroup->addChild(model);
+
+    osg::Node* selectionBox = m_osgPicker->getOrCreateSelectionBox();
+
+    m_osgScene->addChild(m_osgPicker->GetSelection());
+    m_osgScene->addChild(selectionBox);
+    m_osgScene->addChild(modelGroup);
+
+    m_osgView->setSceneData( m_osgScene );
+    m_osgView->addEventHandler( new osgViewer::StatsHandler );
     m_osgView->addEventHandler(m_osgPicker.get());
-    m_osgScene->addChild(model);
-    m_osgWidget->Init();
-    tracker->SetTrackerCallback(HoloviewWindow::TrackerUpdateStatic, this);
+    m_osgView->setCameraManipulator( new osgGA::TrackballManipulator );
+
+    if (m_tracker)
+    {
+        m_tracker->SetTrackerCallback(HoloviewWindow::TrackerUpdateStatic, this);
+    }
 }
 
 void HoloviewWindow::render()
