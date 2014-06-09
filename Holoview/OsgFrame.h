@@ -11,25 +11,33 @@
 class  OSGFrame :  public DockFrame
 {
 public:
-
-	OSGFrame::OSGFrame(const QString &dockName, QWidget *parent) : DockFrame(dockName, parent)
+	OSGFrame::OSGFrame(const QString &dockName, QWidget *parent, osg::ref_ptr<osgViewer::Scene> scene = NULL) : DockFrame(dockName, parent)
 	{
-		RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
+        RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
 		setAttribute(Qt::WA_NativeWindow);
-		setAttribute(Qt::WA_PaintOnScreen);	
-	}
-	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
-	{	
-		osgViewer.frame();
-		return true;
-	}
+		setAttribute(Qt::WA_PaintOnScreen);
 
-	virtual void paintEvent( QPaintEvent* e )
-	{ 
-		osgViewer.frame();
-	}
+        m_picker = new PickHandler();
+        
+        worldViewer.CreateGraphicsWindow();
+        worldViewer.setMouseTracking(true);
+        osg::ref_ptr<osgViewer::View> view = worldViewer.getView(0);
+        if (scene.valid())
+        {
+            m_scene = scene;
+            view->setSceneData( scene->getSceneData() );
+        }
+        view->addEventHandler( new osgViewer::StatsHandler );
+        view->addEventHandler(m_picker.get());
+        view->setCameraManipulator( new osgGA::TrackballManipulator );
+    }
 
-	ViewerWidget osgViewer;
+protected:
+
+    osg::ref_ptr<osgViewer::Scene> m_scene;
+    osg::ref_ptr<PickHandler> m_picker;
+    ViewerWidget worldViewer;
+
 };
 
 #endif

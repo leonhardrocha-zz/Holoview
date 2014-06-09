@@ -1,29 +1,5 @@
 #include "stdafx.h"
 #include "mainwindow.h"
-#include "MyDock.h"
-#include "TrackerFrame.h"
-#include "OsgFrame.h"
-#include "toolbar.h"
-#include <QDockWidget>
-#include <QAction>
-#include <QLayout>
-#include <QMenu>
-#include <QMenuBar>
-#include <QStatusBar>
-#include <QTextEdit>
-#include <QFile>
-#include <QDataStream>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QSignalMapper>
-#include <QApplication>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QLabel>
-#include <QPushButton>
-#include <qdebug.h>
 
 static const char * const message =
     "<p><b>Qt Main Window Example</b></p>"
@@ -57,10 +33,10 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     //center->setMinimumSize(800, 600);
     //setCentralWidget(center);
 
-    setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
+    /*setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
     setWindowState(windowState() | Qt::WindowFullScreen);
 
-    ExtendToFullScreen(this);
+    ExtendToFullScreen(this);*/
 
     statusBar()->showMessage(tr("Status Bar"));
     setupMenuBar();
@@ -346,48 +322,36 @@ void MainWindow::setupDockWidgets(const QMap<QString, QSize> &customSizeHints)
 
 bool MainWindow::AddMultiTrackerDockWidget(ITracker *tracker)
 {
+    QString name = QString::fromLatin1("Tracker");
     for (int i =0; i< TrackerManager::MaxNumOfSensors; i++)
 	{
 		MultiTrackerFrame *frame = new MultiTrackerFrame(i, this,  tracker);
 		frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 
-		MyDock *trackerDock = new MyDock(QLatin1String(" Dock"), this, Qt::WindowFlags(0), frame);
-		trackerDock->setCustomSizeHint(m_customSizeHints.value("Tracker"));
-		addDockWidget(Qt::LeftDockWidgetArea, trackerDock);	
+		MyDock *trackerDock = new MyDock(name + i, this, Qt::WindowFlags(0), frame);
+		trackerDock->setCustomSizeHint(m_customSizeHints.value(name + i));
+		addDockWidget(Qt::LeftDockWidgetArea, trackerDock);
 		dockWidgetMenu->addMenu(trackerDock->menu);
 	}
 	return true;
 }
+
 bool MainWindow::AddTrackerDockWidget(ITracker* tracker)
 {
-	QString name = QString::fromLatin1("Tracker");
-	TrackerFrame *frame = new TrackerFrame(name + QLatin1String(" Frame"), this,  tracker);
+    QString name = QString::fromLatin1("Tracker");
+    TrackerFrame *frame = new TrackerFrame(name, this,  tracker);
     frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 
-	MyDock *trackerDock = new MyDock(name + QLatin1String(" Dock"), this, Qt::WindowFlags(0), frame);
-	trackerDock->setCustomSizeHint(m_customSizeHints.value("Tracker"));
-	trackerDock->setFloating(false);
-	addDockWidget(Qt::RightDockWidgetArea, trackerDock);	
-	dockWidgetMenu->addMenu(trackerDock->menu);
+    MyDock *trackerDock = new MyDock(name, this, Qt::WindowFlags(0), frame);
+    trackerDock->setCustomSizeHint(m_customSizeHints.value(name));
+    trackerDock->setFloating(false);
+    addDockWidget(Qt::RightDockWidgetArea, trackerDock);
+    dockWidgetMenu->addMenu(trackerDock->menu);
 
 	return true;
 }
 
-bool MainWindow::AddOSGWidget()
-{
-	QString osgName = QString::fromLatin1("OSG");
-	
-	ViewerWidget* osgWidget = new ViewerWidget();
-	/*OSGFrame *osgFrame = new OSGFrame(osgName + QLatin1String(" Frame"), this);
-    osgFrame->setFrameStyle(QFrame::Box | QFrame::Sunken);*/
-	MyDock *osgDock = new MyDock(osgName + QLatin1String(" Dock"), this, Qt::WindowFlags(0), osgWidget);
-	osgDock->setCustomSizeHint(m_customSizeHints.value("OSG"));
-	osgDock->setFloating(false);
-	addDockWidget(Qt::RightDockWidgetArea, osgDock);	
-	dockWidgetMenu->addMenu(osgDock->menu);
 
-	return true;
-}
 
 void MainWindow::setCorner(int id)
 {

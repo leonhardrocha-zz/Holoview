@@ -44,7 +44,30 @@
 
 #include <QMainWindow>
 #include <QTextEdit>
-#include "QTextEdit"
+#include <QDockWidget>
+#include <QAction>
+#include <QLayout>
+#include <QMenu>
+#include <QMenuBar>
+#include <QStatusBar>
+#include <QTextEdit>
+#include <QFile>
+#include <QDataStream>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QSignalMapper>
+#include <QApplication>
+#include <QPainter>
+#include <QMouseEvent>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QLabel>
+#include <QPushButton>
+#include <qdebug.h>
+
+#include "MyDock.h"
+#include "TrackerFrame.h"
+#include "toolbar.h"
 #include "ITracker.h"
 #include "DockFrame.h"
 #include "KinectTracker.h"
@@ -56,7 +79,7 @@ QT_FORWARD_DECLARE_CLASS(QSignalMapper)
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+protected:
     QTextEdit *center;
     QList<ToolBar*> toolBars;
     QMenu *dockWidgetMenu;
@@ -70,11 +93,13 @@ public:
     MainWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	bool AddTrackerDockWidget(ITracker* tracker);
-	bool AddOSGWidget();
 	bool AddMultiTrackerDockWidget(ITracker* tracker);
 protected:
     void showEvent(QShowEvent *event);
     void mouseMoveEvent ( QMouseEvent * event );
+    QMap<QString, QSize> m_customSizeHints;
+    QRect menuBarRect;
+    QRect statusBarRect;
 public slots:
     void actionTriggered(QAction *action);
     void saveLayout();
@@ -89,9 +114,6 @@ private:
     void setupToolBar();
     void setupMenuBar();
     void setupDockWidgets(const QMap<QString, QSize> &customSizeHints);
-    QMap<QString, QSize> m_customSizeHints;
-    QRect menuBarRect;
-    QRect statusBarRect;
     bool isMenuBarOn;
     bool isStatusBarOn;
 };

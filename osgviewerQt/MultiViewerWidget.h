@@ -15,15 +15,16 @@
 #include "OsgScene.h"
 #include "OsgView.h"
 
-class ViewerWidget : public QWidget, public osgViewer::CompositeViewer
+class MultiViewerWidget : public QWidget, public osgViewer::Viewer
 {
 public:
-    ViewerWidget(QWidget* parent = (QWidget*)NULL);
-    ~ViewerWidget();
+    MultiViewerWidget(QWidget* parent = (QWidget*)NULL);
+    ~MultiViewerWidget();
     virtual void Init();
     QWidget* CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds = NULL, osg::ref_ptr<osg::GraphicsContext::Traits> traits = NULL);
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
+    void CreateWindowMultipleCameras(osgViewer::Viewer& viewer, bool multipleScreens);
     void SetStereoSettings();
 
 protected:

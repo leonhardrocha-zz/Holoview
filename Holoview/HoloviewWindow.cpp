@@ -36,6 +36,7 @@ void HoloviewWindow::initialize()
     }
 }
 
+
 void HoloviewWindow::render()
 {
 	if (!m_pResults)

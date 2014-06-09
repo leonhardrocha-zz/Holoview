@@ -3,6 +3,9 @@
 
 #include "MainWindow.h"
 #include "ViewerWidget.h"
+#include "MultiViewerWidget.h"
+#include "MyDock.h"
+#include "OsgFrame.h"
 
 class HoloWindow : public MainWindow
 {
@@ -12,12 +15,11 @@ public:
 	HoloWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~HoloWindow();
-
-private:
+    bool AddOSGWidget();
+protected:
 	/*Ui_HoloWindowClass ui;*/
-    osg::ref_ptr<osgViewer::View> m_osgView;
-    osg::ref_ptr<osg::Group> m_osgScene;
-    osg::ref_ptr<PickHandler> m_osgPicker;
+    std::vector<osgViewer::View*> m_views;
+    osg::ref_ptr<PickHandler> m_picker;
 };
 
 #endif // HoloWindow_H
