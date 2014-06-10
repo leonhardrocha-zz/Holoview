@@ -75,7 +75,8 @@ QWidget* MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettin
     {
         m_traits = traits;
     }
-
+    
+   
     osg::GraphicsContext::WindowingSystemInterface* wsi = osg::GraphicsContext::getWindowingSystemInterface();
     if (!wsi) 
     {
@@ -83,31 +84,37 @@ QWidget* MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettin
         return NULL;
     }
     
-    unsigned int width, height;
-    wsi->getScreenResolution(osg::GraphicsContext::ScreenIdentifier(0), width, height);
+    unsigned int width=0, height=0;
 
+    osgQt::GraphicsWindowQt* qtWindow = new osgQt::GraphicsWindowQt(m_traits);
     unsigned int numCameras = 2;
     double aspectRatioScale = (double)numCameras;
-    double translate_x = 0.0;
-    for(unsigned int i=0; i<numCameras;++i, translate_x -= 2.0)
+    double translate_x = -1.0;
+    for(unsigned int i=0; i<numCameras;++i, translate_x += 2.0)
     {
+        osg::GraphicsContext::ScreenIdentifier screenId = osg::GraphicsContext::ScreenIdentifier(i);
+        screenId.setUndefinedScreenDetailsToDefaultScreen();
+        screenId.readDISPLAY();
+        osg::GraphicsContext::ScreenSettings resolution;
+        wsi->getScreenSettings(screenId, resolution);
         osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
-        traits->screenNum =  numCameras;
-        traits->x = (i*width);
+        traits->screenNum = screenId.screenNum;
+        traits->x = 0;
         traits->y = 0;
-        traits->width = width/numCameras-1;
-        traits->height = height;
+        traits->width = resolution.width / (numCameras - 1);
+        traits->height = resolution.height;
         traits->windowDecoration = false;
         traits->doubleBuffer = true;
         traits->sharedContext = 0;
+        width += resolution.width;
+        height = resolution.height;
+        osg::ref_ptr<osg::GraphicsContext> gc = qtWindow->createGraphicsContext(traits);
 
-        /*osgQt::GraphicsWindowQt* qtWindow = new osgQt::GraphicsWindowQt(traits);
-        osg::ref_ptr<osg::GraphicsContext> gc = qtWindow->createGraphicsContext(traits);*/
-        osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
+        /*osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());*/
 
         osg::ref_ptr<osg::Camera> camera = new osg::Camera;
         camera->setGraphicsContext(gc);
-        camera->setViewport(new osg::Viewport(0,0, width, height));
+        camera->setViewport(new osg::Viewport(0,0, resolution.width, resolution.height));
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
@@ -123,7 +130,7 @@ QWidget* MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettin
     m_traits->doubleBuffer = true;
     m_traits->sharedContext = 0;
 
-    osgQt::GraphicsWindowQt* qtWindow = new osgQt::GraphicsWindowQt(m_traits);
+
     QWidget* widget = qtWindow->getGLWidget();
     layout()->addWidget(widget);
 }
@@ -133,7 +140,7 @@ void MultiViewerWidget::SetStereoSettings()
     m_displaySettings->setStereo(true);
     m_displaySettings->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
     m_displaySettings->setDisplayType(osg::DisplaySettings::MONITOR);
-    m_displaySettings->setSplitStereoHorizontalEyeMapping(osg::DisplaySettings::LEFT_EYE_LEFT_VIEWPORT);
+    /*m_displaySettings->setSplitStereoHorizontalEyeMapping(osg::DisplaySettings::LEFT_EYE_LEFT_VIEWPORT);*/
 }
 
 void MultiViewerWidget::paintEvent( QPaintEvent* event )

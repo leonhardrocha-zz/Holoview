@@ -33,10 +33,8 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     //center->setMinimumSize(800, 600);
     //setCentralWidget(center);
 
-    /*setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
+    setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
     setWindowState(windowState() | Qt::WindowFullScreen);
-
-    ExtendToFullScreen(this);*/
 
     statusBar()->showMessage(tr("Status Bar"));
     setupMenuBar();
@@ -44,14 +42,14 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     //setupToolBar();
     setupDockWidgets(customSizeHints);
 
-    menuBarRect = menuBar()->geometry();
-    statusBarRect = statusBar()->geometry();
     menuBarRect.setBottom( menuBarRect.bottom() + menuBarRect.height() );
     statusBarRect.setBottom( statusBarRect.top() - statusBarRect.height() );
     statusBar()->hide();
     menuBar()->hide();
-    setMouseTracking(true);
 
+    ExtendToFullScreen(this);
+    
+    setMouseTracking(true);
 }
 
 void MainWindow::ExtendToFullScreen(QWidget* widget)
@@ -74,6 +72,8 @@ void MainWindow::ExtendToFullScreen(QWidget* widget)
   }
   widget->setFixedWidth(desk_x);
   widget->setFixedHeight(desk_y);
+  menuBarRect = menuBar()->geometry();
+  statusBarRect = statusBar()->geometry();
 }
 
 void MainWindow::mouseMoveEvent ( QMouseEvent * event )

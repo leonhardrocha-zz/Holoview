@@ -22,7 +22,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     osgViewer::Viewer viewer;
 
-    //central->SetStereoSettings();
+    central->SetStereoSettings();
     central->setMouseTracking(true);
 
     QDesktopWidget* desktop = QApplication::desktop();
@@ -33,10 +33,12 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     central->addEventHandler(m_picker.get());
     central->addEventHandler(m_picker.get());
     central->setCameraManipulator( new osgGA::TrackballManipulator );
+
+
     /*for (int i = 0; i < numOfScreens; i++)
     {
         central->CreateGraphicsWindow();
-        osgViewer::View* view = central->getView();
+        osgViewer::View* view = central->getView(i);
         view->setSceneData( root );
         view->addEventHandler( new osgViewer::StatsHandler );
         view->addEventHandler(m_picker.get());
