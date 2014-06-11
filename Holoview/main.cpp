@@ -67,7 +67,6 @@ int main(int argc, char *argv[])
     tracker.Init();
     tracker.SetTrackerCallback(TrackerUpdateStatic, &tracker);
     mainWindow.AddMultiTrackerDockWidget(&tracker);
-    mainWindow.AddOSGWidget();
     tracker.Start();
     mainWindow.show();
 	return app.exec();

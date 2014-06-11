@@ -18,13 +18,11 @@
 class MultiViewerWidget : public QWidget, public osgViewer::Viewer
 {
 public:
-    MultiViewerWidget(QWidget* parent = (QWidget*)NULL);
+    MultiViewerWidget(QWidget* parent = (QWidget*)NULL, osg::ref_ptr<osg::DisplaySettings> ds = NULL, osg::ref_ptr<osg::GraphicsContext::Traits> traits = NULL);
     ~MultiViewerWidget();
-    virtual void Init();
-    virtual void CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds = NULL, osg::ref_ptr<osg::GraphicsContext::Traits> traits = NULL);
+    virtual void CreateGraphicsWindow(float offsetX, float offsetZ);
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
-    void CreateWindowMultipleCameras(osgViewer::Viewer& viewer, bool multipleScreens);
     void SetStereoSettings();
 
 protected:

@@ -10,7 +10,7 @@
 #include <osgGA/TrackballManipulator>
 #include <osgDB/ReadFile>
 #include <osgQt/GraphicsWindowQt>
-
+#include <osg/PositionAttitudeTransform>
 #include <iostream>
 #include "OsgScene.h"
 #include "OsgView.h"
@@ -18,10 +18,9 @@
 class ViewerWidget : public QWidget, public osgViewer::CompositeViewer
 {
 public:
-    ViewerWidget(QWidget* parent = (QWidget*)NULL);
+    ViewerWidget(QWidget* parent = (QWidget*)NULL, osg::ref_ptr<osg::DisplaySettings> ds = NULL, osg::ref_ptr<osg::GraphicsContext::Traits> traits = NULL);
     ~ViewerWidget();
-    virtual void Init();
-    virtual void CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds = NULL, osg::ref_ptr<osg::GraphicsContext::Traits> traits = NULL);
+    virtual void CreateGraphicsWindow();
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     virtual void SetStereoSettings();

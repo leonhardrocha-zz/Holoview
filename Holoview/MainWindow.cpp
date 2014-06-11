@@ -42,13 +42,11 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     //setupToolBar();
     setupDockWidgets(customSizeHints);
 
-    menuBarRect.setBottom( menuBarRect.bottom() + menuBarRect.height() );
-    statusBarRect.setBottom( statusBarRect.top() - statusBarRect.height() );
-    statusBar()->hide();
-    menuBar()->hide();
-
     ExtendToFullScreen(this);
-    
+
+    menuBarRect = menuBar()->geometry();
+    statusBarRect = statusBar()->geometry();
+
     setMouseTracking(true);
 }
 
@@ -72,8 +70,6 @@ void MainWindow::ExtendToFullScreen(QWidget* widget)
   }
   widget->setFixedWidth(desk_x);
   widget->setFixedHeight(desk_y);
-  menuBarRect = menuBar()->geometry();
-  statusBarRect = statusBar()->geometry();
 }
 
 void MainWindow::mouseMoveEvent ( QMouseEvent * event )

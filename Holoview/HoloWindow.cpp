@@ -8,44 +8,81 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
 	: MainWindow(customSizeHints, parent, flags)
 {
-    m_picker = new PickHandler();
+    float tvSizeWidth = 0.305 * 5; // 5 feet
+    float tvSizeHeight = 0.305 * 3; // 3 feet
+    float tvSizeDepth = 1.5 * 0.0254; // 1.5 inches
+    float tvPadHeight = 0.07; // 7 cm
+    float tvScreenWidth = 56 * 0.0254; // 56 inches
+    float tvScreenHeight = 32 * 0.0254; // 32 inches
+    float tvScreenDepth = 0 ; // 0
 
+    // world widget
+
+    ViewerWidget* central = new ViewerWidget(this);
+
+    osg::ref_ptr<osg::Group> worldRoot= new osg::Group;
+
+    float rotationAngle =  osg::DegreesToRadians(30.0f);
+    float offsetX = tvSizeWidth * std::cos(rotationAngle) /2;
+    float offsetZ = tvSizeWidth * std::sin(rotationAngle);
+
+    osg::ref_ptr<osg::Node> tv = osgDB::readNodeFile("../Dependencies/Models/3ds/TV/tv.3ds");
+
+
+    // left tv
+
+
+    osg::ref_ptr<osg::MatrixTransform> leftTransform= new osg::MatrixTransform();
+    osg::Matrix leftMatrix = leftTransform->getMatrix();
+    leftTransform->setMatrix( leftMatrix.scale(0.01f, 0.01f, 0.01f) * leftMatrix.rotate(rotationAngle, osg::Vec3(0,0,1)) * leftMatrix.translate(-offsetX, 0, offsetZ) );
+    leftTransform->addChild(tv);
+    worldRoot->addChild(leftTransform);
+
+
+    // right tv
+
+    osg::ref_ptr<osg::MatrixTransform> rightTransform= new osg::MatrixTransform();
+    osg::Matrix rightMatrix = rightTransform->getMatrix();
+    rightTransform->setMatrix( rightMatrix.scale(0.01f, 0.01f, 0.01f) * rightMatrix.rotate(-rotationAngle, osg::Vec3(0,0,1)) * rightMatrix.translate(offsetX,  0, offsetZ) );
+    rightTransform->addChild(tv);
+    worldRoot->addChild(rightTransform);
+
+    // rest
+
+
+    central->CreateGraphicsWindow();
+    osgViewer::View* view = central->getView(0);
+    view->addEventHandler( new osgViewer::StatsHandler );
+    view->setCameraManipulator( new osgGA::TrackballManipulator );
+    view->setSceneData( worldRoot );
+    setCentralWidget(central);
+
+    // full screen
+
+    m_picker = new PickHandler();
     osg::ref_ptr<osg::Group> root = new osg::Group;
     osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae");
-    osg::Node* selectionBox = m_picker->getOrCreateSelectionBox();
-    root->addChild(m_picker->GetSelection());
-    root->addChild(selectionBox);
     root->addChild(model);
+
     auto container = root->getOrCreateUserDataContainer(); //todo: use container to pass user data
 
-    MultiViewerWidget* central = new MultiViewerWidget(this);
+    MultiViewerWidget* fullScreen = new MultiViewerWidget(this);
 
-    osgViewer::Viewer viewer;
-
-    central->SetStereoSettings();
-    central->setMouseTracking(true);
+    /*fullScreen->SetStereoSettings();*/
+    fullScreen->setMouseTracking(true);
 
     QDesktopWidget* desktop = QApplication::desktop();
     int numOfScreens = desktop->numScreens();
 
-    central->CreateGraphicsWindow();
-    central->setSceneData (root);
-    central->addEventHandler(m_picker.get());
-    central->addEventHandler(m_picker.get());
-    central->setCameraManipulator( new osgGA::TrackballManipulator );
+    fullScreen->CreateGraphicsWindow(offsetX, offsetZ);
+    fullScreen->setCameraManipulator( new osgGA::TrackballManipulator );
+    fullScreen->setSceneData(root);
+    //osgViewer::ViewerBase::Cameras cameras;
+    //fullScreen->getCameras(cameras);
+
+    /*cameras[0]->setViewMatrixAsLookAt();*/
 
 
-    /*for (int i = 0; i < numOfScreens; i++)
-    {
-        central->CreateGraphicsWindow();
-        osgViewer::View* view = central->getView(i);
-        view->setSceneData( root );
-        view->addEventHandler( new osgViewer::StatsHandler );
-        view->addEventHandler(m_picker.get());
-        view->setCameraManipulator( new osgGA::TrackballManipulator );
-        m_views.push_back(view);
-    }*/
-    setCentralWidget(central);
 }
 
 HoloWindow::~HoloWindow()

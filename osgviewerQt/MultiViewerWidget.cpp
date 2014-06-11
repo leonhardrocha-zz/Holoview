@@ -4,13 +4,27 @@
 #include "vld.h"
 #endif
 
-MultiViewerWidget::MultiViewerWidget(QWidget* parent) : QWidget(parent)
+MultiViewerWidget::MultiViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits) : QWidget(parent)
 {
+    if (ds.valid())
+    {
+        m_displaySettings = ds;
+    }
+    else
+    {
+        m_displaySettings = osg::DisplaySettings::instance().get();
+    }
+    
+    if (traits.valid())
+    {
+        m_traits = traits;
+    }
+    else
+    {
+        m_traits = new osg::GraphicsContext::Traits;
+    }
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
     setKeyEventSetsDone(0);
-    m_displaySettings = osg::DisplaySettings::instance().get();
-
-    m_traits = new osg::GraphicsContext::Traits;
     m_traits->windowName = getName();
     m_traits->windowDecoration = isWindow();
     m_traits->x = 0;
@@ -27,6 +41,7 @@ MultiViewerWidget::MultiViewerWidget(QWidget* parent) : QWidget(parent)
     QWidget* widget = m_qtWindow->getGLWidget();
     grid->addWidget(widget);
     setLayout(grid);
+    setMouseTracking(true);
 
     RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
     setAttribute(Qt::WA_NativeWindow);
@@ -44,46 +59,8 @@ MultiViewerWidget::~MultiViewerWidget()
     }
 }
 
-void MultiViewerWidget::Init()
+void MultiViewerWidget::CreateGraphicsWindow(float offsetX, float offsetZ)
 {
-    m_traits->windowName = getName();
-    m_traits->windowDecoration = isWindow();
-    m_traits->x = 0;
-    m_traits->y = 0;
-    m_traits->width = width();
-    m_traits->height = height();
-    m_traits->doubleBuffer = true;
-    m_traits->alpha = m_displaySettings->getMinimumNumAlphaBits();
-    m_traits->stencil = m_displaySettings->getMinimumNumStencilBits();
-    m_traits->sampleBuffers = m_displaySettings->getMultiSamples();
-    m_traits->samples = m_displaySettings->getNumMultiSamples();
-
-    QGridLayout* grid = new QGridLayout;
-    setLayout(grid);
-
-    RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
-    setAttribute(Qt::WA_NativeWindow);
-    setAttribute(Qt::WA_PaintOnScreen);
-    connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
-    _timer.start( 10 );
-}
-
-
-
-
-void MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits)
-{
-    if (ds.valid())
-    {
-        m_displaySettings = ds;
-    }
-    
-    if (traits.valid())
-    {
-        m_traits = traits;
-    }
-    
-   
     osg::GraphicsContext::WindowingSystemInterface* wsi = osg::GraphicsContext::getWindowingSystemInterface();
     if (!wsi) 
     {
@@ -113,7 +90,6 @@ void MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> 
         traits->sharedContext = 0;
         width += resolution.width;
         height = resolution.height;
-        
 
         osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
 
@@ -123,17 +99,11 @@ void MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> 
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
-
+        camera->setProjectionMatrixAsPerspective (45.0,resolution.width/resolution.height, 0.1, 10.0);
+        osg::Vec3 offset = i == 0 ? osg::Vec3(-offsetX,0,-offsetZ) : osg::Vec3(offsetX,0,-offsetZ);
+        camera->setViewMatrixAsLookAt(offset, osg::Vec3(0,0,0), osg::Vec3(0,0,1));
         addSlave(camera.get(), osg::Matrix::scale(1.0, 1.0, 1.0)*osg::Matrix::translate(translate_x, 0.0, 0.0), osg::Matrix() );
     }
-
-    m_traits->x = 0;
-    m_traits->y = 0;
-    m_traits->width = width;
-    m_traits->height = height;
-    m_traits->windowDecoration = false;
-    m_traits->doubleBuffer = true;
-    m_traits->sharedContext = 0;
 }
 
 void MultiViewerWidget::SetStereoSettings()
