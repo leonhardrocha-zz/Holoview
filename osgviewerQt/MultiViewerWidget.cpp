@@ -22,8 +22,10 @@ MultiViewerWidget::MultiViewerWidget(QWidget* parent) : QWidget(parent)
     m_traits->stencil = m_displaySettings->getMinimumNumStencilBits();
     m_traits->sampleBuffers = m_displaySettings->getMultiSamples();
     m_traits->samples = m_displaySettings->getNumMultiSamples();
-
     QGridLayout* grid = new QGridLayout;
+    m_qtWindow = new osgQt::GraphicsWindowQt(m_traits);
+    QWidget* widget = m_qtWindow->getGLWidget();
+    grid->addWidget(widget);
     setLayout(grid);
 
     RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
@@ -35,6 +37,11 @@ MultiViewerWidget::MultiViewerWidget(QWidget* parent) : QWidget(parent)
 
 MultiViewerWidget::~MultiViewerWidget() 
 {
+    if(m_qtWindow)
+    {
+        delete m_qtWindow;
+        m_qtWindow = NULL;
+    }
 }
 
 void MultiViewerWidget::Init()
@@ -64,7 +71,7 @@ void MultiViewerWidget::Init()
 
 
 
-QWidget* MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits)
+void MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits)
 {
     if (ds.valid())
     {
@@ -81,12 +88,10 @@ QWidget* MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettin
     if (!wsi) 
     {
         osg::notify(osg::NOTICE)<<"Error, no WindowSystemInterface available, cannot create windows."<<std::endl;
-        return NULL;
+        return;
     }
     
     unsigned int width=0, height=0;
-
-    osgQt::GraphicsWindowQt* qtWindow = new osgQt::GraphicsWindowQt(m_traits);
     unsigned int numCameras = 2;
     double aspectRatioScale = (double)numCameras;
     double translate_x = -1.0;
@@ -108,9 +113,9 @@ QWidget* MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettin
         traits->sharedContext = 0;
         width += resolution.width;
         height = resolution.height;
-        osg::ref_ptr<osg::GraphicsContext> gc = qtWindow->createGraphicsContext(traits);
+        
 
-        /*osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());*/
+        osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
 
         osg::ref_ptr<osg::Camera> camera = new osg::Camera;
         camera->setGraphicsContext(gc);
@@ -129,10 +134,6 @@ QWidget* MultiViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettin
     m_traits->windowDecoration = false;
     m_traits->doubleBuffer = true;
     m_traits->sharedContext = 0;
-
-
-    QWidget* widget = qtWindow->getGLWidget();
-    layout()->addWidget(widget);
 }
 
 void MultiViewerWidget::SetStereoSettings()

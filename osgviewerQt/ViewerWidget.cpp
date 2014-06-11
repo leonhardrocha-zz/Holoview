@@ -63,7 +63,7 @@ void ViewerWidget::Init()
 
 
 
-QWidget* ViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits)
+void ViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits)
 {
     if (ds.valid())
     {
@@ -96,12 +96,10 @@ QWidget* ViewerWidget::CreateGraphicsWindow(osg::ref_ptr<osg::DisplaySettings> d
     camera->setClearColor( osg::Vec4(0.2, 0.2, 0.6, 1.0) );
     camera->setViewport( new osg::Viewport(0, 0, m_traits->width, m_traits->height) );
     camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(m_traits->width)/static_cast<double>(m_traits->height), 1.0f, 10000.0f );
-
     QWidget* widget = qtWindow->getGLWidget();
     QGridLayout* grid = static_cast<QGridLayout*>(layout());
     grid->addWidget(widget, 0, getNumViews() );
     addView(view);
-    return widget;
 }
 
 void ViewerWidget::SetStereoSettings()
