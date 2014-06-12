@@ -4,6 +4,14 @@
 #include "vld.h"
 #endif
 
+float tvSizeWidth = 0.305 * 5; // 5 feet
+float tvSizeHeight = 0.305 * 3; // 3 feet
+float tvSizeDepth = 1.5 * 0.0254; // 1.5 inches
+float tvPadHeight = 0.07; // 7 cm
+float tvScreenWidth = 56 * 0.0254; // 56 inches
+float tvScreenHeight = 32 * 0.0254; // 32 inches
+float tvScreenDepth = 0 ; // 0
+
 MultiViewerWidget::MultiViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits) : QWidget(parent)
 {
     if (ds.valid())
@@ -93,7 +101,7 @@ void MultiViewerWidget::CreateGraphicsWindow(float offsetX, float offsetZ)
 
         osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
 
-        osg::ref_ptr<osg::Camera> camera = new osg::Camera;
+        osg::ref_ptr<osg::Camera> camera = new osg::Camera();
         camera->setGraphicsContext(gc);
         camera->setViewport(new osg::Viewport(0,0, resolution.width, resolution.height));
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
@@ -102,7 +110,15 @@ void MultiViewerWidget::CreateGraphicsWindow(float offsetX, float offsetZ)
         camera->setProjectionMatrixAsPerspective (45.0,resolution.width/resolution.height, 0.1, 10.0);
         osg::Vec3 offset = i == 0 ? osg::Vec3(-offsetX,0,-offsetZ) : osg::Vec3(offsetX,0,-offsetZ);
         camera->setViewMatrixAsLookAt(offset, osg::Vec3(0,0,0), osg::Vec3(0,0,1));
-        addSlave(camera.get(), osg::Matrix::scale(1.0, 1.0, 1.0)*osg::Matrix::translate(translate_x, 0.0, 0.0), osg::Matrix() );
+        camera->setReferenceFrame(osg::Camera::RELATIVE_RF);
+
+        float bezelWidth = tvSizeWidth - tvScreenWidth;
+        float resolutionX = traits->width / tvScreenWidth;
+        float bezelOffsetInPixels = bezelWidth * resolutionX;
+        float bezelOffsetNormalized = bezelOffsetInPixels / (bezelOffsetInPixels + resolutionX);
+        float bezelOffsetProjection = bezelOffsetNormalized * cos(osg::DegreesToRadians(30.0));
+        if (i) translate_x += bezelOffsetProjection + bezelOffsetNormalized; // 2 bezels
+        addSlave(camera.get(), osg::Matrix::scale(1.0, 1.0, 1.0)*osg::Matrix::translate(translate_x, 0.0, 0.0), osg::Matrix::translate(0.0, 0.0, 0.0));
     }
 }
 

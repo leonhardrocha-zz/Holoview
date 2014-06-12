@@ -68,7 +68,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     MultiViewerWidget* fullScreen = new MultiViewerWidget(this);
 
-    /*fullScreen->SetStereoSettings();*/
+    fullScreen->SetStereoSettings();
     fullScreen->setMouseTracking(true);
 
     QDesktopWidget* desktop = QApplication::desktop();
