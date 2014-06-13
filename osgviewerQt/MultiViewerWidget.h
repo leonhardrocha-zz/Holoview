@@ -5,6 +5,7 @@
 
 #include <osgViewer/CompositeViewer>
 #include <osgViewer/ViewerEventHandlers>
+#include <osgViewer/config/PanoramicSphericalDisplay>
 #include <osg/Camera>
 #include <osgGA/CameraManipulator>
 #include <osgGA/TrackballManipulator>
@@ -20,7 +21,7 @@ class MultiViewerWidget : public QWidget, public osgViewer::Viewer
 public:
     MultiViewerWidget(QWidget* parent = (QWidget*)NULL, osg::ref_ptr<osg::DisplaySettings> ds = NULL, osg::ref_ptr<osg::GraphicsContext::Traits> traits = NULL);
     ~MultiViewerWidget();
-    virtual void CreateGraphicsWindow(float offsetX, float offsetZ);
+    virtual void CreateGraphicsWindow();
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     void SetStereoSettings();

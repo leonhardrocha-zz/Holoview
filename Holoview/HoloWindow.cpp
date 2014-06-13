@@ -8,54 +8,54 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
 	: MainWindow(customSizeHints, parent, flags)
 {
-    float tvSizeWidth = 0.305 * 5; // 5 feet
-    float tvSizeHeight = 0.305 * 3; // 3 feet
-    float tvSizeDepth = 1.5 * 0.0254; // 1.5 inches
-    float tvPadHeight = 0.07; // 7 cm
-    float tvScreenWidth = 56 * 0.0254; // 56 inches
-    float tvScreenHeight = 32 * 0.0254; // 32 inches
-    float tvScreenDepth = 0 ; // 0
+    //float tvSizeWidth = 0.305 * 5; // 5 feet
+    //float tvSizeHeight = 0.305 * 3; // 3 feet
+    //float tvSizeDepth = 1.5 * 0.0254; // 1.5 inches
+    //float tvPadHeight = 0.07; // 7 cm
+    //float tvScreenWidth = 56 * 0.0254; // 56 inches
+    //float tvScreenHeight = 32 * 0.0254; // 32 inches
+    //float tvScreenDepth = 0 ; // 0
 
-    // world widget
+    //// world widget
 
-    ViewerWidget* central = new ViewerWidget(this);
+    //ViewerWidget* central = new ViewerWidget(this);
 
-    osg::ref_ptr<osg::Group> worldRoot= new osg::Group;
+    //osg::ref_ptr<osg::Group> worldRoot= new osg::Group;
 
-    float rotationAngle =  osg::DegreesToRadians(30.0f);
-    float offsetX = tvSizeWidth * std::cos(rotationAngle) /2;
-    float offsetZ = tvSizeWidth * std::sin(rotationAngle);
+    //float rotationAngle =  osg::DegreesToRadians(30.0f);
+    //float offsetX = tvSizeWidth * std::cos(rotationAngle) /2;
+    //float offsetZ = tvSizeWidth * std::sin(rotationAngle);
 
-    osg::ref_ptr<osg::Node> tv = osgDB::readNodeFile("../Dependencies/Models/3ds/TV/tv.3ds");
-
-
-    // left tv
+    //osg::ref_ptr<osg::Node> tv = osgDB::readNodeFile("../Dependencies/Models/3ds/TV/tv.3ds");
 
 
-    osg::ref_ptr<osg::MatrixTransform> leftTransform= new osg::MatrixTransform();
-    osg::Matrix leftMatrix = leftTransform->getMatrix();
-    leftTransform->setMatrix( leftMatrix.scale(0.01f, 0.01f, 0.01f) * leftMatrix.rotate(rotationAngle, osg::Vec3(0,0,1)) * leftMatrix.translate(-offsetX, 0, offsetZ) );
-    leftTransform->addChild(tv);
-    worldRoot->addChild(leftTransform);
+    //// left tv
 
 
-    // right tv
-
-    osg::ref_ptr<osg::MatrixTransform> rightTransform= new osg::MatrixTransform();
-    osg::Matrix rightMatrix = rightTransform->getMatrix();
-    rightTransform->setMatrix( rightMatrix.scale(0.01f, 0.01f, 0.01f) * rightMatrix.rotate(-rotationAngle, osg::Vec3(0,0,1)) * rightMatrix.translate(offsetX,  0, offsetZ) );
-    rightTransform->addChild(tv);
-    worldRoot->addChild(rightTransform);
-
-    // rest
+    //osg::ref_ptr<osg::MatrixTransform> leftTransform= new osg::MatrixTransform();
+    //osg::Matrix leftMatrix = leftTransform->getMatrix();
+    //leftTransform->setMatrix( leftMatrix.scale(0.01f, 0.01f, 0.01f) * leftMatrix.rotate(rotationAngle, osg::Vec3(0,0,1)) * leftMatrix.translate(-offsetX, 0, offsetZ) );
+    //leftTransform->addChild(tv);
+    //worldRoot->addChild(leftTransform);
 
 
-    central->CreateGraphicsWindow();
-    osgViewer::View* view = central->getView(0);
-    view->addEventHandler( new osgViewer::StatsHandler );
-    view->setCameraManipulator( new osgGA::TrackballManipulator );
-    view->setSceneData( worldRoot );
-    setCentralWidget(central);
+    //// right tv
+
+    //osg::ref_ptr<osg::MatrixTransform> rightTransform= new osg::MatrixTransform();
+    //osg::Matrix rightMatrix = rightTransform->getMatrix();
+    //rightTransform->setMatrix( rightMatrix.scale(0.01f, 0.01f, 0.01f) * rightMatrix.rotate(-rotationAngle, osg::Vec3(0,0,1)) * rightMatrix.translate(offsetX,  0, offsetZ) );
+    //rightTransform->addChild(tv);
+    //worldRoot->addChild(rightTransform);
+
+    //// rest
+
+
+    //central->CreateGraphicsWindow();
+    //osgViewer::View* view = central->getView(0);
+    //view->addEventHandler( new osgViewer::StatsHandler );
+    //view->setCameraManipulator( new osgGA::TrackballManipulator );
+    //view->setSceneData( worldRoot );
+    //setCentralWidget(central);
 
     // full screen
 
@@ -74,7 +74,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     QDesktopWidget* desktop = QApplication::desktop();
     int numOfScreens = desktop->numScreens();
 
-    fullScreen->CreateGraphicsWindow(offsetX, offsetZ);
+    fullScreen->CreateGraphicsWindow();
     fullScreen->setCameraManipulator( new osgGA::TrackballManipulator );
     fullScreen->setSceneData(root);
     //osgViewer::ViewerBase::Cameras cameras;

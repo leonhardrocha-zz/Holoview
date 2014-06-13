@@ -1,16 +1,17 @@
 #include "MultiViewerWidget.h"
-
+#include <math.h>
 #ifdef _DEBUG
 #include "vld.h"
 #endif
 
-float tvSizeWidth = 0.305 * 5; // 5 feet
-float tvSizeHeight = 0.305 * 3; // 3 feet
-float tvSizeDepth = 1.5 * 0.0254; // 1.5 inches
-float tvPadHeight = 0.07; // 7 cm
-float tvScreenWidth = 56 * 0.0254; // 56 inches
-float tvScreenHeight = 32 * 0.0254; // 32 inches
-float tvScreenDepth = 0 ; // 0
+double tvWidth = 60 * 0.0254; // 60 inches
+double tvHeight = 36 * 0.0254; // 36 inches 
+double tvDepth = 1.5 * 0.0254; // 1.5 inches
+double bezelWidth = 2 * 0.0254; // 2 inches
+double bezelHeight = 2 * 0.0254; //2 inches
+double screenWidth = 56 * 0.0254; // 56 inches
+double screenHeight = 32 * 0.0254; // 32 inches
+double screenDepth = 0 ; // 0
 
 MultiViewerWidget::MultiViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits) : QWidget(parent)
 {
@@ -67,7 +68,7 @@ MultiViewerWidget::~MultiViewerWidget()
     }
 }
 
-void MultiViewerWidget::CreateGraphicsWindow(float offsetX, float offsetZ)
+void MultiViewerWidget::CreateGraphicsWindow()
 {
     osg::GraphicsContext::WindowingSystemInterface* wsi = osg::GraphicsContext::getWindowingSystemInterface();
     if (!wsi) 
@@ -79,14 +80,27 @@ void MultiViewerWidget::CreateGraphicsWindow(float offsetX, float offsetZ)
     unsigned int width=0, height=0;
     unsigned int numCameras = 2;
     double aspectRatioScale = (double)numCameras;
-    double translate_x = -1.0;
-    for(unsigned int i=0; i<numCameras;++i, translate_x += 2.0)
+
+    double bezelWidth = tvWidth - screenWidth;
+    double angleInRadians = atan(47.0/ 38.0);
+    double angleInDegrees = osg::RadiansToDegrees(angleInRadians);
+    double offsetNormalized = tvWidth / screenWidth;
+    double depthOffSetNormalized = offsetNormalized * cos(angleInRadians);
+    double bezelOffsetProjection = offsetNormalized * sin(angleInRadians);
+
+    osg::Camera* viewCamera = getCamera();
+
+    for(unsigned int i=0; i<numCameras;++i)
     {
         osg::GraphicsContext::ScreenIdentifier screenId = osg::GraphicsContext::ScreenIdentifier(i);
         screenId.setUndefinedScreenDetailsToDefaultScreen();
         screenId.readDISPLAY();
         osg::GraphicsContext::ScreenSettings resolution;
         wsi->getScreenSettings(screenId, resolution);
+
+        viewCamera->setProjectionMatrixAsPerspective (45.0 * resolution.width/resolution.height, resolution.width/resolution.height, 0.1, 10.0);
+        viewCamera->setViewMatrixAsLookAt(osg::Vec3(0,0,0), osg::Vec3(0,0,-1), osg::Vec3(0,1,0));
+
         osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
         traits->screenNum = screenId.screenNum;
         traits->x = 0;
@@ -107,19 +121,11 @@ void MultiViewerWidget::CreateGraphicsWindow(float offsetX, float offsetZ)
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
-        camera->setProjectionMatrixAsPerspective (45.0,resolution.width/resolution.height, 0.1, 10.0);
-        osg::Vec3 offset = i == 0 ? osg::Vec3(-offsetX,0,-offsetZ) : osg::Vec3(offsetX,0,-offsetZ);
-        camera->setViewMatrixAsLookAt(offset, osg::Vec3(0,0,0), osg::Vec3(0,0,1));
-        camera->setReferenceFrame(osg::Camera::RELATIVE_RF);
-
-        float bezelWidth = tvSizeWidth - tvScreenWidth;
-        float resolutionX = traits->width / tvScreenWidth;
-        float bezelOffsetInPixels = bezelWidth * resolutionX;
-        float bezelOffsetNormalized = bezelOffsetInPixels / (bezelOffsetInPixels + resolutionX);
-        float bezelOffsetProjection = bezelOffsetNormalized * cos(osg::DegreesToRadians(30.0));
-        if (i) translate_x += bezelOffsetProjection + bezelOffsetNormalized; // 2 bezels
-        addSlave(camera.get(), osg::Matrix::scale(1.0, 1.0, 1.0)*osg::Matrix::translate(translate_x, 0.0, 0.0), osg::Matrix::translate(0.0, 0.0, 0.0));
+        
+        osg::Matrix projOffset = osg::Matrix::translate(i ? offsetNormalized : -offsetNormalized , 0.0, 0.0);
+        addSlave(camera.get(), osg::Matrixd(), osg::Matrixd::rotate(i ? 0.0 : osg::inDegrees(90.0), 0.0,1.0,0.0));
     }
+    /*apply(dynamic_cast<osgViewer::ViewConfig*>(new osgViewer::PanoramicSphericalDisplay()));*/
 }
 
 void MultiViewerWidget::SetStereoSettings()
