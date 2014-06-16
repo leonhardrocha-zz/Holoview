@@ -82,7 +82,7 @@ void MultiViewerWidget::CreateGraphicsWindow()
     double aspectRatioScale = (double)numCameras;
 
     double bezelWidth = tvWidth - screenWidth;
-    double angleInRadians = atan(47.0/ 38.0);
+    double angleInRadians = asin(37.0 * 0.0254/ tvWidth);
     double angleInDegrees = osg::RadiansToDegrees(angleInRadians);
     double offsetNormalized = tvWidth / screenWidth;
     double depthOffSetNormalized = offsetNormalized * cos(angleInRadians);
@@ -98,7 +98,7 @@ void MultiViewerWidget::CreateGraphicsWindow()
         osg::GraphicsContext::ScreenSettings resolution;
         wsi->getScreenSettings(screenId, resolution);
 
-        viewCamera->setProjectionMatrixAsPerspective (45.0 * resolution.width/resolution.height, resolution.width/resolution.height, 0.1, 10.0);
+        viewCamera->setProjectionMatrixAsPerspective (angleInDegrees/2 * resolution.width/resolution.height, resolution.width/resolution.height, 0.1, 10.0);
         viewCamera->setViewMatrixAsLookAt(osg::Vec3(0,0,0), osg::Vec3(0,0,-1), osg::Vec3(0,1,0));
 
         osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
@@ -123,9 +123,8 @@ void MultiViewerWidget::CreateGraphicsWindow()
         camera->setReadBuffer(buffer);
         
         osg::Matrix projOffset = osg::Matrix::translate(i ? offsetNormalized : -offsetNormalized , 0.0, 0.0);
-        addSlave(camera.get(), osg::Matrixd(), osg::Matrixd::rotate(i ? 0.0 : osg::inDegrees(90.0), 0.0,1.0,0.0));
+        addSlave(camera.get(), osg::Matrixd(), osg::Matrixd::rotate(i ? -angleInRadians/2.0 : angleInRadians/2.0, 0.0,1.0,0.0));
     }
-    /*apply(dynamic_cast<osgViewer::ViewConfig*>(new osgViewer::PanoramicSphericalDisplay()));*/
 }
 
 void MultiViewerWidget::SetStereoSettings()
@@ -133,7 +132,6 @@ void MultiViewerWidget::SetStereoSettings()
     m_displaySettings->setStereo(true);
     m_displaySettings->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
     m_displaySettings->setDisplayType(osg::DisplaySettings::MONITOR);
-    /*m_displaySettings->setSplitStereoHorizontalEyeMapping(osg::DisplaySettings::LEFT_EYE_LEFT_VIEWPORT);*/
 }
 
 void MultiViewerWidget::paintEvent( QPaintEvent* event )
