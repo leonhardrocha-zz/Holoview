@@ -23,8 +23,9 @@ ViewerWidget::ViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> d
     {
         m_traits = new osg::GraphicsContext::Traits;
     }
-
+#ifndef WIN32
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
+#endif
     setKeyEventSetsDone(0);
     m_traits->windowName = getName();
     m_traits->windowDecoration = isWindow();

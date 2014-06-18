@@ -8,6 +8,8 @@
 #include <osg/Camera>
 #include <osgGA/CameraManipulator>
 #include <osgGA/TrackballManipulator>
+#include <osgGA/OrbitManipulator>
+#include <osgGA/FirstPersonManipulator>
 #include <osgDB/ReadFile>
 #include <osgQt/GraphicsWindowQt>
 #include <osg/PositionAttitudeTransform>

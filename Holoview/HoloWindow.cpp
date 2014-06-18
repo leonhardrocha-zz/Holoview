@@ -62,7 +62,6 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     m_picker = new PickHandler();
     osg::ref_ptr<osg::Group> root = new osg::Group;
     osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae");
-    root->addChild(model);
 
     auto container = root->getOrCreateUserDataContainer(); //todo: use container to pass user data
 
@@ -75,7 +74,14 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     int numOfScreens = desktop->numScreens();
 
     fullScreen->CreateGraphicsWindow();
-    fullScreen->setCameraManipulator( new osgGA::FirstPersonManipulator );
+    fullScreen->setCameraManipulator( new osgGA::TrackballManipulator );
+    osg::BoundingSphere bSphere = model->computeBound();
+    osg::Matrix m;
+    double scaleFactor = 100.0/bSphere.radius();
+    osg::Vec3 translation = -bSphere.center();
+    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m.translate(translation) * m.scale(scaleFactor, scaleFactor, scaleFactor) * m.rotate(osg::inDegrees(-90.0), osg::Vec3(1,0,0) ) * m.rotate(osg::inDegrees(-90.0), osg::Vec3(0,1,0) ) );
+    transform->addChild(model);
+    root->addChild(transform);
     fullScreen->setSceneData(root);
     m_view = fullScreen->getViewerBase();
 }
