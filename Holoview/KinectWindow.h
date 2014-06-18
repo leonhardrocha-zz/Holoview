@@ -17,11 +17,11 @@ public:
 	virtual void SetupView();
 	virtual void SetupScene();
 	virtual void RenderScene();
-	virtual void SetTrackingResults(int trackedId, TrackingResults *results);
+	virtual void SetTrackingResults(TrackingResults *results) { m_pResults = results; };
 	ITracker* GetTracker() { return &tracker; };
 
 protected:
-	static void TrackerUpdateStatic(void* lpParam, void* args=NULL);
+	static void TrackerUpdateStatic(void* lpParam, TrackingArgs args=NULL);
 	//OpenGLWindow overrides
 	virtual void resizeWindow();
 	OpenGL21Renderer renderer;

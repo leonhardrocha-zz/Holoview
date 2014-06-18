@@ -121,7 +121,6 @@ void MultiViewerWidget::CreateGraphicsWindow()
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
-        
         osg::Matrix projOffset = osg::Matrix::translate(i ? offsetNormalized : -offsetNormalized , 0.0, 0.0);
         addSlave(camera.get(), osg::Matrixd(), osg::Matrixd::rotate(i ? -angleInRadians/2.0 : angleInRadians/2.0, 0.0,1.0,0.0));
     }

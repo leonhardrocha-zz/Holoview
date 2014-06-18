@@ -53,17 +53,15 @@ void HoloviewWindow::RenderScene()
 {
 }
 
-void HoloviewWindow::TrackerUpdateStatic(void* lpParam, void* args)
+void HoloviewWindow::TrackerUpdateStatic(void* lpParam, TrackingArgs args)
 {
-	HoloviewWindow* pThis = reinterpret_cast<HoloviewWindow*>(lpParam);
-	TrackingResults* results = static_cast<TrackingResults*>(args);
-	pThis->SetTrackingResults(results->trackerId, results);
-	pThis->render();
-}
-
-void HoloviewWindow::SetTrackingResults(int trackerId, TrackingResults* results)
-{	
-	m_pResults = results;
+    HoloviewWindow* pThis = reinterpret_cast<HoloviewWindow*>(lpParam);
+    TrackingResults* results = static_cast<TrackingResults*>(args->GetArgValue("TrackerManagerResults"));
+    if (results)
+    {
+        pThis->SetTrackingResults(results);
+        pThis->render();
+    }
 }
 
 void HoloviewWindow::resizeWindow()

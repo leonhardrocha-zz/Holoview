@@ -37,12 +37,9 @@ void AssetWindow::RenderScene()
 	renderer.Render();
 }
 
-void AssetWindow::TrackerUpdateStatic(void* lpParam, void* args)
+void AssetWindow::TrackerUpdateStatic(void* lpParam, TrackingArgs args)
 {
 	AssetWindow* pThis = reinterpret_cast<AssetWindow*>(lpParam);
-	TrackingResults* results = static_cast<TrackingResults*>(args);	
-	Pose avatar = results->GetAvatarPose();
-	pThis->SetViewAngles(avatar.eulerAngles[Pitch], avatar.eulerAngles[Yaw], avatar.eulerAngles[Roll]);
 	pThis->render();
 }
 

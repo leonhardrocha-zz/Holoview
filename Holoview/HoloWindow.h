@@ -15,10 +15,11 @@ public:
 	HoloWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~HoloWindow();
+    osgViewer::ViewerBase* GetViewer() {return m_view;};
     bool AddOSGWidget();
 protected:
 	/*Ui_HoloWindowClass ui;*/
-    std::vector<osgViewer::View*> m_views;
+    osgViewer::ViewerBase* m_view;
     osg::ref_ptr<PickHandler> m_picker;
 };
 

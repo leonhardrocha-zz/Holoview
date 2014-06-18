@@ -8,6 +8,7 @@
 #include <QThread>
 #include "DockFrame.h"
 #include "ITracker.h"
+#include "Callable.h"
 
 typedef std::pair<ITracker&,void*> TrackerEvent;
 
@@ -39,14 +40,17 @@ public:
 		setAttribute(Qt::WA_NativeWindow);
 		setAttribute(Qt::WA_PaintOnScreen);
 		id = trackerId;
+        m_args.AddArg("trackerId", &id);
 	}
 	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
 	{	
-		m_pTracker->PaintEvent(message, &id);
+		m_pTracker->PaintEvent(message, &m_args);
 		return true;
 	}
 	ITracker* m_pTracker;
 	int id;
+protected:
+    ArgsMap m_args;
 };
 
 #endif

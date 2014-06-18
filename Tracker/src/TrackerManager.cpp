@@ -81,26 +81,20 @@ void TrackerManager::PaintEvent(void *message, TrackingArgs args)
 
 void TrackerManager::TrackEvent(void* message, TrackingArgs args)
 {
-	//std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
-	EnterCriticalSection(&m_CriticalSection);
-	if(m_CallBack)
-	{
-		TrackingResults* pResults = static_cast<TrackingResults*>(message);
-		int* id = static_cast<int*>(args);
-		/*if (*id == 0)*/
-		{
-		/*	Pose pose = pResults->GetAvatarPose();
-			pose.eulerAngles = glm::vec3(.0f, .0f, .0f);
-			pResults->SetAvatarPose(pose);*/
-		}
-		Pose avgPose = GetAverageCameraModel(pResults);
-		//pResults->SetAvatarPose(avgPose);
-		/*pResults->SetCameraPose(pResults->GetCameraPose());*/
-		void* viewArgs = static_cast<void*>(pResults);
-		m_CallBackArgs = viewArgs;
-		(m_CallBack)(m_CallBackParam, m_CallBackArgs);
-	}
-	LeaveCriticalSection(&m_CriticalSection);
+    //std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+    EnterCriticalSection(&m_CriticalSection);
+    if(m_CallBack)
+    {
+        TrackingResults* pResults = static_cast<TrackingResults*>(message);
+        int* id = static_cast<int*>(args->GetArgValue("trackerId"));
+
+        Pose avgPose = GetAverageCameraModel(pResults);
+
+        void* viewArgs = static_cast<void*>(pResults);
+        m_CallBackArgs->AddArg("TrackerManagerResults", viewArgs);
+        (m_CallBack)(m_CallBackParam, m_CallBackArgs);
+    }
+    LeaveCriticalSection(&m_CriticalSection);
 };
 
 Pose TrackerManager::GetAverageCameraModel(TrackingResults* results)
@@ -152,7 +146,7 @@ bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j)
 
 KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 {	
-	int id = args == NULL ? 0 : *(static_cast<int*>(args));
+	int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
 	m_pBestTracker = m_pFaceTrackers[id];
 	return m_pBestTracker;
 }
@@ -168,7 +162,7 @@ KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 
 TrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
 {
-	int id = args == NULL ? 0 : *(static_cast<int*>(args));
+	int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
 	KinectFaceTracker *tracker = m_pFaceTrackers[id];
 	return tracker->GetTrackingResults();
 }

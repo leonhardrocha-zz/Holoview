@@ -29,20 +29,24 @@ bool KinectFaceTracker::Init()
     FT_CAMERA_CONFIG depthConfig;
     FT_CAMERA_CONFIG* pDepthConfig = NULL;
 
-	if (IsKinectSensorPresent)
-    {        
-		SetTrackerCallback(FTCallback, this, &m_id);
-		m_View.trackerId = m_id;
+    if (IsKinectSensorPresent)
+    {
+        m_args.AddArg("trackerId", &m_id);
+        SetTrackerCallback(FTCallback, this, &m_args);
+        m_View.trackerId = m_id;
         m_pKinectSensor->GetVideoConfiguration(&videoConfig);
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
-		
-		Pose camera;
-		camera.target = glm::vec3(0.8f, 1.2f, 2.0f);
-		camera.position = m_id ?  glm::vec3(0.8f, 1.2f, 0.0f) : glm::vec3(0.2f, 0.8f, 0.5f);
-		Pose avatar;
-		m_View.SetCameraPose(camera);		
-		
+
+        Pose camera;
+        camera.target = glm::vec3(0.8f, 1.2f, 2.0f);
+        camera.position = m_id ?  glm::vec3(-1.7, -0.6f, 0.0f) : glm::vec3(0.0f, 0.0f, 1.1f);
+        m_View.SetCameraPose(camera);
+
+        Pose avatar;
+        avatar.position = glm::vec3(0.0f, 0.0f, 0.0f);
+        m_View.SetAvatarPose(avatar);
+
         m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0 , 0, camera.target.z);
     }
     else
@@ -432,16 +436,15 @@ void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
     KinectFaceTracker* pThis = reinterpret_cast<KinectFaceTracker*>(param);
     if (pThis)
     {
-		pThis->UpdateAvatarPose();
-		void *message = static_cast<void*>(pThis->GetTrackingResults(args));
-		int *pid = static_cast<int*>(args);
-		pThis->TrackEvent(message, pid); 		
+        pThis->UpdateAvatarPose();
+        void *message = static_cast<void*>(pThis->GetTrackingResults(args));
+        pThis->TrackEvent(message, args);
     }
 }
 
 TrackingResults* KinectFaceTracker::GetTrackingResults(TrackingArgs args)
 {
-	return &m_View;
+    return &m_View;
 }
 // Drawing the video window
 BOOL KinectFaceTracker::ShowVideo(HDC hdc, int width, int height, int originX, int originY)

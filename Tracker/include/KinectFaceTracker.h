@@ -119,7 +119,7 @@ protected:
     
 	HWND						m_hWnd;
 	TrackerConfig				m_config;
-
+    ArgsMap                     m_args;
 
     BOOL						SubmitFraceTrackingResult(IFTResult* pResult);
     void						SetCenterOfImage(IFTResult* pResult);

@@ -19,9 +19,10 @@ public:
 	ITracker* GetTracker() { return &tracker; };
 
 protected:
-	static void TrackerUpdateStatic(void* lpParam, void* args=NULL);
+	static void TrackerUpdateStatic(void* lpParam, TrackingArgs args=NULL);
 	//OpenGLWindow overrides
 	virtual void resizeWindow();
 	OpenGL21Renderer renderer;
 	KinectTracker tracker;
+    TrackingArgs args;
 };

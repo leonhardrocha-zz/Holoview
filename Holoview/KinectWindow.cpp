@@ -67,9 +67,7 @@ void KinectWindow::SetupScene()
 	}
 	
 	glMatrixMode(GL_MODELVIEW);	
-	/*glMultMatrixf(glm::value_ptr(glm::lookAt(m_3rdPersonView.position, m_3rdPersonView.target, m_3rdPersonView.upVector)));*/
-	/*InverseTrackingResults inv(*m_pResults);*/
-	glm::mat4 modelView = m_pResults->GetCameraView();		
+	glm::mat4 modelView = m_pResults->GetCameraView();
 	glMultMatrixf(glm::value_ptr(modelView));
 	
 }
@@ -87,17 +85,12 @@ void KinectWindow::RenderScene()
 	}	
 }
 
-void KinectWindow::TrackerUpdateStatic(void* lpParam, void* args)
+void KinectWindow::TrackerUpdateStatic(void* lpParam, TrackingArgs args)
 {
 	KinectWindow* pThis = reinterpret_cast<KinectWindow*>(lpParam);
-	TrackingResults* results = static_cast<TrackingResults*>(args);	
-	pThis->SetTrackingResults(results->trackerId, results);	
+	TrackingResults* results = static_cast<TrackingResults*>(args->GetArgValue("trackerId"));	
+	pThis->SetTrackingResults(results);	
 	pThis->render();
-}
-
-void KinectWindow::SetTrackingResults(int trackerId, TrackingResults* results)
-{	
-	m_pResults = results;
 }
 
 void KinectWindow::resizeWindow()

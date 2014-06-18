@@ -33,12 +33,12 @@ public:
     virtual void ResetWindow();
     virtual void SetupScene();
     virtual void RenderScene();
-    virtual void SetTrackingResults(int trackedId, TrackingResults *results);
+    virtual void SetTrackingResults(TrackingResults *results) { m_pResults = results; };
     ITracker* GetTracker() { return static_cast<ITracker*>(m_tracker); };
     void SetTracker(ITracker* tracker) { m_tracker = tracker; };
 
 protected:
-    static void TrackerUpdateStatic(void* lpParam, void* args=NULL);
+    static void TrackerUpdateStatic(void* lpParam, TrackingArgs args=NULL);
     virtual void resizeWindow();
     osg::ref_ptr<osgViewer::View> m_osgView;
     osg::ref_ptr<osg::Group> m_osgScene;

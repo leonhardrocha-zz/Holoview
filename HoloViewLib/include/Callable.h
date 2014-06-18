@@ -1,7 +1,20 @@
 #ifndef _CALLABLE_H
 #define _CALLABLE_H
 
-typedef void *TrackingArgs;
+#include <string>
+#include <map>
+
+class ArgsMap 
+{
+public:
+    void* GetArgValue(std::string name) { return argMap[name]; };
+    void AddArg(std::string name, void* value) { argMap.insert(std::pair<std::string, void*>(name, value)); };
+    int GetNumArgs() { return argMap.size();};
+protected:
+    std::map<std::string, void*> argMap;
+};
+
+typedef ArgsMap *TrackingArgs;
 typedef void (*FTCallBack)(void* lpParam, TrackingArgs args);
 
 #ifndef NULL

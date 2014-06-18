@@ -75,14 +75,9 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     int numOfScreens = desktop->numScreens();
 
     fullScreen->CreateGraphicsWindow();
-    fullScreen->setCameraManipulator( new osgGA::TrackballManipulator );
+    fullScreen->setCameraManipulator( new osgGA::FirstPersonManipulator );
     fullScreen->setSceneData(root);
-    //osgViewer::ViewerBase::Cameras cameras;
-    //fullScreen->getCameras(cameras);
-
-    /*cameras[0]->setViewMatrixAsLookAt();*/
-
-
+    m_view = fullScreen->getViewerBase();
 }
 
 HoloWindow::~HoloWindow()
