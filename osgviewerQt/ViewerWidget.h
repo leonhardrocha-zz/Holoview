@@ -6,6 +6,7 @@
 #include <osgViewer/CompositeViewer>
 #include <osgViewer/ViewerEventHandlers>
 #include <osg/Camera>
+#include <osg/CameraView>
 #include <osgGA/CameraManipulator>
 #include <osgGA/TrackballManipulator>
 #include <osgGA/OrbitManipulator>

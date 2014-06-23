@@ -58,7 +58,7 @@ HRESULT KinectSensor::GetVideoConfiguration(FT_CAMERA_CONFIG* videoConfig)
     }
     else if(width == 1280 && height == 960)
     {
-        focalLength = NUI_CAMERA_COLOR_NOMINAL_FOCAL_LENGTH_IN_PIXELS * 2.f;
+        focalLength = NUI_CAMERA_COLOR_NOMINAL_FOCAL_LENGTH_IN_PIXELS / 2.f;
     }
 
     if(focalLength == 0.f)

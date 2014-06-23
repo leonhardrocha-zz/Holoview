@@ -23,7 +23,7 @@ public:
 	TrackerConfig() :
 		m_DrawMask(TRUE),
 		m_depthType(NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX),
-		m_depthRes(NUI_IMAGE_RESOLUTION_320x240),
+        m_depthRes(NUI_IMAGE_RESOLUTION_640x480),
 		m_bNearMode(TRUE),
 		m_bFallbackToDefault(TRUE),
 		m_bSeatedSkeletonMode(TRUE),

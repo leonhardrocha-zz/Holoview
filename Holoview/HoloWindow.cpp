@@ -77,9 +77,12 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     fullScreen->setCameraManipulator( new osgGA::TrackballManipulator );
     osg::BoundingSphere bSphere = model->computeBound();
     osg::Matrix m;
-    double scaleFactor = 100.0/bSphere.radius();
-    osg::Vec3 translation = -bSphere.center();
-    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m.translate(translation) * m.scale(scaleFactor, scaleFactor, scaleFactor) * m.rotate(osg::inDegrees(-90.0), osg::Vec3(1,0,0) ) * m.rotate(osg::inDegrees(-90.0), osg::Vec3(0,1,0) ) );
+    double sceneRadius = 0.10; // 3 feet = 3 * 12 * inch in meters (SI)
+    double modelScale = sceneRadius * 1.0/bSphere.radius();
+
+    osg::Vec3 translationToModel = -bSphere.center();
+    osg::Vec3 translationToWorld(0.0, -1.0, 0.0);
+    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m.translate(translationToModel) * m.scale(modelScale, modelScale, modelScale) * m.translate(translationToWorld) );
     transform->addChild(model);
     root->addChild(transform);
     fullScreen->setSceneData(root);

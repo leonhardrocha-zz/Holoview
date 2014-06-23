@@ -11,7 +11,7 @@ double bezelWidth = 2 * 0.0254; // 2 inches
 double bezelHeight = 2 * 0.0254; //2 inches
 double screenWidth = 56 * 0.0254; // 56 inches
 double screenHeight = 32 * 0.0254; // 32 inches
-double screenDepth = 0 ; // 0
+double screenDepth = 1.0 ; // 0
 
 MultiViewerWidget::MultiViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits) : QWidget(parent)
 {
@@ -133,6 +133,10 @@ void MultiViewerWidget::SetStereoSettings()
     m_displaySettings->setStereo(true);
     m_displaySettings->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
     m_displaySettings->setDisplayType(osg::DisplaySettings::MONITOR);
+    m_displaySettings->setScreenDistance(screenDepth); 
+    m_displaySettings->setScreenHeight(screenHeight);
+    m_displaySettings->setScreenWidth(screenWidth);
+    m_displaySettings->setEyeSeparation(0.06f); 
 }
 
 void MultiViewerWidget::paintEvent( QPaintEvent* event )

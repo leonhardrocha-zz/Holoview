@@ -59,12 +59,12 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
     if(myViewer)
     {
         osgGA::TrackballManipulator* cameraManipulator = static_cast<osgGA::TrackballManipulator*>(myViewer->getCameraManipulator());
-        osg::Vec3d eye;
-        osg::Vec3d center;
-        osg::Vec3d up;
-        cameraManipulator->setElevation(osg::inDegrees(90.0));
-        cameraManipulator->getTransformation(eye, center, up);
+        // viewer: (x,z,y);
+        osg::Vec3d eye(0.0, -2.0, 0.0);
+        osg::Vec3d center(0.0, 0.0, 0.0);
+        osg::Vec3d up(0.0, 0.0, 1.0);
         cameraManipulator->setHomePosition(eye, center, up);
+        cameraManipulator->setTransformation(eye, center, up);
     }
 
 }
@@ -79,22 +79,18 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
         osgGA::TrackballManipulator* cameraManipulator = static_cast<osgGA::TrackballManipulator*>(myViewer->getCameraManipulator());
         Pose avatarPose  = results->GetAvatarPose();
         Pose cameraPose  = results->GetCameraPose();
+        // viewer: (x,z,y);
         osg::Quat q(avatarPose.eulerAngles.x, osg::Vec3(1,0,0),
-                    avatarPose.eulerAngles.y, osg::Vec3(0,1,0),
-                    avatarPose.eulerAngles.z, osg::Vec3(0,0,1));
+                    avatarPose.eulerAngles.z, osg::Vec3(0,0,1),
+                    avatarPose.eulerAngles.y, osg::Vec3(0,1,0));
         /*cameraManipulator->setRotation(q);*/
         osg::Vec3d eye;
         osg::Vec3d center;
         osg::Vec3d up;
-        osg::Vec3d deye(avatarPose.translation.x * 100 , avatarPose.translation.y * 100, avatarPose.translation.z* 100); // normalize within kinect range
-        osg::Vec3d dcenter(avatarPose.translation.x * 100 , avatarPose.translation.y * 100, 0); // normalize within kinect range
-        
-        cameraManipulator->home(0.0);
+        /*cameraManipulator->home(0.0);*/
         cameraManipulator->getTransformation(eye, center, up);
-        
-        osg::Vec3d neweye = eye + deye;
-        osg::Vec3d newcenter = eye + dcenter;
-        cameraManipulator->setTransformation(neweye, newcenter, up);
+        osg::Vec3d neweye = osg::Vec3(0.0, -avatarPose.translation.z*2, 0.0 );
+        cameraManipulator->setTransformation(neweye, center, up);
     }
 
 }
@@ -115,8 +111,8 @@ int main(int argc, char *argv[])
     tracker.SetTrackerCallback(TrackerViewUpdateStatic, &tracker, &args);
     mainWindow.AddMultiTrackerDockWidget(&tracker);
     tracker.Start();
-    TrackerViewInitStatic(&tracker, &args);
     mainWindow.show();
+    TrackerViewInitStatic(&tracker, &args);
 	return app.exec();
 }
 
