@@ -4,6 +4,7 @@
 #include "MainWindow.h"
 #include "ViewerWidget.h"
 #include "MultiViewerWidget.h"
+#include "TrackerManipulator.h"
 #include "MyDock.h"
 #include "OsgFrame.h"
 

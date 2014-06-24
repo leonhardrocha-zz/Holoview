@@ -2,7 +2,6 @@
 #include <QTimer>
 #include <QApplication>
 #include <QGridLayout>
-
 #include <osgViewer/CompositeViewer>
 #include <osgViewer/ViewerEventHandlers>
 #include <osgViewer/config/PanoramicSphericalDisplay>
@@ -14,9 +13,7 @@
 #include <osgDB/ReadFile>
 #include <osgQt/GraphicsWindowQt>
 
-#include <iostream>
-#include "OsgScene.h"
-#include "OsgView.h"
+
 
 class MultiViewerWidget : public QWidget, public osgViewer::Viewer
 {

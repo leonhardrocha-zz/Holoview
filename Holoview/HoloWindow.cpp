@@ -74,7 +74,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     int numOfScreens = desktop->numScreens();
 
     fullScreen->CreateGraphicsWindow();
-    fullScreen->setCameraManipulator( new osgGA::TrackballManipulator );
+    fullScreen->setCameraManipulator( new osgGA::TrackerManipulator );
     osg::BoundingSphere bSphere = model->computeBound();
     osg::Matrix m;
     double sceneRadius = 0.10; // 3 feet = 3 * 12 * inch in meters (SI)

@@ -58,10 +58,10 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
     osgViewer::Viewer* myViewer = reinterpret_cast<osgViewer::Viewer*>(args->GetArgValue("viewer"));
     if(myViewer)
     {
-        osgGA::TrackballManipulator* cameraManipulator = static_cast<osgGA::TrackballManipulator*>(myViewer->getCameraManipulator());
+        osgGA::TrackerManipulator* cameraManipulator = static_cast<osgGA::TrackerManipulator*>(myViewer->getCameraManipulator());
         // viewer: (x,z,y);
-        osg::Vec3d eye(0.0, -2.0, 0.0);
-        osg::Vec3d center(0.0, 0.0, 0.0);
+        osg::Vec3d eye(0.0, -1.3, -0.5);
+        osg::Vec3d center(0.0, -1.0, 0.0);
         osg::Vec3d up(0.0, 0.0, 1.0);
         cameraManipulator->setHomePosition(eye, center, up);
         cameraManipulator->setTransformation(eye, center, up);
@@ -76,21 +76,26 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
     osgViewer::Viewer* myViewer = reinterpret_cast<osgViewer::Viewer*>(args->GetArgValue("viewer"));
     if(myViewer)
     {
-        osgGA::TrackballManipulator* cameraManipulator = static_cast<osgGA::TrackballManipulator*>(myViewer->getCameraManipulator());
+        osgGA::TrackerManipulator* cameraManipulator = static_cast<osgGA::TrackerManipulator*>(myViewer->getCameraManipulator());
         Pose avatarPose  = results->GetAvatarPose();
         Pose cameraPose  = results->GetCameraPose();
-        // viewer: (x,z,y);
-        osg::Quat q(avatarPose.eulerAngles.x, osg::Vec3(1,0,0),
-                    avatarPose.eulerAngles.z, osg::Vec3(0,0,1),
-                    avatarPose.eulerAngles.y, osg::Vec3(0,1,0));
+        
         /*cameraManipulator->setRotation(q);*/
         osg::Vec3d eye;
         osg::Vec3d center;
         osg::Vec3d up;
-        /*cameraManipulator->home(0.0);*/
+        cameraManipulator->home(0.0);
         cameraManipulator->getTransformation(eye, center, up);
-        osg::Vec3d neweye = osg::Vec3(0.0, -avatarPose.translation.z*2, 0.0 );
-        cameraManipulator->setTransformation(neweye, center, up);
+        double parallaxCorrection = cameraManipulator->getDistance() / avatarPose.translation.z;
+        // viewer left hand system:  (x,z,y);
+        osg::Vec3d neweye = osg::Vec3(avatarPose.translation.x * parallaxCorrection, -avatarPose.translation.z, avatarPose.translation.y * parallaxCorrection);
+        osg::Quat q = cameraManipulator->getRotation();
+        osg::Quat r(avatarPose.eulerAngles.x - osg::inDegrees(20.0), osg::Vec3(1,0,0),\
+                    avatarPose.eulerAngles.y, osg::Vec3(0,1,0),\
+                    avatarPose.eulerAngles.z, osg::Vec3(0,0,1));
+        osg::Quat s = q * r;
+        cameraManipulator->setTransformation(neweye, s);
+        /*cameraManipulator->setRotation(s);*/
     }
 
 }
@@ -115,5 +120,6 @@ int main(int argc, char *argv[])
     TrackerViewInitStatic(&tracker, &args);
 	return app.exec();
 }
+
 
 
