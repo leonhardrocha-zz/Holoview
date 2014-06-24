@@ -81,7 +81,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     double modelScale = sceneRadius * 1.0/bSphere.radius();
 
     osg::Vec3 translationToModel = -bSphere.center();
-    osg::Vec3 translationToWorld(0.0, -1.0, 0.0);
+    osg::Vec3 translationToWorld(0.0, 1.0, 0.0);
     osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m.translate(translationToModel) * m.scale(modelScale, modelScale, modelScale) * m.translate(translationToWorld) );
     transform->addChild(model);
     root->addChild(transform);
