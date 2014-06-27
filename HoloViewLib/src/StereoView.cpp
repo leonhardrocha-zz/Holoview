@@ -35,19 +35,19 @@ void StereoView::SetupWindow()
 
 void StereoView::Init()
 {	
-	fovy = 45;                                          //field of view in y-axis
-	IOD = 0.1;
+	fovy = 60;                                          //field of view in y-axis
+	IOD = 0.06;
 	CameraPosition[0] = 0;
 	CameraPosition[1] = 0;
-	CameraPosition[2] = 3;
+	CameraPosition[2] = 1.5;
 	LookAtPosition[0] = 0;
 	LookAtPosition[1] = 0;
-	LookAtPosition[2] = -1;
+	LookAtPosition[2] = 0.75;
 	LightPosition[0] = 0;
 	LightPosition[1] = 0;
 	LightPosition[2] = 0;
 	nearZ = 0.1;                                        //near clipping plane
-	farZ = 10;                                        //far clipping plane
+	farZ = 15;                                        //far clipping plane
 
 	ResetWindow();
 	ResetLeftView();

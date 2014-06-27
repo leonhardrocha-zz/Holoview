@@ -156,7 +156,6 @@
     <ClInclude Include="KinectWindow.h" />
     <ClInclude Include="OsgFrame.h" />
     <ClInclude Include="HoloviewWindow.h" />
-    <ClInclude Include="WindowsKinectFactory.h" />
     <ClInclude Include="ModelWindow.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TrackerFrame.h" />
@@ -249,14 +248,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Factory\Factory.vcxproj">
-      <Project>{68351e09-fe17-4b53-af59-3152fe4fcb69}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
     <ProjectReference Include="..\HoloviewLib\HoloViewLib.vcxproj">
       <Project>{7ce81028-73fe-5415-5112-639e90b73607}</Project>
       <Private>true</Private>

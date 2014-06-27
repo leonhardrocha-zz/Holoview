@@ -184,12 +184,14 @@
   <ItemGroup>
     <ClCompile Include="MultiViewerWidget.cpp" />
     <ClCompile Include="PickHandler.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="TrackerManipulator.cpp" />
     <ClCompile Include="ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MultiViewerWidget.h" />
     <ClInclude Include="PickHandler.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="TrackerManipulator.h" />
     <ClInclude Include="ViewerWidget.h" />
   </ItemGroup>

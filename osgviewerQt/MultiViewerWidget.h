@@ -24,6 +24,8 @@ public:
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     void SetStereoSettings();
+    std::string leftTvName;
+    std::string rightTvName;
 
 protected:
     virtual void paintEvent( QPaintEvent* event );

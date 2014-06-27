@@ -77,16 +77,17 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     fullScreen->setCameraManipulator( new osgGA::TrackerManipulator );
     osg::BoundingSphere bSphere = model->computeBound();
     osg::Matrix m;
-    double sceneRadius = 0.10; // 3 feet = 3 * 12 * inch in meters (SI)
+    double sceneRadius = 0.25; // 3 feet = 3 * 12 * inch in meters (SI)
     double modelScale = sceneRadius * 1.0/bSphere.radius();
 
     osg::Vec3 translationToModel = -bSphere.center();
-    osg::Vec3 translationToWorld(0.0, 1.0, 0.0);
+    osg::Vec3 translationToWorld(0.0, 0.5, 1.0);
     osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m.translate(translationToModel) * m.scale(modelScale, modelScale, modelScale) * m.translate(translationToWorld) );
     transform->addChild(model);
     root->addChild(transform);
     fullScreen->setSceneData(root);
     m_view = fullScreen->getViewerBase();
+    AddSkyBox();
 }
 
 HoloWindow::~HoloWindow()
@@ -94,7 +95,34 @@ HoloWindow::~HoloWindow()
 
 }
 
+void HoloWindow::AddSkyBox()
+{
+    MultiViewerWidget* fullScreen = static_cast<MultiViewerWidget*>(m_view);
+    osg::ref_ptr<osg::Node> scene = fullScreen->getSceneData();
+    
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    geode->addDrawable( new osg::ShapeDrawable(
+        new osg::Sphere(osg::Vec3(), scene->getBound().radius())) );
+    geode->setCullingActive( false );
+    
+    osg::ref_ptr<SkyBox> skybox = new SkyBox;
+    skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
 
+    std::string path = "../Dependencies/Images/Cubemap_axis/";
+    std::string ext = ".png";
+
+    skybox->setEnvironmentMap( 0,
+        osgDB::readImageFile(path + "posx" + ext), osgDB::readImageFile(path + "negx" + ext),
+        osgDB::readImageFile(path + "posy" + ext), osgDB::readImageFile(path + "negy" + ext),
+        osgDB::readImageFile(path + "posz" + ext), osgDB::readImageFile(path + "negz" + ext) );
+    skybox->addChild( geode.get() );
+    
+    osg::ref_ptr<osg::Group> root = new osg::Group;
+    root->addChild( scene.get() );
+    root->addChild( skybox.get() );
+
+    fullScreen->setSceneData( root.get() );
+}
 bool HoloWindow::AddOSGWidget()
 {
     QString osgName = QString::fromLatin1("Scene View");

@@ -4,8 +4,6 @@
 #include "AssetWindow.h"
 #include "MainWindow.h"
 #include "ITrackerFactory.h"
-#include "Factory.h"
-#include "WindowsKinectFactory.h"
 #include "MultiViewerWidget.h"
 #include <QtWidgets/QApplication>
 
@@ -61,9 +59,9 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
         Pose cameraPose  = results->GetCameraPose();
         osgGA::TrackerManipulator* cameraManipulator = static_cast<osgGA::TrackerManipulator*>(myViewer->getCameraManipulator());
         // viewer: (x,z,y);
-        osg::Vec3d eye(0.0, 1.3, 0.5);
-        osg::Vec3d center(0.0, 0.0, 0.5);
-        osg::Vec3d up(0.0, 0.0, 1.0);
+        osg::Vec3d eye(0.0, 0.5, 1.5);
+        osg::Vec3d center(0.0, 0.5, 0.75);
+        osg::Vec3d up(0.0, 1.0, 0.0);
         cameraManipulator->setHomePosition(eye, center, up);
     }
 
@@ -85,14 +83,30 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
         osg::Vec3d up;
         cameraManipulator->home(0.0);
         cameraManipulator->getTransformation(eye, center, up);
-        osg::Vec3d neweye = osg::Vec3d(-avatarPose.translation.x, avatarPose.translation.z, avatarPose.translation.y); //negative x in the LHS
+
+        osg::Vec3d rhsTranslation(avatarPose.translation.x, avatarPose.translation.y, avatarPose.translation.z);
+
+        //int numOfSlaves = myViewer->getNumSlaves();
+        //osg::Matrixd leftViewOffset;
+        //osg::Matrixd rightViewOffset;
+        //for (int i = 0; i < numOfSlaves; i++)
+        //{
+        //    osg::View::Slave slaveCamera = myViewer->asView()->getSlave(i);
+        //    std::string cameraName = slaveCamera._camera->getName();
+        //    slaveCamera._viewOffset = slaveCamera._viewOffset.rotate(osg::PI_2, osg::Vec3(0,1,0));
+        //}
+
+        //osg::Vec3d lhsTranslation = rhsTranslation * osg::Matrix::rotate(osg::PI_2, osg::Vec3(1,0,0));
+        
+
         osg::Quat q = cameraManipulator->getRotation();
         osg::Quat r(avatarPose.eulerAngles.x, osg::Vec3(1,0,0),\
                     avatarPose.eulerAngles.y, osg::Vec3(0,1,0),\
                     avatarPose.eulerAngles.z, osg::Vec3(0,0,1));
         osg::Quat s = q * r;
-        cameraManipulator->setObjectDistance(1.0);
-        cameraManipulator->setTransformation(neweye, s);
+        osg::Vec3d new_eye = rhsTranslation +  osg::Vec3d(0.0, 0.5, 0.0);
+        cameraManipulator->setTransformation(new_eye, s);
+        /*cameraManipulator->setTransformation(new_eye, center, up);*/
     }
 
 }

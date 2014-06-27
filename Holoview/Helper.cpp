@@ -3,7 +3,6 @@
 #include "MainWindow.h"
 #include "ITrackerFactory.h"
 #include "Factory.h"
-#include "WindowsKinectFactory.h"
 
 #include <QtWidgets/QApplication>
 

@@ -14,6 +14,7 @@ double screenWidth = 56 * 0.0254; // 56 inches
 double screenHeight = 32 * 0.0254; // 32 inches
 double screenDepth = 1.0 ; // 0
 
+
 MultiViewerWidget::MultiViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits) : QWidget(parent)
 {
     if (ds.valid())
@@ -60,6 +61,8 @@ MultiViewerWidget::MultiViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplayS
     setAttribute(Qt::WA_PaintOnScreen);
     connect( &_timer, SIGNAL(timeout()), this, SLOT(update()) );
     _timer.start( 10 );
+    leftTvName = "LeftTV";
+    rightTvName = "RightTV";
 }
 
 MultiViewerWidget::~MultiViewerWidget() 
@@ -100,10 +103,8 @@ void MultiViewerWidget::CreateGraphicsWindow()
         screenId.readDISPLAY();
         osg::GraphicsContext::ScreenSettings resolution;
         wsi->getScreenSettings(screenId, resolution);
-
-        viewCamera->setProjectionMatrixAsPerspective (angleInDegrees/2 * resolution.width/resolution.height, resolution.width/resolution.height, 0.1, 100.0);
-        viewCamera->setViewMatrixAsLookAt(osg::Vec3(0,0,0), osg::Vec3(0,0,-1), osg::Vec3(0,1,0));
-
+        double aspectRatio = (double)resolution.width/(double)resolution.height;
+        viewCamera->setProjectionMatrixAsPerspective(angleInDegrees/2 * aspectRatio, aspectRatio, 0.1, 3.0);
         osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
         traits->screenNum = screenId.screenNum;
         traits->x = 0;
@@ -124,8 +125,26 @@ void MultiViewerWidget::CreateGraphicsWindow()
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
-        osg::Matrix projOffset = osg::Matrix::translate(i ? offsetNormalized : -offsetNormalized , 0.0, 0.0);
-        addSlave(camera.get(), osg::Matrixd(), osg::Matrixd::rotate(i ? -angleInRadians/2.0 : angleInRadians/2.0, 0.0,1.0,0.0));
+
+        double left, right, bottom, top, zNear, zFar;
+        osg::Matrixd viewMatrix = osg::Matrixd::translate(0.0,0.0,0.0);
+
+        /*left = -0.5;
+        right = 0.5;
+        top = left * aspectRatio;
+        bottom = right * aspectRatio;
+        zNear= 0.1;
+        zFar = 100.0;
+        viewCamera->setProjectionMatrixAsFrustum(left, right, bottom, top, zNear, zFar);*/
+        if (viewCamera->getProjectionMatrixAsFrustum(left, right, bottom, top, zNear, zFar))
+        {
+            camera->setProjectionMatrixAsFrustum(i ? left : 0, i ? 0 : right, bottom, top, zNear, zFar);
+        }
+        viewCamera->setProjectionMatrix(osg::Matrixd());
+        osg::Matrixd projectionMatrix = camera->getProjectionMatrix();
+        camera->setName(i ? leftTvName : rightTvName);
+        addSlave(camera.get(), projectionMatrix, viewMatrix);
+        
     }
 }
 
