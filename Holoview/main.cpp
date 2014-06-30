@@ -76,8 +76,6 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
     {
         osgGA::TrackerManipulator* cameraManipulator = static_cast<osgGA::TrackerManipulator*>(myViewer->getCameraManipulator());
         Pose avatarPose  = results->GetAvatarPose();
-
-        // viewer left hand system:  RHS(-x,z,y);
         osg::Vec3d eye;
         osg::Vec3d center;
         osg::Vec3d up;
@@ -86,26 +84,15 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
 
         osg::Vec3d rhsTranslation(avatarPose.translation.x, avatarPose.translation.y, avatarPose.translation.z);
 
-        //int numOfSlaves = myViewer->getNumSlaves();
-        //osg::Matrixd leftViewOffset;
-        //osg::Matrixd rightViewOffset;
-        //for (int i = 0; i < numOfSlaves; i++)
-        //{
-        //    osg::View::Slave slaveCamera = myViewer->asView()->getSlave(i);
-        //    std::string cameraName = slaveCamera._camera->getName();
-        //    slaveCamera._viewOffset = slaveCamera._viewOffset.rotate(osg::PI_2, osg::Vec3(0,1,0));
-        //}
-
-        //osg::Vec3d lhsTranslation = rhsTranslation * osg::Matrix::rotate(osg::PI_2, osg::Vec3(1,0,0));
-        
-
         osg::Quat q = cameraManipulator->getRotation();
         osg::Quat r(avatarPose.eulerAngles.x, osg::Vec3(1,0,0),\
                     avatarPose.eulerAngles.y, osg::Vec3(0,1,0),\
                     avatarPose.eulerAngles.z, osg::Vec3(0,0,1));
         osg::Quat s = q * r;
         osg::Vec3d new_eye = rhsTranslation +  osg::Vec3d(0.0, 0.5, 0.0);
+        cameraManipulator->setDistance(rhsTranslation.length());
         cameraManipulator->setTransformation(new_eye, s);
+        
         /*cameraManipulator->setTransformation(new_eye, center, up);*/
     }
 

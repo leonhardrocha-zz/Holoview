@@ -108,13 +108,15 @@ void HoloWindow::AddSkyBox()
     osg::ref_ptr<SkyBox> skybox = new SkyBox;
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
 
-    std::string path = "../Dependencies/Images/Cubemap_axis/";
-    std::string ext = ".png";
-
+    std::string path = "../Dependencies/Images/Cubemap_snow/";
+    std::string ext = ".jpg";
+    osg::ref_ptr<osgDB::ReaderWriter::Options> op =  new osgDB::ReaderWriter::Options();
+    op->setOptionString("dds_flip");
+    /*osgDB::Registry::instance()->setOptions(op);*/
     skybox->setEnvironmentMap( 0,
-        osgDB::readImageFile(path + "posx" + ext), osgDB::readImageFile(path + "negx" + ext),
-        osgDB::readImageFile(path + "posy" + ext), osgDB::readImageFile(path + "negy" + ext),
-        osgDB::readImageFile(path + "posz" + ext), osgDB::readImageFile(path + "negz" + ext) );
+        osgDB::readImageFile(path + "posx" + ext, op), osgDB::readImageFile(path + "negx" + ext, op),
+        osgDB::readImageFile(path + "posy" + ext, op), osgDB::readImageFile(path + "negy" + ext, op),
+        osgDB::readImageFile(path + "posz" + ext, op), osgDB::readImageFile(path + "negz" + ext, op) );
     skybox->addChild( geode.get() );
     
     osg::ref_ptr<osg::Group> root = new osg::Group;

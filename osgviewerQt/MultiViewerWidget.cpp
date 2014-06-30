@@ -120,6 +120,7 @@ void MultiViewerWidget::CreateGraphicsWindow()
         osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
 
         osg::ref_ptr<osg::Camera> camera = new osg::Camera();
+        camera->setName(i ? leftTvName : rightTvName);
         camera->setGraphicsContext(gc);
         camera->setViewport(new osg::Viewport(0,0, resolution.width, resolution.height));
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
@@ -127,24 +128,28 @@ void MultiViewerWidget::CreateGraphicsWindow()
         camera->setReadBuffer(buffer);
 
         double left, right, bottom, top, zNear, zFar;
-        osg::Matrixd viewMatrix = osg::Matrixd::translate(0.0,0.0,0.0);
-
-        /*left = -0.5;
-        right = 0.5;
-        top = left * aspectRatio;
-        bottom = right * aspectRatio;
-        zNear= 0.1;
-        zFar = 100.0;
-        viewCamera->setProjectionMatrixAsFrustum(left, right, bottom, top, zNear, zFar);*/
+        osg::Matrixd viewMatrix = osg::Matrixd();
         if (viewCamera->getProjectionMatrixAsFrustum(left, right, bottom, top, zNear, zFar))
         {
-            camera->setProjectionMatrixAsFrustum(i ? left : 0, i ? 0 : right, bottom, top, zNear, zFar);
+            if (camera->getName() == rightTvName)
+            {
+                camera->setProjectionMatrixAsFrustum(0, right, bottom, top, zNear, zFar);
+                double bezel = right * 56.0/60.0;
+                double s_x = (right) / (zFar);
+                osg::Matrixd shearMatrix(   1.0, 0.0, s_x, 0.0,\
+                                            0.0, 1.0, 0.0, 0.0,\
+                                            0.0, 0.0, 1.0, 0.0,\
+                                            0.0, 0.0, 0.0, 1.0);
+                viewMatrix = viewMatrix * osg::Matrix::rotate(osg::PI_2  - angleInRadians/2.0, osg::Vec3(0,1,0)) * shearMatrix;
+            }
+            else
+            {
+                camera->setProjectionMatrixAsFrustum(left, 0, bottom, top, zNear, zFar);
+            }
         }
         viewCamera->setProjectionMatrix(osg::Matrixd());
         osg::Matrixd projectionMatrix = camera->getProjectionMatrix();
-        camera->setName(i ? leftTvName : rightTvName);
         addSlave(camera.get(), projectionMatrix, viewMatrix);
-        
     }
 }
 
@@ -156,7 +161,7 @@ void MultiViewerWidget::SetStereoSettings()
     m_displaySettings->setScreenDistance(screenDepth); 
     m_displaySettings->setScreenHeight(screenHeight);
     m_displaySettings->setScreenWidth(screenWidth);
-    m_displaySettings->setEyeSeparation(0.06f); 
+    m_displaySettings->setEyeSeparation(0.06f);
 }
 
 void MultiViewerWidget::paintEvent( QPaintEvent* event )
