@@ -17,8 +17,6 @@ public:
 		setAttribute(Qt::WA_NativeWindow);
 		setAttribute(Qt::WA_PaintOnScreen);
 
-        m_picker = new PickHandler();
-        
         worldViewer.CreateGraphicsWindow();
         worldViewer.setMouseTracking(true);
         osg::ref_ptr<osgViewer::View> view = worldViewer.getView(0);
@@ -28,14 +26,12 @@ public:
             view->setSceneData( scene->getSceneData() );
         }
         view->addEventHandler( new osgViewer::StatsHandler );
-        view->addEventHandler(m_picker.get());
         view->setCameraManipulator( new osgGA::TrackballManipulator );
     }
 
 protected:
 
     osg::ref_ptr<osgViewer::Scene> m_scene;
-    osg::ref_ptr<PickHandler> m_picker;
     ViewerWidget worldViewer;
 
 };

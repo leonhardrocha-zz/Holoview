@@ -6,7 +6,6 @@
 #include "KinectTracker.h"
 #include "TrackingResults.h"
 #include "ViewerWidget.h"
-#include "PickHandler.h"
 
 
 class HoloviewWindow : public QWindow
@@ -14,7 +13,6 @@ class HoloviewWindow : public QWindow
 public:
     HoloviewWindow(QWindow *parent = (QWindow*)0) : QWindow(parent), m_pResults(NULL) 
     {
-         m_osgPicker = new PickHandler();
          m_osgView = new osgViewer::View;
          m_osgScene = new osg::Group;
     };
@@ -42,7 +40,6 @@ protected:
     virtual void resizeWindow();
     osg::ref_ptr<osgViewer::View> m_osgView;
     osg::ref_ptr<osg::Group> m_osgScene;
-    osg::ref_ptr<PickHandler> m_osgPicker;
     ITracker* m_tracker;
     TrackingResults* m_pResults;
     int windowWidth;

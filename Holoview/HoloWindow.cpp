@@ -1,71 +1,22 @@
 #include "stdafx.h"
 #include "HoloWindow.h"
 
-
-
-
 HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
 	: MainWindow(customSizeHints, parent, flags)
 {
-    //float tvSizeWidth = 0.305 * 5; // 5 feet
-    //float tvSizeHeight = 0.305 * 3; // 3 feet
-    //float tvSizeDepth = 1.5 * 0.0254; // 1.5 inches
-    //float tvPadHeight = 0.07; // 7 cm
-    //float tvScreenWidth = 56 * 0.0254; // 56 inches
-    //float tvScreenHeight = 32 * 0.0254; // 32 inches
-    //float tvScreenDepth = 0 ; // 0
+   
 
-    //// world widget
-
-    //ViewerWidget* central = new ViewerWidget(this);
-
-    //osg::ref_ptr<osg::Group> worldRoot= new osg::Group;
-
-    //float rotationAngle =  osg::DegreesToRadians(30.0f);
-    //float offsetX = tvSizeWidth * std::cos(rotationAngle) /2;
-    //float offsetZ = tvSizeWidth * std::sin(rotationAngle);
-
-    //osg::ref_ptr<osg::Node> tv = osgDB::readNodeFile("../Dependencies/Models/3ds/TV/tv.3ds");
-
-
-    //// left tv
-
-
-    //osg::ref_ptr<osg::MatrixTransform> leftTransform= new osg::MatrixTransform();
-    //osg::Matrix leftMatrix = leftTransform->getMatrix();
-    //leftTransform->setMatrix( leftMatrix.scale(0.01f, 0.01f, 0.01f) * leftMatrix.rotate(rotationAngle, osg::Vec3(0,0,1)) * leftMatrix.translate(-offsetX, 0, offsetZ) );
-    //leftTransform->addChild(tv);
-    //worldRoot->addChild(leftTransform);
-
-
-    //// right tv
-
-    //osg::ref_ptr<osg::MatrixTransform> rightTransform= new osg::MatrixTransform();
-    //osg::Matrix rightMatrix = rightTransform->getMatrix();
-    //rightTransform->setMatrix( rightMatrix.scale(0.01f, 0.01f, 0.01f) * rightMatrix.rotate(-rotationAngle, osg::Vec3(0,0,1)) * rightMatrix.translate(offsetX,  0, offsetZ) );
-    //rightTransform->addChild(tv);
-    //worldRoot->addChild(rightTransform);
-
-    //// rest
-
-
-    //central->CreateGraphicsWindow();
-    //osgViewer::View* view = central->getView(0);
-    //view->addEventHandler( new osgViewer::StatsHandler );
-    //view->setCameraManipulator( new osgGA::TrackballManipulator );
-    //view->setSceneData( worldRoot );
-    //setCentralWidget(central);
-
-    // full screen
-
-    m_picker = new PickHandler();
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae");
+    /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");*/
+    /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");*/
+    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");
 
     auto container = root->getOrCreateUserDataContainer(); //todo: use container to pass user data
 
     MultiViewerWidget* fullScreen = new MultiViewerWidget(this);
+
+    fullScreen->addEventHandler( new SelectModelHandler );
 
     fullScreen->SetStereoSettings();
     fullScreen->setMouseTracking(true);
@@ -101,12 +52,12 @@ void HoloWindow::AddSkyBox()
     osg::ref_ptr<osg::Node> scene = fullScreen->getSceneData();
     
     osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-    geode->addDrawable( new osg::ShapeDrawable(
-        new osg::Sphere(osg::Vec3(), scene->getBound().radius())) );
+    geode->addDrawable( new osg::ShapeDrawable(new osg::Sphere(osg::Vec3(), scene->getBound().radius())) );
     geode->setCullingActive( false );
     
     osg::ref_ptr<SkyBox> skybox = new SkyBox;
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
+    osg::ref_ptr<osg::Node> land = osgDB::readNodeFile("../Dependencies/Models/OSG/lz.osg.-90,-90,0.rot");
 
     std::string path = "../Dependencies/Images/Cubemap_snow/";
     std::string ext = ".jpg";
@@ -120,6 +71,7 @@ void HoloWindow::AddSkyBox()
     skybox->addChild( geode.get() );
     
     osg::ref_ptr<osg::Group> root = new osg::Group;
+    root->addChild( land.get() );
     root->addChild( scene.get() );
     root->addChild( skybox.get() );
 

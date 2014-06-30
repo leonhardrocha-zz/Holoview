@@ -1,5 +1,6 @@
-#ifndef HoloWindow_H
-#define HoloWindow_H
+#include "stdafx.h"
+#ifndef _HOLOWINDOW_H
+#define _HOLOWINDOW_H
 
 #include "MainWindow.h"
 #include "ViewerWidget.h"
@@ -8,6 +9,7 @@
 #include "TrackerManipulator.h"
 #include "MyDock.h"
 #include "OsgFrame.h"
+#include "SelectModelHandler.h"
 
 class HoloWindow : public MainWindow
 {
@@ -24,7 +26,7 @@ public:
 protected:
 	/*Ui_HoloWindowClass ui;*/
     osgViewer::ViewerBase* m_view;
-    osg::ref_ptr<PickHandler> m_picker;
+    osg::ref_ptr<SelectModelHandler> m_selectModel;
 };
 
-#endif // HoloWindow_H
+#endif // HOLOWINDOW_H

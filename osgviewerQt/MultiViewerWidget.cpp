@@ -85,14 +85,9 @@ void MultiViewerWidget::CreateGraphicsWindow()
     
     unsigned int width=0, height=0;
     unsigned int numCameras = 2;
-    double aspectRatioScale = (double)numCameras;
 
-    double bezelWidth = tvWidth - screenWidth;
     double angleInRadians = osg::inDegrees(120.0);
     double angleInDegrees = osg::RadiansToDegrees(angleInRadians);
-    double offsetNormalized = tvWidth / screenWidth;
-    double depthOffSetNormalized = offsetNormalized * cos(angleInRadians);
-    double bezelOffsetProjection = offsetNormalized * sin(angleInRadians);
 
     osg::Camera* viewCamera = getCamera();
 
@@ -134,7 +129,6 @@ void MultiViewerWidget::CreateGraphicsWindow()
             if (camera->getName() == rightTvName)
             {
                 camera->setProjectionMatrixAsFrustum(0, right, bottom, top, zNear, zFar);
-                double bezel = right * 56.0/60.0;
                 double s_x = (right) / (zFar);
                 osg::Matrixd shearMatrix(   1.0, 0.0, s_x, 0.0,\
                                             0.0, 1.0, 0.0, 0.0,\

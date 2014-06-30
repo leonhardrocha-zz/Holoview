@@ -1,14 +1,6 @@
-/* -*-c++-*- OpenSceneGraph Cookbook
- * Chapter 6 Recipe 7
- * Author: Wang Rui <wangray84 at gmail dot com>
-*/
-
-#ifndef H_COOKBOOK_CH6_SKYBOX
-#define H_COOKBOOK_CH6_SKYBOX
-
-#include <osg/TexGen>
-#include <osg/TextureCubeMap>
-#include <osg/Transform>
+#include "stdafx.h"
+#ifndef _SKYBOX_H
+#define _SKYBOX_H
 
 class SkyBox : public osg::Transform
 {

@@ -1,22 +1,10 @@
-#pragma once
+#include "stdafx.h"
+#ifndef _VIEWERWIDGET_H
+#define _VIEWERWIDGET_H
 #include <QTimer>
 #include <QApplication>
 #include <QGridLayout>
-
-#include <osgViewer/CompositeViewer>
-#include <osgViewer/ViewerEventHandlers>
-#include <osg/Camera>
-#include <osg/CameraView>
-#include <osgGA/CameraManipulator>
-#include <osgGA/TrackballManipulator>
-#include <osgGA/OrbitManipulator>
-#include <osgGA/FirstPersonManipulator>
-#include <osgDB/ReadFile>
-#include <osgQt/GraphicsWindowQt>
-#include <osg/PositionAttitudeTransform>
 #include <iostream>
-#include "OsgScene.h"
-#include "OsgView.h"
 
 class ViewerWidget : public QWidget, public osgViewer::CompositeViewer
 {
@@ -35,3 +23,4 @@ protected:
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
     QWidget* m_parent;
 };
+#endif

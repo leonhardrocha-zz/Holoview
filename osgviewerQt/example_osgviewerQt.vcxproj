@@ -182,18 +182,22 @@
     </ProjectReference>
   </ItemGroup>-->
   <ItemGroup>
+    <ClCompile Include="CommonFunctions.cpp" />
     <ClCompile Include="MultiViewerWidget.cpp" />
-    <ClCompile Include="PickHandler.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="TrackerManipulator.cpp" />
     <ClCompile Include="ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MultiViewerWidget.h" />
-    <ClInclude Include="PickHandler.h" />
+    <ClInclude Include="SelectModelHandler.h" />
     <ClInclude Include="SkyBox.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="TrackerManipulator.h" />
     <ClInclude Include="ViewerWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CommonFunctions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

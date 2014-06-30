@@ -1,19 +1,6 @@
-#pragma once
-#include <QTimer>
-#include <QApplication>
-#include <QGridLayout>
-#include <osgViewer/CompositeViewer>
-#include <osgViewer/ViewerEventHandlers>
-#include <osgViewer/config/PanoramicSphericalDisplay>
-#include <osg/Camera>
-#include <osgGA/CameraManipulator>
-#include <osgGA/TrackballManipulator>
-#include <osgGA/StandardManipulator>
-#include <osgGA/FirstPersonManipulator>
-#include <osgDB/ReadFile>
-#include <osgQt/GraphicsWindowQt>
-
-
+#include "stdafx.h"
+#ifndef _MULTIVIEWERWIDGET_H
+#define _MULTIVIEWERWIDGET_H
 
 class MultiViewerWidget : public QWidget, public osgViewer::Viewer
 {
@@ -35,3 +22,4 @@ protected:
     QWidget* m_parent;
     osgQt::GraphicsWindowQt* m_qtWindow;
 };
+#endif

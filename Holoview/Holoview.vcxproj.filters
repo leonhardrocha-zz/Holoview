@@ -98,9 +98,6 @@
     <ClCompile Include="KinectWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HoloviewWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HoloWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,16 +121,10 @@
     <ClInclude Include="TrackerFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OsgFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="KinectWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HoloviewWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
