@@ -10,7 +10,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     osg::ref_ptr<osg::Group> root = new osg::Group;
     /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");*/
     /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");*/
-    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");
+    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/osg/cessna.osgt.-90,0,0.rot");
 
     auto container = root->getOrCreateUserDataContainer(); //todo: use container to pass user data
 
@@ -57,21 +57,18 @@ void HoloWindow::AddSkyBox()
     
     osg::ref_ptr<SkyBox> skybox = new SkyBox;
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
-    osg::ref_ptr<osg::Node> land = osgDB::readNodeFile("../Dependencies/Models/OSG/lz.osg.-90,-90,0.rot");
+    /*osg::ref_ptr<osg::Node> land = osgDB::readNodeFile("../Dependencies/Models/OSG/lz.osg.-90,-90,0.rot");*/
 
     std::string path = "../Dependencies/Images/Cubemap_snow/";
     std::string ext = ".jpg";
-    osg::ref_ptr<osgDB::ReaderWriter::Options> op =  new osgDB::ReaderWriter::Options();
-    op->setOptionString("dds_flip");
-    /*osgDB::Registry::instance()->setOptions(op);*/
     skybox->setEnvironmentMap( 0,
-        osgDB::readImageFile(path + "posx" + ext, op), osgDB::readImageFile(path + "negx" + ext, op),
-        osgDB::readImageFile(path + "posy" + ext, op), osgDB::readImageFile(path + "negy" + ext, op),
-        osgDB::readImageFile(path + "posz" + ext, op), osgDB::readImageFile(path + "negz" + ext, op) );
+        osgDB::readImageFile(path + "posx" + ext), osgDB::readImageFile(path + "negx" + ext),
+        osgDB::readImageFile(path + "posy" + ext), osgDB::readImageFile(path + "negy" + ext),
+        osgDB::readImageFile(path + "posz" + ext), osgDB::readImageFile(path + "negz" + ext) );
     skybox->addChild( geode.get() );
     
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    root->addChild( land.get() );
+    /*root->addChild( land.get() );*/
     root->addChild( scene.get() );
     root->addChild( skybox.get() );
 
