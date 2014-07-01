@@ -8,10 +8,10 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
    
 
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");*/
+    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");
     /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");*/
-    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/osg/cessna.osgt.-90,0,0.rot");
-
+    /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/osg/cessna.osgt.-90,0,0.rot");*/
+    osg::ref_ptr<osg::Node> kinect = osgDB::readNodeFile("../Dependencies/Models/3ds/kinect/kinect_edited.3ds");
     auto container = root->getOrCreateUserDataContainer(); //todo: use container to pass user data
 
     MultiViewerWidget* fullScreen = new MultiViewerWidget(this);
@@ -26,16 +26,10 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     fullScreen->CreateGraphicsWindow();
     fullScreen->setCameraManipulator( new osgGA::TrackerManipulator );
-    osg::BoundingSphere bSphere = model->computeBound();
-    osg::Matrix m;
-    double sceneRadius = 0.25; // 3 feet = 3 * 12 * inch in meters (SI)
-    double modelScale = sceneRadius * 1.0/bSphere.radius();
-
-    osg::Vec3 translationToModel = -bSphere.center();
-    osg::Vec3 translationToWorld(0.0, 0.5, 1.0);
-    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m.translate(translationToModel) * m.scale(modelScale, modelScale, modelScale) * m.translate(translationToWorld) );
-    transform->addChild(model);
-    root->addChild(transform);
+    osg::Vec3 modelPosition(0.0, 0.5, 1.0);
+    osg::Vec3 kinectPosition(0.0, -0.1, 0.0);
+    root->addChild(GetModelTransformHelper(model, modelPosition, 0.25));
+    root->addChild(GetModelTransformHelper(kinect, kinectPosition));
     fullScreen->setSceneData(root);
     m_view = fullScreen->getViewerBase();
     AddSkyBox();
@@ -44,6 +38,21 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 HoloWindow::~HoloWindow()
 {
 
+}
+
+osg::ref_ptr<osg::MatrixTransform> HoloWindow::GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3& worldPosition, const double modelRadius)
+{
+    osg::BoundingSphere bSphere = model->computeBound();
+    osg::Vec3 translationToModel = -bSphere.center();
+    osg::Matrix m = osg::Matrix::translate(translationToModel);
+    if (modelRadius != 0.0) {
+        double modelScale = modelRadius * 1.0/bSphere.radius();
+        m = m * osg::Matrix::scale(modelScale, modelScale, modelScale);
+    }
+    m = m * osg::Matrix::translate(worldPosition);
+    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m);
+    transform->addChild(model);
+    return transform;
 }
 
 void HoloWindow::AddSkyBox()
@@ -57,18 +66,25 @@ void HoloWindow::AddSkyBox()
     
     osg::ref_ptr<SkyBox> skybox = new SkyBox;
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
-    /*osg::ref_ptr<osg::Node> land = osgDB::readNodeFile("../Dependencies/Models/OSG/lz.osg.-90,-90,0.rot");*/
+    std::string name = "axis";
+    std::string path = "../Dependencies/Images/Cubemap_" + name + "/";
+    std::string ext = ".png";
+    std::string sign[] = { "pos", "neg" };
+    std::string axis[] = { "x", "y", "z" };
+    std::vector<osg::Image*> images;
+    for (int i=0; i < 6; i++)
+    {
+        std::string filename = path + sign[i%2] + axis[i/2] + ext;
+        osg::Image* image = osgDB::readImageFile(filename);
+        //image->flipHorizontal();
+        images.push_back(image);
+    }
 
-    std::string path = "../Dependencies/Images/Cubemap_snow/";
-    std::string ext = ".jpg";
-    skybox->setEnvironmentMap( 0,
-        osgDB::readImageFile(path + "posx" + ext), osgDB::readImageFile(path + "negx" + ext),
-        osgDB::readImageFile(path + "posy" + ext), osgDB::readImageFile(path + "negy" + ext),
-        osgDB::readImageFile(path + "posz" + ext), osgDB::readImageFile(path + "negz" + ext) );
+    skybox->setEnvironmentMap( 0, images[0], images[1], images[2], images[3], images[4], images[5]);
+
     skybox->addChild( geode.get() );
     
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    /*root->addChild( land.get() );*/
     root->addChild( scene.get() );
     root->addChild( skybox.get() );
 

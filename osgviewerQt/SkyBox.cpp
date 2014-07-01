@@ -35,8 +35,8 @@ void SkyBox::setEnvironmentMap( unsigned int unit, osg::Image* posX, osg::Image*
         cubemap->setWrap( osg::Texture::WRAP_S, osg::Texture::CLAMP_TO_EDGE );
         cubemap->setWrap( osg::Texture::WRAP_T, osg::Texture::CLAMP_TO_EDGE );
         cubemap->setWrap( osg::Texture::WRAP_R, osg::Texture::CLAMP_TO_EDGE );
-		cubemap->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR_MIPMAP_LINEAR );
-		cubemap->setFilter( osg::Texture::MAG_FILTER, osg::Texture::LINEAR );
+        cubemap->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR_MIPMAP_LINEAR );
+        cubemap->setFilter( osg::Texture::MAG_FILTER, osg::Texture::LINEAR );
         cubemap->setResizeNonPowerOfTwoHint( false );
         getOrCreateStateSet()->setTextureAttributeAndModes( unit, cubemap.get() );
     }

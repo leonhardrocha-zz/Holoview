@@ -91,6 +91,12 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
         osg::Quat s = q * r;
         osg::Vec3d new_eye = rhsTranslation +  osg::Vec3d(0.0, 0.5, 0.0);
         cameraManipulator->setDistance(rhsTranslation.length());
+        osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
+        if (ds) 
+        {
+            ds->setScreenDistance(cameraManipulator->getDistance());
+            myViewer->setDisplaySettings(ds);
+        }
         cameraManipulator->setTransformation(new_eye, s);
         
         /*cameraManipulator->setTransformation(new_eye, center, up);*/

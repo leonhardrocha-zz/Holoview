@@ -12,8 +12,10 @@ double bezelWidth = 2 * 0.0254; // 2 inches
 double bezelHeight = 2 * 0.0254; //2 inches
 double screenWidth = 56 * 0.0254; // 56 inches
 double screenHeight = 32 * 0.0254; // 32 inches
+double screenDistance = 50 * 0.0254; // 50 inches
 double screenDepth = 1.0 ; // 0
 
+#define SHEAR
 
 MultiViewerWidget::MultiViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits) : QWidget(parent)
 {
@@ -129,12 +131,14 @@ void MultiViewerWidget::CreateGraphicsWindow()
             if (camera->getName() == rightTvName)
             {
                 camera->setProjectionMatrixAsFrustum(0, right, bottom, top, zNear, zFar);
+#ifdef SHEAR
                 double s_x = (right) / (zFar);
                 osg::Matrixd shearMatrix(   1.0, 0.0, s_x, 0.0,\
                                             0.0, 1.0, 0.0, 0.0,\
                                             0.0, 0.0, 1.0, 0.0,\
                                             0.0, 0.0, 0.0, 1.0);
                 viewMatrix = viewMatrix * osg::Matrix::rotate(osg::PI_2  - angleInRadians/2.0, osg::Vec3(0,1,0)) * shearMatrix;
+#endif
             }
             else
             {
@@ -152,7 +156,7 @@ void MultiViewerWidget::SetStereoSettings()
     m_displaySettings->setStereo(true);
     m_displaySettings->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
     m_displaySettings->setDisplayType(osg::DisplaySettings::MONITOR);
-    m_displaySettings->setScreenDistance(screenDepth); 
+    m_displaySettings->setScreenDistance(screenDistance); 
     m_displaySettings->setScreenHeight(screenHeight);
     m_displaySettings->setScreenWidth(screenWidth);
     m_displaySettings->setEyeSeparation(0.06f);
