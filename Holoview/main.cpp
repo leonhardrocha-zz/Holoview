@@ -59,8 +59,8 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
         Pose cameraPose  = results->GetCameraPose();
         osgGA::TrackerManipulator* cameraManipulator = static_cast<osgGA::TrackerManipulator*>(myViewer->getCameraManipulator());
         // viewer: (x,z,y);
-        osg::Vec3d eye(0.0, 0.5, 1.5);
-        osg::Vec3d center(0.0, 0.5, 0.75);
+        osg::Vec3d eye(0.0, 1.2, 1.5);
+        osg::Vec3d center(0.0, 1.2, 0.75);
         osg::Vec3d up(0.0, 1.0, 0.0);
         cameraManipulator->setHomePosition(eye, center, up);
     }
@@ -89,14 +89,19 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
                     avatarPose.eulerAngles.y, osg::Vec3(0,1,0),\
                     avatarPose.eulerAngles.z, osg::Vec3(0,0,1));
         osg::Quat s = q * r;
-        osg::Vec3d new_eye = rhsTranslation +  osg::Vec3d(0.0, 0.5, 0.0);
-        cameraManipulator->setDistance(rhsTranslation.length());
+
+        osg::Vec3d kinectBasePosition(0.0, 0.615, 0.1);
+        double kinectTiltAngle = osg::inDegrees(20.0);
+        const osg::Vec3d kinectEyeOffset(0.0, 0.06, 0.0);
+        osg::Vec3d kinectEyePosition = kinectBasePosition + osg::Matrix::rotate(-kinectTiltAngle, osg::Vec3(1.0, 0.0, 0.0)) * kinectEyeOffset;
+        osg::Vec3d kinectFrustumOffset( 0.0, avatarPose.translation.z * sin(kinectTiltAngle), avatarPose.translation.z * cos(kinectTiltAngle) );
+        osg::Vec3d kinectFrustumTargetPosition = kinectEyePosition + kinectFrustumOffset;
+        osg::Vec3d avatarScreenOffset(avatarPose.translation.x, avatarPose.translation.y, 0.0);
+        osg::Vec3d new_eye = kinectFrustumTargetPosition + avatarScreenOffset;
+        cameraManipulator->setDistance(new_eye.length());
         osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
-        if (ds) 
-        {
-            ds->setScreenDistance(cameraManipulator->getDistance());
-            myViewer->setDisplaySettings(ds);
-        }
+        ds->setScreenDistance(new_eye.length());
+        myViewer->setDisplaySettings(ds);
         cameraManipulator->setTransformation(new_eye, s);
         
         /*cameraManipulator->setTransformation(new_eye, center, up);*/

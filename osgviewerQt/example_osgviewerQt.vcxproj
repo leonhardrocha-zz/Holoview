@@ -183,12 +183,14 @@
   </ItemGroup>-->
   <ItemGroup>
     <ClCompile Include="CommonFunctions.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="MultiViewerWidget.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="TrackerManipulator.cpp" />
     <ClCompile Include="ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="MultiViewerWidget.h" />
     <ClInclude Include="SelectModelHandler.h" />
     <ClInclude Include="SkyBox.h" />

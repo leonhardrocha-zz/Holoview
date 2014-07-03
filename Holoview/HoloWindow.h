@@ -10,6 +10,7 @@
 #include "MyDock.h"
 #include "OsgFrame.h"
 #include "SelectModelHandler.h"
+#include "Grid.h"
 
 class HoloWindow : public MainWindow
 {
@@ -24,6 +25,7 @@ public:
     osgViewer::ViewerBase* GetViewer() {return m_view;};
     bool AddOSGWidget();
     void AddSkyBox();
+    void AddGrid();
 protected:
 	/*Ui_HoloWindowClass ui;*/
     osgViewer::ViewerBase* m_view;
