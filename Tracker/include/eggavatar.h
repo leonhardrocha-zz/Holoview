@@ -27,6 +27,7 @@ static const float PupilRadius = (3.14f/40.0f);
 static const float HeadPoseSmoothingFactorMin = 0.001f;
 static const float HeadPoseTranslationSmoothing = 0.05f;
 static const float HeadPoseTranslationTrigger = 0.2f; // 20 centimeters?
+static const float HeadRotationTriggerInDegrees = 2.0; // 2 degrees
 
 
 
@@ -99,8 +100,13 @@ public:
     float m_TranslationX;
     float m_TranslationY;
     bool m_FacingUser;
+    bool m_isFirstPose;
     // Variables used for smoothing the head pose.
     bool m_HeadPoseFiltering;
+    bool m_HeadRotationFiltering;
+    float m_ReportedPitch;
+    float m_ReportedYaw;
+    float m_ReportedRoll;
     float m_ReportedPitchAverage;
     float m_ReportedYawAverage;
     float m_ReportedRollAverage;

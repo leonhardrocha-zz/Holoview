@@ -51,10 +51,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y  "$(ProjectDir)Runtime\*.*" "$(OutDir)"
+      <Command>xcopy /Y "$(ProjectDir)Runtime\*.*" "$(OutDir)"
+xcopy /Y "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)"
 xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"
-xcopy /Y  "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)"
-xcopy /Y  "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
+xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)"
+xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
       <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -71,7 +72,11 @@ xcopy /Y  "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y "$(ProjectDir)Runtime\*.*" "$(OutDir)"; xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"; xcopy /Y "$(ProjectDir)bin\Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)"; xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)";</Command>
+      <Command>xcopy /Y "$(ProjectDir)Runtime\*.*" "$(OutDir)";
+xcopy /Y "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)";
+xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)";
+xcopy /Y "$(ProjectDir)bin\Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)";
+xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)";</Command>
       <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -83,6 +88,13 @@ xcopy /Y  "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</
     <None Include="..\include\assimp\quaternion.inl" />
     <None Include="..\include\assimp\vector2.inl" />
     <None Include="..\include\assimp\vector3.inl" />
+    <None Include="..\include\DirectX\D3DX10math.inl" />
+    <None Include="..\include\DirectX\d3dx9math.inl" />
+    <None Include="..\include\DirectX\D3DX_DXGIFormatConvert.inl" />
+    <None Include="..\include\DirectX\xnamathconvert.inl" />
+    <None Include="..\include\DirectX\xnamathmatrix.inl" />
+    <None Include="..\include\DirectX\xnamathmisc.inl" />
+    <None Include="..\include\DirectX\xnamathvector.inl" />
     <None Include="..\include\glm\detail\func_common.inl" />
     <None Include="..\include\glm\detail\func_exponential.inl" />
     <None Include="..\include\glm\detail\func_geometric.inl" />
@@ -873,6 +885,22 @@ xcopy /Y  "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</
     <None Include="Runtime\D3DCompiler_42.dll" />
     <None Include="Runtime\D3DX9_42.dll" />
     <None Include="Runtime\DevIL.dll" />
+    <None Include="Runtime\DirectX\D3D10Ref.DLL" />
+    <None Include="Runtime\DirectX\D3D10SDKLayers.DLL" />
+    <None Include="Runtime\DirectX\D3D11Ref.dll" />
+    <None Include="Runtime\DirectX\D3D11SDKLayers.dll" />
+    <None Include="Runtime\DirectX\d3d9d.dll" />
+    <None Include="Runtime\DirectX\D3DCSXd_43.dll" />
+    <None Include="Runtime\DirectX\d3dref9.dll" />
+    <None Include="Runtime\DirectX\D3DX10d_43.dll" />
+    <None Include="Runtime\DirectX\D3DX11d_43.dll" />
+    <None Include="Runtime\DirectX\d3dx9d_33.dll" />
+    <None Include="Runtime\DirectX\D3dx9d_43.dll" />
+    <None Include="Runtime\DirectX\X3DAudioD1_7.dll" />
+    <None Include="Runtime\DirectX\XactEngineA3_7.dll" />
+    <None Include="Runtime\DirectX\XactEngineD3_7.dll" />
+    <None Include="Runtime\DirectX\XAPOFXD1_5.dll" />
+    <None Include="Runtime\DirectX\XAudioD2_7.dll" />
     <None Include="Runtime\FaceTrackData.dll" />
     <None Include="Runtime\FaceTrackLib.dll" />
     <None Include="Runtime\freeglut.dll" />
@@ -1131,6 +1159,80 @@ xcopy /Y  "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</
     <ClInclude Include="..\include\assimp\vector2.h" />
     <ClInclude Include="..\include\assimp\vector3.h" />
     <ClInclude Include="..\include\assimp\version.h" />
+    <ClInclude Include="..\include\DirectX\audiodefs.h" />
+    <ClInclude Include="..\include\DirectX\comdecl.h" />
+    <ClInclude Include="..\include\DirectX\D2D1.h" />
+    <ClInclude Include="..\include\DirectX\D2D1Helper.h" />
+    <ClInclude Include="..\include\DirectX\D2DBaseTypes.h" />
+    <ClInclude Include="..\include\DirectX\D2Derr.h" />
+    <ClInclude Include="..\include\DirectX\D3D10.h" />
+    <ClInclude Include="..\include\DirectX\D3D10effect.h" />
+    <ClInclude Include="..\include\DirectX\d3d10misc.h" />
+    <ClInclude Include="..\include\DirectX\d3d10sdklayers.h" />
+    <ClInclude Include="..\include\DirectX\D3D10shader.h" />
+    <ClInclude Include="..\include\DirectX\D3D10_1.h" />
+    <ClInclude Include="..\include\DirectX\D3D10_1shader.h" />
+    <ClInclude Include="..\include\DirectX\D3D11.h" />
+    <ClInclude Include="..\include\DirectX\D3D11SDKLayers.h" />
+    <ClInclude Include="..\include\DirectX\D3D11Shader.h" />
+    <ClInclude Include="..\include\DirectX\d3d9.h" />
+    <ClInclude Include="..\include\DirectX\d3d9caps.h" />
+    <ClInclude Include="..\include\DirectX\d3d9types.h" />
+    <ClInclude Include="..\include\DirectX\D3Dcommon.h" />
+    <ClInclude Include="..\include\DirectX\D3Dcompiler.h" />
+    <ClInclude Include="..\include\DirectX\D3DCSX.h" />
+    <ClInclude Include="..\include\DirectX\D3DX10.h" />
+    <ClInclude Include="..\include\DirectX\d3dx10async.h" />
+    <ClInclude Include="..\include\DirectX\D3DX10core.h" />
+    <ClInclude Include="..\include\DirectX\D3DX10math.h" />
+    <ClInclude Include="..\include\DirectX\D3DX10mesh.h" />
+    <ClInclude Include="..\include\DirectX\D3DX10tex.h" />
+    <ClInclude Include="..\include\DirectX\D3DX11.h" />
+    <ClInclude Include="..\include\DirectX\D3DX11async.h" />
+    <ClInclude Include="..\include\DirectX\D3DX11core.h" />
+    <ClInclude Include="..\include\DirectX\D3DX11tex.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9anim.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9core.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9effect.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9math.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9mesh.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9shader.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9shape.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9tex.h" />
+    <ClInclude Include="..\include\DirectX\d3dx9xof.h" />
+    <ClInclude Include="..\include\DirectX\Dcommon.h" />
+    <ClInclude Include="..\include\DirectX\dinput.h" />
+    <ClInclude Include="..\include\DirectX\dinputd.h" />
+    <ClInclude Include="..\include\DirectX\dsconf.h" />
+    <ClInclude Include="..\include\DirectX\dsetup.h" />
+    <ClInclude Include="..\include\DirectX\dsound.h" />
+    <ClInclude Include="..\include\DirectX\DWrite.h" />
+    <ClInclude Include="..\include\DirectX\dxdiag.h" />
+    <ClInclude Include="..\include\DirectX\DxErr.h" />
+    <ClInclude Include="..\include\DirectX\dxfile.h" />
+    <ClInclude Include="..\include\DirectX\DXGI.h" />
+    <ClInclude Include="..\include\DirectX\DXGIFormat.h" />
+    <ClInclude Include="..\include\DirectX\DXGIType.h" />
+    <ClInclude Include="..\include\DirectX\dxsdkver.h" />
+    <ClInclude Include="..\include\DirectX\gameux.h" />
+    <ClInclude Include="..\include\DirectX\PIXPlugin.h" />
+    <ClInclude Include="..\include\DirectX\rmxfguid.h" />
+    <ClInclude Include="..\include\DirectX\rmxftmpl.h" />
+    <ClInclude Include="..\include\DirectX\rpcsal.h" />
+    <ClInclude Include="..\include\DirectX\X3DAudio.h" />
+    <ClInclude Include="..\include\DirectX\xact3.h" />
+    <ClInclude Include="..\include\DirectX\xact3d3.h" />
+    <ClInclude Include="..\include\DirectX\xact3wb.h" />
+    <ClInclude Include="..\include\DirectX\XAPO.h" />
+    <ClInclude Include="..\include\DirectX\XAPOBase.h" />
+    <ClInclude Include="..\include\DirectX\XAPOFX.h" />
+    <ClInclude Include="..\include\DirectX\XAudio2.h" />
+    <ClInclude Include="..\include\DirectX\XAudio2fx.h" />
+    <ClInclude Include="..\include\DirectX\XDSP.h" />
+    <ClInclude Include="..\include\DirectX\XInput.h" />
+    <ClInclude Include="..\include\DirectX\xma2defs.h" />
+    <ClInclude Include="..\include\DirectX\xnamath.h" />
     <ClInclude Include="..\include\glm\common.hpp" />
     <ClInclude Include="..\include\glm\detail\func_common.hpp" />
     <ClInclude Include="..\include\glm\detail\func_exponential.hpp" />
@@ -1296,6 +1398,33 @@ xcopy /Y  "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</
   <ItemGroup>
     <Library Include="..\lib\assimp.lib" />
     <Library Include="..\lib\DevIL.lib" />
+    <Library Include="..\lib\DirectX\d2d1.lib" />
+    <Library Include="..\lib\DirectX\d3d10.lib" />
+    <Library Include="..\lib\DirectX\d3d10_1.lib" />
+    <Library Include="..\lib\DirectX\d3d11.lib" />
+    <Library Include="..\lib\DirectX\d3d9.lib" />
+    <Library Include="..\lib\DirectX\d3dcompiler.lib" />
+    <Library Include="..\lib\DirectX\D3DCSX.lib" />
+    <Library Include="..\lib\DirectX\D3DCSXd.lib" />
+    <Library Include="..\lib\DirectX\d3dx10.lib" />
+    <Library Include="..\lib\DirectX\d3dx10d.lib" />
+    <Library Include="..\lib\DirectX\d3dx11.lib" />
+    <Library Include="..\lib\DirectX\d3dx11d.lib" />
+    <Library Include="..\lib\DirectX\d3dx9.lib" />
+    <Library Include="..\lib\DirectX\d3dx9d.lib" />
+    <Library Include="..\lib\DirectX\d3dxof.lib" />
+    <Library Include="..\lib\DirectX\dinput8.lib" />
+    <Library Include="..\lib\DirectX\dsetup.lib" />
+    <Library Include="..\lib\DirectX\dsound.lib" />
+    <Library Include="..\lib\DirectX\dwrite.lib" />
+    <Library Include="..\lib\DirectX\DxErr.lib" />
+    <Library Include="..\lib\DirectX\dxgi.lib" />
+    <Library Include="..\lib\DirectX\dxguid.lib" />
+    <Library Include="..\lib\DirectX\X3DAudio.lib" />
+    <Library Include="..\lib\DirectX\xapobase.lib" />
+    <Library Include="..\lib\DirectX\xapobased.lib" />
+    <Library Include="..\lib\DirectX\XAPOFX.lib" />
+    <Library Include="..\lib\DirectX\XInput.lib" />
     <Library Include="..\lib\FaceTrackLib.lib" />
     <Library Include="..\lib\freeglut.lib" />
     <Library Include="..\lib\glew32.lib" />

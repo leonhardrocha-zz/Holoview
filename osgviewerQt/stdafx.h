@@ -34,4 +34,5 @@
 #include <osgGA/TrackballManipulator>
 #include <osgGA/OrbitManipulator>
 #include <osgGA/FirstPersonManipulator>
+#include <osgGA/KeySwitchMatrixManipulator>
 

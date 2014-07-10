@@ -7,6 +7,7 @@
 #include "MultiViewerWidget.h"
 #include "SkyBox.h"
 #include "TrackerManipulator.h"
+#include "JoystickManipulator.h"
 #include "MyDock.h"
 #include "OsgFrame.h"
 #include "SelectModelHandler.h"

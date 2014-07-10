@@ -32,6 +32,12 @@
     <ClInclude Include="Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TwoDimManipulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JoystickManipulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViewerWidget.cpp">
@@ -50,6 +56,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JoystickManipulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

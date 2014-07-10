@@ -25,14 +25,29 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     int numOfScreens = desktop->numScreens();
 
     fullScreen->CreateGraphicsWindow();
-    fullScreen->setCameraManipulator( new osgGA::TrackerManipulator );
-    osg::Vec3 modelPosition(0.0, 1.2, 0.75);
-    osg::Vec3 kinectPosition(0.0, 0.1, 0.615);
-    root->addChild(GetModelTransformHelper(model, modelPosition, 0.25));
+
+    osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> keySwitch = new osgGA::KeySwitchMatrixManipulator;
+    osg::ref_ptr<osgGA::TrackerManipulator> trackerManipulator = new osgGA::TrackerManipulator();
+    osg::ref_ptr<osgGA::JoystickManipulator> joystickManipulator = new osgGA::JoystickManipulator();
+    keySwitch->addMatrixManipulator( '1', "Tracker", trackerManipulator );
+    keySwitch->addMatrixManipulator( '2', "Joystick", joystickManipulator );
+
+
+    trackerManipulator->setVerticalAxisFixed(false);
+    fullScreen->setCameraManipulator( trackerManipulator );
+    osg::Vec3 modelPosition1(1.0, 1.2, 0.75);
+    osg::Vec3 modelPosition2(-1.0, 1.2, 0.75);
+    osg::Vec3 modelPosition3(0.0, 1.2, 0.0);
+    osg::Vec3 modelPosition4(0.0, 1.2, 0.75);
+    osg::Vec3 kinectPosition(0.0, 0.1, 0.0615);
+    root->addChild(GetModelTransformHelper(model, modelPosition1, 0.25));
+    root->addChild(GetModelTransformHelper(model, modelPosition2, 0.25));
+    root->addChild(GetModelTransformHelper(model, modelPosition3, 0.25));
+    root->addChild(GetModelTransformHelper(model, modelPosition4, 0.25));
     root->addChild(GetModelTransformHelper(kinect, kinectPosition));
     fullScreen->setSceneData(root);
     m_view = fullScreen->getViewerBase();
-    AddSkyBox();
+    //AddSkyBox();
     AddGrid();
 }
 
@@ -84,13 +99,13 @@ void HoloWindow::AddSkyBox()
     
     osg::ref_ptr<SkyBox> skybox = new SkyBox;
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
-    std::string name = "snow";
+    std::string name = "axis";
     std::string path = "../Dependencies/Images/Cubemap_" + name + "/";
-    std::string ext = ".jpg";
+    std::string ext = ".png";
     std::string sign[] = { "pos", "neg" };
     std::string axis[] = { "x", "y", "z" };
     std::vector<osg::Image*> images;
-    bool flipX = false;
+    bool flipX = true;
     bool flipY = true;
     for (int i=0; i < 6; i++)
     {

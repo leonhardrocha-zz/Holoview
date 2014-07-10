@@ -37,10 +37,10 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <CustomBuildAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     </CustomBuildAfterTargets>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\Program Files (x86)\Visual Leak Detector\lib\Win32</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(OSG_INCLUDE_PATH);$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OSG_LIB_PATH);$(SolutionDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\Program Files (x86)\Visual Leak Detector\lib\Win32</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)include\DirectX;$(SolutionDir)HoloviewLib\include\DirectX;$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)lib\DirectX;$(SolutionDir)lib\DirectX\x86;$(SolutionDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\Program Files (x86)\Visual Leak Detector\lib\Win32</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)include\DirectX;$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(OSG_INCLUDE_PATH);$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)lib\DirectX;$(OSG_LIB_PATH);$(SolutionDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\Program Files (x86)\Visual Leak Detector\lib\Win32</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
     <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutputPath)\plugins;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
@@ -62,7 +62,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(KINECTSDK10_DIR)lib\x86;$(FTSDK_DIR)lib\x86;$(SolutionDir)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factoryd.lib;HoloviewLibd.lib;Trackerd.lib;Kinect10.lib;FaceTrackLib.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;OpenThreadsd.lib;osgd.lib;osgDBd.lib;osgUtild.lib;osgGAd.lib;osgFXd.lib;osgViewerd.lib;osgTextd.lib;osgWidgetd.lib;osgQtd.lib;osgdb_gdald.lib;osgdb_ogrd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factoryd.lib;HoloviewLibd.lib;Trackerd.lib;Kinect10.lib;FaceTrackLib.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;OpenThreadsd.lib;osgd.lib;osgDBd.lib;osgUtild.lib;osgGAd.lib;osgFXd.lib;osgViewerd.lib;osgTextd.lib;osgWidgetd.lib;osgQtd.lib;osgdb_gdald.lib;osgdb_ogrd.lib;dinput8.lib;DxErr.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -94,7 +94,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OSG_LIB_PATH);$(KINECTSDK10_DIR)lib\x86;$(FTSDK_DIR)lib\x86;$(SolutionDir)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factory.lib;Tracker.lib;HoloviewLib.lib;Kinect10.lib;FaceTrackLib.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;opengl32.lib;glu32.lib;Qt5Widgets.lib;%(AdditionalDependencies);OpenThreads.lib;osg.lib;osgDB.lib;osgUtil.lib;osgGA.lib;osgFX.lib;osgViewer.lib;osgText.lib;osgWidget.lib;osgQt.lib;osgdb_gdal.lib;osgdb_ogr.lib</AdditionalDependencies>
+      <AdditionalDependencies>ILUT.lib;ILU.lib;glew32.lib;freeglut.lib;DevIl.lib;assimp.lib;Factory.lib;Tracker.lib;HoloviewLib.lib;Kinect10.lib;FaceTrackLib.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;opengl32.lib;glu32.lib;Qt5Widgets.lib;%(AdditionalDependencies);OpenThreads.lib;osg.lib;osgDB.lib;osgUtil.lib;osgGA.lib;osgFX.lib;osgViewer.lib;osgText.lib;osgWidget.lib;osgQt.lib;osgdb_gdal.lib;osgdb_ogr.lib;dinput8.lib;DxErr.lib;dxguid.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

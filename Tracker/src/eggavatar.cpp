@@ -56,7 +56,9 @@ EggAvatar::EggAvatar()
     m_TranslationX = 0;
     m_TranslationY = 0;
     m_FacingUser = true;
-    m_HeadPoseFiltering = true;
+    m_isFirstPose = true;
+    m_HeadPoseFiltering = false;
+    m_HeadRotationFiltering = true;
     m_ReportedPitchAverage = 0;
     m_ReportedYawAverage = 0;
     m_ReportedRollAverage = 0;
@@ -168,14 +170,43 @@ bool EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, c
         smoothingFactor /= m_SamePositionCount;
         smoothingFactor = max(smoothingFactor, 0.002f);
 
-        m_ReportedPitchAverage += smoothingFactor*(pitchDegrees-m_ReportedPitchAverage);
-        m_ReportedYawAverage += smoothingFactor*(-yawDegrees-m_ReportedYawAverage);
-        m_ReportedRollAverage += smoothingFactor*(rollDegrees-m_ReportedRollAverage);
+        m_ReportedPitch = pitchDegrees;
+        m_ReportedYaw = yawDegrees;
+        m_ReportedRoll = rollDegrees;
+
+        m_ReportedPitchAverage += smoothingFactor*(m_ReportedPitch-m_ReportedPitchAverage);
+        m_ReportedYawAverage += smoothingFactor*(m_ReportedYaw-m_ReportedYawAverage);
+        m_ReportedRollAverage += smoothingFactor*(m_ReportedRoll-m_ReportedRollAverage);
     }
 
-	m_Pitch = (pitchDegrees - m_ReportedPitchAverage)/180.0f;
-    m_Yaw = -(yawDegrees - m_ReportedYawAverage)/180.0f;
-    m_Roll = (rollDegrees - m_ReportedRollAverage)/180.0f;
+    if (m_HeadRotationFiltering)
+    {
+        if (abs(pitchDegrees - m_ReportedPitch) < HeadRotationTriggerInDegrees || m_isFirstPose)
+        {
+            m_ReportedPitch = pitchDegrees;
+        }
+        if (abs(yawDegrees - m_ReportedYaw) < HeadRotationTriggerInDegrees || m_isFirstPose)
+        {
+            m_ReportedYaw = yawDegrees;
+        }
+        if (abs(rollDegrees - m_ReportedRoll) < HeadRotationTriggerInDegrees || m_isFirstPose)
+        {
+            m_ReportedRoll = rollDegrees;
+        }
+        m_isFirstPose = false;
+        m_Pitch = m_ReportedPitch/180.0f;
+        m_Yaw = -m_ReportedYaw/180.0f;
+        m_Roll = rollDegrees/180.0f;
+    } else {
+        m_ReportedPitch = pitchDegrees;
+        m_ReportedYaw = yawDegrees;
+        m_ReportedRoll = rollDegrees;
+    }
+    
+    m_Pitch = m_ReportedPitch/180.0f;
+    m_Yaw = -m_ReportedYaw/180.0f;
+    m_Roll = m_ReportedRoll/180.0f;
+
     m_FacingUser = (abs(m_Pitch) < 0.2f && abs(m_Yaw) < 0.2f);
 
 	m_Pose.eulerAngles.x = m_Pitch;
