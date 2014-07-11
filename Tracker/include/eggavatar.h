@@ -27,7 +27,7 @@ static const float PupilRadius = (3.14f/40.0f);
 static const float HeadPoseSmoothingFactorMin = 0.001f;
 static const float HeadPoseTranslationSmoothing = 0.05f;
 static const float HeadPoseTranslationTrigger = 0.2f; // 20 centimeters?
-static const float HeadRotationTriggerInDegrees = 2.0; // 2 degrees
+static const float HeadRotationTriggerInDegrees = 1.0; // 1 degrees
 
 
 

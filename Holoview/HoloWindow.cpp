@@ -8,46 +8,41 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
    
 
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");
-    /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");*/
-    /*osg::ref_ptr<osg::Node> model = osgDB::readNodeFile("../Dependencies/Models/osg/cessna.osgt.-90,0,0.rot");*/
+    osg::ref_ptr<osg::Node> duck = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");
+    osg::ref_ptr<osg::Node> airplane = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");
+    osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/osg/cessna.osgt.-90,0,0.rot");
     osg::ref_ptr<osg::Node> kinect = osgDB::readNodeFile("../Dependencies/Models/3ds/kinect/kinect_edited.3ds.-20,0,0.rot");
     auto container = root->getOrCreateUserDataContainer(); //todo: use container to pass user data
 
-    MultiViewerWidget* fullScreen = new MultiViewerWidget(this);
-
-    fullScreen->addEventHandler( new SelectModelHandler );
-
-    fullScreen->SetStereoSettings();
-    fullScreen->setMouseTracking(true);
-
-    QDesktopWidget* desktop = QApplication::desktop();
-    int numOfScreens = desktop->numScreens();
-
-    fullScreen->CreateGraphicsWindow();
+    m_viewer = new DualScreenViewer();
+    m_viewer->addEventHandler( new SelectModelHandler );
+    m_viewer->SetStereoSettings();
+    m_viewer->CreateGraphicsWindow();
 
     osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> keySwitch = new osgGA::KeySwitchMatrixManipulator;
     osg::ref_ptr<osgGA::TrackerManipulator> trackerManipulator = new osgGA::TrackerManipulator();
+    trackerManipulator->setName("Tracker");
     osg::ref_ptr<osgGA::JoystickManipulator> joystickManipulator = new osgGA::JoystickManipulator();
-    keySwitch->addMatrixManipulator( '1', "Tracker", trackerManipulator );
-    keySwitch->addMatrixManipulator( '2', "Joystick", joystickManipulator );
-
+    joystickManipulator->setName("Joystick");
+    keySwitch->addMatrixManipulator( '1', trackerManipulator->getName(), trackerManipulator );
+    keySwitch->addMatrixManipulator( '2', joystickManipulator->getName(), joystickManipulator );
 
     trackerManipulator->setVerticalAxisFixed(false);
-    fullScreen->setCameraManipulator( trackerManipulator );
+    m_viewer->setCameraManipulator( keySwitch );
     osg::Vec3 modelPosition1(1.0, 1.2, 0.75);
     osg::Vec3 modelPosition2(-1.0, 1.2, 0.75);
     osg::Vec3 modelPosition3(0.0, 1.2, 0.0);
     osg::Vec3 modelPosition4(0.0, 1.2, 0.75);
     osg::Vec3 kinectPosition(0.0, 0.1, 0.0615);
-    root->addChild(GetModelTransformHelper(model, modelPosition1, 0.25));
-    root->addChild(GetModelTransformHelper(model, modelPosition2, 0.25));
-    root->addChild(GetModelTransformHelper(model, modelPosition3, 0.25));
-    root->addChild(GetModelTransformHelper(model, modelPosition4, 0.25));
+    root->addChild(GetModelTransformHelper(duck, modelPosition1, 0.25));
+    root->addChild(GetModelTransformHelper(airplane, modelPosition2, 0.25));
+    root->addChild(GetModelTransformHelper(cessna, modelPosition3, 0.25));
+    root->addChild(GetModelTransformHelper(duck, modelPosition4, 0.25));
     root->addChild(GetModelTransformHelper(kinect, kinectPosition));
-    fullScreen->setSceneData(root);
-    m_view = fullScreen->getViewerBase();
-    //AddSkyBox();
+    
+    m_viewer->setSceneData(root);
+
+    AddSkyBox();
     AddGrid();
 }
 
@@ -73,8 +68,7 @@ osg::ref_ptr<osg::MatrixTransform> HoloWindow::GetModelTransformHelper(const osg
 
 void HoloWindow::AddGrid()
 {
-    MultiViewerWidget* fullScreen = static_cast<MultiViewerWidget*>(m_view);
-    osg::ref_ptr<osg::Node> scene = fullScreen->getSceneData();
+    osg::ref_ptr<osg::Node> scene = m_viewer->getSceneData();
     
     osg::ref_ptr<osg::Geode> geode = new osg::Geode;
     geode->addDrawable( new Grid() );
@@ -85,13 +79,12 @@ void HoloWindow::AddGrid()
     root->addChild( scene.get() );
     root->addChild( transform.get() );
 
-    fullScreen->setSceneData( root.get() );
+    m_viewer->setSceneData( root.get() );
 }
 
 void HoloWindow::AddSkyBox()
 {
-    MultiViewerWidget* fullScreen = static_cast<MultiViewerWidget*>(m_view);
-    osg::ref_ptr<osg::Node> scene = fullScreen->getSceneData();
+    osg::ref_ptr<osg::Node> scene = m_viewer->getSceneData();
     
     osg::ref_ptr<osg::Geode> geode = new osg::Geode;
     geode->addDrawable( new osg::ShapeDrawable(new osg::Sphere(osg::Vec3(), scene->getBound().radius())) );
@@ -130,7 +123,7 @@ void HoloWindow::AddSkyBox()
     root->addChild( scene.get() );
     root->addChild( skybox.get() );
 
-    fullScreen->setSceneData( root.get() );
+    m_viewer->setSceneData( root.get() );
 }
 bool HoloWindow::AddOSGWidget()
 {

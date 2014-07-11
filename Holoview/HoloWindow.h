@@ -4,7 +4,7 @@
 
 #include "MainWindow.h"
 #include "ViewerWidget.h"
-#include "MultiViewerWidget.h"
+#include "DualScreenViewer.h"
 #include "SkyBox.h"
 #include "TrackerManipulator.h"
 #include "JoystickManipulator.h"
@@ -23,13 +23,13 @@ public:
     HoloWindow(const HoloWindow& parent) : MainWindow(parent) {};
 	~HoloWindow();
     static osg::ref_ptr<osg::MatrixTransform> GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3& worldPosition, const double modelRadius = 0.0);
-    osgViewer::ViewerBase* GetViewer() {return m_view;};
+    osgViewer::Viewer* GetViewer() {return m_viewer;};
     bool AddOSGWidget();
     void AddSkyBox();
     void AddGrid();
 protected:
 	/*Ui_HoloWindowClass ui;*/
-    osgViewer::ViewerBase* m_view;
+    DualScreenViewer* m_viewer;
     osg::ref_ptr<SelectModelHandler> m_selectModel;
 };
 

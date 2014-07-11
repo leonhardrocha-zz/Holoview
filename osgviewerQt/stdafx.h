@@ -35,4 +35,5 @@
 #include <osgGA/OrbitManipulator>
 #include <osgGA/FirstPersonManipulator>
 #include <osgGA/KeySwitchMatrixManipulator>
+#include <osgManipulator/Projector>
 
