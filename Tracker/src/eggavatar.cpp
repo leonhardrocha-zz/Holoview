@@ -57,7 +57,7 @@ EggAvatar::EggAvatar()
     m_TranslationY = 0;
     m_FacingUser = true;
     m_isFirstPose = true;
-    m_HeadPoseFiltering = false;
+    m_HeadPositionFiltering = true;
     m_HeadRotationFiltering = false;
     m_ReportedPitchAverage = 0;
     m_ReportedYawAverage = 0;
@@ -166,22 +166,6 @@ bool EggAvatar::SetCandideAU(const float* AU, const int numberAU)
 
 bool EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees)
 {
-    if (m_HeadPoseFiltering)
-    {
-        float smoothingFactor = 1.0f;
-        m_SamePositionCount++;
-        smoothingFactor /= m_SamePositionCount;
-        smoothingFactor = max(smoothingFactor, 0.002f);
-
-        m_ReportedPitch = pitchDegrees;
-        m_ReportedYaw = yawDegrees;
-        m_ReportedRoll = rollDegrees;
-
-        m_ReportedPitchAverage += smoothingFactor*(m_ReportedPitch-m_ReportedPitchAverage);
-        m_ReportedYawAverage += smoothingFactor*(m_ReportedYaw-m_ReportedYawAverage);
-        m_ReportedRollAverage += smoothingFactor*(m_ReportedRoll-m_ReportedRollAverage);
-    }
-
     if (m_HeadRotationFiltering)
     {
         if (abs(pitchDegrees - m_ReportedPitch) < HeadRotationTriggerInDegrees || m_isFirstPose)
@@ -226,26 +210,34 @@ Pose* EggAvatar::GetPose()
 // significantly, then the pose should probably be reset.
 bool EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
 {
-    if (m_HeadPoseFiltering)
+    if (m_HeadPositionFiltering)
     {
-        m_TxAverage += 0.05f*(tX-m_TxAverage);
-        m_TyAverage += 0.05f*(tY-m_TxAverage);
-        m_TzAverage += 0.05f*(tZ-m_TxAverage);
-
+        m_SamePositionCount++;
+        m_TxSum += tX;
+        m_TySum += tY;
+        m_TzSum += tZ;
+        m_TxAverage = m_TxSum /(float)m_SamePositionCount;
+        m_TyAverage = m_TySum /(float)m_SamePositionCount;
+        m_TzAverage = m_TzSum /(float)m_SamePositionCount;
         float deltaMaxTxyz = max(abs(m_TxAverage - tX), abs(m_TyAverage - tY));
         deltaMaxTxyz = max(deltaMaxTxyz, abs(m_TyAverage-tY));
-
-        if (deltaMaxTxyz > HeadPoseTranslationTrigger)
+        if (deltaMaxTxyz > HeadTranslationTrigger)
         {
-            m_TxAverage = tX;
-            m_TyAverage = tY;
-            m_TzAverage = tZ;
-            m_SamePositionCount = 0;
+            m_TxSum = tX;
+            m_TySum = tY;
+            m_TzSum = tZ;
+            m_SamePositionCount = 1;
         }
+        m_Pose.translation.x = m_TxAverage;
+        m_Pose.translation.y = m_TyAverage;
+        m_Pose.translation.z = m_TzAverage;
+    } else
+    {
+        m_Pose.translation.x = tX;
+        m_Pose.translation.y = tY;
+        m_Pose.translation.z = tZ;
+
     }
-	m_Pose.translation.x = tX;
-	m_Pose.translation.y = tY;
-	m_Pose.translation.z = tZ;
 
     return TRUE;
 }

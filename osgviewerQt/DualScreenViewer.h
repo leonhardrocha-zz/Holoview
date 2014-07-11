@@ -33,6 +33,6 @@ protected:
     double m_screenHeight;
     double m_screenDistance;
     double m_screenDepth;
-    double m_angleBetweenScreenInDegrees;
+    double m_angleBetweenScreensInDegrees;
 };
 #endif

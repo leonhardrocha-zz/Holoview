@@ -24,10 +24,8 @@ static const float NoseTop = 0;
 static const float NoseBottom = NoseTop - (EyeOutside-EyeInside);
 static const float EyeCenterDepthCorrection = (7.0f/7.5f);
 static const float PupilRadius = (3.14f/40.0f);
-static const float HeadPoseSmoothingFactorMin = 0.001f;
-static const float HeadPoseTranslationSmoothing = 0.05f;
-static const float HeadPoseTranslationTrigger = 0.2f; // 20 centimeters?
-static const float HeadRotationTriggerInDegrees = 1.0; // 1 degrees
+static const float HeadTranslationTrigger = 0.02f; // 2 centimeters
+static const float HeadRotationTriggerInDegrees = 1.0; // 1 degree
 
 
 
@@ -102,7 +100,7 @@ public:
     bool m_FacingUser;
     bool m_isFirstPose;
     // Variables used for smoothing the head pose.
-    bool m_HeadPoseFiltering;
+    bool m_HeadPositionFiltering;
     bool m_HeadRotationFiltering;
     float m_ReportedPitch;
     float m_ReportedYaw;
@@ -110,6 +108,10 @@ public:
     float m_ReportedPitchAverage;
     float m_ReportedYawAverage;
     float m_ReportedRollAverage;
+
+    float m_TxSum;
+    float m_TySum;
+    float m_TzSum;
     float m_TxAverage;
     float m_TyAverage;
     float m_TzAverage;

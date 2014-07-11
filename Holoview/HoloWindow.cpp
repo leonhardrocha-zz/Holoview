@@ -92,9 +92,9 @@ void HoloWindow::AddSkyBox()
     
     osg::ref_ptr<SkyBox> skybox = new SkyBox;
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
-    std::string name = "axis";
+    std::string name = "snow";
     std::string path = "../Dependencies/Images/Cubemap_" + name + "/";
-    std::string ext = ".png";
+    std::string ext = ".jpg";
     std::string sign[] = { "pos", "neg" };
     std::string axis[] = { "x", "y", "z" };
     std::vector<osg::Image*> images;

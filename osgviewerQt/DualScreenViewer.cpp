@@ -38,9 +38,9 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     m_screenHeight = 32 * 0.0254; // 32 inches
     m_screenDistance = 50 * 0.0254; // 50 inches
     m_screenDepth = 1.0 ; // 0
-    m_angleBetweenScreenInDegrees = 120.0;
+    m_angleBetweenScreensInDegrees = 120.0;
 
-    double rotationAngleInRadians = osg::PI_2 - osg::inDegrees(m_angleBetweenScreenInDegrees/2.0);
+    double rotationAngleInRadians = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
 
     rightTvName = "RightTV";
     m_Frustum[0].left =  m_bezelWidth  * cos(rotationAngleInRadians);
@@ -75,7 +75,7 @@ void DualScreenViewer::CreateGraphicsWindow()
     
     unsigned int numCameras = 2;
 
-    double angleInRadians = osg::inDegrees(m_angleBetweenScreenInDegrees);
+    double angleInRadians = osg::inDegrees(m_angleBetweenScreensInDegrees);
 
     osg::Camera* viewCamera = getCamera();
 
@@ -108,20 +108,16 @@ void DualScreenViewer::CreateGraphicsWindow()
         camera->setReadBuffer(buffer);
 
         double acuteAngle = (osg::PI_2 - angleInRadians/2.0);
-        double fovx = m_angleBetweenScreenInDegrees /2.0;
+        double fovx = m_angleBetweenScreensInDegrees /2.0;
         osg::Matrixd viewMatrix, projectionMatrix;
         projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, 0.1, 1.75);
         if (camera->getName() == rightTvName)
         {
-            //projectionMatrix.makeFrustum(m_Frustum[i].left, m_Frustum[i].right, m_Frustum[i].top, m_Frustum[i].bottom, m_Frustum[i].zNear, m_Frustum[i].zFar);
             projectionMatrix = osg::Matrix::translate(osg::Vec3(0,0,-1)) * osg::Matrix::rotate(acuteAngle, osg::Vec3(0,1,0)) * projectionMatrix;
-            /*viewMatrix = osg::Matrix::rotate(acuteAngle/2.0, osg::Vec3(0,1,0));*/
         }
         else
         {
-            /*projectionMatrix.makeFrustum(m_Frustum[i].left, m_Frustum[i].right, m_Frustum[i].top, m_Frustum[i].bottom, m_Frustum[i].zNear, m_Frustum[i].zFar);*/
             projectionMatrix = osg::Matrix::translate(osg::Vec3(0,0,-1)) * osg::Matrix::rotate(-acuteAngle, osg::Vec3(0,1,0)) * projectionMatrix;
-            /*viewMatrix = osg::Matrix::rotate(-acuteAngle/2.0, osg::Vec3(0,1,0));*/
         }
 
         viewCamera->setViewMatrix(osg::Matrixd());
