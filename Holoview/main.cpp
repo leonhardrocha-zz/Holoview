@@ -48,6 +48,28 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
     return result;
 }
 
+struct UpdateDualSlaveCallback : public osg::View::Slave::UpdateSlaveCallback
+{
+public:
+    UpdateDualSlaveCallback(osg::Matrix projectionOffset = osg::Matrix())
+    {
+        m_InitialProjectionOffset = projectionOffset;
+    };
+
+    virtual void updateSlave(osg::View& view, osg::View::Slave& slave)
+    {
+        osg::Camera* camera = slave._camera.get();
+        DualScreenViewer* dualView = dynamic_cast<DualScreenViewer*>(&view);
+        if (camera && dualView)
+        {
+             osg::Vec3 eyePos = dualView->m_EyeProjectionOffset;
+             slave._camera->setViewMatrix(dualView->CalculateView(slave, eyePos));
+        }
+        //slave.updateSlaveImplementation(view);
+    };
+
+    osg::Matrix m_InitialProjectionOffset;
+};
 
 
 
@@ -55,36 +77,37 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
 {
     KinectTracker* pThis = reinterpret_cast<KinectTracker*>(lpParam);
     TrackingResults* results = pThis->GetTrackingResults();
-    osgViewer::Viewer* myViewer = reinterpret_cast<osgViewer::Viewer*>(args->GetArgValue("viewer"));
-    if(myViewer)
+    DualScreenViewer* dualViewer = reinterpret_cast<DualScreenViewer*>(args->GetArgValue("dualViewer"));
+    if(dualViewer)
     {
         Pose cameraPose  = results->GetCameraPose();
-        osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(myViewer->getCameraManipulator());
+        osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(dualViewer->getCameraManipulator());
         unsigned int numManipulators = keyManipulator->getNumMatrixManipulators();
         for(unsigned int i =0; i< numManipulators; i++) 
         {
             osgGA::CameraManipulator* cameraManipulator = keyManipulator->getMatrixManipulatorWithIndex(i);
             osg::Vec3d eye(0.0, 1.2, 1.5);
-            osg::Vec3d kinectBasePosition(0.0, 0.615, 0.1);
-            double kinectTiltAngle = osg::inDegrees(20.0);
-            const osg::Vec3d kinectEyeOffset(0.0, 0.06, 0.0);
-            osg::Vec3d kinectEyePosition = kinectBasePosition + osg::Matrix::rotate(-kinectTiltAngle, osg::Vec3(1.0, 0.0, 0.0)) * kinectEyeOffset;
+            osg::Vec3 center(0.0, 1.2, 0.0);
             osg::Vec3d up(0.0, 1.0, 0.0);
-            cameraManipulator->setHomePosition(eye, kinectEyePosition, up);
+            cameraManipulator->setHomePosition(eye, center, up);
             cameraManipulator->home(0.0);
         }
+        osg::View::Slave& leftSlave = dualViewer->getSlave(0);
+        osg::View::Slave& rightSlave = dualViewer->getSlave(1);
+        leftSlave._updateSlaveCallback = new UpdateDualSlaveCallback(dualViewer->GetLeftProjectionOffsetMatrix());
+        rightSlave._updateSlaveCallback = new UpdateDualSlaveCallback(dualViewer->GetRightProjectionOffsetMatrix());
     }
-
+    
 }
 
 void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
 {
     KinectTracker* pThis = reinterpret_cast<KinectTracker*>(lpParam);
     TrackingResults* results = pThis->GetTrackingResults();
-    osgViewer::Viewer* myViewer = reinterpret_cast<osgViewer::Viewer*>(args->GetArgValue("viewer"));
-    if(myViewer)
+    DualScreenViewer* dualViewer = reinterpret_cast<DualScreenViewer*>(args->GetArgValue("dualViewer"));
+    if(dualViewer)
     {
-        osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(myViewer->getCameraManipulator());
+        osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(dualViewer->getCameraManipulator());
         osgGA::CameraManipulator* cameraManipulator = keyManipulator->getCurrentMatrixManipulator();
         const std::string name = cameraManipulator->getName();
         if (name == "Tracker") 
@@ -95,12 +118,7 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
             osg::Vec3d center;
             osg::Vec3d up;
             trackerManipulator->home(0.0);
-
             trackerManipulator->getTransformation(eye, center, up);
-            //osg::Vec3d rhsTranslation(avatarPose.translation.x, avatarPose.translation.y, avatarPose.translation.z);
-            //osg::Quat r(avatarPose.eulerAngles.x, osg::Vec3(1,0,0),\
-            //            avatarPose.eulerAngles.y, osg::Vec3(0,1,0),\
-            //            0.0, osg::Vec3(0,0,1)/*avatarPose.eulerAngles.z, osg::Vec3(0,0,1)*/);
 
             osg::Vec3d kinectBasePosition(0.0, 0.615, 0.1);
             double kinectTiltAngle = osg::inDegrees(20.0);
@@ -110,13 +128,14 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
             osg::Vec3d kinectFrustumTargetPosition = kinectEyePosition + kinectFrustumOffset;
             osg::Vec3d avatarScreenOffset(avatarPose.translation.x, avatarPose.translation.y, 0.0);
             osg::Vec3d new_eye = avatarScreenOffset + osg::Vec3(0.0, kinectFrustumTargetPosition.y(), 1.5);
-            osg::Vec3 new_center(0.0, 1.2, 0.0);
+            osg::Vec3d screenOffset = avatarScreenOffset;
             osg::Vec3d new_up(0.0, 1.0, 0.0);
+            dualViewer->m_EyeProjectionOffset = new_eye;
             osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
             ds->setScreenDistance(new_eye.length());
-            myViewer->setDisplaySettings(ds);
-            
-            trackerManipulator->setTransformation(new_eye, new_center, new_up);
+            dualViewer->setDisplaySettings(ds);
+            trackerManipulator->setTransformation(new_eye, center, new_up);
+            dualViewer->updateSlaves();
         }
     }
 }
@@ -130,17 +149,16 @@ int main(int argc, char *argv[])
     TrackerManager::MaxNumOfSensors = 1;
     TrackerManager::NumOfSensors = 1;
     tracker.Init();
-    
-    void* viewer = static_cast<void*>(mainWindow.GetViewer());
+    DualScreenViewer* dualViewer = static_cast<DualScreenViewer*>(mainWindow.GetViewer());
     ArgsMap args;
-    args.AddArg("viewer", viewer);
+    args.AddArg("dualViewer", static_cast<void*>(dualViewer));
     tracker.SetTrackerCallback(TrackerViewUpdateStatic, &tracker, &args);
     mainWindow.AddMultiTrackerDockWidget(&tracker);
     tracker.Start();
     mainWindow.show();
     TrackerViewInitStatic(&tracker, &args);
     mainWindow.GetViewer()->run();
-	return app.exec();
+    return app.exec();
 }
 
 

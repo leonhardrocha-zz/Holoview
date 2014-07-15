@@ -175,7 +175,6 @@ void MultiViewerWidget::CreateGraphicsWindow()
         screenId.readDISPLAY();
         osg::GraphicsContext::ScreenSettings resolution;
         wsi->getScreenSettings(screenId, resolution);
-        double aspectRatio = (double)resolution.width/(double)resolution.height;
 
         osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
         traits->screenNum = screenId.screenNum;

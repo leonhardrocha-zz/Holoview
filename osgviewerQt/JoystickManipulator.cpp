@@ -8,7 +8,7 @@ namespace osgGA {
 
 static BOOL CALLBACK EnumJoysticksCallback( const DIDEVICEINSTANCE* didInstance, VOID* )
 {
-    HRESULT hr;
+    HRESULT hr = NULL;
     if ( g_inputDevice )
     {
         hr = g_inputDevice->CreateDevice( didInstance->guidInstance, &g_joystick, NULL );
@@ -127,8 +127,8 @@ void JoystickManipulator::home( double )
 bool JoystickManipulator::performMovementLeftMouseButton(
     const double eventTimeDelta, const double dx, const double dy )
 {
-    _center.x() -= 100.0f * dx;
-    _center.y() -= 100.0f * dy;
+    _center.x() -= 10.0f * dx;
+    _center.z() -= 10.0f * dy;
     return false;
 }
 

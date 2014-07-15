@@ -29,11 +29,11 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     trackerManipulator->setVerticalAxisFixed(false);
     m_viewer->setCameraManipulator( keySwitch );
-    osg::Vec3 modelPosition1(1.0, 1.2, 0.75);
-    osg::Vec3 modelPosition2(-1.0, 1.2, 0.75);
-    osg::Vec3 modelPosition3(0.0, 1.2, 0.0);
-    osg::Vec3 modelPosition4(0.0, 1.2, 0.75);
-    osg::Vec3 kinectPosition(0.0, 0.1, 0.0615);
+    osg::Vec3 modelPosition1(1.0, 1.2, 1.0);
+    osg::Vec3 modelPosition2(-1.0, 1.2, 1.0);
+    osg::Vec3 modelPosition3(0.0, 1.2, 1.0);
+    osg::Vec3 modelPosition4(0.0, 1.2, 1.0);
+    osg::Vec3 kinectPosition(0.0, 0.1, 0.1);
     root->addChild(GetModelTransformHelper(duck, modelPosition1, 0.25));
     root->addChild(GetModelTransformHelper(airplane, modelPosition2, 0.25));
     root->addChild(GetModelTransformHelper(cessna, modelPosition3, 0.25));
@@ -71,10 +71,10 @@ void HoloWindow::AddGrid()
     osg::ref_ptr<osg::Node> scene = m_viewer->getSceneData();
     
     osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-    geode->addDrawable( new Grid() );
+    geode->addDrawable( new Grid(osg::Vec3(0.0, 0.0, 0.0), osg::Vec2(25.0, 25.0), osg::Vec2(0.25, 0.25) ) );
     geode->setCullingActive( false );
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(osg::Matrix::rotate(-osg::PI_2, osg::Vec3(1,0,0)));
+    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(osg::Matrix::rotate(-osg::PI_2, osg::Vec3(1,0,0)) * osg::Matrix::translate(osg::Vec3(0,1.0,0)));
     transform->addChild( geode.get() );
     root->addChild( scene.get() );
     root->addChild( transform.get() );
@@ -98,7 +98,7 @@ void HoloWindow::AddSkyBox()
     std::string sign[] = { "pos", "neg" };
     std::string axis[] = { "x", "y", "z" };
     std::vector<osg::Image*> images;
-    bool flipX = true;
+    bool flipX = false;
     bool flipY = true;
     for (int i=0; i < 6; i++)
     {

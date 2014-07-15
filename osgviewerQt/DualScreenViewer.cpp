@@ -36,32 +36,87 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     m_bezelHeight = 2 * 0.0254; //2 inches
     m_screenWidth = 56 * 0.0254; // 56 inches
     m_screenHeight = 32 * 0.0254; // 32 inches
-    m_screenDistance = 50 * 0.0254; // 50 inches
-    m_screenDepth = 1.0 ; // 0
+    m_screenDistance = 1.0; // 1.0 m
+    m_screenDepth = 30.0 ; // 3.0 m
     m_angleBetweenScreensInDegrees = 120.0;
+    m_tvElevation = 0.75;
 
-    double rotationAngleInRadians = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
+    double rotationAngle = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
+    double cosine = cos(rotationAngle);
+    double sine = sin(rotationAngle);
 
     rightTvName = "RightTV";
-    m_Frustum[0].left =  m_bezelWidth  * cos(rotationAngleInRadians);
-    m_Frustum[0].right = (m_bezelWidth + m_screenWidth) * cos(rotationAngleInRadians);
-    m_Frustum[0].bottom = m_screenHeight;
-    m_Frustum[0].top = -m_screenHeight;
-    m_Frustum[0].zNear =  .25;
-    m_Frustum[0].zFar =  2;
+    m_Frustum[1].left =  m_bezelWidth  * cosine;
+    m_Frustum[1].right = (m_bezelWidth + m_screenWidth) * cosine;
+    m_Frustum[1].bottom = m_tvElevation + m_bezelWidth;
+    m_Frustum[1].top = m_tvElevation + m_bezelWidth + m_screenHeight;
+    m_Frustum[1].zFar =  m_bezelWidth * sine;
+    m_Frustum[1].zNear =  (m_bezelWidth + m_screenWidth) * sine;
 
     leftTvName = "LeftTV";
-    m_Frustum[1].right = (m_bezelWidth + m_screenWidth) * cos(rotationAngleInRadians);/*-m_bezelWidth  * cos(rotationAngleInRadians);*/
-    m_Frustum[1].left = -(m_bezelWidth + m_screenWidth) * cos(rotationAngleInRadians);
-    m_Frustum[1].bottom = m_screenHeight;
-    m_Frustum[1].top = -m_screenHeight;
-    m_Frustum[1].zNear =  0.25;
-    m_Frustum[1].zFar =  2;
+    m_Frustum[0].right = -m_bezelWidth  * cosine;
+    m_Frustum[0].left = -(m_bezelWidth + m_screenWidth) * cosine;
+    m_Frustum[0].bottom = m_tvElevation + m_bezelWidth;
+    m_Frustum[0].top = m_tvElevation  + m_bezelWidth + m_screenHeight;
+    m_Frustum[0].zFar =  m_bezelWidth * sine;
+    m_Frustum[0].zNear =  (m_bezelWidth + m_screenWidth) * sine;
+
+    m_rightTVBasePosition = osg::Vec3(m_tvWidth / 2.0 * cosine, m_tvElevation, m_tvWidth /2.0 * sine);
+    m_leftTVBasePosition = osg::Vec3(-m_tvWidth / 2.0 * cosine, m_tvElevation, m_tvWidth /2.0 * sine);
+
+    double fovx = m_angleBetweenScreensInDegrees /2.0;
+    double aspectRatio = (double) m_screenWidth / (double) m_screenHeight;
+
+    m_projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, m_screenDistance, m_screenDistance + m_screenDepth);
+    m_leftProjectionOffsetMatrix= osg::Matrix::translate(osg::Vec3(0, 0,-m_screenDistance)) * osg::Matrix::rotate(-rotationAngle, osg::Vec3(0,1,0)) * m_projectionMatrix;
+    m_rightProjectionOffsetMatrix= osg::Matrix::translate(osg::Vec3(0, 0,-m_screenDistance)) * osg::Matrix::rotate(rotationAngle, osg::Vec3(0,1,0)) * m_projectionMatrix;
 }
 
 DualScreenViewer::~DualScreenViewer() 
 {
 }
+
+
+osg::Matrix DualScreenViewer::CalculateView(const osg::View::Slave& slave, const osg::Vec3 eyePos)
+{
+    int i = (slave._camera->getName() == "RightTV") ? 1 : 0;
+    Frustum* pFrustum = &m_Frustum[i];
+    osg::Vec3 pa(pFrustum->left, pFrustum->bottom, i ? pFrustum->zFar : pFrustum->zNear);
+    osg::Vec3 pb(pFrustum->right, pFrustum->bottom, i ? pFrustum->zNear : pFrustum->zFar);
+    osg::Vec3 pc(pFrustum->left, pFrustum->top, i ? pFrustum->zFar : pFrustum->zNear);
+    osg::Vec3 pe(eyePos);
+
+    osg::Vec3 vr = pb - pa;
+    osg::Vec3 vu = pc - pa;
+    vr.normalize();
+    vu.normalize();
+    osg::Vec3 vn = vr ^ vu;
+    vn.normalize();
+
+    osg::Vec3 va = pa - pe;
+    osg::Vec3 vb = pb - pe;
+    osg::Vec3 vc = pc - pe;
+    
+    //double zNear = m_screenDistance;
+    //double zFar = m_screenDistance + m_screenDepth;
+    //double d = -(va * vn);
+    //double ratio = zNear / d;
+    //double left = vr * va * ratio;
+    //double right = vr * vb * ratio;
+    //double bottom = vu * va * ratio;
+    //double top = vu * vc * ratio;
+    //
+    //osg::Matrix f;
+    //f.makeFrustum(left, right, bottom, top, zNear, zFar);
+
+    osg::Matrix viewMatrix(vr.x(), vr.y(), vr.z(), 0.0,
+                           vu.x(), vu.y(), vu.z(), 0.0,
+                           vn.x(), vn.y(), vn.z(), 0.0,
+                          -pe.x(),-pe.y(),-pe.z(), 1.0);
+    double rotationAngle = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
+    return osg::Matrix::rotate(i? rotationAngle : -rotationAngle, osg::Vec3(0,1,0)) * viewMatrix;
+}
+
 
 
 void DualScreenViewer::CreateGraphicsWindow()
@@ -75,8 +130,6 @@ void DualScreenViewer::CreateGraphicsWindow()
     
     unsigned int numCameras = 2;
 
-    double angleInRadians = osg::inDegrees(m_angleBetweenScreensInDegrees);
-
     osg::Camera* viewCamera = getCamera();
 
     for(unsigned int i=0; i<numCameras;++i)
@@ -86,7 +139,6 @@ void DualScreenViewer::CreateGraphicsWindow()
         screenId.readDISPLAY();
         osg::GraphicsContext::ScreenSettings resolution;
         wsi->getScreenSettings(screenId, resolution);
-        double aspectRatio = (double)resolution.width/(double)resolution.height;
 
         osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
         traits->screenNum = screenId.screenNum;
@@ -106,23 +158,28 @@ void DualScreenViewer::CreateGraphicsWindow()
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
-
-        double acuteAngle = (osg::PI_2 - angleInRadians/2.0);
-        double fovx = m_angleBetweenScreensInDegrees /2.0;
-        osg::Matrixd viewMatrix, projectionMatrix;
-        projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, 0.1, 1.75);
+        osg::Matrix viewMatrixOffset;
+        osg::Matrix projectionMatrixOffset;
         if (camera->getName() == rightTvName)
         {
-            projectionMatrix = osg::Matrix::translate(osg::Vec3(0,0,-1)) * osg::Matrix::rotate(acuteAngle, osg::Vec3(0,1,0)) * projectionMatrix;
+            projectionMatrixOffset = m_rightProjectionOffsetMatrix;
         }
         else
         {
-            projectionMatrix = osg::Matrix::translate(osg::Vec3(0,0,-1)) * osg::Matrix::rotate(-acuteAngle, osg::Vec3(0,1,0)) * projectionMatrix;
+            projectionMatrixOffset = m_leftProjectionOffsetMatrix;
         }
-
         viewCamera->setViewMatrix(osg::Matrixd());
         viewCamera->setProjectionMatrix(osg::Matrixd());
-        addSlave(camera.get(), projectionMatrix, viewMatrix);
+
+        addSlave(camera.get(), projectionMatrixOffset, viewMatrixOffset);
+        if (camera->getName() == rightTvName)
+        {
+            m_rightSlave = &getSlave(i);
+        }
+        else
+        {
+            m_leftSlave = &getSlave(i);
+        }
     }
 }
 
