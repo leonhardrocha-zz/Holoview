@@ -11,7 +11,6 @@ public:
         std::string name;
         osg::Vec3 center;
         osg::Plane viewPlane;
-        osg::Matrix rotation;
     };
 
     enum TV_SIDE
@@ -24,15 +23,17 @@ public:
     DualScreenViewer();
     ~DualScreenViewer();
     virtual void CreateGraphicsWindow();
-    virtual void UpdateViewMatrixOffset(osg::Vec3 eyePos);
+    virtual void CalculateProjectionMatrixOffset(osg::Vec3 eye);
+    virtual void CalculateProjectionMatrixOffset();
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
-    osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; };
-    osg::Vec3& GetVirtualCenter() { return m_virtualCenter; };
-    ScreenInfo& GetScreenInfo(int index) { return m_screen[index]; };
+    osg::Vec3& GetCenter() { return m_virtualCenter; };
     void SetStereoSettings();
     std::vector<double> m_FocusPlaneDistance;
-    osg::Vec3 m_eyeOffset;
+
+
+
+    osg::Vec3 m_EyeProjectionOffset;
 
 protected:
     osg::ref_ptr<osg::DisplaySettings> m_displaySettings;
@@ -45,7 +46,7 @@ protected:
     ScreenInfo m_screen[2];
 
     osg::Vec3 m_virtualCenter;
-    osg::Vec3 m_virtualOrigin;
+    osg::Vec3 m_origin;
     osg::Vec3 m_rightTVBasePosition;
     osg::Vec3 m_leftTVBasePosition;
     

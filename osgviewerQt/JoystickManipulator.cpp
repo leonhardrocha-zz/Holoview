@@ -96,7 +96,7 @@ bool JoystickManipulator::handle( const osgGA::GUIEventAdapter& ea, osgGA::GUIAc
         double dx = 0.0, dy = 0.0;
         if ( state.lX==0x0000 ) dx -= 0.01;
         else if ( state.lX==0xffff ) dx += 0.01;
-        else dx -= 0.01 * (double(state.lX)/double(0xffff) - 0.5) * 2;
+        else dx += 0.01 * (double(state.lX)/double(0xffff) - 0.5) * 2;
         
         if ( state.lY==0 ) dy -= 0.01;
         else if ( state.lY==0xffff ) dy += 0.01;

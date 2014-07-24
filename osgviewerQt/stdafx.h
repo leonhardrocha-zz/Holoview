@@ -18,6 +18,7 @@
 #include <osg/ShapeDrawable>
 #include <osg/TexGen>
 #include <osg/TextureCubeMap>
+#include <osg/NodeCallback>
 
 #include <osgUtil/SmoothingVisitor>
 

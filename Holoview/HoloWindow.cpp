@@ -5,14 +5,10 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
 	: MainWindow(customSizeHints, parent, flags)
 {
-   
-
-    osg::ref_ptr<osg::Group> root = new osg::Group;
     osg::ref_ptr<osg::Node> duck = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");
     osg::ref_ptr<osg::Node> airplane = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");
     osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/osg/cessna.osgt.-90,0,0.rot");
     osg::ref_ptr<osg::Node> kinect = osgDB::readNodeFile("../Dependencies/Models/3ds/kinect/kinect_edited.3ds.-20,0,0.rot");
-    auto container = root->getOrCreateUserDataContainer(); //todo: use container to pass user data
 
     m_viewer = new DualScreenViewer();
     m_viewer->addEventHandler( new SelectModelHandler );
@@ -29,17 +25,39 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     trackerManipulator->setVerticalAxisFixed(false);
     m_viewer->setCameraManipulator( keySwitch );
-    osg::Vec3 modelPosition1(1.0, 1.2, 1.0);
-    osg::Vec3 modelPosition2(-1.0, 1.2, 1.0);
-    osg::Vec3 modelPosition3(0.0, 1.2, 1.0);
-    osg::Vec3 modelPosition4(0.0, 1.2, 1.0);
+    osg::Vec3 modelPosition1(1.0, 1.2, 0.7);
+    osg::Vec3 modelPosition2(-1.0, 1.2, 0.7);
+    osg::Vec3 modelPosition3(0.5, 1.2,  0.5);
+    osg::Vec3 modelPosition4(-0.5, 1.2, 0.5);
     osg::Vec3 kinectPosition(0.0, 0.1, 0.1);
-    root->addChild(GetModelTransformHelper(duck, modelPosition1, 0.25));
-    root->addChild(GetModelTransformHelper(airplane, modelPosition2, 0.25));
-    root->addChild(GetModelTransformHelper(cessna, modelPosition3, 0.25));
-    root->addChild(GetModelTransformHelper(duck, modelPosition4, 0.25));
-    root->addChild(GetModelTransformHelper(kinect, kinectPosition));
-    
+    const osg::Vec3 screenOffset(0,0,0.76);
+
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform1 = GetModelTransformHelper(duck, modelPosition1, 0.25);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform2 = GetModelTransformHelper(airplane, modelPosition2, 0.25);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform3 = GetModelTransformHelper(cessna, modelPosition3, 0.25);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform4 = GetModelTransformHelper(duck, modelPosition4, 0.25);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform5 = GetModelTransformHelper(kinect, kinectPosition);
+
+    osg::ref_ptr<osg::CameraView> camera1 = new osg::CameraView();
+    osg::ref_ptr<osg::CameraView> camera2 = new osg::CameraView();
+    osg::ref_ptr<osg::CameraView> camera3 = new osg::CameraView();
+    osg::ref_ptr<osg::CameraView> camera4 = new osg::CameraView();
+    osg::ref_ptr<osg::CameraView> camera5 = new osg::CameraView();
+
+    osg::ref_ptr<osg::Group> root = new osg::Group();
+
+    root->addChild(transform1);
+    root->addChild(transform2);
+    root->addChild(transform3);
+    root->addChild(transform4);
+    root->addChild(transform5);
+
+    root->addCullCallback(new VirtualScreenCallback(transform1.get(), screenOffset, camera1.get()));
+    root->addCullCallback(new VirtualScreenCallback(transform2.get(), screenOffset, camera2.get()) );
+    root->addCullCallback(new VirtualScreenCallback(transform3.get(), screenOffset, camera3.get()) );
+    root->addCullCallback(new VirtualScreenCallback(transform4.get(), screenOffset, camera4.get()) );
+    root->addCullCallback(new VirtualScreenCallback(transform5.get(), screenOffset, camera5.get()) );
+
     m_viewer->setSceneData(root);
 
     AddSkyBox();
@@ -51,17 +69,15 @@ HoloWindow::~HoloWindow()
 
 }
 
-osg::ref_ptr<osg::MatrixTransform> HoloWindow::GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3& worldPosition, const double modelRadius)
+osg::ref_ptr<osg::PositionAttitudeTransform> HoloWindow::GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3& worldPosition, const double modelRadius)
 {
     osg::BoundingSphere bSphere = model->computeBound();
     osg::Vec3 translationToModel = -bSphere.center();
     osg::Matrix m = osg::Matrix::translate(translationToModel);
-    if (modelRadius != 0.0) {
-        double modelScale = modelRadius * 1.0/bSphere.radius();
-        m = m * osg::Matrix::scale(modelScale, modelScale, modelScale);
-    }
-    m = m * osg::Matrix::translate(worldPosition);
-    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(m);
+    double modelScale = modelRadius * 1.0/bSphere.radius();
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+    transform->setPosition(worldPosition);
+    transform->setScale(osg::Vec3(modelScale, modelScale, modelScale));
     transform->addChild(model);
     return transform;
 }

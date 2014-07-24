@@ -194,6 +194,7 @@
   <ItemGroup>
     <ClInclude Include="DualScreenViewer.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HoloCameraView.h" />
     <ClInclude Include="JoystickManipulator.h" />
     <ClInclude Include="MultiViewerWidget.h" />
     <ClInclude Include="SelectModelHandler.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="TrackerManipulator.h" />
     <ClInclude Include="TwoDimManipulator.h" />
     <ClInclude Include="ViewerWidget.h" />
+    <ClInclude Include="VirtualScreenCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CommonFunctions.h" />

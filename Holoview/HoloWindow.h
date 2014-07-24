@@ -5,6 +5,7 @@
 #include "MainWindow.h"
 #include "ViewerWidget.h"
 #include "DualScreenViewer.h"
+#include "VirtualScreenCallback.h"
 #include "SkyBox.h"
 #include "TrackerManipulator.h"
 #include "JoystickManipulator.h"
@@ -22,7 +23,7 @@ public:
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
     HoloWindow(const HoloWindow& parent) : MainWindow(parent) {};
 	~HoloWindow();
-    static osg::ref_ptr<osg::MatrixTransform> GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3& worldPosition, const double modelRadius = 0.0);
+    static osg::ref_ptr<osg::PositionAttitudeTransform> GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3& worldPosition, const double modelRadius = 0.0);
     osgViewer::Viewer* GetViewer() {return m_viewer;};
     bool AddOSGWidget();
     void AddSkyBox();

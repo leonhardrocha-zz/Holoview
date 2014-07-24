@@ -64,8 +64,8 @@ public:
 
         if (slaveCamera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
         {
-            slaveCamera->setProjectionMatrix(viewCamera->getProjectionMatrix() * slave._projectionOffset);
-            slaveCamera->setViewMatrix(viewCamera->getViewMatrix() * slave._viewOffset);
+            slaveCamera->setProjectionMatrix(slave._projectionOffset * viewCamera->getProjectionMatrix());
+            slaveCamera->setViewMatrix(slave._viewOffset * view.getCamera()->getViewMatrix());
         }
 
         slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
@@ -89,10 +89,10 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
         for(unsigned int i =0; i< numManipulators; i++) 
         {
             osgGA::CameraManipulator* cameraManipulator = keyManipulator->getMatrixManipulatorWithIndex(i);
-            osg::Vec3d center(dualViewer->GetVirtualCenter());
-            osg::Vec3 origin(dualViewer->GetVirtualOrigin());
+            osg::Vec3d eye(0.0, 1.2, 1.5);
+            osg::Vec3 center(0.0, 1.2, 0.0);
             osg::Vec3d up(0.0, 1.0, 0.0);
-            cameraManipulator->setHomePosition(center, origin, up);
+            cameraManipulator->setHomePosition(eye, center, up);
             cameraManipulator->home(0.0);
         }
         osg::View::Slave& leftSlave = dualViewer->getSlave(0);
@@ -100,6 +100,7 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
         leftSlave._updateSlaveCallback = new UpdateDualSlaveCallback();
         rightSlave._updateSlaveCallback = new UpdateDualSlaveCallback();
     }
+    
 }
 
 void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
@@ -116,11 +117,11 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
         {
             osgGA::TrackerManipulator* trackerManipulator = static_cast<osgGA::TrackerManipulator*>(cameraManipulator);
             Pose avatarPose  = results->GetAvatarPose();
-          /*  osg::Vec3d eye(0.0, 1.2, 1.5);
+            osg::Vec3d eye;
             osg::Vec3d center;
-            osg::Vec3d up;*/
+            osg::Vec3d up;
             trackerManipulator->home(0.0);
-            //trackerManipulator->getTransformation(eye, center, up);
+            trackerManipulator->getTransformation(eye, center, up);
 
             osg::Vec3d kinectBasePosition(0.0, 0.615, 0.1);
             double kinectTiltAngle = osg::inDegrees(20.0);
@@ -128,14 +129,16 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
             osg::Vec3d kinectEyePosition = kinectBasePosition + osg::Matrix::rotate(-kinectTiltAngle, osg::Vec3(1.0, 0.0, 0.0)) * kinectEyeOffset;
             osg::Vec3d kinectFrustumOffset( 0.0, avatarPose.translation.z * sin(kinectTiltAngle), avatarPose.translation.z * cos(kinectTiltAngle) );
             osg::Vec3d kinectFrustumTargetPosition = kinectEyePosition + kinectFrustumOffset;
-            osg::Vec3d avatarScreenOffset(avatarPose.translation.x, avatarPose.translation.y, avatarPose.translation.z);
-            osg::Vec3d new_eye(avatarScreenOffset + osg::Vec3(0.0, kinectFrustumTargetPosition.y(), 0.0));
-            osg::Vec3d new_origin(dualViewer->GetVirtualOrigin());
-            osg::Vec3 eyeOffset = (new_eye - new_origin);
-            dualViewer->UpdateViewMatrixOffset(eyeOffset);
+            osg::Vec3d avatarScreenOffset(avatarPose.translation.x, avatarPose.translation.y, 0.0);
+            osg::Vec3d new_eye = avatarScreenOffset + osg::Vec3(0.0, kinectFrustumTargetPosition.y(), 1.5);
+            osg::Vec3d screenOffset = avatarScreenOffset;
+            osg::Vec3d new_up(0.0, 1.0, 0.0);
+            dualViewer->m_EyeProjectionOffset = new_eye;
+            dualViewer->CalculateProjectionMatrixOffset(new_eye);
             osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
-            ds->setScreenDistance(eyeOffset.length());
+            ds->setScreenDistance(new_eye.length());
             dualViewer->setDisplaySettings(ds);
+            trackerManipulator->setTransformation(new_eye, center, new_up);
         }
     }
 }

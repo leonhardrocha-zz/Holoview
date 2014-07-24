@@ -66,48 +66,50 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
 
     m_rightTVBasePosition = osg::Vec3(m_tvWidth / 2.0 * cosine, m_tvElevation, m_tvWidth /2.0 * sine);
     m_leftTVBasePosition = osg::Vec3(-m_tvWidth / 2.0 * cosine, m_tvElevation, m_tvWidth /2.0 * sine);
-    m_virtualOrigin = osg::Vec3(0,m_tvElevation + m_tvHeight/2.0, 0);
-    m_virtualCenter = m_virtualOrigin + osg::Vec3(0.0, 0.0, m_tvWidth * sine);
-    
-    m_projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, 0.01, m_screenDistance + m_screenDepth);
-    m_projectionMatrixOffset[Left] = osg::Matrix::translate(osg::Vec3(-m_tvWidth, 0, 0));
-    m_projectionMatrixOffset[Right] =  osg::Matrix::translate(osg::Vec3(m_tvWidth, 0, 0));
+    m_virtualCenter = osg::Vec3(0.0, m_tvElevation + m_tvHeight/2.0, m_screenWidth * cos(rotationAngle));
+    m_projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, m_screenDistance, m_screenDistance + m_screenDepth);
+    m_projectionMatrixOffset[Left] = osg::Matrix::translate(osg::Vec3(0, 0,-m_screenDistance)) * osg::Matrix::rotate(rotationAngle, osg::Vec3(0,1,0));
+    m_projectionMatrixOffset[Right] = osg::Matrix::translate(osg::Vec3(0, 0,-m_screenDistance)) * osg::Matrix::rotate(-rotationAngle, osg::Vec3(0,1,0));
 
-    m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
+    m_origin = osg::Vec3(0,0,0);
 
-    for(int i = 0; i < NumOfScreens; i++)
-    {
-        osg::Vec3 pa(m_screen[i].left, m_screen[i].bottom, m_screen[i].zLeft);
-        osg::Vec3 pb(m_screen[i].right, m_screen[i].bottom, m_screen[i].zRight);
-        osg::Vec3 pc(m_screen[i].left, m_screen[i].top, m_screen[i].zLeft);
-        osg::Vec3 vr = pb - pa;
-        osg::Vec3 vu = pc - pa;
-        osg::Vec3 vn = vr ^ vu;
-        vr.normalize();
-        vu.normalize();
-        vn.normalize();
-        osg::Matrix viewMatrix(vr.x(), vr.y(), vr.z(), 0.0,
-                               vu.x(), vu.y(), vu.z(), 0.0,
-                               vn.x(), vn.y(), vn.z(), 0.0,
-                              0.0,0.0,0.0, 1.0);
-        m_viewMatrixOffset[Left] = viewMatrix;
-        m_viewMatrixOffset[Right] = viewMatrix;
-    }
-    
+    osg::Vec3 eyePos = m_virtualCenter + osg::Vec3(0,0, 0.5);
+    m_viewMatrix.makeTranslate(eyePos);
 }
 
 DualScreenViewer::~DualScreenViewer() 
 {
 }
 
-void DualScreenViewer::UpdateViewMatrixOffset(osg::Vec3 eyeOffset)
+void DualScreenViewer::CalculateProjectionMatrixOffset()
 {
-    m_eyeOffset = eyeOffset;
+    osg::View::Slave& slave= getSlave(Left);
+    double rotationAngle = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
+    slave._projectionOffset = osg::Matrix::rotate(rotationAngle, osg::Vec3(0,1,0));
+    slave = getSlave(Left);
+    slave._projectionOffset = osg::Matrix::rotate(-rotationAngle, osg::Vec3(0,1,0));
+}
 
-    for(int i = 0; i < NumOfScreens; i++)
+void DualScreenViewer::CalculateProjectionMatrixOffset(osg::Vec3 eye)
+{
+    for(int i = 0; i < 2; i++)
     {
-        osg::View::Slave& slave = getSlave(i);
-        slave._viewOffset = m_viewMatrixOffset[i].translate(-eyeOffset);
+        osg::Vec3 pa(m_screen[i].left, m_screen[i].bottom, m_screen[i].zLeft);
+        osg::Vec3 pb(m_screen[i].right, m_screen[i].bottom, m_screen[i].zRight);
+        osg::Vec3 pc(m_screen[i].left, m_screen[i].top, m_screen[i].zLeft);
+        osg::Vec3 pe(eye)/* = -(m_virtualCenter - m_screen[i].center)*/;
+        osg::Vec3 vr = pb - pa;
+        osg::Vec3 vu = pc - pa;
+        vr.normalize();
+        vu.normalize();
+        osg::Vec3 vn = vr ^ vu;
+        vn.normalize();
+        osg::View::Slave slave = getSlave(i);
+        slave._projectionOffset.set(vr.x(), vr.y(), vr.z(), 0.0,
+                                    vu.x(), vu.y(), vu.z(), 0.0,
+                                    vn.x(), vn.y(), vn.z(), 0.0,
+                                   -pe.x(),-pe.y(),-pe.z(), 1.0);
+
     }
 }
 
@@ -121,10 +123,12 @@ void DualScreenViewer::CreateGraphicsWindow()
         osg::notify(osg::NOTICE)<<"Error, no WindowSystemInterface available, cannot create windows."<<std::endl;
         return;
     }
+    
+    unsigned int numCameras = 2;
 
     osg::Camera* viewCamera = getCamera();
-
-    for(unsigned int i=Left; i < NumOfScreens; ++i)
+    
+    for(unsigned int i=0; i<numCameras;++i)
     {
         osg::GraphicsContext::ScreenIdentifier screenId = osg::GraphicsContext::ScreenIdentifier(i);
         screenId.setUndefinedScreenDetailsToDefaultScreen();
@@ -136,7 +140,7 @@ void DualScreenViewer::CreateGraphicsWindow()
         traits->screenNum = screenId.screenNum;
         traits->x = 0;
         traits->y = 0;
-        traits->width = resolution.width / (NumOfScreens - 1);
+        traits->width = resolution.width / (numCameras - 1);
         traits->height = resolution.height;
         traits->windowDecoration = false;
         traits->doubleBuffer = true;
@@ -149,10 +153,14 @@ void DualScreenViewer::CreateGraphicsWindow()
         GLenum buffer = traits->doubleBuffer ? GL_BACK : GL_FRONT;
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
-        camera->setName(i == Left ? "Left" : "Right");
+        osg::Matrix viewMatrixOffset;
+        osg::Matrix projectionMatrixOffset;
+        projectionMatrixOffset = m_projectionMatrixOffset[i];
+        viewMatrixOffset = m_viewMatrixOffset[i];
         viewCamera->setViewMatrix(m_viewMatrix);
         viewCamera->setProjectionMatrix(m_projectionMatrix);
-        addSlave(camera.get(), m_projectionMatrixOffset[i], m_viewMatrixOffset[i]);
+
+        addSlave(camera.get(), projectionMatrixOffset, viewMatrixOffset);
     }
 }
 
