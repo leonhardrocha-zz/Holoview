@@ -24,15 +24,15 @@ public:
     DualScreenViewer();
     ~DualScreenViewer();
     virtual void CreateGraphicsWindow();
-    virtual void UpdateViewMatrixOffset(osg::Vec3 eyePos);
-    osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
+    virtual void UpdateEyeOffset(osg::Vec3 eyeOffset);
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; };
     osg::Vec3& GetVirtualCenter() { return m_virtualCenter; };
+    osg::Vec3& GetVirtualEye() { return m_eyeOffset; };
+    osg::Matrix GetMasterMatrix() { return m_viewMatrix; };
+    osg::Quat& GetInverseAttitude() { return m_inverseAttitude; };
     ScreenInfo& GetScreenInfo(int index) { return m_screen[index]; };
     void SetStereoSettings();
-    std::vector<double> m_FocusPlaneDistance;
-    osg::Vec3 m_eyeOffset;
 
 protected:
     osg::ref_ptr<osg::DisplaySettings> m_displaySettings;
@@ -43,12 +43,13 @@ protected:
     osg::Matrix m_viewMatrixOffset[2];
     osg::Matrix m_projectionMatrixOffset[2];
     ScreenInfo m_screen[2];
-
+    osg::Quat m_inverseAttitude;
+    osg::Vec3 m_eyeOffset;
     osg::Vec3 m_virtualCenter;
     osg::Vec3 m_virtualOrigin;
     osg::Vec3 m_rightTVBasePosition;
     osg::Vec3 m_leftTVBasePosition;
-    
+
     double m_tvElevation;
     double m_tvWidth;
     double m_tvHeight;

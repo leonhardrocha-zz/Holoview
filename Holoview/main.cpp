@@ -116,12 +116,6 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
         {
             osgGA::TrackerManipulator* trackerManipulator = static_cast<osgGA::TrackerManipulator*>(cameraManipulator);
             Pose avatarPose  = results->GetAvatarPose();
-          /*  osg::Vec3d eye(0.0, 1.2, 1.5);
-            osg::Vec3d center;
-            osg::Vec3d up;*/
-            trackerManipulator->home(0.0);
-            //trackerManipulator->getTransformation(eye, center, up);
-
             osg::Vec3d kinectBasePosition(0.0, 0.615, 0.1);
             double kinectTiltAngle = osg::inDegrees(20.0);
             const osg::Vec3d kinectEyeOffset(0.0, 0.06, 0.0);
@@ -130,12 +124,8 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
             osg::Vec3d kinectFrustumTargetPosition = kinectEyePosition + kinectFrustumOffset;
             osg::Vec3d avatarScreenOffset(avatarPose.translation.x, avatarPose.translation.y, avatarPose.translation.z);
             osg::Vec3d new_eye(avatarScreenOffset + osg::Vec3(0.0, kinectFrustumTargetPosition.y(), 0.0));
-            osg::Vec3d new_origin(dualViewer->GetVirtualOrigin());
-            osg::Vec3 eyeOffset = (new_eye - new_origin);
-            dualViewer->UpdateViewMatrixOffset(eyeOffset);
-            osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
-            ds->setScreenDistance(eyeOffset.length());
-            dualViewer->setDisplaySettings(ds);
+            dualViewer->UpdateEyeOffset(new_eye);
+            trackerManipulator->home(0.0);
         }
     }
 }

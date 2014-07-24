@@ -25,24 +25,20 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     trackerManipulator->setVerticalAxisFixed(false);
     m_viewer->setCameraManipulator( keySwitch );
-    osg::Vec3 modelPosition1(1.0, 1.2, 0.7);
-    osg::Vec3 modelPosition2(-1.0, 1.2, 0.7);
-    osg::Vec3 modelPosition3(0.5, 1.2,  0.5);
-    osg::Vec3 modelPosition4(-0.5, 1.2, 0.5);
-    osg::Vec3 kinectPosition(0.0, 0.1, 0.1);
+    
+    osg::Vec3 modelPosition1(0.75, 1.2, 0.75);
+    osg::Vec3 modelPosition2(-0.75, 1.2, 0.75);
+    osg::Vec3 modelPosition3(0.50, 1.2,  0.50);
+    osg::Vec3 modelPosition4(-0.50, 1.2, 0.50);
+    osg::Vec3 modelPosition5(0.0, 0.1, 0.1); //kinect
+
     const osg::Vec3 screenOffset(0,0,0.76);
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform1 = GetModelTransformHelper(duck, modelPosition1, 0.25);
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform2 = GetModelTransformHelper(airplane, modelPosition2, 0.25);
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform3 = GetModelTransformHelper(cessna, modelPosition3, 0.25);
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform4 = GetModelTransformHelper(duck, modelPosition4, 0.25);
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform5 = GetModelTransformHelper(kinect, kinectPosition);
-
-    osg::ref_ptr<osg::CameraView> camera1 = new osg::CameraView();
-    osg::ref_ptr<osg::CameraView> camera2 = new osg::CameraView();
-    osg::ref_ptr<osg::CameraView> camera3 = new osg::CameraView();
-    osg::ref_ptr<osg::CameraView> camera4 = new osg::CameraView();
-    osg::ref_ptr<osg::CameraView> camera5 = new osg::CameraView();
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform1 = GetModelTransformHelper(duck, 0.15);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform2 = GetModelTransformHelper(airplane,  0.15);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform3 = GetModelTransformHelper(cessna, 0.15);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform4 = GetModelTransformHelper(duck, 0.15);
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform5 = GetModelTransformHelper(kinect);
 
     osg::ref_ptr<osg::Group> root = new osg::Group();
 
@@ -52,11 +48,11 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     root->addChild(transform4);
     root->addChild(transform5);
 
-    root->addCullCallback(new VirtualScreenCallback(transform1.get(), screenOffset, camera1.get()));
-    root->addCullCallback(new VirtualScreenCallback(transform2.get(), screenOffset, camera2.get()) );
-    root->addCullCallback(new VirtualScreenCallback(transform3.get(), screenOffset, camera3.get()) );
-    root->addCullCallback(new VirtualScreenCallback(transform4.get(), screenOffset, camera4.get()) );
-    root->addCullCallback(new VirtualScreenCallback(transform5.get(), screenOffset, camera5.get()) );
+    root->addCullCallback( new VirtualScreenCallback(transform1.get(), modelPosition1, screenOffset, m_viewer) );
+    root->addCullCallback( new VirtualScreenCallback(transform2.get(), modelPosition2, screenOffset, m_viewer) );
+    root->addCullCallback( new VirtualScreenCallback(transform3.get(), modelPosition3, screenOffset, m_viewer) );
+    root->addCullCallback( new VirtualScreenCallback(transform4.get(), modelPosition4, screenOffset, m_viewer) );
+    root->addCullCallback( new VirtualScreenCallback(transform5.get(), modelPosition5, screenOffset, m_viewer) );
 
     m_viewer->setSceneData(root);
 
@@ -69,14 +65,13 @@ HoloWindow::~HoloWindow()
 
 }
 
-osg::ref_ptr<osg::PositionAttitudeTransform> HoloWindow::GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3& worldPosition, const double modelRadius)
+osg::ref_ptr<osg::PositionAttitudeTransform> HoloWindow::GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const double modelRadius)
 {
     osg::BoundingSphere bSphere = model->computeBound();
     osg::Vec3 translationToModel = -bSphere.center();
     osg::Matrix m = osg::Matrix::translate(translationToModel);
     double modelScale = modelRadius * 1.0/bSphere.radius();
     osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
-    transform->setPosition(worldPosition);
     transform->setScale(osg::Vec3(modelScale, modelScale, modelScale));
     transform->addChild(model);
     return transform;

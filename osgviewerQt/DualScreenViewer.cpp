@@ -8,7 +8,8 @@
 
 DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
 {
-    m_displaySettings = osg::DisplaySettings::instance().get();
+    setDisplaySettings(osg::DisplaySettings::instance().get());
+    m_displaySettings = getDisplaySettings();
     m_traits = new osg::GraphicsContext::Traits;
 
 #ifndef WIN32
@@ -68,13 +69,15 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     m_leftTVBasePosition = osg::Vec3(-m_tvWidth / 2.0 * cosine, m_tvElevation, m_tvWidth /2.0 * sine);
     m_virtualOrigin = osg::Vec3(0,m_tvElevation + m_tvHeight/2.0, 0);
     m_virtualCenter = m_virtualOrigin + osg::Vec3(0.0, 0.0, m_tvWidth * sine);
-    
+    m_displaySettings->setScreenDistance(m_virtualCenter.length());
+
     m_projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, 0.01, m_screenDistance + m_screenDepth);
     m_projectionMatrixOffset[Left] = osg::Matrix::translate(osg::Vec3(-m_tvWidth, 0, 0));
     m_projectionMatrixOffset[Right] =  osg::Matrix::translate(osg::Vec3(m_tvWidth, 0, 0));
 
     m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
-
+    m_eyeOffset = m_virtualCenter - m_virtualOrigin;
+    
     for(int i = 0; i < NumOfScreens; i++)
     {
         osg::Vec3 pa(m_screen[i].left, m_screen[i].bottom, m_screen[i].zLeft);
@@ -90,8 +93,7 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
                                vu.x(), vu.y(), vu.z(), 0.0,
                                vn.x(), vn.y(), vn.z(), 0.0,
                               0.0,0.0,0.0, 1.0);
-        m_viewMatrixOffset[Left] = viewMatrix;
-        m_viewMatrixOffset[Right] = viewMatrix;
+        m_viewMatrixOffset[i] = viewMatrix.translate(-m_eyeOffset);
     }
     
 }
@@ -100,18 +102,19 @@ DualScreenViewer::~DualScreenViewer()
 {
 }
 
-void DualScreenViewer::UpdateViewMatrixOffset(osg::Vec3 eyeOffset)
+void DualScreenViewer::UpdateEyeOffset(osg::Vec3 eyePosition) 
 {
-    m_eyeOffset = eyeOffset;
+    m_eyeOffset = eyePosition - m_virtualCenter;
+    m_viewMatrix.lookAt(eyePosition, m_virtualCenter, osg::Vec3(0,1,0));
+    m_inverseAttitude = m_viewMatrix.getRotate().inverse();
 
-    for(int i = 0; i < NumOfScreens; i++)
-    {
-        osg::View::Slave& slave = getSlave(i);
-        slave._viewOffset = m_viewMatrixOffset[i].translate(-eyeOffset);
-    }
+    //for(int i = 0; i < NumOfScreens; i++)
+    //{
+    //    osg::View::Slave& slave = getSlave(i);
+    //    slave._viewOffset = m_viewMatrixOffset[i].translate(-m_eyeOffset);
+    //}
+
 }
-
-
 
 void DualScreenViewer::CreateGraphicsWindow()
 {
