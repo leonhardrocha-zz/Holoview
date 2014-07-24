@@ -69,7 +69,6 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     m_leftTVBasePosition = osg::Vec3(-m_tvWidth / 2.0 * cosine, m_tvElevation, m_tvWidth /2.0 * sine);
     m_virtualOrigin = osg::Vec3(0,m_tvElevation + m_tvHeight/2.0, 0);
     m_virtualCenter = m_virtualOrigin + osg::Vec3(0.0, 0.0, m_tvWidth * sine);
-    m_displaySettings->setScreenDistance(m_virtualCenter.length());
 
     m_projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, 0.01, m_screenDistance + m_screenDepth);
     m_projectionMatrixOffset[Left] = osg::Matrix::translate(osg::Vec3(-m_tvWidth, 0, 0));
@@ -77,7 +76,8 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
 
     m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
     m_eyeOffset = m_virtualCenter - m_virtualOrigin;
-    
+    m_displaySettings->setScreenDistance(m_eyeOffset.length());
+
     for(int i = 0; i < NumOfScreens; i++)
     {
         osg::Vec3 pa(m_screen[i].left, m_screen[i].bottom, m_screen[i].zLeft);

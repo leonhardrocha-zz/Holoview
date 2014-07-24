@@ -30,7 +30,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     osg::Vec3 modelPosition2(-0.75, 1.2, 0.75);
     osg::Vec3 modelPosition3(0.50, 1.2,  0.50);
     osg::Vec3 modelPosition4(-0.50, 1.2, 0.50);
-    osg::Vec3 modelPosition5(0.0, 0.1, 0.1); //kinect
+    osg::Vec3 modelPosition5(0.0, 0.65, 0.1); //kinect
 
     const osg::Vec3 screenOffset(0,0,0.76);
 
@@ -70,7 +70,7 @@ osg::ref_ptr<osg::PositionAttitudeTransform> HoloWindow::GetModelTransformHelper
     osg::BoundingSphere bSphere = model->computeBound();
     osg::Vec3 translationToModel = -bSphere.center();
     osg::Matrix m = osg::Matrix::translate(translationToModel);
-    double modelScale = modelRadius * 1.0/bSphere.radius();
+    double modelScale = modelRadius != 0.0 ? modelRadius * 1.0/bSphere.radius() : 1.0;
     osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
     transform->setScale(osg::Vec3(modelScale, modelScale, modelScale));
     transform->addChild(model);
