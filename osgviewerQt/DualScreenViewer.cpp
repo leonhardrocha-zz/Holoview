@@ -71,8 +71,8 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     m_virtualCenter = m_virtualOrigin + osg::Vec3(0.0, 0.0, m_tvWidth * sine);
 
     m_projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, 0.01, m_screenDistance + m_screenDepth);
-    m_projectionMatrixOffset[Left] = osg::Matrix::translate(osg::Vec3(-m_tvWidth, 0, 0));
-    m_projectionMatrixOffset[Right] =  osg::Matrix::translate(osg::Vec3(m_tvWidth, 0, 0));
+    m_projectionMatrixOffset[Left] = osg::Matrix::translate(osg::Vec3(-m_tvWidth/2, 0, 0));
+    m_projectionMatrixOffset[Right] =  osg::Matrix::translate(osg::Vec3(m_tvWidth/2, 0, 0));
 
     m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
     m_eyeOffset = m_virtualCenter - m_virtualOrigin;
@@ -83,6 +83,7 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
         osg::Vec3 pa(m_screen[i].left, m_screen[i].bottom, m_screen[i].zLeft);
         osg::Vec3 pb(m_screen[i].right, m_screen[i].bottom, m_screen[i].zRight);
         osg::Vec3 pc(m_screen[i].left, m_screen[i].top, m_screen[i].zLeft);
+        osg::Vec3 pe(i == Left ? m_screen[i].right : m_screen[i].left, m_screen[i].top, m_screen[i].zLeft);
         osg::Vec3 vr = pb - pa;
         osg::Vec3 vu = pc - pa;
         osg::Vec3 vn = vr ^ vu;
@@ -92,7 +93,7 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
         osg::Matrix viewMatrix(vr.x(), vr.y(), vr.z(), 0.0,
                                vu.x(), vu.y(), vu.z(), 0.0,
                                vn.x(), vn.y(), vn.z(), 0.0,
-                              0.0,0.0,0.0, 1.0);
+                               pe.x(), pe.y(), pe.z(), 1.0);
         m_viewMatrixOffset[i] = viewMatrix.translate(-m_eyeOffset);
     }
     
