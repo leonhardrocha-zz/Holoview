@@ -4,25 +4,11 @@
 #include "vld.h"
 #endif
 
-ViewerWidget::ViewerWidget(QWidget* parent, osg::ref_ptr<osg::DisplaySettings> ds, osg::ref_ptr<osg::GraphicsContext::Traits> traits) : QWidget(parent)
+ViewerWidget::ViewerWidget(QWidget* parent) : QWidget(parent)
 {
-    if (ds.valid())
-    {
-        m_displaySettings = ds;
-    }
-    else
-    {
-        m_displaySettings = osg::DisplaySettings::instance().get();
-    }
+     m_displaySettings = osg::DisplaySettings::instance().get();
+     m_traits = new osg::GraphicsContext::Traits;
     
-    if (traits.valid())
-    {
-        m_traits = traits;
-    }
-    else
-    {
-        m_traits = new osg::GraphicsContext::Traits;
-    }
 #ifndef WIN32
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
 #endif
@@ -63,9 +49,9 @@ void ViewerWidget::CreateGraphicsWindow()
     camera->setGraphicsContext( qtWindow );
     camera->setClearColor( osg::Vec4(0.2, 0.2, 0.6, 1.0) );
     camera->setViewport( new osg::Viewport(0, 0, m_traits->width, m_traits->height) );
-    camera->setViewMatrixAsLookAt(osg::Vec3(0,0,0), osg::Vec3(0,0,-1), osg::Vec3(0,1,0));
-    /*camera->setProjectionMatrixAsOrtho(-1, 1, -1, 1, -1, 1);*/
-    camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(m_traits->width)/static_cast<double>(m_traits->height), 1.0f, 10000.0f );
+    /*camera->setViewMatrixAsLookAt(osg::Vec3(0,0,0), osg::Vec3(0,0,-1), osg::Vec3(0,1,0));*/
+    camera->setProjectionMatrixAsOrtho(-1, 1, -1, 1, -1, 1);
+    //camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(m_traits->width)/static_cast<double>(m_traits->height), 1.0f, 10000.0f );
     QWidget* widget = qtWindow->getGLWidget();
     QGridLayout* grid = static_cast<QGridLayout*>(layout());
     grid->addWidget(widget, 0, getNumViews() );
@@ -78,6 +64,11 @@ void ViewerWidget::SetStereoSettings()
     m_displaySettings->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
     m_displaySettings->setDisplayType(osg::DisplaySettings::MONITOR);
     m_displaySettings->setSplitStereoHorizontalEyeMapping(osg::DisplaySettings::LEFT_EYE_LEFT_VIEWPORT);
+}
+
+void ViewerWidget::UnsetStereoSettings()
+{
+    m_displaySettings->setStereo(false);
 }
 
 void ViewerWidget::paintEvent( QPaintEvent* event )

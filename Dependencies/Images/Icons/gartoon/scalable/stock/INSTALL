@@ -1,0 +1,10 @@
+Gartoon Stock Icons Installation:
+
+Copy this icons to any directory in your systems. 
+Open your GTK2 theme file. Add the following line in your GTK2 file.
+
+include "path/to/iconrc"
+
+Change the path to the gartoon iconrc file (located in this folder).
+
+That's it, simple.

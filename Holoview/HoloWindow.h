@@ -23,9 +23,10 @@ public:
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
     HoloWindow(const HoloWindow& parent) : MainWindow(parent) {};
 	~HoloWindow();
+    virtual void Run() { m_viewer->run(); }
     static osg::ref_ptr<osg::PositionAttitudeTransform> GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const double modelRadius = 0.0);
     osgViewer::Viewer* GetViewer() {return m_viewer;};
-    bool AddOSGWidget();
+    bool AddOsgDockWidget(QWidget *parent = 0);
     void AddSkyBox();
     void AddGrid();
 protected:

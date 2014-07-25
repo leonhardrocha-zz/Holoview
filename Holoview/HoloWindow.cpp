@@ -136,10 +136,10 @@ void HoloWindow::AddSkyBox()
 
     m_viewer->setSceneData( root.get() );
 }
-bool HoloWindow::AddOSGWidget()
+bool HoloWindow::AddOsgDockWidget(QWidget* parent)
 {
     QString osgName = QString::fromLatin1("Scene View");
-    OSGFrame *osgFrame = new OSGFrame(osgName, this);
+    OsgFrame *osgFrame = new OsgFrame(osgName, parent, m_viewer->getScene());
     osgFrame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 
     MyDock *osgDock = new MyDock(osgName, this, Qt::WindowFlags(0), osgFrame);
@@ -147,8 +147,8 @@ bool HoloWindow::AddOSGWidget()
     osgDock->setFloating(false);
     addDockWidget(Qt::RightDockWidgetArea, osgDock);
     dockWidgetMenu->addMenu(osgDock->menu);
-
-	return true;
+    osgFrame->show();
+    return true;
 }
 
 

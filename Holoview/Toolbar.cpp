@@ -38,7 +38,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "stdafx.h"	
+#include "stdafx.h"
 #include "toolbar.h"
 
 #include <QMainWindow>
@@ -48,7 +48,7 @@
 #include <QSpinBox>
 #include <QLabel>
 #include <QToolTip>
-
+#include "HoloWindow.h"
 #include <stdlib.h>
 
 static QPixmap genIcon(const QSize &iconSize, const QString &, const QColor &color)
@@ -71,7 +71,7 @@ static QPixmap genIcon(const QSize &iconSize, int number, const QColor &color)
 { return genIcon(iconSize, QString::number(number), color); }
 
 ToolBar::ToolBar(const QString &title, QWidget *parent)
-    : QToolBar(parent), spinbox(0), spinboxAction(0)
+    : QToolBar(parent), spinbox(0), spinboxAction(0), m_parent(parent)
 {
     tip = 0;
     setWindowTitle(title);
@@ -80,29 +80,39 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
     setIconSize(QSize(32, 32));
 
     QColor bg(palette().background().color());
-    menu = new QMenu("One", this);
-    menu->setIcon(genIcon(iconSize(), 1, Qt::black));
-    menu->addAction(genIcon(iconSize(), "A", Qt::blue), "A");
-    menu->addAction(genIcon(iconSize(), "B", Qt::blue), "B");
-    menu->addAction(genIcon(iconSize(), "C", Qt::blue), "C");
+
+    m_openSceneAction = addAction(QIcon(":/Icons/Resources/gnome-fs-directory.svg"), "Open scene");
+    connect(m_openSceneAction, SIGNAL(triggered()), SLOT(openScene()));
+
+    m_showScreenAction = addAction(QIcon(":/Icons/Resources/gtk-screenshot.svg"), "Show screen");
+
+    connect(m_showScreenAction, SIGNAL(triggered()), SLOT(showScene()));
+
+    m_runAction = addAction(QIcon(":/Icons/Resources/gnome-fs-executable.svg"), "Run");
+    connect(m_runAction, SIGNAL(triggered()), SLOT(run()));
+
+    m_moreAction = addAction(QIcon(":/Icons/Resources/gtk-add.svg"), "Add");
+    connect(m_moreAction, SIGNAL(triggered()), SLOT(add()));
+    
+    m_applyAction = addAction(QIcon(":/Icons/Resources/gtk-apply.svg"), "Apply");
+    connect(m_applyAction, SIGNAL(triggered()), SLOT(apply()));
+
+    addSeparator();
+    menu = new QMenu("Zoom", this);
+    menu->setIcon(QIcon(":/Icons/Resources/gtk-zoom-in.svg"));
+    menu->addAction(QIcon(":/Icons/Resources/gtk-zoom-in.svg"), "Zoom in");
+    menu->addAction(QIcon(":/Icons/Resources/gtk-zoom-out.svg"), "Zoom out");
+    menu->addAction(QIcon(":/Icons/Resources/gtk-zoom-fit.svg"), "Zoom to fit");
+    menu->addAction(QIcon(":/Icons/Resources/gtk-zoom-100.svg"), "Actual size");
     addAction(menu->menuAction());
 
-    QAction *two = addAction(genIcon(iconSize(), 2, Qt::white), "Two");
-    QFont boldFont;
-    boldFont.setBold(true);
-    two->setFont(boldFont);
-
-    addAction(genIcon(iconSize(), 3, Qt::red), "Three");
-    addAction(genIcon(iconSize(), 4, Qt::green), "Four");
-    addAction(genIcon(iconSize(), 5, Qt::blue), "Five");
-    addAction(genIcon(iconSize(), 6, Qt::yellow), "Six");
     orderAction = new QAction(this);
     orderAction->setText(tr("Order Items in Tool Bar"));
     connect(orderAction, SIGNAL(triggered()), SLOT(order()));
 
-    randomizeAction = new QAction(this);
-    randomizeAction->setText(tr("Randomize Items in Tool Bar"));
-    connect(randomizeAction, SIGNAL(triggered()), SLOT(randomize()));
+    //randomizeAction = new QAction(this);
+    //randomizeAction->setText(tr("Randomize Items in Tool Bar"));
+    //connect(randomizeAction, SIGNAL(triggered()), SLOT(randomize()));
 
     addSpinBoxAction = new QAction(this);
     addSpinBoxAction->setText(tr("Add Spin Box"));
@@ -176,7 +186,7 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
     menu->addAction(toggleViewAction());
     menu->addSeparator();
     menu->addAction(orderAction);
-    menu->addAction(randomizeAction);
+    /*menu->addAction(randomizeAction);*/
     menu->addSeparator();
     menu->addAction(addSpinBoxAction);
     menu->addAction(removeSpinBoxAction);
@@ -191,7 +201,13 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
 
     connect(menu, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
 
-    randomize();
+    setMouseTracking(true);
+    //randomize();
+}
+
+void ToolBar::mouseMoveEvent ( QMouseEvent * mouseEvent )
+{
+    mouseEvent->accept();
 }
 
 void ToolBar::updateMenu()
@@ -313,6 +329,49 @@ void ToolBar::place(Qt::ToolBarArea area, bool p)
         allowTopAction->setEnabled(area != Qt::TopToolBarArea);
         allowBottomAction->setEnabled(area != Qt::BottomToolBarArea);
     }
+}
+
+QString ToolBar::lastPath = ".";
+
+void ToolBar::openScene(QString& openFilesPath)
+{
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+    QString selectedFilter;
+    QStringList files = QFileDialog::getOpenFileNames(
+                                 this, tr("QFileDialog::getOpenFileNames()"),
+                                 openFilesPath,
+                                 tr("All Files (*);;Text Files (*.txt)"),
+                                 &selectedFilter,
+                                 options);
+    lastPath = openFilesPath;
+    if (files.count()) 
+    {
+         openFilesPath = files[0];
+    }
+}
+
+void ToolBar::showScene()
+{
+    HoloWindow* window = reinterpret_cast<HoloWindow*>(m_parent);
+    if (window)
+    {
+        window->Run();
+    }
+}
+void ToolBar::run()
+{
+    MainWindow* window = reinterpret_cast<MainWindow*>(m_parent);
+    if (window)
+    {
+        window->Run();
+    }
+}
+void ToolBar::add()
+{
+}
+void ToolBar::apply()
+{
 }
 
 void ToolBar::changeMovable(bool movable)

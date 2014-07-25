@@ -1,0 +1,101 @@
+Gartoon Gnome Icon Theme
+==============================================
+Credits:
+Created by Zeus (zeussama@gmail.com).
+Website http://zeus.qballcow.nl
+
+With help from:
+La Mula Francis - thanks a lot dude for backing me up
+
+==============================================
+Installation: 
+Untar Gartoon packages into your hard drive. 
+Copy Gartoon directory to ~/.icons
+
+Fire up Gnome Theme Configuration,
+click Theme Detail button. Select Gartoon from
+the Icon tab.
+
+===============================================
+TODO
+- More mime icons, emblem and application icons.
+- Create symbolyc link for simmilar icon files.
+- Game Gnome Panel icons
+- Find out the GTK stock icons name (if you know how to name gtk stock icon, please inform me)
+
+===============================================
+F.A.Q:
+
+Q: What's Gartoon License?
+A: Starting 0.5 Gartoon lincensed under GPL (read GPL.txt)
+
+Q: Can i use Gartoon in my website?
+A: Yes, you can. You don't need my permission. Just notify me if you use gartoon, i like to know if someone using my icons :) . Some credits in your website is not a must, but if you put my name on it, i'm gratefull :) .
+
+Q: Can i modify Gartoon?
+A: Yes you can, because Gartoon is GPL. you can also distibruted your modified Gartoon icons.
+
+Q: How to install it?
+A: Read the installation section above.
+
+Q: Can you create icons for my software?
+A: Contact me!
+===============================================
+Log:
+0.5 
+- add more application icons thank to following person for their icon donation:
+  * Valessio Soares : Open Office Impress
+  * James Birkett : Open Office Math
+  * Ian Megibben : Houdini and Maya
+  * La Mula Francis : Lot's of stock icons
+- Gartoon pallete updated.
+- Stock icons GTK 2.6 support
+- More device icons
+- More mime icons
+- Some icons are redesign
+- Some costum application icons (if you want your application 
+  Gartoonified, contact me)
+	
+0.4.5
+- All main Gnome preference icon themed
+- add a few mime device icons
+
+0.4
+- Support Gnome 2.6 
+- main panel icons themed (FC2)
+- mime-PDF now diffrent than PS-mime
+- add some xtra folder, contains xtra icons
+- add some mimetypes icons
+- Evolution icons had Ximian logo.
+
+
+
+0.3.5
+- add more mimetypes icons
+
+0.3
+- Added movie mime icons, and some mime icons
+- add two nautilus 2.5 specific icons.
+
+0.2.5
+- more mime icons
+
+0.2
+- more apps icons, and file systems icons.
+
+0.1.9
+-gnome-mime-images completed
+-some new icon added
+
+0.1.7
+-added some audio icons.
+-one new audio emblem 
+-update gnome-cd icon
+
+0.1.5
+-color change on home icon and cd icon
+-add a floppy icon
+-add a folder-accept icon
+
+0.1
+-First release with very few icons (^^;)

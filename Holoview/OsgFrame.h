@@ -8,14 +8,14 @@
 #include "DockFrame.h"
 #include "ViewerWidget.h"
 
-class  OSGFrame :  public DockFrame
+class  OsgFrame :  public DockFrame
 {
 public:
-	OSGFrame::OSGFrame(const QString &dockName, QWidget *parent, osg::ref_ptr<osgViewer::Scene> scene = NULL) : DockFrame(dockName, parent)
-	{
+    OsgFrame::OsgFrame(const QString &dockName, QWidget *parent, osg::ref_ptr<osgViewer::Scene> scene = NULL) : DockFrame(dockName, parent)
+    {
         RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
-		setAttribute(Qt::WA_NativeWindow);
-		setAttribute(Qt::WA_PaintOnScreen);
+        setAttribute(Qt::WA_NativeWindow);
+        setAttribute(Qt::WA_PaintOnScreen);
 
         worldViewer.CreateGraphicsWindow();
         worldViewer.setMouseTracking(true);
@@ -29,6 +29,7 @@ public:
         view->setCameraManipulator( new osgGA::TrackballManipulator );
     }
 
+    QWidget* GetWidget() { return &worldViewer; };
 protected:
 
     osg::ref_ptr<osgViewer::Scene> m_scene;

@@ -67,6 +67,7 @@
 
 #include "MyDock.h"
 #include "TrackerFrame.h"
+
 #include "toolbar.h"
 #include "ITracker.h"
 #include "DockFrame.h"
@@ -93,8 +94,9 @@ public:
     MainWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent = 0, Qt::WindowFlags flags = 0);
     MainWindow(const MainWindow& parent)  { };
-	bool AddTrackerDockWidget(ITracker* tracker);
-	bool AddMultiTrackerDockWidget(ITracker* tracker);
+    bool AddTrackerDockWidget(ITracker* tracker);
+    bool AddViewerWidget(QWidget* parent);
+    virtual void Run() {};
 protected:
     void showEvent(QShowEvent *event);
     void mouseMoveEvent ( QMouseEvent * event );

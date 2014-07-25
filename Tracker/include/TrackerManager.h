@@ -34,9 +34,9 @@ public:
 {
 }	
 	~TrackerManager()	{ UninitInstance();	};
-	
-    static int NumOfSensors;
-    static int MaxNumOfSensors;
+    
+    int                         GetNumOfTrackingSensors() { return m_numOfSensors; };
+    int                         GetNumOfAvailableSensors() { return m_maxNumOfSensors;};
 	bool						Init();
 	bool						Start();
 	HINSTANCE					GetInstance() { return m_hInst; };
@@ -47,6 +47,10 @@ public:
 	void*						GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };
 
 protected:
+
+    int                         m_numOfSensors;
+    int                         m_maxNumOfSensors;
+
 	CRITICAL_SECTION m_CriticalSection;	
 	virtual		void			PaintEvent(void *message, TrackingArgs args=NULL);
 	virtual		void			TrackEvent(void *message, TrackingArgs args=NULL);

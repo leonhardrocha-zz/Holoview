@@ -136,18 +136,16 @@ int main(int argc, char *argv[])
     QMap<QString, QSize> customSizeHints = parseCustomSizeHints(argc, argv);
     HoloWindow mainWindow(customSizeHints);
     KinectTracker tracker;
-    TrackerManager::MaxNumOfSensors = 1;
-    TrackerManager::NumOfSensors = 1;
-    tracker.Init();
+    tracker.InitDefault();
     DualScreenViewer* dualViewer = static_cast<DualScreenViewer*>(mainWindow.GetViewer());
     ArgsMap args;
     args.AddArg("dualViewer", static_cast<void*>(dualViewer));
     tracker.SetTrackerCallback(TrackerViewUpdateStatic, &tracker, &args);
-    mainWindow.AddMultiTrackerDockWidget(&tracker);
+    mainWindow.AddTrackerDockWidget(&tracker);
+    mainWindow.AddOsgDockWidget(mainWindow.centralWidget());
     tracker.Start();
     mainWindow.show();
     TrackerViewInitStatic(&tracker, &args);
-    mainWindow.GetViewer()->run();
     return app.exec();
 }
 

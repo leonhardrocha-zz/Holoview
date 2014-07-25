@@ -54,6 +54,12 @@ class ToolBar : public QToolBar
 {
     Q_OBJECT
 
+    QAction *m_openSceneAction;
+    QAction *m_showScreenAction;
+    QAction *m_runAction;
+    QAction *m_moreAction;
+    QAction *m_applyAction;
+
     QSpinBox *spinbox;
     QAction *spinboxAction;
 
@@ -82,17 +88,25 @@ public:
     ToolBar(const QString &title, QWidget *parent);
 
     QMenu *menu;
-
+ 
 protected:
     void enterEvent(QEvent*);
     void leaveEvent(QEvent*);
-
+    virtual void mouseMoveEvent ( QMouseEvent * mouseEvent );
+    static QString lastPath;
+    QWidget* m_parent;
 private:
     void allow(Qt::ToolBarArea area, bool allow);
     void place(Qt::ToolBarArea area, bool place);
     QLabel *tip;
 
 private slots:
+    void openScene(QString& openFilesPath = ToolBar::lastPath);
+    void showScene();
+    void run();
+    void add();
+    void apply();
+
     void order();
     void randomize();
     void addSpinBox();

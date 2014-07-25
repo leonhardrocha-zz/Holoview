@@ -9,12 +9,13 @@
 class ViewerWidget : public QWidget, public osgViewer::CompositeViewer
 {
 public:
-    ViewerWidget(QWidget* parent = (QWidget*)NULL, osg::ref_ptr<osg::DisplaySettings> ds = NULL, osg::ref_ptr<osg::GraphicsContext::Traits> traits = NULL);
+    ViewerWidget(QWidget* parent = (QWidget*)NULL);
     ~ViewerWidget();
     virtual void CreateGraphicsWindow();
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     virtual void SetStereoSettings();
+    virtual void UnsetStereoSettings();
 
 protected:
     virtual void paintEvent( QPaintEvent* event );

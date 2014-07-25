@@ -155,6 +155,7 @@
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h" />
     <ClInclude Include="KinectWindow.h" />
     <ClInclude Include="ModelWindow.h" />
+    <ClInclude Include="OsgFrame.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TrackerFrame.h" />
     <CustomBuild Include="Toolbar.h">

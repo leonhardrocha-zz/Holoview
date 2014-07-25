@@ -37,44 +37,49 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     setWindowState(windowState() | Qt::WindowFullScreen);
 
     statusBar()->showMessage(tr("Status Bar"));
-    setupMenuBar();
-
-    //setupToolBar();
-    setupDockWidgets(customSizeHints);
-
-    ExtendToFullScreen(this);
-
-    menuBarRect = menuBar()->geometry();
     statusBarRect = statusBar()->geometry();
+
+    setupMenuBar();
+    setupToolBar();
+
+    setupDockWidgets(customSizeHints);
+    ExtendToFullScreen(this);
 
     setMouseTracking(true);
 }
 
 void MainWindow::ExtendToFullScreen(QWidget* widget)
 {
-  if (!widget)
-  {
-    return;
-  }
+    if (!widget)
+    {
+        return;
+    }
 
-  QDesktopWidget* desktop = QApplication::desktop();
+    QDesktopWidget* desktop = QApplication::desktop();
   
-  int numOfScreens = desktop->numScreens();
-  int desk_x = 0;
-  int desk_y = 0;
-  for (int i = 0; i < numOfScreens; i++)
-  {
-    QRect desk_rect = desktop->screenGeometry(i);
-    desk_x += desk_rect.width();
-    desk_y = desk_y > desk_rect.height() ? desk_y : desk_rect.height();
-  }
-  widget->setFixedWidth(desk_x);
-  widget->setFixedHeight(desk_y);
+    int numOfScreens = desktop->numScreens();
+    int desk_x = 0;
+    int desk_y = 0;
+    for (int i = 0; i < numOfScreens; i++)
+    {
+        QRect desk_rect = desktop->screenGeometry(i);
+        desk_x += desk_rect.width();
+        desk_y = desk_y > desk_rect.height() ? desk_y : desk_rect.height();
+    }
+    widget->setFixedWidth(desk_x);
+    widget->setFixedHeight(desk_y);
 }
 
 void MainWindow::mouseMoveEvent ( QMouseEvent * event )
 {
     QPoint mousePos = event->pos();
+
+    if (menuBarRect.isNull()) 
+    {
+        QPoint firstToolbarPoint = toolBars.first()->geometry().topLeft();
+        QPoint lastToolbarPoint = toolBars.last()->geometry().bottomRight();
+        menuBarRect = QRect(firstToolbarPoint, lastToolbarPoint);
+    }
 
     if( menuBarRect.contains(mousePos) )
     {
@@ -304,7 +309,7 @@ void MainWindow::setupDockWidgets(const QMap<QString, QSize> &customSizeHints)
     ::addAction(corner_menu, tr("Right dock area"), group, mapper, 7);
 
     dockWidgetMenu->addSeparator();
-	
+
     createDockWidgetAction = new QAction(tr("Add dock widget..."), this);
     connect(createDockWidgetAction, SIGNAL(triggered()), this, SLOT(createDockWidget()));
     destroyDockWidgetMenu = new QMenu(tr("Destroy dock widget"), this);
@@ -316,38 +321,25 @@ void MainWindow::setupDockWidgets(const QMap<QString, QSize> &customSizeHints)
     dockWidgetMenu->addMenu(destroyDockWidgetMenu);
 }
 
-bool MainWindow::AddMultiTrackerDockWidget(ITracker *tracker)
+bool MainWindow::AddTrackerDockWidget(ITracker *tracker)
 {
+    KinectTracker* kinectTracker = dynamic_cast<KinectTracker*>(tracker);
+    if(!kinectTracker) return false;
+
     QString name = QString::fromLatin1("Tracker");
-    for (int i =0; i< TrackerManager::MaxNumOfSensors; i++)
-	{
-		MultiTrackerFrame *frame = new MultiTrackerFrame(i, this,  tracker);
-		frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
+    int numOfSensors = kinectTracker->GetNumOfTrackingSensors();
+    for (int i =0; i< numOfSensors; i++)
+    {
+        TrackerFrame *frame = new TrackerFrame(i, this,  tracker);
+        frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 
-		MyDock *trackerDock = new MyDock(name + i, this, Qt::WindowFlags(0), frame);
-		trackerDock->setCustomSizeHint(m_customSizeHints.value(name + i));
-		addDockWidget(Qt::LeftDockWidgetArea, trackerDock);
-		dockWidgetMenu->addMenu(trackerDock->menu);
-	}
-	return true;
+        MyDock *trackerDock = new MyDock(name + i, this, Qt::WindowFlags(0), frame);
+        trackerDock->setCustomSizeHint(m_customSizeHints.value(name + i));
+        addDockWidget(Qt::LeftDockWidgetArea, trackerDock);
+        dockWidgetMenu->addMenu(trackerDock->menu); 
+    }
+    return true;
 }
-
-bool MainWindow::AddTrackerDockWidget(ITracker* tracker)
-{
-    QString name = QString::fromLatin1("Tracker");
-    TrackerFrame *frame = new TrackerFrame(name, this,  tracker);
-    frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
-
-    MyDock *trackerDock = new MyDock(name, this, Qt::WindowFlags(0), frame);
-    trackerDock->setCustomSizeHint(m_customSizeHints.value(name));
-    trackerDock->setFloating(false);
-    addDockWidget(Qt::RightDockWidgetArea, trackerDock);
-    dockWidgetMenu->addMenu(trackerDock->menu);
-
-	return true;
-}
-
-
 
 void MainWindow::setCorner(int id)
 {
