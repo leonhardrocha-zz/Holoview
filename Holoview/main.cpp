@@ -48,38 +48,6 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
     return result;
 }
 
-struct UpdateDualSlaveCallback : public osg::View::Slave::UpdateSlaveCallback
-{
-public:
-    UpdateDualSlaveCallback()
-    {
-    };
-
-    virtual void updateSlave(osg::View& view, osg::View::Slave& slave)
-    {
-        osg::Camera* slaveCamera = slave._camera.get();
-        osg::Camera* viewCamera = view.getCamera();
-        DualScreenViewer* dualView = dynamic_cast<DualScreenViewer*>(&view);
-        if (!slaveCamera|| !viewCamera || !dualView) return;
-
-        if (slaveCamera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
-        {
-            int index = slaveCamera->getName() == "Left" ? DualScreenViewer::Left: DualScreenViewer::Right;
-            slaveCamera->setProjectionMatrix( slave._viewOffset *viewCamera->getProjectionMatrix() * slave._projectionOffset);
-            //osg::Quat q = slave._viewOffset.getRotate();
-            //osg::Matrix m;
-            //m.setRotate(q.inverse());
-            slaveCamera->setViewMatrix(viewCamera->getViewMatrix());
-        }
-
-        slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
-    };
-
-    osg::Matrix m_InitialProjectionOffset;
-};
-
-
-
 void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
 {
     KinectTracker* pThis = reinterpret_cast<KinectTracker*>(lpParam);
@@ -99,10 +67,6 @@ void TrackerViewInitStatic(void* lpParam, TrackingArgs args=NULL)
             cameraManipulator->setHomePosition(center, origin, up);
             cameraManipulator->home(0.0);
         }
-        osg::View::Slave& leftSlave = dualViewer->getSlave(0);
-        osg::View::Slave& rightSlave = dualViewer->getSlave(1);
-        leftSlave._updateSlaveCallback = new UpdateDualSlaveCallback();
-        rightSlave._updateSlaveCallback = new UpdateDualSlaveCallback();
     }
 }
 
@@ -130,7 +94,6 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
             osg::Vec3d new_eye(avatarScreenOffset + osg::Vec3(0.0, kinectFrustumTargetPosition.y(), 0.0));
             dualViewer->UpdateEyeOffset(new_eye);
         }
-        //cameraManipulator->home(0.0);
     }
 }
 
