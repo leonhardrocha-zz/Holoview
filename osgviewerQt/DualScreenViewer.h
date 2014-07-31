@@ -7,7 +7,8 @@ class DualScreenViewer : public osgViewer::Viewer
 public:
     struct ScreenInfo
     {
-        double left, right, top, bottom, zLeft, zRight;
+        double left, right, top, bottom, zNear, zFar;
+        double zLeft, zRight;
         std::string name;
         osg::Vec3 center;
         osg::Plane viewPlane;
@@ -29,7 +30,11 @@ public:
     osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; };
     osg::Vec3& GetVirtualCenter() { return m_virtualCenter; };
     osg::Vec3& GetVirtualEye() { return m_eyeOffset; };
-    osg::Matrix GetMasterMatrix() { return m_viewMatrix; };
+    osg::Matrix GetMasterProjectionMatrix() { return m_projectionMatrix; };
+    osg::Matrix GetSlaveProjectionMatrix(int side) { return m_projectionMatrixOffset[side]; };
+    osg::Matrix GetMasterViewMatrix() { return m_viewMatrix; };
+    osg::Matrix GetSlaveViewMatrix(int side) { return m_viewMatrixOffset[side]; };
+
     osg::Quat& GetInverseAttitude() { return m_inverseAttitude; };
     ScreenInfo& GetScreenInfo(int index) { return m_screen[index]; };
     void SetStereoSettings();

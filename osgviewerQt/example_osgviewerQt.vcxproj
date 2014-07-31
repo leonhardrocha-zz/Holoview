@@ -195,7 +195,9 @@
     <ClInclude Include="DualScreenViewer.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HoloCameraView.h" />
+    <ClInclude Include="HolographicTransform.h" />
     <ClInclude Include="JoystickManipulator.h" />
+    <ClInclude Include="MatrixExtension.h" />
     <ClInclude Include="MultiViewerWidget.h" />
     <ClInclude Include="SelectModelHandler.h" />
     <ClInclude Include="SkyBox.h" />

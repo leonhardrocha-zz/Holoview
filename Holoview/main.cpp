@@ -64,8 +64,12 @@ public:
 
         if (slaveCamera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
         {
-            slaveCamera->setProjectionMatrix(viewCamera->getProjectionMatrix() * slave._projectionOffset);
-            slaveCamera->setViewMatrix(viewCamera->getViewMatrix() * slave._viewOffset);
+            int index = slaveCamera->getName() == "Left" ? DualScreenViewer::Left: DualScreenViewer::Right;
+            slaveCamera->setProjectionMatrix( viewCamera->getProjectionMatrix() * slave._projectionOffset);
+            //osg::Quat q = slave._viewOffset.getRotate();
+            //osg::Matrix m;
+            //m.setRotate(q.inverse());
+            slaveCamera->setViewMatrix(viewCamera->getViewMatrix()/* * slave._viewOffset*/);
         }
 
         slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
@@ -125,8 +129,8 @@ void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
             osg::Vec3d avatarScreenOffset(avatarPose.translation.x, avatarPose.translation.y, avatarPose.translation.z);
             osg::Vec3d new_eye(avatarScreenOffset + osg::Vec3(0.0, kinectFrustumTargetPosition.y(), 0.0));
             dualViewer->UpdateEyeOffset(new_eye);
-            trackerManipulator->home(0.0);
         }
+        //cameraManipulator->home(0.0);
     }
 }
 

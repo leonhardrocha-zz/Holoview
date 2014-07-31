@@ -1,4 +1,5 @@
 #include "DualScreenViewer.h"
+#include "MatrixExtension.h"
 #include <math.h>
 #include <iostream>
 #ifdef _DEBUG
@@ -47,22 +48,26 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     double fovx = m_angleBetweenScreensInDegrees /2.0;
     double aspectRatio = (double) m_screenWidth / (double) m_screenHeight;
 
-    m_screen[Right].name = "RightTV";
+    m_screen[Right].name = "Right";
     m_screen[Right].left =  m_bezelWidth  * cosine;
     m_screen[Right].right = (m_bezelWidth + m_screenWidth) * cosine;
     m_screen[Right].bottom = m_tvElevation + m_bezelWidth;
     m_screen[Right].top = m_tvElevation + m_bezelWidth + m_screenHeight;
-    m_screen[Right].zLeft =  m_bezelWidth * sine;
-    m_screen[Right].zRight =  (m_bezelWidth + m_screenWidth) * sine;
+    m_screen[Right].zFar = m_bezelWidth * sine;
+    m_screen[Right].zNear = (m_bezelWidth + m_screenWidth) * sine;
+    m_screen[Right].zRight = m_screen[Right].zNear;
+    m_screen[Right].zLeft = m_screen[Right].zFar;
     m_screen[Right].center = osg::Vec3((m_screen[Right].left + m_screen[Right].right)/2.0, (m_screen[Right].top + m_screen[Right].bottom)/2.0, (m_screen[Right].zLeft + m_screen[Right].zRight)/2.0);
 
-    m_screen[Left].name = "LeftTV";
+    m_screen[Left].name = "Left";
     m_screen[Left].right = -m_bezelWidth  * cosine;
     m_screen[Left].left = -(m_bezelWidth + m_screenWidth) * cosine;
     m_screen[Left].bottom = m_tvElevation + m_bezelWidth;
     m_screen[Left].top = m_tvElevation  + m_bezelWidth + m_screenHeight;
-    m_screen[Left].zLeft =  (m_bezelWidth + m_screenWidth) * sine;
-    m_screen[Left].zRight = m_bezelWidth * sine;
+    m_screen[Left].zFar = m_bezelWidth * sine;
+    m_screen[Left].zNear = (m_bezelWidth + m_screenWidth) * sine;
+    m_screen[Left].zRight = m_screen[Left].zFar;
+    m_screen[Left].zLeft = m_screen[Left].zNear;
     m_screen[Left].center = osg::Vec3((m_screen[Left].left + m_screen[Left].right)/2.0, (m_screen[Left].top + m_screen[Left].bottom)/2.0, (m_screen[Left].zLeft + m_screen[Left].zRight)/2.0);
 
     m_rightTVBasePosition = osg::Vec3(m_tvWidth / 2.0 * cosine, m_tvElevation, m_tvWidth /2.0 * sine);
@@ -70,15 +75,11 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     m_virtualOrigin = osg::Vec3(0,m_tvElevation + m_tvHeight/2.0, 0);
     m_virtualCenter = m_virtualOrigin + osg::Vec3(0.0, 0.0, m_tvWidth * sine);
 
-    m_projectionMatrix.makePerspective(fovx / aspectRatio, aspectRatio, 0.01, m_screenDistance + m_screenDepth);
-    m_projectionMatrixOffset[Left] = osg::Matrix::translate(osg::Vec3(-m_tvWidth/2, 0, 0));
-    m_projectionMatrixOffset[Right] =  osg::Matrix::translate(osg::Vec3(m_tvWidth/2, 0, 0));
-
     m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
     m_eyeOffset = m_virtualCenter - m_virtualOrigin;
     m_displaySettings->setScreenDistance(m_eyeOffset.length());
-
-    for(int i = 0; i < NumOfScreens; i++)
+    osg::Matrix screenMatrix[2];
+    for(int i = Left; i < NumOfScreens; i++)
     {
         osg::Vec3 pa(m_screen[i].left, m_screen[i].bottom, m_screen[i].zLeft);
         osg::Vec3 pb(m_screen[i].right, m_screen[i].bottom, m_screen[i].zRight);
@@ -90,13 +91,34 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
         vr.normalize();
         vu.normalize();
         vn.normalize();
-        osg::Matrix viewMatrix(vr.x(), vr.y(), vr.z(), 0.0,
+        screenMatrix[i].set   (vr.x(), vr.y(), vr.z(), 0.0,
                                vu.x(), vu.y(), vu.z(), 0.0,
                                vn.x(), vn.y(), vn.z(), 0.0,
-                               pe.x(), pe.y(), pe.z(), 1.0);
-        m_viewMatrixOffset[i] = viewMatrix.translate(-m_eyeOffset);
+                               0.0, 0.0, 0.0, 1.0);
+        screenMatrix[i].preMultTranslate(-(m_eyeOffset));
+        m_viewMatrixOffset[i] = screenMatrix[i];
     }
-    
+
+    double left, right, top, bottom, zNear, zFar, zRatio;
+
+    zNear =  m_virtualCenter.z() - m_screen[Left].zNear;
+    zFar = m_virtualCenter.z() - m_screen[Left].zFar;
+    zRatio = zNear / zFar;
+    right = (m_screen[Left].right - m_virtualCenter.x()) * zRatio;
+    left = -(m_virtualCenter.x() - m_screen[Left].left)* zRatio;
+    top = (m_screen[Left].top  - m_virtualCenter.y() )* zRatio;
+    bottom = -(m_virtualCenter.y()  - m_screen[Left].bottom) * zRatio;
+    m_projectionMatrixOffset[Right] =  osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
+
+    zNear = m_virtualCenter.z() - m_screen[Right].zNear;
+    zFar = m_virtualCenter.z() - m_screen[Right].zFar;
+    zRatio = zNear / zFar;
+    right = (m_screen[Right].right - m_virtualCenter.x()) * zRatio;
+    left = -(m_virtualCenter.x() - m_screen[Right].left)* zRatio;
+    top = (m_screen[Right].top  - m_virtualCenter.y() )* zRatio;
+    bottom = -(m_virtualCenter.y()  - m_screen[Right].bottom) * zRatio;
+    m_projectionMatrixOffset[Left] = osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
+
 }
 
 DualScreenViewer::~DualScreenViewer() 
@@ -108,13 +130,6 @@ void DualScreenViewer::UpdateEyeOffset(osg::Vec3 eyePosition)
     m_eyeOffset = eyePosition - m_virtualCenter;
     m_viewMatrix.lookAt(eyePosition, m_virtualCenter, osg::Vec3(0,1,0));
     m_inverseAttitude = m_viewMatrix.getRotate().inverse();
-
-    //for(int i = 0; i < NumOfScreens; i++)
-    //{
-    //    osg::View::Slave& slave = getSlave(i);
-    //    slave._viewOffset = m_viewMatrixOffset[i].translate(-m_eyeOffset);
-    //}
-
 }
 
 void DualScreenViewer::CreateGraphicsWindow()
@@ -127,7 +142,8 @@ void DualScreenViewer::CreateGraphicsWindow()
     }
 
     osg::Camera* viewCamera = getCamera();
-
+    viewCamera->setViewMatrix(m_viewMatrix);
+    viewCamera->setProjectionMatrix(m_projectionMatrix);
     for(unsigned int i=Left; i < NumOfScreens; ++i)
     {
         osg::GraphicsContext::ScreenIdentifier screenId = osg::GraphicsContext::ScreenIdentifier(i);
@@ -154,8 +170,7 @@ void DualScreenViewer::CreateGraphicsWindow()
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
         camera->setName(i == Left ? "Left" : "Right");
-        viewCamera->setViewMatrix(m_viewMatrix);
-        viewCamera->setProjectionMatrix(m_projectionMatrix);
+
         addSlave(camera.get(), m_projectionMatrixOffset[i], m_viewMatrixOffset[i]);
     }
 }

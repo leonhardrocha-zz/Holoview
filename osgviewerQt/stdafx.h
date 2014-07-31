@@ -19,7 +19,7 @@
 #include <osg/TexGen>
 #include <osg/TextureCubeMap>
 #include <osg/NodeCallback>
-
+#include <osg/NodeVisitor>
 #include <osgUtil/SmoothingVisitor>
 
 #include <osgViewer/Viewer>

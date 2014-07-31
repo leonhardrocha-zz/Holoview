@@ -47,6 +47,12 @@
     <ClInclude Include="HoloCameraView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MatrixExtension.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HolographicTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViewerWidget.cpp">
