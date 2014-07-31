@@ -20,11 +20,11 @@ virtual void operator()( osg::Node* node, osg::NodeVisitor* nv )
     osgUtil::CullVisitor* cv = dynamic_cast<osgUtil::CullVisitor*>(nv);
     if ( !cv ) return;
     m_billboard->setPosition( m_modelPosition );
-    osg::Vec3 holoPosition = m_modelPosition + m_screenOffset - m_viewer->GetVirtualOrigin();
+    osg::Vec3 holoPosition = m_modelPosition - m_viewer->GetVirtualOrigin();
     m_viewer->getDisplaySettings()->setScreenDistance( holoPosition.length() );
     osg::Vec3 eyePosition = m_viewer->GetVirtualEye() + m_viewer->GetVirtualCenter();
-    osg::Quat r = osg::Matrix::lookAt( eyePosition, m_viewer->GetVirtualCenter(), osg::Vec3(0,1,0)).getRotate();
-    m_billboard->setAttitude( m_modelAttitude * r );
+    osg::Quat r = osg::Matrix::lookAt( eyePosition, m_viewer->GetVirtualOrigin(), osg::Vec3(0,1,0)).getRotate();
+    m_billboard->setAttitude( r * m_modelAttitude );
     traverse( node, nv );
 }
 protected:

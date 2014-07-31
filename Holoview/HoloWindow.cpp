@@ -26,10 +26,10 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     trackerManipulator->setVerticalAxisFixed(false);
     m_viewer->setCameraManipulator( keySwitch );
     
-    osg::Vec3 modelPosition1(0.50, 1.2, 0.75);
-    osg::Vec3 modelPosition2(-0.50, 1.2, 0.75);
-    osg::Vec3 modelPosition3(0.25, 1.2,  0.75);
-    osg::Vec3 modelPosition4(-0.25, 1.2, 0.75);
+    osg::Vec3 modelPosition1(0.50, 1.2, 0.5);
+    osg::Vec3 modelPosition2(-0.50, 1.2, 0.5);
+    osg::Vec3 modelPosition3(0.25, 1.2,  0.5);
+    osg::Vec3 modelPosition4(-0.25, 1.2, 0.5);
     osg::Vec3 modelPosition5(0.0, 0.65, 0.1); //kinect
 
     const osg::Vec3 screenOffset(0,0,0.76);
