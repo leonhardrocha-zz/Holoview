@@ -95,7 +95,6 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
                                vu.x(), vu.y(), vu.z(), 0.0,
                                vn.x(), vn.y(), vn.z(), 0.0,
                                0.0, 0.0, 0.0, 1.0);
-        screenMatrix[i].preMultTranslate(-(m_eyeOffset));
         m_viewMatrixOffset[i] = screenMatrix[i];
     }
 
@@ -108,7 +107,8 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     left = -(m_virtualCenter.x() - m_screen[Left].left)* zRatio;
     top = (m_screen[Left].top  - m_virtualCenter.y() )* zRatio;
     bottom = -(m_virtualCenter.y()  - m_screen[Left].bottom) * zRatio;
-    m_projectionMatrixOffset[Right] =  osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
+    m_projectionMatrixOffset[Left] =  osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
+    m_projectionMatrixOffset[Left].postMultTranslate(osg::Vec3(-m_tvWidth, 0 , 0));
 
     zNear = m_virtualCenter.z() - m_screen[Right].zNear;
     zFar = m_virtualCenter.z() - m_screen[Right].zFar;
@@ -117,7 +117,8 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     left = -(m_virtualCenter.x() - m_screen[Right].left)* zRatio;
     top = (m_screen[Right].top  - m_virtualCenter.y() )* zRatio;
     bottom = -(m_virtualCenter.y()  - m_screen[Right].bottom) * zRatio;
-    m_projectionMatrixOffset[Left] = osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
+    m_projectionMatrixOffset[Right] = osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
+    m_projectionMatrixOffset[Right].postMultTranslate(osg::Vec3(m_tvWidth, 0 , 0));
 
 }
 

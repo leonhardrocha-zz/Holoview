@@ -65,11 +65,11 @@ public:
         if (slaveCamera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
         {
             int index = slaveCamera->getName() == "Left" ? DualScreenViewer::Left: DualScreenViewer::Right;
-            slaveCamera->setProjectionMatrix( viewCamera->getProjectionMatrix() * slave._projectionOffset);
+            slaveCamera->setProjectionMatrix( slave._viewOffset *viewCamera->getProjectionMatrix() * slave._projectionOffset);
             //osg::Quat q = slave._viewOffset.getRotate();
             //osg::Matrix m;
             //m.setRotate(q.inverse());
-            slaveCamera->setViewMatrix(viewCamera->getViewMatrix()/* * slave._viewOffset*/);
+            slaveCamera->setViewMatrix(viewCamera->getViewMatrix());
         }
 
         slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
