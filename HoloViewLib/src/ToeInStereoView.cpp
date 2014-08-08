@@ -44,9 +44,9 @@ void ToeInStereoView::SetViewAngles(float pitch, float yaw, float roll)
 	leftViewVectors.setColumn(1, LookAtPosition);
 	leftViewVectors.setColumn(2, LightPosition);
 	
-	leftViewAngles[Pitch] = pitch;
-	leftViewAngles[Yaw]   = yaw;
-	leftViewAngles[Roll]  = roll;
+	leftViewAngles[0] = pitch;
+	leftViewAngles[1]   = yaw;
+	leftViewAngles[2]  = roll;
 
 	leftViewVectors.rotateX(pitch);
 	leftViewVectors.rotateY(yaw);
@@ -56,9 +56,9 @@ void ToeInStereoView::SetViewAngles(float pitch, float yaw, float roll)
 	rightViewVectors.setColumn(1, LookAtPosition);
 	rightViewVectors.setColumn(2, LightPosition);
 
-	rightViewAngles[Pitch] = pitch;
-	rightViewAngles[Yaw]   = -yaw;
-	rightViewAngles[Roll]  = roll;
+	rightViewAngles[0] = pitch;
+	rightViewAngles[1]   = -yaw;
+	rightViewAngles[2]  = roll;
 
 	rightViewVectors.rotateX(pitch);
 	rightViewVectors.rotateY(-yaw);

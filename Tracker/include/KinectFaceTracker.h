@@ -77,7 +77,7 @@ public:
     HRESULT			GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
 	IAvatar*		GetAvatar()			{ return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
 	float			GetFaceConfidence() { return m_faceConfidence; };
-	TrackingResults*	GetTrackingResults (TrackingArgs args=NULL);
+	ITrackingResults*	GetTrackingResults (TrackingArgs args=NULL);
 	void			PaintEvent(void *message, TrackingArgs args=NULL);
 	void			TrackEvent(void *message, TrackingArgs args=NULL);
 	static void		FTCallback(void* param, TrackingArgs args=NULL);
@@ -93,7 +93,7 @@ public:
 protected:
 	CRITICAL_SECTION*			m_pCriticalSection;
 
-	TrackingResults				m_View;
+	TrackingResults				m_trackingResults;
 	IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;
 	ITracker*					m_parent;

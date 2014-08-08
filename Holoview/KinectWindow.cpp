@@ -1,19 +1,9 @@
 #include "stdafx.h"
 #include "KinectWindow.h"
 #include "TrackingResults.h"
-#include "InverseTrackingResults.h"
 
 KinectWindow::KinectWindow() : KinectView(), m_pResults(NULL)
 {
-	m_3rdPersonView.position.x = 0.8f;
-	m_3rdPersonView.position.y = 1.2f;
-	m_3rdPersonView.position.z = 0.0f;
-	m_3rdPersonView.viewUp.x = 0.0f;
-	m_3rdPersonView.viewUp.y = 1.0f;
-	m_3rdPersonView.viewUp.z = 0.0f;
-	m_3rdPersonView.target.x = 0.0f;
-	m_3rdPersonView.target.y = 0.0f;
-	m_3rdPersonView.target.z = 0.0f;
 }
 
 void KinectWindow::ResetWindow()
@@ -27,8 +17,6 @@ void KinectWindow::SetupView()
 	{
 		return;
 	}
-	glMatrixMode(GL_PROJECTION);	
-	glLoadMatrixf(glm::value_ptr(m_pResults->GetProjection()));
 }
 
 
@@ -67,8 +55,8 @@ void KinectWindow::SetupScene()
 	}
 	
 	glMatrixMode(GL_MODELVIEW);	
-	glm::mat4 modelView = m_pResults->GetCameraView();
-	glMultMatrixf(glm::value_ptr(modelView));
+	//glm::mat4 modelView = m_pResults->GetCameraView();
+	//glMultMatrixf(glm::value_ptr(modelView));
 	
 }
 

@@ -92,7 +92,6 @@
     <ClCompile Include="src\BaseAssetRenderer.cpp" />
     <ClCompile Include="src\DualStereoView.cpp" />
     <ClCompile Include="src\GLKinectView.cpp" />
-    <ClCompile Include="src\InverseTrackingResults.cpp" />
     <ClCompile Include="src\ITrackFactory.cpp" />
     <ClCompile Include="src\KinectView.cpp" />
     <ClCompile Include="src\Matrices.cpp" />
@@ -100,7 +99,6 @@
     <ClCompile Include="src\OpenGLHelper.cpp" />
     <ClCompile Include="src\StereoView.cpp" />
     <ClCompile Include="src\ToeInStereoView.cpp" />
-    <ClCompile Include="src\TrackingResults.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AssetReader.h" />
@@ -111,14 +109,17 @@
     <ClInclude Include="include\GLKinectView.h" />
     <ClInclude Include="include\HoloviewException.h" />
     <ClInclude Include="include\IAvatar.h" />
-    <ClInclude Include="include\InverseTrackingResults.h" />
+    <ClInclude Include="include\IPose.h" />
     <ClInclude Include="include\ITracker.h" />
+    <ClInclude Include="include\ITrackingResults.h" />
     <ClInclude Include="include\IView.h" />
     <ClInclude Include="include\KinectView.h" />
     <ClInclude Include="include\Matrices.h" />
     <ClInclude Include="include\MatrixMath.h" />
     <ClInclude Include="include\OpenGL21Renderer.h" />
     <ClInclude Include="include\OpenGLHelper.h" />
+    <ClInclude Include="include\Pose.h" />
+    <ClInclude Include="include\Position.h" />
     <ClInclude Include="include\StereoView.h" />
     <ClInclude Include="include\Synchronizable.h" />
     <ClInclude Include="include\ToeInStereoView.h" />

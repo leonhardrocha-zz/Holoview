@@ -38,3 +38,5 @@
 #include <osgGA/KeySwitchMatrixManipulator>
 #include <osgManipulator/Projector>
 
+#include "ITrackingResults.h"
+#include "IPose.h"

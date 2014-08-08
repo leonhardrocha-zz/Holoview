@@ -95,9 +95,6 @@
     <ClCompile Include="MyDock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KinectWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HoloWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KinectWindow.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OsgFrame.h">
       <Filter>Header Files</Filter>

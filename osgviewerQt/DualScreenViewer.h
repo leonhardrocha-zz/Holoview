@@ -2,7 +2,7 @@
 #ifndef _DualScreenViewer_H
 #define _DualScreenViewer_H
 
-class DualScreenViewer : public osgViewer::Viewer
+class DualScreenViewer : public osgViewer::CompositeViewer
 {
 public:
     struct ScreenInfo
@@ -22,10 +22,18 @@ public:
         NumOfScreens = 2
     };
 
+    enum ViewNumber
+    {
+        Main = 0,
+        Map = 1,
+    };
+
     DualScreenViewer();
     ~DualScreenViewer();
     virtual void CreateGraphicsWindow();
-    virtual void UpdateEyeOffset(osg::Vec3 eyeOffset);
+    virtual void Update(ITrackingResults* results);
+    virtual void CreateViewOffset(int screen);
+    virtual void CreateProjectionOffset(int screen);
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; };
     osg::Vec3& GetVirtualCenter() { return m_virtualCenter; };
@@ -34,10 +42,11 @@ public:
     osg::Matrix GetSlaveProjectionMatrix(int side) { return m_projectionMatrixOffset[side]; };
     osg::Matrix GetMasterViewMatrix() { return m_viewMatrix; };
     osg::Matrix GetSlaveViewMatrix(int side) { return m_viewMatrixOffset[side]; };
-
+    osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera( );
     osg::Quat& GetInverseAttitude() { return m_inverseAttitude; };
     ScreenInfo& GetScreenInfo(int index) { return m_screen[index]; };
     void SetStereoSettings();
+    virtual int run();
 
 protected:
     osg::ref_ptr<osg::DisplaySettings> m_displaySettings;

@@ -124,7 +124,6 @@
     <ClCompile Include="src\eggavatar.cpp" />
     <ClCompile Include="src\KinectFaceTracker.cpp" />
     <ClCompile Include="src\KinectSensor.cpp" />
-    <ClCompile Include="src\KinectTracker.cpp" />
     <ClCompile Include="src\MultiTrackerManager.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\TrackerManager.cpp" />

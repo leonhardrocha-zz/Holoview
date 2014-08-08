@@ -4,9 +4,14 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-#pragma once
 #include "stdafx.h"
+#ifndef _EGGAVATAR_H
+#define _EGGAVATAR_H
+
 #include "IAvatar.h"
+#include "IPose.h"
+#include "Pose.h"
+#include "Position.h"
 
 static const float EyeInside = 1.0f/18.0f;
 static const float EyeOutside = 1.0f/6.0f;
@@ -59,14 +64,13 @@ class EggAvatar : public IAvatar
 {
 public:
     EggAvatar(void);
-	Pose* GetPose();
+    ~EggAvatar();
+    IPose* GetPose() { return &m_angle; };
+    IPose* GetPosition() { return &m_position; };
     bool SetCandideAU(const float * AU, const int numberAU);
     bool SetRandomAU();
-
     bool SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees);
-	Pose GetRotations();
     bool SetRandomRotations();
-
     bool SetTranslations(const float tX, const float tY, const float tZ);
 
     bool SetScaleAndTranslationToWindow(int height, int width);
@@ -117,7 +121,8 @@ public:
     float m_TzAverage;
     unsigned int m_SamePositionCount;
 protected:
-	Pose m_Pose;
+    Pose m_angle;
+    Position m_position;
 private:
     void LatLonEye(const bool left);
     void LatLonEyeBrow(const bool left);
@@ -142,3 +147,4 @@ private:
     bool PointInsideCurve(float x, float y, int firstCurvePoint, int numberCurvePoints);
 
 };
+#endif

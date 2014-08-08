@@ -53,6 +53,9 @@
     <ClInclude Include="HolographicTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UpdateScreenCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViewerWidget.cpp">

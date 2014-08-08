@@ -10,7 +10,6 @@
 #include "stdafx.h"
 #include "TrackerManager.h"
 #include "TrackerException.h"
-#include "InverseTrackingResults.h"
 
 
 bool TrackerManager::Start()
@@ -83,11 +82,8 @@ void TrackerManager::TrackEvent(void* message, TrackingArgs args)
     EnterCriticalSection(&m_CriticalSection);
     if(m_CallBack)
     {
-        TrackingResults* pResults = static_cast<TrackingResults*>(message);
+        ITrackingResults* pResults = static_cast<ITrackingResults*>(message);
         int* id = static_cast<int*>(args->GetArgValue("trackerId"));
-
-        Pose avgPose = GetAverageCameraModel(pResults);
-
         void* viewArgs = static_cast<void*>(pResults);
         m_CallBackArgs->AddArg("TrackerManagerResults", viewArgs);
         (m_CallBack)(m_CallBackParam, m_CallBackArgs);
@@ -95,47 +91,6 @@ void TrackerManager::TrackEvent(void* message, TrackingArgs args)
     LeaveCriticalSection(&m_CriticalSection);
 };
 
-Pose TrackerManager::GetAverageCameraModel(TrackingResults* results)
-{
-	int numTrackers = 0;
-	std::vector<glm::quat> angles;
-	Pose averagePose;
-	glm::quat q;
-	bool first = true;
-	for (auto it = m_pFaceTrackers.begin(); it != m_pFaceTrackers.end(); ++it)
-	{
-		KinectFaceTracker* tracker = (*it);	
-		if (tracker->m_LastTrackSucceeded) 
-		{
-			TrackingResults* pResults =  tracker->GetTrackingResults();			
-			Pose avatarPose = pResults->GetPose();			
-			if (first)
-			{
-				averagePose = avatarPose;
-				first = false;
-			}
-			glm::vec3 deg2 = glm::degrees(avatarPose.eulerAngles);
-			averagePose.eulerAngles = 0.5f * avatarPose.eulerAngles + 0.5f * averagePose.eulerAngles ;
-			averagePose.translation = 0.5f * avatarPose.translation + 0.5f * averagePose.translation;
-			auto equal = glm::epsilonEqual(averagePose.eulerAngles, avatarPose.eulerAngles, 1.0f);
-
-			//if (!equal.x)
-			//{
-			//	throw new TrackerException("Error in x");
-			//}
-			//if (!equal.y)
-			//{
-			//	throw new TrackerException("Error in y");
-			//}
-			//if (!equal.z)
-			//{
-			//	throw new TrackerException("Error in z");
-			//}
-		}
-	}
-	
-	return averagePose;
-}
 
 bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j) 
 { 
@@ -158,7 +113,7 @@ KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 * to the Egg Avatar, so it can be animated.
 */
 
-TrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
+ITrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
 {
 	int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
 	KinectFaceTracker *tracker = m_pFaceTrackers[id];

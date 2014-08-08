@@ -6,12 +6,112 @@
 #include "vld.h"
 #endif
 
-
-DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
+template<class matrix_type, class value_type>
+bool _myclampProjectionMatrix(matrix_type& projection, double& znear, double& zfar, value_type nearFarRatio)
 {
-    setDisplaySettings(osg::DisplaySettings::instance().get());
-    m_displaySettings = getDisplaySettings();
+    double epsilon = 1e-6;
+    if (zfar<znear-epsilon)
+    {
+        if (zfar != -FLT_MAX || znear != FLT_MAX)
+        {
+            OSG_INFO<<"_clampProjectionMatrix not applied, invalid depth range, znear = "<<znear<<"  zfar = "<<zfar<<std::endl;
+        }
+        return false;
+    }
+
+    if (zfar<znear+epsilon)
+    {
+        // znear and zfar are too close together and could cause divide by zero problems
+        // late on in the clamping code, so move the znear and zfar apart.
+        double average = (znear+zfar)*0.5;
+        znear = average-epsilon;
+        zfar = average+epsilon;
+        // OSG_INFO << "_clampProjectionMatrix widening znear and zfar to "<<znear<<" "<<zfar<<std::endl;
+    }
+
+    if (fabs(projection(0,3))<epsilon  && fabs(projection(1,3))<epsilon  && fabs(projection(2,3))<epsilon )
+    {
+        // OSG_INFO << "Orthographic matrix before clamping"<<projection<<std::endl;
+
+        value_type delta_span = (zfar-znear)*0.02;
+        if (delta_span<1.0) delta_span = 1.0;
+        value_type desired_znear = znear - delta_span;
+        value_type desired_zfar = zfar + delta_span;
+
+        // assign the clamped values back to the computed values.
+        znear = desired_znear;
+        zfar = desired_zfar;
+
+        projection(2,2)=-2.0f/(desired_zfar-desired_znear);
+        projection(3,2)=-(desired_zfar+desired_znear)/(desired_zfar-desired_znear);
+
+        // OSG_INFO << "Orthographic matrix after clamping "<<projection<<std::endl;
+    }
+    else
+    {
+        return true;
+        // OSG_INFO << "Persepective matrix before clamping"<<projection<<std::endl;
+
+        //std::cout << "_computed_znear"<<_computed_znear<<std::endl;
+        //std::cout << "_computed_zfar"<<_computed_zfar<<std::endl;
+
+        value_type zfarPushRatio = 1.02;
+        value_type znearPullRatio = 0.98;
+
+        //znearPullRatio = 0.99;
+
+        value_type desired_znear = znear * znearPullRatio;
+        value_type desired_zfar = zfar * zfarPushRatio;
+
+        // near plane clamping.
+        double min_near_plane = zfar*nearFarRatio;
+        if (desired_znear<min_near_plane) desired_znear=min_near_plane;
+
+        // assign the clamped values back to the computed values.
+        znear = desired_znear;
+        zfar = desired_zfar;
+
+        value_type trans_near_plane = (-desired_znear*projection(2,2)+projection(3,2))/(-desired_znear*projection(2,3)+projection(3,3));
+        value_type trans_far_plane = (-desired_zfar*projection(2,2)+projection(3,2))/(-desired_zfar*projection(2,3)+projection(3,3));
+
+        value_type ratio = fabs(2.0/(trans_near_plane-trans_far_plane));
+        value_type center = -(trans_near_plane+trans_far_plane)/2.0;
+
+        projection.postMult(osg::Matrix(1.0f,0.0f,0.0f,0.0f,
+                                        0.0f,1.0f,0.0f,0.0f,
+                                        0.0f,0.0f,ratio,0.0f,
+                                        0.0f,0.0f,center*ratio,1.0f));
+
+        // OSG_INFO << "Persepective matrix after clamping"<<projection<<std::endl;
+    }
+    return true;
+}
+
+struct MyClampProjectionMatrixCallback : public osg::CullSettings::ClampProjectionMatrixCallback
+{
+    MyClampProjectionMatrixCallback(double nearFarRatio) : _nearFarRatio(nearFarRatio)
+    {}
+
+    virtual bool clampProjectionMatrixImplementation(osg::Matrixf& projection, double& znear, double& zfar) const
+    {
+        return _myclampProjectionMatrix( projection, znear, zfar, _nearFarRatio );
+    };
+    virtual bool clampProjectionMatrixImplementation(osg::Matrixd& projection, double& znear, double& zfar) const
+    {
+        return _myclampProjectionMatrix( projection, znear, zfar, _nearFarRatio );
+    };
+
+    double _nearFarRatio;
+};
+
+DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer()
+{
+    m_displaySettings = osg::DisplaySettings::instance().get();
     m_traits = new osg::GraphicsContext::Traits;
+
+
+
+
 
 #ifndef WIN32
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
@@ -45,8 +145,6 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     double rotationAngle = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
     double cosine = cos(rotationAngle);
     double sine = sin(rotationAngle);
-    double fovx = m_angleBetweenScreensInDegrees /2.0;
-    double aspectRatio = (double) m_screenWidth / (double) m_screenHeight;
 
     m_screen[Right].name = "Right";
     m_screen[Right].left =  m_bezelWidth  * cosine;
@@ -78,59 +176,96 @@ DualScreenViewer::DualScreenViewer() : osgViewer::Viewer()
     m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
     m_eyeOffset = m_virtualCenter - m_virtualOrigin;
     m_displaySettings->setScreenDistance(m_eyeOffset.length());
-    osg::Matrix screenMatrix[2];
-    for(int i = Left; i < NumOfScreens; i++)
+
+    m_projectionMatrix.set(1.0, 0.0, 0.0, 0.0,
+                           0.0, 1.0, 0.0, 0.0,
+                           0.0, 0.0, 1.0, 0.0,
+                           0.0, 0.0, 0.0, 1.0);
+    for(int screenIndex = Left; screenIndex < NumOfScreens; screenIndex++)
     {
-        osg::Vec3 pa(m_screen[i].left, m_screen[i].bottom, m_screen[i].zLeft);
-        osg::Vec3 pb(m_screen[i].right, m_screen[i].bottom, m_screen[i].zRight);
-        osg::Vec3 pc(m_screen[i].left, m_screen[i].top, m_screen[i].zLeft);
-        osg::Vec3 pe(i == Left ? m_screen[i].right : m_screen[i].left, m_screen[i].top, m_screen[i].zLeft);
-        osg::Vec3 vr = pb - pa;
-        osg::Vec3 vu = pc - pa;
-        osg::Vec3 vn = vr ^ vu;
-        vr.normalize();
-        vu.normalize();
-        vn.normalize();
-        screenMatrix[i].set   (vr.x(), vr.y(), vr.z(), 0.0,
-                               vu.x(), vu.y(), vu.z(), 0.0,
-                               vn.x(), vn.y(), vn.z(), 0.0,
-                               0.0, 0.0, 0.0, 1.0);
-        m_viewMatrixOffset[i] = screenMatrix[i];
+        CreateViewOffset(screenIndex);
+        CreateProjectionOffset(screenIndex);
     }
-
-    double left, right, top, bottom, zNear, zFar, zRatio;
-
-    zNear =  m_virtualCenter.z() - m_screen[Left].zNear;
-    zFar = m_virtualCenter.z() - m_screen[Left].zFar;
-    zRatio = zNear / zFar;
-    right = (m_screen[Left].right - m_virtualCenter.x()) * zRatio;
-    left = -(m_virtualCenter.x() - m_screen[Left].left)* zRatio;
-    top = (m_screen[Left].top  - m_virtualCenter.y() )* zRatio;
-    bottom = -(m_virtualCenter.y()  - m_screen[Left].bottom) * zRatio;
-    m_projectionMatrixOffset[Left] =  osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
-    m_projectionMatrixOffset[Left].postMultTranslate(osg::Vec3(-m_tvWidth, 0 , 0));
-
-    zNear = m_virtualCenter.z() - m_screen[Right].zNear;
-    zFar = m_virtualCenter.z() - m_screen[Right].zFar;
-    zRatio = zNear / zFar;
-    right = (m_screen[Right].right - m_virtualCenter.x()) * zRatio;
-    left = -(m_virtualCenter.x() - m_screen[Right].left)* zRatio;
-    top = (m_screen[Right].top  - m_virtualCenter.y() )* zRatio;
-    bottom = -(m_virtualCenter.y()  - m_screen[Right].bottom) * zRatio;
-    m_projectionMatrixOffset[Right] = osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
-    m_projectionMatrixOffset[Right].postMultTranslate(osg::Vec3(m_tvWidth, 0 , 0));
-
+    /*osg::Camera* camera = getView(0)->getCamera();
+    osg::ref_ptr<MyClampProjectionMatrixCallback> callback = new MyClampProjectionMatrixCallback(camera->getNearFarRatio());
+    camera->setClampProjectionMatrixCallback( callback );*/
+    //osg::CullSettings::CullingMode mode = camera->getCullingMode();
+    
+    /*mode &= ~osg::CullSettings::NEAR_PLANE_CULLING;
+    mode &= ~osg::CullSettings::FAR_PLANE_CULLING;*/
+    /*mode |= osg::CullSettings::VIEW_FRUSTUM_CULLING;
+    mode |= osg::CullSettings::VIEW_FRUSTUM_CULLING;
+    mode |= osg::CullSettings::NO_CULLING;*/
+    /*camera->setCullingMode(mode);*/
+    //camera->setComputeNearFarMode();
 }
 
 DualScreenViewer::~DualScreenViewer() 
 {
 }
 
-void DualScreenViewer::UpdateEyeOffset(osg::Vec3 eyePosition) 
+void DualScreenViewer::Update(ITrackingResults *results) 
 {
-    m_eyeOffset = eyePosition - m_virtualCenter;
-    m_viewMatrix.lookAt(eyePosition, m_virtualCenter, osg::Vec3(0,1,0));
-    m_inverseAttitude = m_viewMatrix.getRotate().inverse();
+    const osg::Vec3 kinectBasePosition(0.0, 0.615, 0.1);
+    const double kinectTiltAngle = osg::inDegrees(20.0);
+    IPose *avatarPose = results->GetPose();
+    osg::Vec3 avatarPosition(avatarPose->Get(0), avatarPose->Get(1), avatarPose->Get(2));
+    const osg::Vec3 kinectEyeOffset(0.0, 0.06, 0.0);
+    const osg::Vec3 kinectEyePosition = kinectBasePosition + osg::Matrix::rotate(-kinectTiltAngle, osg::Vec3(1.0, 0.0, 0.0)) * kinectEyeOffset;
+    const osg::Vec3 kinectFrustumOffset( 0.0, avatarPosition.y() * sin(kinectTiltAngle), avatarPosition.z() * cos(kinectTiltAngle) );
+    const osg::Vec3 kinectFrustumTargetPosition = kinectEyePosition + kinectFrustumOffset;
+    osg::Vec3 new_eye(avatarPosition.x(), avatarPosition.y() + kinectFrustumTargetPosition.y(), avatarPosition.z());
+}
+
+int DualScreenViewer::run() //override
+{
+    while (!done())
+    {
+        // Update the wireframe frustum
+        
+        osg::Group* root = static_cast<osg::Group*>(getView(Map)->getSceneData());
+        if (root) 
+        {
+            int index = 1;
+            root->removeChild( index, 1 );
+            root->insertChild( index, makeFrustumFromCamera() );
+        }
+        frame();
+    }
+    return 0;//CompositeViewer::run();
+}
+
+void DualScreenViewer::CreateViewOffset(int screenIndex)
+{
+    osg::Vec3 pa(m_screen[screenIndex].left, m_screen[screenIndex].bottom, m_screen[screenIndex].zLeft);
+    osg::Vec3 pb(m_screen[screenIndex].right, m_screen[screenIndex].bottom, m_screen[screenIndex].zRight);
+    osg::Vec3 pc(m_screen[screenIndex].left, m_screen[screenIndex].top, m_screen[screenIndex].zLeft);
+    osg::Vec3 vr = pb - pa;
+    vr.normalize();
+    osg::Vec3 vu = pc - pa;
+    vu.normalize();
+    osg::Vec3 vn = vr ^ vu;
+    vn.normalize();
+    m_viewMatrixOffset[screenIndex].set(vr.x(), vr.y(), vr.z(), 0.0,
+                                        vu.x(), vu.y(), vu.z(), 0.0,
+                                        vn.x(), vn.y(), vn.z(), 0.0,
+                                        0.0,    0.0,    0.0,    1.0);
+}
+
+void DualScreenViewer::CreateProjectionOffset(int screenIndex)
+{
+    double left, right, top, bottom, zNear, zFar, zRatio;
+
+    zNear =  m_virtualCenter.z() - m_screen[screenIndex].zNear;
+    zFar = m_virtualCenter.z() - m_screen[screenIndex].zFar;
+    zRatio = zNear / zFar;
+    right = (m_screen[screenIndex].right - m_virtualCenter.x()) * zRatio;
+    left = -(m_virtualCenter.x() - m_screen[screenIndex].left)* zRatio;
+    top = (m_screen[screenIndex].top  - m_virtualCenter.y() )* zRatio;
+    bottom = -(m_virtualCenter.y()  - m_screen[screenIndex].bottom) * zRatio;
+    m_projectionMatrixOffset[screenIndex] =  /*HolographicFrustum*/osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
+    double xOffset = screenIndex == Left ? -m_tvWidth : m_tvWidth;
+    m_projectionMatrixOffset[screenIndex].postMultTranslate(osg::Vec3(xOffset, 0 , 0));
 }
 
 void DualScreenViewer::CreateGraphicsWindow()
@@ -142,7 +277,7 @@ void DualScreenViewer::CreateGraphicsWindow()
         return;
     }
 
-    osg::Camera* viewCamera = getCamera();
+    osg::Camera* viewCamera = getView(Main)->getCamera();
     viewCamera->setViewMatrix(m_viewMatrix);
     viewCamera->setProjectionMatrix(m_projectionMatrix);
     for(unsigned int i=Left; i < NumOfScreens; ++i)
@@ -171,18 +306,104 @@ void DualScreenViewer::CreateGraphicsWindow()
         camera->setDrawBuffer(buffer);
         camera->setReadBuffer(buffer);
         camera->setName(i == Left ? "Left" : "Right");
-
-        addSlave(camera.get(), m_projectionMatrixOffset[i], m_viewMatrixOffset[i]);
+        //osg::ref_ptr<MyClampProjectionMatrixCallback> callback = new MyClampProjectionMatrixCallback(camera->getNearFarRatio());
+        //camera->setClampProjectionMatrixCallback( callback );
+        getView(Main)->addSlave(camera.get(), m_projectionMatrixOffset[i], m_viewMatrixOffset[i]);
     }
 }
 
 void DualScreenViewer::SetStereoSettings()
 {
-    m_displaySettings->setStereo(true);
-    m_displaySettings->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
-    m_displaySettings->setDisplayType(osg::DisplaySettings::MONITOR);
-    m_displaySettings->setScreenDistance(m_screenDistance); 
-    m_displaySettings->setScreenHeight(m_screenHeight);
-    m_displaySettings->setScreenWidth(m_screenWidth);
-    m_displaySettings->setEyeSeparation(0.06f);
+    osg::DisplaySettings* ds = getView(Main)->getDisplaySettings();
+
+    ds->setStereo(true);
+    ds->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
+    ds->setDisplayType(osg::DisplaySettings::MONITOR);
+    ds->setScreenDistance(m_screenDistance); 
+    ds->setScreenHeight(m_screenHeight);
+    ds->setScreenWidth(m_screenWidth);
+    ds->setEyeSeparation(0.05f);
+}
+
+// Given a Camera, create a wireframe representation of its
+// view frustum. Create a default representation if camera==NULL.
+osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera()
+{
+    // Projection and ModelView matrices
+    osg::Matrixd proj;
+    osg::Matrixd mv;
+    osg::Camera* camera = getView(Main)->getCamera();
+    if (camera)
+    {
+        proj = camera->getProjectionMatrix();
+        mv = camera->getViewMatrix();
+    }
+    else
+    {
+        // Create some kind of reasonable default Projection matrix.
+        proj.makePerspective( 30., 1., 1., 10. );
+        // leave mv as identity
+    }
+
+    // Get near and far from the Projection matrix.
+    const double zNear = proj(3,2) / (proj(2,2)-1.0);
+    const double zFar = proj(3,2) / (1.0+proj(2,2));
+
+    // Get the sides of the near plane.
+    const double nLeft = zNear * (proj(2,0)-1.0) / proj(0,0);
+    const double nRight = zNear * (1.0+proj(2,0)) / proj(0,0);
+    const double nTop = zNear * (1.0+proj(2,1)) / proj(1,1);
+    const double nBottom = zNear * (proj(2,1)-1.0) / proj(1,1);
+
+    // Get the sides of the far plane.
+    const double fLeft = zFar * (proj(2,0)-1.0) / proj(0,0);
+    const double fRight = zFar * (1.0+proj(2,0)) / proj(0,0);
+    const double fTop = zFar * (1.0+proj(2,1)) / proj(1,1);
+    const double fBottom = zFar * (proj(2,1)-1.0) / proj(1,1);
+
+    // Our vertex array needs only 9 vertices: The origin, and the
+    // eight corners of the near and far planes.
+    osg::Vec3Array* v = new osg::Vec3Array;
+    v->resize( 9 );
+    (*v)[0].set( 0., 0., 0. );
+    (*v)[1].set( nLeft, nBottom, -zNear );
+    (*v)[2].set( nRight, nBottom, -zNear );
+    (*v)[3].set( nRight, nTop, -zNear );
+    (*v)[4].set( nLeft, nTop, -zNear );
+    (*v)[5].set( fLeft, fBottom, -zFar );
+    (*v)[6].set( fRight, fBottom, -zFar );
+    (*v)[7].set( fRight, fTop, -zFar );
+    (*v)[8].set( fLeft, fTop, -zFar );
+
+    osg::Geometry* geom = new osg::Geometry;
+    geom->setUseDisplayList( false );
+    geom->setVertexArray( v );
+
+    osg::Vec4Array* c = new osg::Vec4Array;
+    c->push_back( osg::Vec4( 1., 1., 1., 1. ) );
+    geom->setColorArray( c, osg::Array::BIND_OVERALL );
+
+    GLushort idxLines[8] = {
+        0, 5, 0, 6, 0, 7, 0, 8 };
+    GLushort idxLoops0[4] = {
+        1, 2, 3, 4 };
+    GLushort idxLoops1[4] = {
+        5, 6, 7, 8 };
+    geom->addPrimitiveSet( new osg::DrawElementsUShort( osg::PrimitiveSet::LINES, 8, idxLines ) );
+    geom->addPrimitiveSet( new osg::DrawElementsUShort( osg::PrimitiveSet::LINE_LOOP, 4, idxLoops0 ) );
+    geom->addPrimitiveSet( new osg::DrawElementsUShort( osg::PrimitiveSet::LINE_LOOP, 4, idxLoops1 ) );
+
+    osg::Geode* geode = new osg::Geode;
+    geode->addDrawable( geom );
+
+    geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::PROTECTED );
+
+
+    // Create parent MatrixTransform to transform the view volume by
+    // the inverse ModelView matrix.
+    osg::MatrixTransform* mt = new osg::MatrixTransform;
+    mt->setMatrix( osg::Matrixd::inverse( mv ) );
+    mt->addChild( geode );
+
+    return mt;
 }

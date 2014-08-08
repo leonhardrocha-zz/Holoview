@@ -11,6 +11,8 @@
 #include "KinectFaceTracker.h"
 #include "Callable.h"
 #include "ITracker.h"
+#include "ITrackingResults.h"
+#include "IPose.h"
 #include <vector>
 
 
@@ -42,8 +44,7 @@ public:
 	HINSTANCE					GetInstance() { return m_hInst; };
 	void						InitArgs(int argc, char **argv);
 	BOOL						InitInstanceInHostWindow();
-	TrackingResults*			GetTrackingResults(TrackingArgs args=NULL);
-	Pose						GetAverageCameraModel(TrackingResults* results=NULL);
+	ITrackingResults*			GetTrackingResults(TrackingArgs args=NULL);
 	void*						GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };
 
 protected:

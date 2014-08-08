@@ -17,7 +17,7 @@ public:
 	virtual void SetupView();
 	virtual void SetupScene();
 	virtual void RenderScene();
-	virtual void SetTrackingResults(TrackingResults *results) { m_pResults = results; };
+	virtual void SetTrackingResults(ITrackingResults *results) { m_pResults = results; };
 	ITracker* GetTracker() { return &tracker; };
 
 protected:
@@ -26,7 +26,7 @@ protected:
 	virtual void resizeWindow();
 	OpenGL21Renderer renderer;
 	KinectTracker tracker;
-	TrackingResults* m_pResults;
+	ITrackingResults* m_pResults;
 
 	Pose m_3rdPersonView;
 	int windowWidth;

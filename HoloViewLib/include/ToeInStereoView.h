@@ -1,6 +1,6 @@
+#include "vld.h"
 #ifndef _TOEIN_STEREO_VIEW_H_
 #define _TOEIN_STEREO_VIEW_H_
-
 #include "TrackingResults.h"
 #include "DualStereoView.h"
 #include <vector>
@@ -14,7 +14,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/freeglut.h>
-
+#include "Pose.h"
 #include "Matrices.h"
 // ToeInStereoView window
 

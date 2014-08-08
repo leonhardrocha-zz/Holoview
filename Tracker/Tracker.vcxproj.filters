@@ -62,9 +62,6 @@
     <ClCompile Include="src\Visualize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KinectTracker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KinectFaceTracker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

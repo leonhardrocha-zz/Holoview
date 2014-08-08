@@ -9,6 +9,8 @@
 #include <FaceTrackLib.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "Pose.h"
+#include "Position.h"
 
 const float EyeCurveTop[PointsPerEyeLid] = {0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f};
 const float EyeCurveBottom[PointsPerEyeLid] = {0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f};
@@ -71,6 +73,9 @@ EggAvatar::EggAvatar()
     m_SamePositionCount = 0;
 }
 
+EggAvatar::~EggAvatar()
+{
+}
 
 bool EggAvatar::SetRandomAU()
 {
@@ -193,17 +198,14 @@ bool EggAvatar::SetRotations(const float pitchDegrees, const float yawDegrees, c
 
     m_FacingUser = (abs(m_Pitch) < 0.2f && abs(m_Yaw) < 0.2f);
 
-	m_Pose.eulerAngles.x = m_Pitch;
-	m_Pose.eulerAngles.y = -m_Yaw;
-	m_Pose.eulerAngles.z = m_Roll;
+    m_angle.Set(Pose::Pitch, (double)m_Pitch);
+    m_angle.Set(Pose::Yaw,   (double)m_Yaw);
+    m_angle.Set(Pose::Roll,  (double)m_Roll);
 
     return TRUE;
 }
 
-Pose* EggAvatar::GetPose()
-{
-	return &m_Pose;
-}
+
 
 // We keep track of the translation as a way to check whether the
 // subject head's pose should be filtered. If the user moved
@@ -228,19 +230,19 @@ bool EggAvatar::SetTranslations(const float tX, const float tY, const float tZ)
             m_TzSum = tZ;
             m_SamePositionCount = 1;
         }
-        m_Pose.translation.x = m_TxAverage;
-        m_Pose.translation.y = m_TyAverage;
-        m_Pose.translation.z = m_TzAverage;
+        m_position.Set(Position::X, (double)m_TxAverage);
+        m_position.Set(Position::Y, (double)m_TyAverage);
+        m_position.Set(Position::Z, (double)m_TzAverage);
     } else
     {
-        m_Pose.translation.x = tX;
-        m_Pose.translation.y = tY;
-        m_Pose.translation.z = tZ;
-
+        m_position.Set(Position::X, (double)tX);
+        m_position.Set(Position::Y, (double)tY);
+        m_position.Set(Position::Z, (double)tZ);
     }
 
     return TRUE;
 }
+
 
 
 bool EggAvatar::SetRandomRotations()
