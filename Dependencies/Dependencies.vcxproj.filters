@@ -3282,6 +3282,24 @@
     <None Include="Runtime\DirectX\XAudioD2_7.dll">
       <Filter>Runtime Files\DirectX</Filter>
     </None>
+    <None Include="Runtime\osg\Debug\3rdparty\libpng13d.dll">
+      <Filter>Runtime Files\osg\Debug\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\3rdparty\libxml2.dll">
+      <Filter>Runtime Files\osg\Debug\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Debug\3rdparty\zlib1d.dll">
+      <Filter>Runtime Files\osg\Debug\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\3rdparty\libpng13.dll">
+      <Filter>Runtime Files\osg\Release\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\3rdparty\libxml2.dll">
+      <Filter>Runtime Files\osg\Release\3rdparty</Filter>
+    </None>
+    <None Include="Runtime\osg\Release\3rdparty\zlib1.dll">
+      <Filter>Runtime Files\osg\Release\3rdparty</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\GL\freeglut.h">

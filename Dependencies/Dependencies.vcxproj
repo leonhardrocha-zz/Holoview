@@ -914,6 +914,9 @@ xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)";</
     <None Include="Runtime\osg\Debug\3rdparty\glut32D.dll" />
     <None Include="Runtime\osg\Debug\3rdparty\libcollada14dom21-d.dll" />
     <None Include="Runtime\osg\Debug\3rdparty\libcurlD.dll" />
+    <None Include="Runtime\osg\Debug\3rdparty\libpng13d.dll" />
+    <None Include="Runtime\osg\Debug\3rdparty\libxml2.dll" />
+    <None Include="Runtime\osg\Debug\3rdparty\zlib1d.dll" />
     <None Include="Runtime\osg\Debug\osg100-osgAnimationd.dll" />
     <None Include="Runtime\osg\Debug\osg100-osgd.dll" />
     <None Include="Runtime\osg\Debug\osg100-osgDBd.dll" />
@@ -1019,6 +1022,9 @@ xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)";</
     <None Include="Runtime\osg\Release\3rdparty\glut32.dll" />
     <None Include="Runtime\osg\Release\3rdparty\libcollada14dom21.dll" />
     <None Include="Runtime\osg\Release\3rdparty\libcurl.dll" />
+    <None Include="Runtime\osg\Release\3rdparty\libpng13.dll" />
+    <None Include="Runtime\osg\Release\3rdparty\libxml2.dll" />
+    <None Include="Runtime\osg\Release\3rdparty\zlib1.dll" />
     <None Include="Runtime\osg\Release\osg100-osg.dll" />
     <None Include="Runtime\osg\Release\osg100-osgAnimation.dll" />
     <None Include="Runtime\osg\Release\osg100-osgDB.dll" />
