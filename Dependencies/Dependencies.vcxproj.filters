@@ -4321,6 +4321,18 @@
     <Library Include="..\lib\DirectX\XInput.lib">
       <Filter>Library Files\DirectX</Filter>
     </Library>
+    <Library Include="..\lib\osgdb_gdal.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgdb_gdald.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgdb_ogr.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\osgdb_ogrd.lib">
+      <Filter>Library Files\osg</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\include\glm\detail\dummy.cpp">

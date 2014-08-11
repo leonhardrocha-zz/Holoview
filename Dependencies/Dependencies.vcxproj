@@ -1444,6 +1444,10 @@ xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)";</
     <Library Include="..\lib\osgd.lib" />
     <Library Include="..\lib\osgDB.lib" />
     <Library Include="..\lib\osgDBd.lib" />
+    <Library Include="..\lib\osgdb_gdal.lib" />
+    <Library Include="..\lib\osgdb_gdald.lib" />
+    <Library Include="..\lib\osgdb_ogr.lib" />
+    <Library Include="..\lib\osgdb_ogrd.lib" />
     <Library Include="..\lib\osgFX.lib" />
     <Library Include="..\lib\osgFXd.lib" />
     <Library Include="..\lib\osgGA.lib" />
