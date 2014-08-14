@@ -9,31 +9,31 @@
 #include "TrackerException.h"
 #include "Visualize.h"
 #include "IAvatar.h"
+#include "ICallable.h"
 
 bool KinectFaceTracker::Init()
 {
-	m_pKinectSensor = new KinectSensor();
-	m_pImageBuffer = FTCreateImage();
+    m_pKinectSensor = new KinectSensor();
+    m_pImageBuffer = FTCreateImage();
     m_pVideoBuffer = FTCreateImage();
-	HRESULT hr1 = m_pKinectSensor->Init(m_config.m_depthType, 
-										m_config.m_depthRes,
-										m_config.m_bNearMode,
-										m_config.m_bFallbackToDefault,
-										m_config.m_colorType,
-										m_config.m_colorRes,
-										m_config.m_bSeatedSkeletonMode);
-	
-	IsKinectSensorPresent = SUCCEEDED(hr1);
-	
-	FT_CAMERA_CONFIG videoConfig;
+    HRESULT hr1 = m_pKinectSensor->Init(m_config.m_depthType, 
+                                        m_config.m_depthRes,
+                                        m_config.m_bNearMode,
+                                        m_config.m_bFallbackToDefault,
+                                        m_config.m_colorType,
+                                        m_config.m_colorRes,
+                                        m_config.m_bSeatedSkeletonMode);
+    
+    IsKinectSensorPresent = SUCCEEDED(hr1);
+    
+    FT_CAMERA_CONFIG videoConfig;
     FT_CAMERA_CONFIG depthConfig;
     FT_CAMERA_CONFIG* pDepthConfig = NULL;
 
     if (IsKinectSensorPresent)
     {
         m_args.AddArg("trackerId", &m_id);
-        SetTrackerCallback(FTCallback, this, &m_args);
-        m_trackingResults.TrackerId = m_id;
+        SetCallback(FaceTrackerCallback, this, &m_args);
         m_pKinectSensor->GetVideoConfiguration(&videoConfig);
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
         pDepthConfig = &depthConfig;
@@ -41,22 +41,22 @@ bool KinectFaceTracker::Init()
     }
     else
     {
-		throw new TrackerInitializationException("Could not detect the Kinect sensor");
-		return false;
+        throw new TrackerInitializationException("Could not detect the Kinect sensor");
+        return false;
     }
 
-	// Try to start the face tracker.
+    // Try to start the face tracker.
     m_pFaceTracker = FTCreateFaceTracker();
     if (!m_pFaceTracker)
     {
-		throw new TrackerInitializationException("Could not create the face tracker");
-		return false;
+        throw new TrackerInitializationException("Could not create the face tracker");
+        return false;
     }
 
     HRESULT hr = m_pFaceTracker->Initialize(&videoConfig, pDepthConfig, NULL, NULL); 
     if (FAILED(hr))
     {
-		throw new TrackerInitializationException("Could not initilize the face tracker video config");
+        throw new TrackerInitializationException("Could not initilize the face tracker video config");
         return false;
     }
 
@@ -72,7 +72,7 @@ bool KinectFaceTracker::Init()
     if (!m_colorImage || FAILED(hr = m_colorImage->Allocate(videoConfig.Width, videoConfig.Height, FTIMAGEFORMAT_UINT8_B8G8R8X8)))
     {
         throw new TrackerInitializationException("Could not initilize the face tracker RGB image");
-		return false;
+        return false;
     }
 
     if (pDepthConfig)
@@ -81,32 +81,32 @@ bool KinectFaceTracker::Init()
         if (!m_depthImage || FAILED(hr = m_depthImage->Allocate(depthConfig.Width, depthConfig.Height, FTIMAGEFORMAT_UINT16_D13P3)))
         {
             throw new TrackerInitializationException("Could not initilize the face tracker depth image");
-			return false;
+            return false;
         }
     }
-	if (m_parent)
-	{
-		m_pCriticalSection = static_cast<CRITICAL_SECTION*>(m_parent->GetCriticalSection());
-	}
-	return IsKinectSensorPresent;
+    if (m_parent)
+    {
+        m_pCriticalSection = static_cast<CRITICAL_SECTION*>(m_parent->GetCriticalSection());
+    }
+    return IsKinectSensorPresent;
 }
 
 
 KinectFaceTracker::~KinectFaceTracker()
 {
     Stop();
-			
-	if(m_hWnd)
-	{
-		DestroyWindow(m_hWnd);
-		m_hWnd = NULL;
-	}
+            
+    if(m_hWnd)
+    {
+        DestroyWindow(m_hWnd);
+        m_hWnd = NULL;
+    }
 
-	if (m_pFaceTracker)
-	{
-		m_pFaceTracker->Release();
-		m_pFaceTracker = NULL;
-	}
+    if (m_pFaceTracker)
+    {
+        m_pFaceTracker->Release();
+        m_pFaceTracker = NULL;
+    }
 
     if(m_colorImage)
     {
@@ -125,8 +125,8 @@ KinectFaceTracker::~KinectFaceTracker()
         m_pFTResult->Release();
         m_pFTResult = NULL;
     }
-	
-	if (m_pImageBuffer)
+    
+    if (m_pImageBuffer)
     {
         m_pImageBuffer->Release();
         m_pImageBuffer = NULL;
@@ -137,12 +137,12 @@ KinectFaceTracker::~KinectFaceTracker()
         m_pVideoBuffer->Release();
         m_pVideoBuffer = NULL;
     }
-	
-	if(m_pKinectSensor)
-	{
-		delete m_pKinectSensor;
-		m_pKinectSensor = NULL;
-	}
+    
+    if(m_pKinectSensor)
+    {
+        delete m_pKinectSensor;
+        m_pKinectSensor = NULL;
+    }
 }
 
  
@@ -150,9 +150,10 @@ BOOL KinectFaceTracker::SubmitFraceTrackingResult(IFTResult* pResult)
 {
     if (pResult != NULL && SUCCEEDED(pResult->GetStatus()))
     {
-        if (m_CallBack)
+        ICallback callback = GetCallback();
+        if (callback)
         {
-            (*m_CallBack)(m_CallBackParam, m_CallBackArgs);
+            Call();
         }
 
         if (IsMaskDraw())
@@ -215,16 +216,16 @@ void KinectFaceTracker::SetCenterOfImage(IFTResult* pResult)
 
 HRESULT KinectFaceTracker::GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig)
 {
-	return IsKinectSensorPresent ? m_pKinectSensor->GetVideoConfiguration(cameraConfig) : E_FAIL;
+    return IsKinectSensorPresent ? m_pKinectSensor->GetVideoConfiguration(cameraConfig) : E_FAIL;
 }
 
 HRESULT KinectFaceTracker::Stop()
 {
     m_ApplicationIsRunning = false;
-	if (m_parent)
-	{
-		m_parent = NULL;
-	}
+    if (m_parent)
+    {
+        m_parent = NULL;
+    }
     if (m_hFaceTrackingThread)
     {
         WaitForSingleObject(m_hFaceTrackingThread, 5000/*INFINITE*/);
@@ -236,14 +237,14 @@ HRESULT KinectFaceTracker::Stop()
 
 bool KinectFaceTracker::Start()
 {
-	m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
-	return true;
+    m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
+    return true;
 }
 
 
 DWORD WINAPI KinectFaceTracker::FaceTrackingStaticThread(PVOID lpParam)
 {
-	KinectFaceTracker* pthis = static_cast<KinectFaceTracker*>(lpParam);
+    KinectFaceTracker* pthis = static_cast<KinectFaceTracker*>(lpParam);
     if (pthis)
     {
         return pthis->FaceTrackingThread();
@@ -254,31 +255,31 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingStaticThread(PVOID lpParam)
 
 DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
 {     
-	while (m_ApplicationIsRunning)
-    {	
-		HRESULT hrFT = GetTrackerResult();
-		auto trackingStatus = m_pFTResult->GetStatus();
-		m_LastTrackSucceeded = SUCCEEDED(hrFT) && SUCCEEDED(trackingStatus);
-		if (m_LastTrackSucceeded)
-		{
-			SetCenterOfImage(m_pFTResult);
-			CheckCameraInput();
-		}
+    while (m_ApplicationIsRunning)
+    {    
+        HRESULT hrFT = GetTrackerResult();
+        auto trackingStatus = m_pFTResult->GetStatus();
+        m_LastTrackSucceeded = SUCCEEDED(hrFT) && SUCCEEDED(trackingStatus);
+        if (m_LastTrackSucceeded)
+        {
+            SetCenterOfImage(m_pFTResult);
+            CheckCameraInput();
+        }
 
-		
-		if (m_hWnd)
-		{			
-			InvalidateRect(m_hWnd, NULL, FALSE);
-			UpdateWindow(m_hWnd);
-		}
-		Sleep(16);
-	}
+        
+        if (m_hWnd)
+        {            
+            InvalidateRect(m_hWnd, NULL, FALSE);
+            UpdateWindow(m_hWnd);
+        }
+        Sleep(16);
+    }
     return 0;
 }
 
 HRESULT KinectFaceTracker::GetTrackerResult()
 {
-	HRESULT hrFT = E_FAIL;
+    HRESULT hrFT = E_FAIL;
     if (IsKinectSensorPresent)
     {
         HRESULT hrCopy = m_pKinectSensor->GetVideoBuffer()->CopyTo(m_colorImage, NULL, 0, 0);
@@ -305,24 +306,24 @@ HRESULT KinectFaceTracker::GetTrackerResult()
                 hrFT = m_pFaceTracker->StartTracking(&sensorData, NULL, hint, m_pFTResult);
             }
 
-			RECT roi;
-			HRESULT hr = m_pFTResult->GetFaceRect(&roi);
-			bool  hasFoundFace = SUCCEEDED(hr) && SUCCEEDED(m_pFTResult->GetStatus());
+            RECT roi;
+            HRESULT hr = m_pFTResult->GetFaceRect(&roi);
+            bool  hasFoundFace = SUCCEEDED(hr) && SUCCEEDED(m_pFTResult->GetStatus());
             if(hasFoundFace)
             {
-			    FT_WEIGHTED_RECT* faceConfidence = new FT_WEIGHTED_RECT();
-			    UINT pFaceCount = 1;
-			    hr = m_pFaceTracker->DetectFaces(&sensorData, hasFoundFace ? &roi : NULL, faceConfidence, &pFaceCount);
-			    if (SUCCEEDED(hr))
-			    {
-				    m_faceConfidence = faceConfidence->Weight;
-			    }
-			    delete faceConfidence;
+                FT_WEIGHTED_RECT* faceConfidence = new FT_WEIGHTED_RECT();
+                UINT pFaceCount = 1;
+                hr = m_pFaceTracker->DetectFaces(&sensorData, hasFoundFace ? &roi : NULL, faceConfidence, &pFaceCount);
+                if (SUCCEEDED(hr))
+                {
+                    m_faceConfidence = faceConfidence->Weight;
+                }
+                delete faceConfidence;
             }
         }
     }
 
-	return hrFT;
+    return hrFT;
 }
 
 
@@ -334,32 +335,32 @@ void KinectFaceTracker::CheckCameraInput()
         SubmitFraceTrackingResult(m_pFTResult);
     }
     else
-    {		
+    {        
         m_pFTResult->Reset();
     }
     SetCenterOfImage(m_pFTResult);
 }
 
-void KinectFaceTracker::PaintEvent(void *message, TrackingArgs args)
+void KinectFaceTracker::PaintEvent(void *message, IArgs* args)
 {
-	MSG* msg = reinterpret_cast<MSG*>(message);
-	if (msg != NULL)
-	{
-		PAINTSTRUCT ps;
-		if (m_hWnd == NULL)
-		{
-			m_hWnd = msg->hwnd;
-		}
-		HDC hdc= BeginPaint(m_hWnd, &ps);
-		// Draw the avatar window and the video window
-		PaintWindow(hdc, m_hWnd);
-		EndPaint(m_hWnd, &ps);
-	}
+    MSG* msg = reinterpret_cast<MSG*>(message);
+    if (msg != NULL)
+    {
+        PAINTSTRUCT ps;
+        if (m_hWnd == NULL)
+        {
+            m_hWnd = msg->hwnd;
+        }
+        HDC hdc= BeginPaint(m_hWnd, &ps);
+        // Draw the avatar window and the video window
+        PaintWindow(hdc, m_hWnd);
+        EndPaint(m_hWnd, &ps);
+    }
 }
 
 // Draw the egg head and the camera video with the mask superimposed.
 BOOL KinectFaceTracker::PaintWindow(HDC hdc, HWND hWnd)
-{	
+{    
     static int errCount = 0;
     BOOL ret = FALSE;
     RECT rect;
@@ -368,61 +369,61 @@ BOOL KinectFaceTracker::PaintWindow(HDC hdc, HWND hWnd)
     int height = rect.bottom - rect.top;
     int halfWidth = width/2;
     // Show the video on the right of the window
-	if (IsKinectPresent())
-	{
-		errCount += !ShowVideo(hdc, width - halfWidth, height, halfWidth, 0);
-		// Draw the egg avatar on the left of the window
-		errCount += !ShowEggAvatar(hdc, halfWidth, height, 0, 0);
-	}
-	
+    if (IsKinectPresent())
+    {
+        errCount += !ShowVideo(hdc, width - halfWidth, height, halfWidth, 0);
+        // Draw the egg avatar on the left of the window
+        errCount += !ShowEggAvatar(hdc, halfWidth, height, 0, 0);
+    }
+    
     return ret;
 }
 
-void KinectFaceTracker::TrackEvent(void *message, TrackingArgs args)
+void KinectFaceTracker::TrackEvent(void *message, IArgs* args)
 {
-	if(m_parent)
-	{
-		m_parent->TrackEvent(message, args);
-	}
+    if(m_parent)
+    {
+        m_parent->TrackEvent(message, args);
+    }
 }
 
 void KinectFaceTracker::UpdateAvatarPose() 
 { 
-	IFTResult* pResult = GetResult();
+    IFTResult* pResult = GetResult();
     if (pResult && SUCCEEDED(pResult->GetStatus()))
     {
         FLOAT* pAU = NULL;
         UINT numAU;
-		float rotationXYZ[3];
-		float translationXYZ[3];
-		float scale;
-	    pResult->GetAUCoefficients(&pAU, &numAU);
+        float rotationXYZ[3];
+        float translationXYZ[3];
+        float scale;
+        pResult->GetAUCoefficients(&pAU, &numAU);
         pResult->Get3DPose(&scale, rotationXYZ,translationXYZ);
-		
-		IAvatar* pEggAvatar = GetAvatar();
-		if (pEggAvatar)
-		{
-			pEggAvatar->SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
-			pEggAvatar->SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
-		}
-		if (m_parent)
-		{
-			if(m_pCriticalSection)
-			{
-				EnterCriticalSection(m_pCriticalSection);
-			}
-			m_trackingResults.SetPose(pEggAvatar->GetPosition());
-			if(m_pCriticalSection)
-			{
-				LeaveCriticalSection(m_pCriticalSection);
-			}
-		}
-	}
+        
+        IAvatar* pEggAvatar = GetAvatar();
+        if (pEggAvatar)
+        {
+            pEggAvatar->SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
+            pEggAvatar->SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
+        }
+        if (m_parent)
+        {
+            if(m_pCriticalSection)
+            {
+                EnterCriticalSection(m_pCriticalSection);
+            }
+            m_trackingResults->SetPose(pEggAvatar->GetPosition());
+            if(m_pCriticalSection)
+            {
+                LeaveCriticalSection(m_pCriticalSection);
+            }
+        }
+    }
 }
 
-void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
+void KinectFaceTracker::FaceTrackerCallback(void* instance, IArgs* args)
 {
-    KinectFaceTracker* pThis = reinterpret_cast<KinectFaceTracker*>(param);
+    KinectFaceTracker* pThis = reinterpret_cast<KinectFaceTracker*>(instance);
     if (pThis)
     {
         pThis->UpdateAvatarPose();
@@ -431,16 +432,16 @@ void KinectFaceTracker::FTCallback(void* param, TrackingArgs args)
     }
 }
 
-ITrackingResults* KinectFaceTracker::GetTrackingResults(TrackingArgs args)
+ITrackingResults* KinectFaceTracker::GetTrackingResults(IArgs* args)
 {
-    return &m_trackingResults;
+    return m_trackingResults;
 }
 // Drawing the video window
 BOOL KinectFaceTracker::ShowVideo(HDC hdc, int width, int height, int originX, int originY)
 {
     // Now, copy a fraction of the camera image into the screen.
-	IFTImage* colorImage = GetColorImage();
-	if (colorImage)
+    IFTImage* colorImage = GetColorImage();
+    if (colorImage)
     {
         int iWidth = colorImage->GetWidth();
         int iHeight = colorImage->GetHeight();
@@ -494,7 +495,7 @@ BOOL KinectFaceTracker::ShowVideo(HDC hdc, int width, int height, int originX, i
                 }
             }
         }
-		return TRUE;
+        return TRUE;
     }
     return FALSE;
 }
@@ -504,21 +505,21 @@ BOOL KinectFaceTracker::ShowEggAvatar(HDC hdc, int width, int height, int origin
 {
     static int errCount = 0;
     BOOL ret = FALSE;
-	
-	IAvatar* pEggAvatar = GetAvatar();
-	
-	if (m_pImageBuffer && SUCCEEDED(m_pImageBuffer->Allocate(width, height, FTIMAGEFORMAT_UINT8_B8G8R8A8)))
-	{
-		memset(m_pImageBuffer->GetBuffer(), 0, m_pImageBuffer->GetStride() * height); // clear to black
-		
-		pEggAvatar->SetScaleAndTranslationToWindow(height, width);
-		pEggAvatar->DrawImage(static_cast<PVOID>(m_pImageBuffer));
+    
+    IAvatar* pEggAvatar = GetAvatar();
+    
+    if (m_pImageBuffer && SUCCEEDED(m_pImageBuffer->Allocate(width, height, FTIMAGEFORMAT_UINT8_B8G8R8A8)))
+    {
+        memset(m_pImageBuffer->GetBuffer(), 0, m_pImageBuffer->GetStride() * height); // clear to black
+        
+        pEggAvatar->SetScaleAndTranslationToWindow(height, width);
+        pEggAvatar->DrawImage(static_cast<PVOID>(m_pImageBuffer));
 
-		BITMAPINFO bmi = {sizeof(BITMAPINFO), width, height, 1, static_cast<WORD>(m_pImageBuffer->GetBytesPerPixel() * CHAR_BIT), BI_RGB, m_pImageBuffer->GetStride() * height, 5000, 5000, 0, 0};
-		errCount += (0 == StretchDIBits(hdc, 0, 0, width, height, 0, 0, width, height, m_pImageBuffer->GetBuffer(), &bmi, DIB_RGB_COLORS, SRCCOPY));
+        BITMAPINFO bmi = {sizeof(BITMAPINFO), width, height, 1, static_cast<WORD>(m_pImageBuffer->GetBytesPerPixel() * CHAR_BIT), BI_RGB, m_pImageBuffer->GetStride() * height, 5000, 5000, 0, 0};
+        errCount += (0 == StretchDIBits(hdc, 0, 0, width, height, 0, 0, width, height, m_pImageBuffer->GetBuffer(), &bmi, DIB_RGB_COLORS, SRCCOPY));
 
-		ret = TRUE;
-	}
+        ret = TRUE;
+    }
 
     return ret;
 }

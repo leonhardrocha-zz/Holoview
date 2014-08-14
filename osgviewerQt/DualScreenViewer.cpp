@@ -1,5 +1,7 @@
 #include "DualScreenViewer.h"
 #include "MatrixExtension.h"
+#include "ICallable.h"
+#include "IArgs.h"
 #include <math.h>
 #include <iostream>
 #ifdef _DEBUG
@@ -104,31 +106,84 @@ struct MyClampProjectionMatrixCallback : public osg::CullSettings::ClampProjecti
     double _nearFarRatio;
 };
 
+
+
+class ViewUpdateHandler : public osgGA::GUIEventHandler, public ICallable
+{
+public:
+    virtual bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa, osg::Object*, osg::NodeVisitor*) 
+    { 
+        Call();
+        return osgGA::GUIEventHandler::handle(ea,aa);
+    }
+
+    virtual void SetCallback(ICallback callback, void* instance=NULL, IArgs* args=NULL)
+    {
+        m_callback = callback;
+        m_instance = instance;
+        m_callbackArgs = args;
+    };
+
+    virtual void Call() { if (m_callback) { (*m_callback)(m_instance, m_callbackArgs); } else throw new std::exception("Callback is not set or NULL");};
+
+    virtual ICallback GetCallback() { return m_callback;};
+    virtual IArgs* GetArgs() { return m_callbackArgs;};
+    virtual void* GetInstance() { return m_instance;};
+protected:
+
+    ICallback               m_callback;
+    void*                   m_instance;
+    IArgs*                  m_callbackArgs;
+    osg::ref_ptr<DualScreenViewer> m_parent;
+};
+
 DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer()
 {
-    m_displaySettings = osg::DisplaySettings::instance().get();
+    // Create View 0 -- Just the loaded model.
+    {
+        osgViewer::View* view = new osgViewer::View;
+        osg::DisplaySettings* ds = new osg::DisplaySettings();
+        view->setDisplaySettings(ds);
+        CreateGraphicsWindow(view);
+        ToggleStereoSettings(view);
+        ViewUpdateHandler* viewUpdateHandler = new  ViewUpdateHandler();
+        viewUpdateHandler->SetCallback(DualScreenViewer::UpdateMap, this);
+        view->addEventHandler( viewUpdateHandler );
+        addView( view );
+    }
+
+    // Create view 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
+    {
+        osgViewer::View* view = new osgViewer::View;
+        osg::DisplaySettings* ds = new osg::DisplaySettings();
+        view->setDisplaySettings(ds);
+        view->setUpViewInWindow( 10, 510, 640, 480 );
+        view->setCameraManipulator( new osgGA::TrackballManipulator );
+        addView( view );
+    }
+
+    
     m_traits = new osg::GraphicsContext::Traits;
-
-
-
-
 
 #ifndef WIN32
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
 #endif
 
     setKeyEventSetsDone(0);
-    m_traits->windowName = getName();
-    m_traits->windowDecoration = false;
+    osgViewer::View* view = getView(Main);
+    m_traits->windowName = view->getName();
+    osg::DisplaySettings* ds = view->getDisplaySettings();
+    m_traits->width = ds->getScreenWidth();
+    m_traits->height = ds->getScreenHeight();
+    m_traits->doubleBuffer = true;
+    m_traits->alpha = ds->getMinimumNumAlphaBits();
+    m_traits->stencil = ds->getMinimumNumStencilBits();
+    m_traits->sampleBuffers = ds->getMultiSamples();
+    m_traits->samples = ds->getNumMultiSamples();
+    m_traits->windowDecoration = true;
+
     m_traits->x = 0;
     m_traits->y = 0;
-    m_traits->width = m_displaySettings->getScreenWidth();
-    m_traits->height = m_displaySettings->getScreenHeight();
-    m_traits->doubleBuffer = true;
-    m_traits->alpha = m_displaySettings->getMinimumNumAlphaBits();
-    m_traits->stencil = m_displaySettings->getMinimumNumStencilBits();
-    m_traits->sampleBuffers = m_displaySettings->getMultiSamples();
-    m_traits->samples = m_displaySettings->getNumMultiSamples();
 
     m_tvWidth = 60 * 0.0254; // 60 inches
     m_tvHeight = 36 * 0.0254; // 36 inches 
@@ -175,7 +230,7 @@ DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer()
 
     m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
     m_eyeOffset = m_virtualCenter - m_virtualOrigin;
-    m_displaySettings->setScreenDistance(m_eyeOffset.length());
+    ds->setScreenDistance(m_eyeOffset.length());
 
     m_projectionMatrix.set(1.0, 0.0, 0.0, 0.0,
                            0.0, 1.0, 0.0, 0.0,
@@ -215,25 +270,32 @@ void DualScreenViewer::Update(ITrackingResults *results)
     const osg::Vec3 kinectFrustumOffset( 0.0, avatarPosition.y() * sin(kinectTiltAngle), avatarPosition.z() * cos(kinectTiltAngle) );
     const osg::Vec3 kinectFrustumTargetPosition = kinectEyePosition + kinectFrustumOffset;
     osg::Vec3 new_eye(avatarPosition.x(), avatarPosition.y() + kinectFrustumTargetPosition.y(), avatarPosition.z());
+    {
+        osgViewer::View* view = getView(Main);
+        osg::Camera* camera = view->getCamera();
+        camera->setViewMatrixAsLookAt(new_eye, m_virtualCenter, osg::Vec3(0,1,0));
+    }
 }
 
-int DualScreenViewer::run() //override
+void DualScreenViewer::UpdateMap(void* instance, IArgs* args)
 {
-    while (!done())
+    // Update the wireframe frustum
+    DualScreenViewer* pThis = static_cast<DualScreenViewer*>(instance);
+
+    osgViewer::View* mainView = pThis->getView(Main);
+    osg::Node* scene = mainView->getSceneData();
+    osg::Group* root = scene->getParent(0);
+    if (root) 
     {
-        // Update the wireframe frustum
-        
-        osg::Group* root = static_cast<osg::Group*>(getView(Map)->getSceneData());
-        if (root) 
+        if (root->getNumChildren() > 1)
         {
-            int index = 1;
-            root->removeChild( index, 1 );
-            root->insertChild( index, makeFrustumFromCamera() );
+            osgViewer::View* mapView = pThis->getView(Map);
+            osg::Node* map = root->getChild(1);
+            root->replaceChild(map, pThis->makeFrustumFromCamera( mapView ));
         }
-        frame();
     }
-    return 0;//CompositeViewer::run();
 }
+
 
 void DualScreenViewer::CreateViewOffset(int screenIndex)
 {
@@ -268,7 +330,7 @@ void DualScreenViewer::CreateProjectionOffset(int screenIndex)
     m_projectionMatrixOffset[screenIndex].postMultTranslate(osg::Vec3(xOffset, 0 , 0));
 }
 
-void DualScreenViewer::CreateGraphicsWindow()
+void DualScreenViewer::CreateGraphicsWindow(osgViewer::View* view)
 {
     osg::GraphicsContext::WindowingSystemInterface* wsi = osg::GraphicsContext::getWindowingSystemInterface();
     if (!wsi) 
@@ -277,7 +339,7 @@ void DualScreenViewer::CreateGraphicsWindow()
         return;
     }
 
-    osg::Camera* viewCamera = getView(Main)->getCamera();
+    osg::Camera* viewCamera = view->getCamera();
     viewCamera->setViewMatrix(m_viewMatrix);
     viewCamera->setProjectionMatrix(m_projectionMatrix);
     for(unsigned int i=Left; i < NumOfScreens; ++i)
@@ -308,31 +370,34 @@ void DualScreenViewer::CreateGraphicsWindow()
         camera->setName(i == Left ? "Left" : "Right");
         //osg::ref_ptr<MyClampProjectionMatrixCallback> callback = new MyClampProjectionMatrixCallback(camera->getNearFarRatio());
         //camera->setClampProjectionMatrixCallback( callback );
-        getView(Main)->addSlave(camera.get(), m_projectionMatrixOffset[i], m_viewMatrixOffset[i]);
+        view->addSlave(camera.get(), m_projectionMatrixOffset[i], m_viewMatrixOffset[i]);
     }
 }
 
-void DualScreenViewer::SetStereoSettings()
+void DualScreenViewer::ToggleStereoSettings(osgViewer::View* view)
 {
-    osg::DisplaySettings* ds = getView(Main)->getDisplaySettings();
-
-    ds->setStereo(true);
-    ds->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
-    ds->setDisplayType(osg::DisplaySettings::MONITOR);
-    ds->setScreenDistance(m_screenDistance); 
-    ds->setScreenHeight(m_screenHeight);
-    ds->setScreenWidth(m_screenWidth);
-    ds->setEyeSeparation(0.05f);
+    osg::DisplaySettings* ds = view->getDisplaySettings();
+    bool isStereo = ds->getStereo();
+    ds->setStereo(!isStereo);
+    if (ds->getStereo())
+    {
+        ds->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
+        ds->setDisplayType(osg::DisplaySettings::MONITOR);
+        ds->setScreenDistance(m_screenDistance); 
+        ds->setScreenHeight(m_screenHeight);
+        ds->setScreenWidth(m_screenWidth);
+        ds->setEyeSeparation(0.05f);
+    }
 }
 
 // Given a Camera, create a wireframe representation of its
 // view frustum. Create a default representation if camera==NULL.
-osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera()
+osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera(osgViewer::View* view)
 {
     // Projection and ModelView matrices
     osg::Matrixd proj;
     osg::Matrixd mv;
-    osg::Camera* camera = getView(Main)->getCamera();
+    osg::Camera* camera = view->getCamera();
     if (camera)
     {
         proj = camera->getProjectionMatrix();

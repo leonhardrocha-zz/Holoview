@@ -28,10 +28,10 @@ KinectSensor::KinectSensor()
     m_ViewOffset.x = 0;
     m_ViewOffset.y = 0;
 
-	// Get a working kinect sensor
-	if (NuiCreateSensorByIndex(numOfInitilizedSensors, &m_Sensor) >= 0) {
-		numOfInitilizedSensors++;
-	}
+    // Get a working kinect sensor
+    if (NuiCreateSensorByIndex(numOfInitilizedSensors, &m_Sensor) >= 0) {
+        numOfInitilizedSensors++;
+    }
 }
 
 
@@ -168,7 +168,7 @@ HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthR
 
     DWORD dwNuiInitDepthFlag = (depthType == NUI_IMAGE_TYPE_DEPTH)? NUI_INITIALIZE_FLAG_USES_DEPTH : NUI_INITIALIZE_FLAG_USES_DEPTH_AND_PLAYER_INDEX;
 
-	hr = m_Sensor->NuiInitialize(dwNuiInitDepthFlag | NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR);
+    hr = m_Sensor->NuiInitialize(dwNuiInitDepthFlag | NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR);
     if (FAILED(hr))
     {
         return hr;
@@ -457,7 +457,7 @@ HRESULT KinectSensor::GetClosestHint(FT_VECTOR3D* pHint3D)
 
     pHint3D[0] = m_NeckPoint[selectedSkeleton];
     pHint3D[1] = m_HeadPoint[selectedSkeleton];
-	m_smallestDistance = smallestDistance;
+    m_smallestDistance = smallestDistance;
     return S_OK;
 }
 

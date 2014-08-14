@@ -113,11 +113,16 @@
     <ClInclude Include="include\KinectSensor.h" />
     <ClInclude Include="include\KinectTracker.h" />
     <ClInclude Include="include\Options.h" />
+    <ClInclude Include="include\Pose.h" />
+    <ClInclude Include="include\Position.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\TrackerCallback.h" />
+    <ClInclude Include="include\TrackerConfig.h" />
     <ClInclude Include="include\TrackerException.h" />
     <ClInclude Include="include\TrackerManager.h" />
+    <ClInclude Include="include\TrackerArgs.h" />
+    <ClInclude Include="include\TrackingResults.h" />
     <ClInclude Include="include\Visualize.h" />
   </ItemGroup>
   <ItemGroup>

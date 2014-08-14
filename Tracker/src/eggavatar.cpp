@@ -265,7 +265,7 @@ bool EggAvatar::SetScaleAndTranslationToWindow(int height, int width)
 
 bool EggAvatar::DrawImage(void* image)
 {
-	IFTImage* pImage = static_cast<IFTImage*>(image);
+    IFTImage* pImage = static_cast<IFTImage*>(image);
     // Initialize internal points to mean shape plus animation units
     LatLonEye(false);
     LatLonEye(true);

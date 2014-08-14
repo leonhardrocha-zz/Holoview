@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Callable.h"
+#include "KinectTracker.h"
+#include "TrackerArgs.h"
 #include "HoloWindow.h"
-#include "AssetWindow.h"
 #include "MainWindow.h"
 #include "DualScreenViewer.h"
 #include <QtWidgets/QApplication>
@@ -47,7 +47,7 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
     return result;
 }
 
-void TrackerViewUpdateStatic(void* lpParam, TrackingArgs args=NULL)
+void TrackerViewUpdateStatic(void* lpParam, IArgs* args=NULL)
 {
     KinectTracker* pThis = reinterpret_cast<KinectTracker*>(lpParam);
     ITrackingResults* results = pThis->GetTrackingResults();
@@ -66,10 +66,10 @@ int main(int argc, char *argv[])
     KinectTracker tracker;
     tracker.InitDefault();
     DualScreenViewer* dualViewer = static_cast<DualScreenViewer*>(mainWindow.GetViewer());
-    ArgsMap args;
+    TrackerArgs args;
     args.AddArg("dualViewer", static_cast<void*>(dualViewer));
-    tracker.SetTrackerCallback(TrackerViewUpdateStatic, &tracker, &args);
-    mainWindow.AddTrackerDockWidget(&tracker);
+    tracker.SetCallback(TrackerViewUpdateStatic, &tracker, &args);
+    //mainWindow.AddTrackerDockWidget(static_cast<ITracker*>(&tracker));
     mainWindow.AddOsgDockWidget(mainWindow.centralWidget());
     tracker.Start();
     mainWindow.show();

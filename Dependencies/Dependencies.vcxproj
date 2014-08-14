@@ -881,10 +881,8 @@ xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)";</
     <None Include="Models\OSG\skydome.osgt" />
     <None Include="Models\OSG\SmokeBox.osgt" />
     <None Include="Models\OSG\spaceship.osgt" />
-    <None Include="Runtime\Assimp32.dll" />
     <None Include="Runtime\D3DCompiler_42.dll" />
     <None Include="Runtime\D3DX9_42.dll" />
-    <None Include="Runtime\DevIL.dll" />
     <None Include="Runtime\DirectX\D3D10Ref.DLL" />
     <None Include="Runtime\DirectX\D3D10SDKLayers.DLL" />
     <None Include="Runtime\DirectX\D3D11Ref.dll" />
@@ -903,11 +901,7 @@ xcopy /Y "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)";</
     <None Include="Runtime\DirectX\XAudioD2_7.dll" />
     <None Include="Runtime\FaceTrackData.dll" />
     <None Include="Runtime\FaceTrackLib.dll" />
-    <None Include="Runtime\freeglut.dll" />
     <None Include="Runtime\gdal17.dll" />
-    <None Include="Runtime\glew32.dll" />
-    <None Include="Runtime\ILU.dll" />
-    <None Include="Runtime\ILUT.dll" />
     <None Include="Runtime\libtiff.dll" />
     <None Include="Runtime\libxml2.dll" />
     <None Include="Runtime\nvtt.dll" />

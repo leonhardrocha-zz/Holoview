@@ -32,24 +32,24 @@ public:
      *          not attempt to free the memory.
      */
     virtual const char* what() const throw (){
-	   std::string message = "File " + file;
-	   message.append(" line " + line);
-	   message.append(" : " + msg);
-	   return message.c_str();
+       std::string message = "File " + file;
+       message.append(" line " + line);
+       message.append(" : " + msg);
+       return message.c_str();
     }
 
 protected:
     /** Error message.
      */
     std::string msg;
-	std::string file;
-	int line;
+    std::string file;
+    int line;
 };
 
 class TrackerInitializationException: public TrackerException
 {
 public:
-	explicit TrackerInitializationException(const char* resource):
+    explicit TrackerInitializationException(const char* resource):
       TrackerException(resource)
       {
       }
@@ -61,10 +61,10 @@ public:
       TrackerException(resource)
       {}
 
-	virtual const char* what() const throw (){
-		std::string message = "File " + file;
-		message.append(" line " + line);
-		message.append(" : " + msg);
-		return message.c_str();
+    virtual const char* what() const throw (){
+        std::string message = "File " + file;
+        message.append(" line " + line);
+        message.append(" : " + msg);
+        return message.c_str();
     }
 };

@@ -9,8 +9,9 @@
 #include "resource.h"
 #include "EggAvatar.h"
 #include "KinectFaceTracker.h"
-#include "Callable.h"
+#include "TrackerCallBack.h"
 #include "ITracker.h"
+#include "IArgs.h"
 #include "ITrackingResults.h"
 #include "IPose.h"
 #include <vector>
@@ -18,14 +19,13 @@
 
 class KinectTracker;
 
-class TrackerManager : public ITracker
+class TrackerManager : public ITracker, public TrackerCallback 
 {
-	friend class KinectTracker;
+    friend class KinectTracker;
 public:
-    TrackerManager::TrackerManager(ITracker* parent=NULL, TrackingArgs args=NULL)
-		: m_parent(parent)
-		, m_hInst(NULL)
-		, m_lpCmdLine(L"")
+    TrackerManager::TrackerManager(ITracker* parent=NULL, IArgs* args=NULL)
+        : m_parent(parent)
+        , m_lpCmdLine(L"")
         , m_hAccelTable(NULL)
         , m_depthType(NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX)
         , m_colorType(NUI_IMAGE_TYPE_COLOR)
@@ -34,42 +34,41 @@ public:
         , m_bNearMode(TRUE)
         , m_bSeatedSkeletonMode(TRUE)
 {
-}	
-	~TrackerManager()	{ UninitInstance();	};
-    
+}    
+    ~TrackerManager()    { UninitInstance();    };
+
+    virtual bool                Init();
+    virtual bool                Start();
+    virtual ITrackingResults*   GetTrackingResults(IArgs* args=NULL);
+    virtual void                PaintEvent(void *message, IArgs* args=NULL);
+    virtual void                TrackEvent(void *message, IArgs* args=NULL);
+    virtual void*               GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };
+
     int                         GetNumOfTrackingSensors() { return m_numOfSensors; };
     int                         GetNumOfAvailableSensors() { return m_maxNumOfSensors;};
-	bool						Init();
-	bool						Start();
-	HINSTANCE					GetInstance() { return m_hInst; };
-	void						InitArgs(int argc, char **argv);
-	BOOL						InitInstanceInHostWindow();
-	ITrackingResults*			GetTrackingResults(TrackingArgs args=NULL);
-	void*						GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };
+
+    void                        InitArgs(int argc, char **argv);
+    BOOL                        InitInstanceInHostWindow();
 
 protected:
 
     int                         m_numOfSensors;
     int                         m_maxNumOfSensors;
+    CRITICAL_SECTION            m_CriticalSection;    
 
-	CRITICAL_SECTION m_CriticalSection;	
-	virtual		void			PaintEvent(void *message, TrackingArgs args=NULL);
-	virtual		void			TrackEvent(void *message, TrackingArgs args=NULL);
+    std::vector<KinectFaceTracker*> m_pFaceTrackers;
+    std::vector<HANDLE>             m_FaceTrackingThreads;
 
-	std::vector<KinectFaceTracker*>	m_pFaceTrackers;
-	std::vector<HANDLE>			m_FaceTrackingThreads;
-
-	ITracker*					m_parent;
-	KinectFaceTracker*			m_pBestTracker;
-	PWSTR						m_lpCmdLine;
-	int							m_nCmdShow;
+    ITracker*                   m_parent;
+    KinectFaceTracker*          m_pBestTracker;
+    PWSTR                       m_lpCmdLine;
+    int                         m_nCmdShow;
     void                        ParseCmdString(PWSTR lpCmdLine);
     void                        UninitInstance();
-	bool						IsTracking();
-	virtual		KinectFaceTracker*			GetBestTracker(TrackingArgs args=0);
+    bool                        IsTracking();
+    virtual KinectFaceTracker*  GetBestTracker(IArgs* args=0);
     static int const            MaxLoadStringChars = 100;
-    HINSTANCE                   m_hInst;
-    /*HWND                        m_hWnd;*/
+
     HACCEL                      m_hAccelTable;
     NUI_IMAGE_TYPE              m_depthType;
     NUI_IMAGE_TYPE              m_colorType;
@@ -82,6 +81,6 @@ protected:
 class MultiTrackerManager : public TrackerManager
 {
 protected:
-	virtual		BOOL            PaintWindow(KinectFaceTracker *tracker, HDC hdc, HWND hWnd); 
+    virtual        BOOL            PaintWindow(KinectFaceTracker *tracker, HDC hdc, HWND hWnd); 
 
 };

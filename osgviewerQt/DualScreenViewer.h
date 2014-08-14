@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#ifndef _DualScreenViewer_H
-#define _DualScreenViewer_H
+#ifndef _DUALSCREENVIEWER_H
+#define _DUALSCREENVIEWER_H
+#include "IArgs.h"
 
 class DualScreenViewer : public osgViewer::CompositeViewer
 {
@@ -30,7 +31,7 @@ public:
 
     DualScreenViewer();
     ~DualScreenViewer();
-    virtual void CreateGraphicsWindow();
+    virtual void CreateGraphicsWindow(osgViewer::View* view);
     virtual void Update(ITrackingResults* results);
     virtual void CreateViewOffset(int screen);
     virtual void CreateProjectionOffset(int screen);
@@ -42,16 +43,15 @@ public:
     osg::Matrix GetSlaveProjectionMatrix(int side) { return m_projectionMatrixOffset[side]; };
     osg::Matrix GetMasterViewMatrix() { return m_viewMatrix; };
     osg::Matrix GetSlaveViewMatrix(int side) { return m_viewMatrixOffset[side]; };
-    osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera( );
     osg::Quat& GetInverseAttitude() { return m_inverseAttitude; };
     ScreenInfo& GetScreenInfo(int index) { return m_screen[index]; };
-    void SetStereoSettings();
-    virtual int run();
+    void ToggleStereoSettings(osgViewer::View* view);
+    osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera( osgViewer::View* view );
+    static void UpdateMap(void* instance, IArgs* args);
 
 protected:
-    osg::ref_ptr<osg::DisplaySettings> m_displaySettings;
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
-
+    osg::Node* m_frustumNode;
     osg::Matrix m_viewMatrix;
     osg::Matrix m_projectionMatrix;
     osg::Matrix m_viewMatrixOffset[2];

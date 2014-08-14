@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "AssetWindow.h"
 #include "MainWindow.h"
 #include "ITrackerFactory.h"
 #include "Factory.h"

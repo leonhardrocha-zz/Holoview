@@ -28,10 +28,10 @@ public:
     IFTImage*   GetDepthBuffer(){ return(m_DepthBuffer); };
     float       GetZoomFactor() { return(m_ZoomFactor); };
     POINT*      GetViewOffSet() { return(&m_ViewOffset); };
-	EggAvatar*  GetEggAvatar() { return(&m_eggavatar); };
+    EggAvatar*  GetEggAvatar() { return(&m_eggavatar); };
     HRESULT     GetClosestHint(FT_VECTOR3D* pHint3D);
-	IFTResult*  m_pFTResult;
-	float		m_smallestDistance;
+    IFTResult*  m_pFTResult;
+    float        m_smallestDistance;
 
     bool        IsTracked(UINT skeletonId) { return(m_SkeletonTracked[skeletonId]);};
     FT_VECTOR3D NeckPoint(UINT skeletonId) { return(m_NeckPoint[skeletonId]);};
@@ -61,11 +61,11 @@ protected:
     int         m_FramesTotal;
     int         m_SkeletonTotal;
     
-	INuiSensor* m_Sensor;
+    INuiSensor* m_Sensor;
     static DWORD WINAPI ProcessThread(PVOID pParam);
     void GotVideoAlert();
     void GotDepthAlert();
     void GotSkeletonAlert();
-	EggAvatar    m_eggavatar;
+    EggAvatar    m_eggavatar;
 
 };

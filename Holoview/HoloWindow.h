@@ -32,11 +32,10 @@ class HoloWindow : public MainWindow
                                                                                     double modelRadius = defaultModelRadius);
         osgViewer::CompositeViewer* GetViewer() {return m_viewer;};
         bool AddOsgDockWidget(QWidget *parent = 0);
-        void AddSkyBox();
-        void AddGrid();
-
     protected:
         /*Ui_HoloWindowClass ui;*/
+        virtual void AddSkyBox(osgViewer::View* view);
+        virtual void AddGrid(osgViewer::View* view);
         osg::ref_ptr<DualScreenViewer> m_viewer;
         osg::ref_ptr<SelectModelHandler> m_selectModel;
 };

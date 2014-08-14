@@ -14,51 +14,51 @@
 
 bool TrackerManager::Start()
 {
-	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
-	{
-		if ((*tracker)->Start())
-		{
-			m_FaceTrackingThreads.push_back((*tracker)->GetThreadId());
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	return true;
+    for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
+    {
+        if ((*tracker)->Start())
+        {
+            m_FaceTrackingThreads.push_back((*tracker)->GetThreadId());
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 bool TrackerManager::Init()
 {
     NuiGetSensorCount(&m_numOfSensors);
     int numOfSensorsToInit = m_numOfSensors > m_maxNumOfSensors ? m_maxNumOfSensors : m_numOfSensors;
-	int id;
-	bool initOk = true;
-	InitializeCriticalSection(&m_CriticalSection);
-	for (id=0; id < numOfSensorsToInit; id++)
-	{
-		KinectFaceTracker* tracker = new KinectFaceTracker(this, id);
-		if (tracker->Init())
-		{
-			m_pFaceTrackers.push_back(tracker);
-		} else
-		{
-			initOk = false;
-			delete tracker;
-		}
-	}		  
+    int id;
+    bool initOk = true;
+    InitializeCriticalSection(&m_CriticalSection);
+    for (id=0; id < numOfSensorsToInit; id++)
+    {
+        KinectFaceTracker* tracker = new KinectFaceTracker(this, id);
+        if (tracker->Init())
+        {
+            m_pFaceTrackers.push_back(tracker);
+        } else
+        {
+            initOk = false;
+            delete tracker;
+        }
+    }          
     return initOk;
 }
 
 void TrackerManager::UninitInstance()
 {
     // Clean up the memory allocated for Face Tracking and rendering.
-	for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
-	{
-		(*tracker)->Stop();
-		delete *tracker;
-	}
+    for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
+    {
+        (*tracker)->Stop();
+        delete *tracker;
+    }
 
     if (m_hAccelTable)
     {
@@ -67,26 +67,34 @@ void TrackerManager::UninitInstance()
     }
 }
 
-void TrackerManager::PaintEvent(void *message, TrackingArgs args)
+void TrackerManager::PaintEvent(void *message, IArgs* args)
 {
-	KinectFaceTracker *tracker = GetBestTracker(args);//m_pFaceTrackers[id]; //todo: get best tracker
-	if (tracker)
-	{
-		tracker->PaintEvent(message, args);
-	}
+    KinectFaceTracker *tracker = GetBestTracker(args);//m_pFaceTrackers[id]; //todo: get best tracker
+    if (tracker)
+    {
+        tracker->PaintEvent(message, args);
+    }
 }
 
-void TrackerManager::TrackEvent(void* message, TrackingArgs args)
+void TrackerManager::TrackEvent(void* message, IArgs* args)
 {
-    //std::sort (m_pFaceTrackers.begin(), m_pFaceTrackers.end(), SortFaceTracking);
+    int* pid = NULL;
+    if (args)
+    {
+        pid = static_cast<int*>(args->GetArgValue("trackerId"));
+    }
     EnterCriticalSection(&m_CriticalSection);
-    if(m_CallBack)
+    ICallback callback = this->GetCallback();
+    if(callback)
     {
         ITrackingResults* pResults = static_cast<ITrackingResults*>(message);
-        int* id = static_cast<int*>(args->GetArgValue("trackerId"));
         void* viewArgs = static_cast<void*>(pResults);
-        m_CallBackArgs->AddArg("TrackerManagerResults", viewArgs);
-        (m_CallBack)(m_CallBackParam, m_CallBackArgs);
+        IArgs* callbackArgs = this->GetArgs();
+        if (callbackArgs)
+        {
+            callbackArgs->AddArg("TrackerManagerResults", viewArgs);
+        }
+        Call();
     }
     LeaveCriticalSection(&m_CriticalSection);
 };
@@ -94,14 +102,14 @@ void TrackerManager::TrackEvent(void* message, TrackingArgs args)
 
 bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j) 
 { 
-	return (i->GetFaceConfidence()>j->GetFaceConfidence()); 
+    return (i->GetFaceConfidence()>j->GetFaceConfidence()); 
 }
 
-KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
-{	
-	int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
-	m_pBestTracker = m_pFaceTrackers[id];
-	return m_pBestTracker;
+KinectFaceTracker* TrackerManager::GetBestTracker(IArgs* args)
+{    
+    int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
+    m_pBestTracker = m_pFaceTrackers[id];
+    return m_pBestTracker;
 }
 
 
@@ -113,11 +121,11 @@ KinectFaceTracker* TrackerManager::GetBestTracker(TrackingArgs args)
 * to the Egg Avatar, so it can be animated.
 */
 
-ITrackingResults*	TrackerManager::GetTrackingResults(TrackingArgs args)
+ITrackingResults* TrackerManager::GetTrackingResults(IArgs* args)
 {
-	int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
-	KinectFaceTracker *tracker = m_pFaceTrackers[id];
-	return tracker->GetTrackingResults();
+    int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
+    KinectFaceTracker *tracker = m_pFaceTrackers[id];
+    return tracker->GetTrackingResults();
 }
 
 

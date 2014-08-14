@@ -8,7 +8,8 @@
 #include <QThread>
 #include "DockFrame.h"
 #include "ITracker.h"
-#include "Callable.h"
+#include "ICallable.h"
+#include "TrackerArgs.h"
 
 typedef std::pair<ITracker&,void*> TrackerEvent;
 
@@ -51,7 +52,7 @@ public:
 	ITracker* m_pTracker;
 	int id;
 protected:
-    ArgsMap m_args;
+    TrackerArgs m_args;
 };
 
 #endif

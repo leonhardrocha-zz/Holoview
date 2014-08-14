@@ -2535,16 +2535,10 @@
     <None Include="..\include\osg\osgAnimation\ActionAnimation">
       <Filter>Header Files\osg\osgAnimation</Filter>
     </None>
-    <None Include="Runtime\Assimp32.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
     <None Include="Runtime\D3DCompiler_42.dll">
       <Filter>Runtime Files</Filter>
     </None>
     <None Include="Runtime\D3DX9_42.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="Runtime\DevIL.dll">
       <Filter>Runtime Files</Filter>
     </None>
     <None Include="Runtime\FaceTrackData.dll">
@@ -2553,19 +2547,7 @@
     <None Include="Runtime\FaceTrackLib.dll">
       <Filter>Runtime Files</Filter>
     </None>
-    <None Include="Runtime\freeglut.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
     <None Include="Runtime\gdal17.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="Runtime\glew32.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="Runtime\ILU.dll">
-      <Filter>Runtime Files</Filter>
-    </None>
-    <None Include="Runtime\ILUT.dll">
       <Filter>Runtime Files</Filter>
     </None>
     <None Include="Runtime\libtiff.dll">
