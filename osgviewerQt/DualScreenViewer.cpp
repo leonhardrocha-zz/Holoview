@@ -8,6 +8,8 @@
 #include "vld.h"
 #endif
 
+
+
 template<class matrix_type, class value_type>
 bool _myclampProjectionMatrix(matrix_type& projection, double& znear, double& zfar, value_type nearFarRatio)
 {
@@ -105,7 +107,6 @@ struct MyClampProjectionMatrixCallback : public osg::CullSettings::ClampProjecti
 
     double _nearFarRatio;
 };
-
 
 
 class ViewUpdateHandler : public osgGA::GUIEventHandler, public ICallable
@@ -259,12 +260,12 @@ DualScreenViewer::~DualScreenViewer()
 {
 }
 
-void DualScreenViewer::Update(ITrackingResults *results) 
+void DualScreenViewer::Update(IArgs *results) 
 {
     const osg::Vec3 kinectBasePosition(0.0, 0.615, 0.1);
     const double kinectTiltAngle = osg::inDegrees(20.0);
-    IPose *avatarPose = results->GetPose();
-    osg::Vec3 avatarPosition(avatarPose->Get(0), avatarPose->Get(1), avatarPose->Get(2));
+    IPose *position = static_cast<IPose*>(results->Get("position"));
+    osg::Vec3 avatarPosition(position->Get(0), position->Get(1), position->Get(2));
     const osg::Vec3 kinectEyeOffset(0.0, 0.06, 0.0);
     const osg::Vec3 kinectEyePosition = kinectBasePosition + osg::Matrix::rotate(-kinectTiltAngle, osg::Vec3(1.0, 0.0, 0.0)) * kinectEyeOffset;
     const osg::Vec3 kinectFrustumOffset( 0.0, avatarPosition.y() * sin(kinectTiltAngle), avatarPosition.z() * cos(kinectTiltAngle) );

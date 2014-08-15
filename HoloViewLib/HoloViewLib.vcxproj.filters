@@ -16,12 +16,6 @@
     <ClInclude Include="include\IPose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ITrackingResults.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ArgsMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ICallable.h">
       <Filter>Header Files</Filter>
     </ClInclude>

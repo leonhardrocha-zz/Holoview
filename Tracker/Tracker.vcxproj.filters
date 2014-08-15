@@ -48,19 +48,19 @@
     <ClInclude Include="include\TrackerCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\TrackingResults.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\TrackerArgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TrackerConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Pose.h">
+    <ClInclude Include="include\Position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Position.h">
+    <ClInclude Include="include\TrackerPose.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Attitude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

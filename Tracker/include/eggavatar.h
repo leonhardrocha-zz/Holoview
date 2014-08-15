@@ -10,27 +10,26 @@
 
 #include "IAvatar.h"
 #include "IPose.h"
-#include "Pose.h"
-#include "Position.h"
+#include "TrackerPose.h"
 
-static const float EyeInside = 1.0f/18.0f;
-static const float EyeOutside = 1.0f/6.0f;
-static const float EyeTop = 1.0f/40.0f;
-static const float EyeBottom = -1.0f/40.0f;
-static const float MouthRight = (EyeInside+EyeOutside)/2.0f;
-static const float MouthLeft = -MouthRight;
-static const float MouthVertical = -1.7f*(EyeOutside-EyeInside);
-static const float EyebrowBottom = EyeTop + 1.0f/16.0f;
-static const float EyebrowTop = EyebrowBottom + EyeTop/2.0f;
-static const float EyebrowInside = EyeInside;
-static const float EyebrowOutside = EyeOutside + 0.1f/16.0f;
-static const float HairBottom = (0.5f+EyebrowTop)/2.0f;
-static const float NoseTop = 0;
-static const float NoseBottom = NoseTop - (EyeOutside-EyeInside);
-static const float EyeCenterDepthCorrection = (7.0f/7.5f);
-static const float PupilRadius = (3.14f/40.0f);
-static const float HeadTranslationTrigger = 0.02f; // 2 centimeters
-static const float HeadRotationTriggerInDegrees = 1.0; // 1 degree
+static const double EyeInside = 1.0f/18.0f;
+static const double EyeOutside = 1.0f/6.0f;
+static const double EyeTop = 1.0f/40.0f;
+static const double EyeBottom = -1.0f/40.0f;
+static const double MouthRight = (EyeInside+EyeOutside)/2.0f;
+static const double MouthLeft = -MouthRight;
+static const double MouthVertical = -1.7f*(EyeOutside-EyeInside);
+static const double EyebrowBottom = EyeTop + 1.0f/16.0f;
+static const double EyebrowTop = EyebrowBottom + EyeTop/2.0f;
+static const double EyebrowInside = EyeInside;
+static const double EyebrowOutside = EyeOutside + 0.1f/16.0f;
+static const double HairBottom = (0.5f+EyebrowTop)/2.0f;
+static const double NoseTop = 0;
+static const double NoseBottom = NoseTop - (EyeOutside-EyeInside);
+static const double EyeCenterDepthCorrection = (7.0f/7.5f);
+static const double PupilRadius = (3.14f/40.0f);
+static const double HeadTranslationTrigger = 0.02f; // 2 centimeters
+static const double HeadRotationTriggerInDegrees = 1.0; // 1 degree
 
 
 
@@ -65,64 +64,52 @@ class EggAvatar : public IAvatar
 public:
     EggAvatar(void);
     ~EggAvatar();
-    IPose* GetPose() { return &m_angle; };
-    IPose* GetPosition() { return &m_position; };
-    bool SetCandideAU(const float * AU, const int numberAU);
+    IPose* GetAttitude() { return static_cast<Attitude*>(&m_trackedPose); };
+    IPose* GetPosition() { return static_cast<Position*>(&m_trackedPose); };
+    bool SetCandideAU(const double * AU, const int numberAU);
     bool SetRandomAU();
-    bool SetRotations(const float pitchDegrees, const float yawDegrees, const float rollDegrees);
+    bool SetRotations(const double pitchDegrees, const double yawDegrees, const double rollDegrees);
     bool SetRandomRotations();
-    bool SetTranslations(const float tX, const float tY, const float tZ);
+    bool SetTranslations(const double tX, const double tY, const double tZ);
 
     bool SetScaleAndTranslationToWindow(int height, int width);
-    void SetScale(float scale) { m_Scale = scale;}
-    void SetTranslationX(float X){ m_TranslationX = X;}
-    void SetTranslationY(float Y){ m_TranslationY = Y;}
+    void SetScale(double scale) { m_Scale = scale;}
+    void SetTranslationX(double X){ m_TranslationX = X;}
+    void SetTranslationY(double Y){ m_TranslationY = Y;}
 
     bool DrawImage(void* pImage);
-    bool DrawBgLine(IFTImage* pImage, float x1, float y1, float x2, float y2, UINT32 color);
+    bool DrawBgLine(IFTImage* pImage, double x1, double y1, double x2, double y2, UINT32 color);
 
 
-    float m_FacePointLatLon[NumberFacePoints][2];
-    float m_FacePointXYZ[NumberTotalPoints][3];
+    double m_FacePointLatLon[NumberFacePoints][2];
+    double m_FacePointXYZ[NumberTotalPoints][3];
 
     // Weight of the different animated part in the egg avatar model
-    float m_JawDrop;
-    float m_UpperLipLift;
-    float m_MouthStretch;
-    float m_MouthCornerLift;
-    float m_BrowLower;
-    float m_OuterBrowRaiser;
-    float m_UpperEyeLid;
-    float m_LowerEyeLid;
+    double m_JawDrop;
+    double m_UpperLipLift;
+    double m_MouthStretch;
+    double m_MouthCornerLift;
+    double m_BrowLower;
+    double m_OuterBrowRaiser;
+    double m_UpperEyeLid;
+    double m_LowerEyeLid;
 
-    float m_Pitch;
-    float m_Yaw;
-    float m_Roll;
-    float m_Scale;
-    float m_TranslationX;
-    float m_TranslationY;
+    double m_Scale;
+    double m_TranslationX;
+    double m_TranslationY;
     bool m_FacingUser;
     bool m_isFirstPose;
     // Variables used for smoothing the head pose.
     bool m_HeadPositionFiltering;
     bool m_HeadRotationFiltering;
-    float m_ReportedPitch;
-    float m_ReportedYaw;
-    float m_ReportedRoll;
-    float m_ReportedPitchAverage;
-    float m_ReportedYawAverage;
-    float m_ReportedRollAverage;
-
-    float m_TxSum;
-    float m_TySum;
-    float m_TzSum;
-    float m_TxAverage;
-    float m_TyAverage;
-    float m_TzAverage;
+    double m_Attitude[3];
+    double m_ReportedAttitude[3];
+    double m_AverageAttitude[3];
+    double m_TranslationSum[3];
+    double m_AveragePosition[3];
     unsigned int m_SamePositionCount;
 protected:
-    Pose m_angle;
-    Position m_position;
+    TrackerPose m_trackedPose;
 private:
     void LatLonEye(const bool left);
     void LatLonEyeBrow(const bool left);
@@ -134,7 +121,7 @@ private:
     void RollXYZ();
     void PitchXYZ();
     void CircleXYZ();
-    void PupilCenter(float center[3], bool left);
+    void PupilCenter(double center[3], bool left);
     bool CanTrackPupil();
     void PupilXYZ(const bool left);
     void ScaleXYZ();
@@ -144,7 +131,7 @@ private:
     void DrawCurve(IFTImage* pImage, int firstPoint, int numberPoints, bool shouldClose, UINT32 color);
     void DrawSegment(IFTImage* pImage, int firstPoint, int secondPoint, UINT32 color);
 
-    bool PointInsideCurve(float x, float y, int firstCurvePoint, int numberCurvePoints);
+    bool PointInsideCurve(double x, double y, int firstCurvePoint, int numberCurvePoints);
 
 };
 #endif

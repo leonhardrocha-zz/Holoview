@@ -81,18 +81,18 @@ void TrackerManager::TrackEvent(void* message, IArgs* args)
     int* pid = NULL;
     if (args)
     {
-        pid = static_cast<int*>(args->GetArgValue("trackerId"));
+        pid = static_cast<int*>(args->Get("trackerId"));
     }
     EnterCriticalSection(&m_CriticalSection);
     ICallback callback = this->GetCallback();
     if(callback)
     {
-        ITrackingResults* pResults = static_cast<ITrackingResults*>(message);
+        IArgs* pResults = static_cast<IArgs*>(message);
         void* viewArgs = static_cast<void*>(pResults);
         IArgs* callbackArgs = this->GetArgs();
         if (callbackArgs)
         {
-            callbackArgs->AddArg("TrackerManagerResults", viewArgs);
+            callbackArgs->Set("TrackerManagerResults", viewArgs);
         }
         Call();
     }
@@ -107,7 +107,7 @@ bool SortFaceTracking (KinectFaceTracker* i,KinectFaceTracker* j)
 
 KinectFaceTracker* TrackerManager::GetBestTracker(IArgs* args)
 {    
-    int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
+    int id = args == NULL ? 0 : *(static_cast<int*>(args->Get("trackerId")));
     m_pBestTracker = m_pFaceTrackers[id];
     return m_pBestTracker;
 }
@@ -121,9 +121,9 @@ KinectFaceTracker* TrackerManager::GetBestTracker(IArgs* args)
 * to the Egg Avatar, so it can be animated.
 */
 
-ITrackingResults* TrackerManager::GetTrackingResults(IArgs* args)
+IArgs* TrackerManager::GetTrackingResults(IArgs* args)
 {
-    int id = args == NULL ? 0 : *(static_cast<int*>(args->GetArgValue("trackerId")));
+    int id = args == NULL ? 0 : *(static_cast<int*>(args->Get("trackerId")));
     KinectFaceTracker *tracker = m_pFaceTrackers[id];
     return tracker->GetTrackingResults();
 }

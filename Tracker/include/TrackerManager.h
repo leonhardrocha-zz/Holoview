@@ -12,7 +12,6 @@
 #include "TrackerCallBack.h"
 #include "ITracker.h"
 #include "IArgs.h"
-#include "ITrackingResults.h"
 #include "IPose.h"
 #include <vector>
 
@@ -34,12 +33,12 @@ public:
         , m_bNearMode(TRUE)
         , m_bSeatedSkeletonMode(TRUE)
 {
-}    
+}
     ~TrackerManager()    { UninitInstance();    };
 
     virtual bool                Init();
     virtual bool                Start();
-    virtual ITrackingResults*   GetTrackingResults(IArgs* args=NULL);
+    virtual IArgs*              GetTrackingResults(IArgs* args=NULL);
     virtual void                PaintEvent(void *message, IArgs* args=NULL);
     virtual void                TrackEvent(void *message, IArgs* args=NULL);
     virtual void*               GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };

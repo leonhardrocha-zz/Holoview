@@ -32,7 +32,7 @@ bool KinectFaceTracker::Init()
 
     if (IsKinectSensorPresent)
     {
-        m_args.AddArg("trackerId", &m_id);
+        m_args.Set("trackerId", &m_id);
         SetCallback(FaceTrackerCallback, this, &m_args);
         m_pKinectSensor->GetVideoConfiguration(&videoConfig);
         m_pKinectSensor->GetDepthConfiguration(&depthConfig);
@@ -88,6 +88,7 @@ bool KinectFaceTracker::Init()
     {
         m_pCriticalSection = static_cast<CRITICAL_SECTION*>(m_parent->GetCriticalSection());
     }
+
     return IsKinectSensorPresent;
 }
 
@@ -412,7 +413,8 @@ void KinectFaceTracker::UpdateAvatarPose()
             {
                 EnterCriticalSection(m_pCriticalSection);
             }
-            m_trackingResults->SetPose(pEggAvatar->GetPosition());
+            m_trackingResults.Set("position", pEggAvatar->GetPosition());
+            m_trackingResults.Set("attitude", pEggAvatar->GetAttitude());
             if(m_pCriticalSection)
             {
                 LeaveCriticalSection(m_pCriticalSection);
@@ -432,9 +434,9 @@ void KinectFaceTracker::FaceTrackerCallback(void* instance, IArgs* args)
     }
 }
 
-ITrackingResults* KinectFaceTracker::GetTrackingResults(IArgs* args)
+IArgs* KinectFaceTracker::GetTrackingResults(IArgs* args)
 {
-    return m_trackingResults;
+    return &m_trackingResults;
 }
 // Drawing the video window
 BOOL KinectFaceTracker::ShowVideo(HDC hdc, int width, int height, int originX, int originY)

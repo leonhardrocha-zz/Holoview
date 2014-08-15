@@ -32,7 +32,7 @@ public:
     DualScreenViewer();
     ~DualScreenViewer();
     virtual void CreateGraphicsWindow(osgViewer::View* view);
-    virtual void Update(ITrackingResults* results);
+    virtual void Update(IArgs* results);
     virtual void CreateViewOffset(int screen);
     virtual void CreateProjectionOffset(int screen);
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };

@@ -50,8 +50,8 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
 void TrackerViewUpdateStatic(void* lpParam, IArgs* args=NULL)
 {
     KinectTracker* pThis = reinterpret_cast<KinectTracker*>(lpParam);
-    ITrackingResults* results = pThis->GetTrackingResults();
-    DualScreenViewer* dualViewer = reinterpret_cast<DualScreenViewer*>(args->GetArgValue("dualViewer"));
+    IArgs* results = pThis->GetTrackingResults();
+    DualScreenViewer* dualViewer = reinterpret_cast<DualScreenViewer*>(args->Get("dualViewer"));
     if(dualViewer)
     {
         dualViewer->Update(results);
@@ -67,9 +67,9 @@ int main(int argc, char *argv[])
     tracker.InitDefault();
     DualScreenViewer* dualViewer = static_cast<DualScreenViewer*>(mainWindow.GetViewer());
     TrackerArgs args;
-    args.AddArg("dualViewer", static_cast<void*>(dualViewer));
+    args.Set("dualViewer", static_cast<void*>(dualViewer));
     tracker.SetCallback(TrackerViewUpdateStatic, &tracker, &args);
-    //mainWindow.AddTrackerDockWidget(static_cast<ITracker*>(&tracker));
+    mainWindow.AddTrackerDockWidget(static_cast<ITracker*>(&tracker));
     mainWindow.AddOsgDockWidget(mainWindow.centralWidget());
     tracker.Start();
     mainWindow.show();

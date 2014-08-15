@@ -1,9 +1,9 @@
 #include "vld.h"
-#ifndef _POSE_H
-#define _POSE_H
+#ifndef _ATTITUDE_H
+#define _ATTITUDE_H
 #include "IPose.h"
 
-class Pose : public IPose
+class Attitude : public IPose
 {
 public:
     enum FreedomDegree { Pitch = 0, Yaw, Roll, NumOfDegrees };

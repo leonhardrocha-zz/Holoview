@@ -88,13 +88,11 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\ArgsMap.h" />
     <ClInclude Include="include\ICallable.h" />
     <ClInclude Include="include\IAvatar.h" />
     <ClInclude Include="include\IPose.h" />
     <ClInclude Include="include\IArgs.h" />
     <ClInclude Include="include\ITracker.h" />
-    <ClInclude Include="include\ITrackingResults.h" />
     <ClInclude Include="include\IView.h" />
     <ClInclude Include="include\ISynchronizable.h" />
     <ClInclude Include="include\ITrackerFactory.h" />

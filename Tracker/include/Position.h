@@ -6,7 +6,7 @@
 class Position : public IPose
 {
 public:
-    enum Axis { X = 0, Y, Z, NumOfAxis };
+    enum Axis { XAxis = 0, YAxis, ZAxis, NumOfAxis };
     virtual void Set(int axis, double value) { position[axis] = value; };
     virtual double Get(int axis) { return position[axis]; };
 

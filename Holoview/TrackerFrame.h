@@ -42,7 +42,7 @@ public:
 		setAttribute(Qt::WA_NativeWindow);
 		setAttribute(Qt::WA_PaintOnScreen);
 		id = trackerId;
-        m_args.AddArg("trackerId", &id);
+        m_args.Set("trackerId", &id);
 	}
 	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
 	{	

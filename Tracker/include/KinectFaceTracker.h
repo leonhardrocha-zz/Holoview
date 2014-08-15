@@ -10,7 +10,6 @@
 
 #include "ITracker.h"
 #include "IArgs.h"
-#include "TrackingResults.h"
 #include "TrackerArgs.h"
 #include "TrackerCallback.h"
 #include "TrackerConfig.h"
@@ -36,7 +35,7 @@ public:
     ~KinectFaceTracker();
     virtual bool                Init();
     virtual bool                Start();
-    virtual ITrackingResults*   GetTrackingResults(IArgs* args=NULL);
+    virtual IArgs*              GetTrackingResults(IArgs* args=NULL);
     virtual void                PaintEvent(void *message, IArgs* args=NULL);
     virtual void                TrackEvent(void *message, IArgs* args=NULL);
     virtual void*               GetCriticalSection() { return static_cast<void*>(&m_pCriticalSection); };
@@ -45,11 +44,11 @@ public:
     HRESULT                     GetTrackerResult();
     void                        CheckCameraInput();
     int                         GetId()             { return(m_id);};
-    float                       GetPitch()          { return(pitch);};
+    double                      GetPitch()          { return(pitch);};
     IFTResult*                  GetResult()         { return(m_pFTResult);};
     IFTImage*                   GetColorImage()     { return(m_colorImage);};
-    float                       GetXCenterFace()    { return(m_XCenterFace);};
-    float                       GetYCenterFace()    { return(m_YCenterFace);};
+    double                      GetXCenterFace()    { return(m_XCenterFace);};
+    double                      GetYCenterFace()    { return(m_YCenterFace);};
     BOOL                        IsMaskDraw()        { return(m_config.m_DrawMask);};
     IFTFaceTracker*             GetTracker()        { return(m_pFaceTracker);};
     KinectSensor*               GetSensor()         { return(m_pKinectSensor);};
@@ -58,7 +57,7 @@ public:
     void                        SetWindow(HWND hWnd){ m_hWnd = hWnd;};
     HRESULT                     GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig);
     IAvatar*                    GetAvatar()         { return m_pKinectSensor != NULL ? m_pKinectSensor->GetEggAvatar() : NULL;};
-    float                       GetFaceConfidence() { return m_faceConfidence; };
+    double                      GetFaceConfidence() { return m_faceConfidence; };
     static DWORD WINAPI         FaceTrackingStaticThread(PVOID lpParam);
     HANDLE                      GetThreadId()       { return m_hFaceTrackingThread; };
     BOOL                        ShowVideo(HDC hdc, int width, int height, int originX, int originY);
@@ -71,15 +70,15 @@ public:
 protected:
     
 
-    CRITICAL_SECTION*            m_pCriticalSection;
+    CRITICAL_SECTION*           m_pCriticalSection;
 
-    ITrackingResults*            m_trackingResults;
+    TrackerArgs                 m_trackingResults;
     IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;
-    ITracker*                    m_parent;
-    int                            m_id;
+    ITracker*                   m_parent;
+    int                         m_id;
     KinectSensor*               m_pKinectSensor;
-    HANDLE                        m_hFaceTrackingThread;    
+    HANDLE                      m_hFaceTrackingThread;
     IFTFaceTracker*             m_pFaceTracker;
     IFTResult*                  m_pFTResult;
     IFTImage*                   m_colorImage;
@@ -87,18 +86,18 @@ protected:
     
     FT_VECTOR3D                 m_hint3D[2]; 
     
-    float                        m_faceConfidence;
+    double                      m_faceConfidence;
 
     bool                        IsKinectSensorPresent;
-    float                       m_XCenterFace;
-    float                       m_YCenterFace;
-    float                        pitch, yaw, roll;
-    float                        scale;
-    float                        rotationXYZ[3];
-    float                        translationXYZ[3];
+    double                      m_XCenterFace;
+    double                      m_YCenterFace;
+    double                      pitch, yaw, roll;
+    double                      scale;
+    double                      rotationXYZ[3];
+    double                      translationXYZ[3];
     
     HWND                        m_hWnd;
-    TrackerConfig                m_config;
+    TrackerConfig               m_config;
     TrackerArgs                 m_args;
 
     BOOL                        SubmitFraceTrackingResult(IFTResult* pResult);
