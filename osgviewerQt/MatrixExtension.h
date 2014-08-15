@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _MATRIXEXTENSION_H
 #define _MATRIXEXTENSION_H
 static osg::Matrix HolographicFrustum(double left, double right,

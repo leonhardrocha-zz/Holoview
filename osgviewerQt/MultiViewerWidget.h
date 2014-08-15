@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _MULTIVIEWERWIDGET_H
 #define _MULTIVIEWERWIDGET_H
 

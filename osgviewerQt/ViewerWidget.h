@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _VIEWERWIDGET_H
 #define _VIEWERWIDGET_H
 #include <QTimer>

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "qtLib.h"
 #ifndef _HOLOWINDOW_H
 #define _HOLOWINDOW_H
 

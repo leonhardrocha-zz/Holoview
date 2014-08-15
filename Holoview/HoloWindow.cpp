@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "qtLib.h"
 #include "HoloWindow.h"
 
 HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
@@ -33,44 +33,20 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     m_viewer = new DualScreenViewer();
   
-    // Create View 0 -- Just the loaded model.
+    // View 0 -- Just the loaded model.
     {
-        osgViewer::View* view = m_viewer->getView(DualScreenViewer::Main);
+        osgViewer::View* view = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("main"));
         view->setSceneData( scene.get() );
-
-        osg::ref_ptr<osgGA::TrackerManipulator> trackerManipulator = new osgGA::TrackerManipulator();
-        
-        trackerManipulator->setName("Tracker");
-        trackerManipulator->setVerticalAxisFixed(false);
-
-        osg::ref_ptr<osgGA::JoystickManipulator> joystickManipulator = new osgGA::JoystickManipulator();
-        joystickManipulator->setName("Joystick");
-
-        osg::ref_ptr<osgGA::TrackballManipulator> mouseManipulator = new osgGA::TrackballManipulator;
-        mouseManipulator->setName("Mouse");
-
-        osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> keySwitch = new osgGA::KeySwitchMatrixManipulator;
-        keySwitch->addMatrixManipulator( '1', trackerManipulator->getName(), trackerManipulator );
-        keySwitch->addMatrixManipulator( '2', joystickManipulator->getName(), joystickManipulator );
-        keySwitch->addMatrixManipulator( '3', mouseManipulator->getName(), mouseManipulator );
-
-        view->setCameraManipulator( keySwitch );
-
-        //AddSkyBox( view );
-        //AddGrid( view );
+        AddSkyBox( view );
+        AddGrid( view );
     }
 
-    // Create view 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
+    // View 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
     {
-        osgViewer::View* view = m_viewer->getView(DualScreenViewer::Map);
+        osgViewer::View* view = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("map"));;
         root->addChild( scene.get() );
         root->addChild( m_viewer->makeFrustumFromCamera( view ) );
         view->setSceneData( root.get() );
-
-        osg::ref_ptr<osgGA::TrackballManipulator> mouseManipulator = new osgGA::TrackballManipulator;
-        mouseManipulator->setName("MapMouse");
-
-        view->setCameraManipulator( mouseManipulator );
     }
 }
 
@@ -95,29 +71,29 @@ osg::ref_ptr<osg::PositionAttitudeTransform> HoloWindow::GetModelTransformHelper
 
 void HoloWindow::AddGrid(osgViewer::View* view)
 {
-    osg::ref_ptr<osg::Node> scene = view->getSceneData();
+    osg::Node* scene = view->getSceneData();
     
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    osg::Geode* geode = new osg::Geode;
     geode->addDrawable( new Grid(osg::Vec3(0.0, 0.0, 0.0), osg::Vec2(25.0, 25.0), osg::Vec2(0.25, 0.25) ) );
     geode->setCullingActive( false );
-    osg::ref_ptr<osg::Group> root = new osg::Group;
-    osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform(osg::Matrix::rotate(-osg::PI_2, osg::Vec3(1,0,0)));
-    transform->addChild( geode.get() );
-    root->addChild( scene.get() );
-    root->addChild( transform.get() );
 
-    m_viewer->getView(DualScreenViewer::Main)->setSceneData( root.get() );
+    osg::Group* root = new osg::Group;
+    osg::MatrixTransform* transform = new osg::MatrixTransform(osg::Matrix::rotate(-osg::PI_2, osg::Vec3(1,0,0)));
+    transform->addChild( geode );
+    root->addChild( scene );
+    root->addChild( transform );
+    view->setSceneData( root );
 }
 
 void HoloWindow::AddSkyBox(osgViewer::View* view)
 {
-    osg::ref_ptr<osg::Node> scene = view->getSceneData();
-    
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    osg::Node* scene = view->getSceneData();
+
+    osg::Geode* geode = new osg::Geode();
     geode->addDrawable( new osg::ShapeDrawable(new osg::Sphere(osg::Vec3(), scene->getBound().radius())) );
     geode->setCullingActive( false );
-    
-    osg::ref_ptr<SkyBox> skybox = new SkyBox;
+
+    SkyBox* skybox = new SkyBox();
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
     std::string name = "axis";
     std::string path = "../Dependencies/Images/Cubemap_" + name + "/";
@@ -141,14 +117,14 @@ void HoloWindow::AddSkyBox(osgViewer::View* view)
         }
         images.push_back(image);
     }
-
     skybox->setEnvironmentMap( 0, images[0], images[1], images[2], images[3], images[4], images[5]);
+    skybox->addChild( geode );
 
-    skybox->addChild( geode.get() );
-    
-    osg::ref_ptr<osg::Group> root = new osg::Group;
-    root->addChild( scene.get() );
-    root->addChild( skybox.get() );
+    osg::Group* root = new osg::Group;
+    root->addChild( scene );
+    root->addChild( skybox );
+
+    view->setSceneData( root );
 }
 
 bool HoloWindow::AddOsgDockWidget(QWidget* parent)

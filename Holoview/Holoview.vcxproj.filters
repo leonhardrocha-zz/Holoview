@@ -91,9 +91,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TrackerFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -101,6 +98,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="OsgFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="qtLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

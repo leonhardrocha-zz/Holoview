@@ -1,12 +1,3 @@
-/* -*-c++-*- OpenSceneGraph Cookbook
- * Common functions
- * Author: Wang Rui <wangray84 at gmail dot com>
-*/
-
-#include <osg/PolygonMode>
-#include <osgText/Font>
-#include <osgViewer/View>
-
 #include "CommonFunctions.h"
 
 namespace osgCookBook
@@ -142,5 +133,4 @@ namespace osgCookBook
         }
         return false;
     }
-
 }

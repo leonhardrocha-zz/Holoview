@@ -69,6 +69,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderFile>osgLib.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -118,6 +119,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;QT_NO_DEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderFile>osgLib.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_LIB;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;QT_NO_DEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -192,6 +194,7 @@
     <ClCompile Include="ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseScreenInfo.h" />
     <ClInclude Include="DualScreenViewer.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HoloCameraView.h" />
@@ -199,12 +202,14 @@
     <ClInclude Include="JoystickManipulator.h" />
     <ClInclude Include="MatrixExtension.h" />
     <ClInclude Include="MultiViewerWidget.h" />
+    <ClInclude Include="ScreenInfo.h" />
     <ClInclude Include="SelectModelHandler.h" />
     <ClInclude Include="SkyBox.h" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="osgLib.h" />
     <ClInclude Include="TrackerManipulator.h" />
     <ClInclude Include="TwoDimManipulator.h" />
     <ClInclude Include="UpdateScreenCallback.h" />
+    <ClInclude Include="ViewerArgs.h" />
     <ClInclude Include="ViewerWidget.h" />
     <ClInclude Include="VirtualScreenCallback.h" />
   </ItemGroup>

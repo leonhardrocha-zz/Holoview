@@ -38,7 +38,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "stdafx.h"
+#include "qtLib.h"
 #include "toolbar.h"
 
 #include <QMainWindow>

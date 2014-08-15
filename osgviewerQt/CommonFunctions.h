@@ -1,14 +1,6 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _COMMONFUNCTIONS_H
 #define _COMMONFUNCTIONS_H
-
-#include <osg/AnimationPath>
-#include <osg/Texture>
-#include <osg/Camera>
-#include <osgGA/GUIEventHandler>
-#include <osgText/Text>
-#include <osgUtil/LineSegmentIntersector>
-
 namespace osgCookBook
 {
 

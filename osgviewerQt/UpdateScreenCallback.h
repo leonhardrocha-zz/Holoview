@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _UPDATESCREENCALLBACK_H
 #define _UPDATESCREENCALLBACK_H
 

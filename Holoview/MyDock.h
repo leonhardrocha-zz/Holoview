@@ -1,10 +1,8 @@
+#include "qtLib.h"
 #ifndef MYDOCK_H
 #define MYDOCK_H
 #include "ITracker.h"
 #include "TrackerFrame.h"
-#include <QAction>
-#include <QFrame>
-#include <QDockWidget>
 
 QT_FORWARD_DECLARE_CLASS(QAction)
 QT_FORWARD_DECLARE_CLASS(QActionGroup)

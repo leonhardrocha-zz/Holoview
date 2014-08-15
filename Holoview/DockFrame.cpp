@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "qtLib.h"
 #include "DockFrame.h"
 
 QColor bgColorForName(const QString &name)

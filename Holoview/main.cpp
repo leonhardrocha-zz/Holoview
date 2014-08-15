@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "qtLib.h"
 #include "KinectTracker.h"
 #include "TrackerArgs.h"
 #include "HoloWindow.h"

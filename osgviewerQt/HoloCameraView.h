@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _HOLOCAMERAVIEW_H
 #define _HOLOCAMERAVIEW_H
 

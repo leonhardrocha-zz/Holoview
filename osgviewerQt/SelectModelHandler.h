@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _SELECTMODELHANDLER_H
 #define _SELECTMODELHANDLER_H
 

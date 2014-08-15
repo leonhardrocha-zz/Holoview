@@ -1,11 +1,7 @@
+#include "qtLib.h"
 #ifndef _TRACKER_DOCK_H
 #define _TRACKER_DOCK_H
 
-#include <QWidget>
-#include <QEvent>
-#include <QVector>
-#include <QPaintEngine>
-#include <QThread>
 #include "DockFrame.h"
 #include "ITracker.h"
 #include "ICallable.h"

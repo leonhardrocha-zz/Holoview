@@ -1,10 +1,6 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _GRID_H
 #define _GRID_H
-#include <osgViewer/Viewer>
-#include <osgText/Text>
-#include <osg/Geometry>
-
 
 class Grid : public osg::ShapeDrawable 
 {

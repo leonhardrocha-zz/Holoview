@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "qtLib.h"
 #include "MainWindow.h"
 #include "ITrackerFactory.h"
 #include "Factory.h"

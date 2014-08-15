@@ -1,0 +1,51 @@
+#ifdef _MSC_VER
+#pragma once
+#undef _OSGLIB_H
+#endif
+
+#ifndef _OSGLIB_H
+#define _OSGLIB_H
+#include <osg/AnimationPath>
+#include <osg/Camera>
+#include <osg/Camera>
+#include <osg/CameraView>
+#include <osg/Geode>
+#include <osg/Geometry>
+#include <osg/Geometry>
+#include <osg/MatrixTransform>
+#include <osg/NodeCallback>
+#include <osg/NodeVisitor>
+#include <osg/PolygonMode>
+#include <osg/PositionAttitudeTransform>
+#include <osg/ShapeDrawable>
+#include <osg/TexGen>
+#include <osg/Texture>
+#include <osg/TextureCubeMap>
+#include <osg/Transform>
+#include <osgDB/ReadFile>
+#include <osgGA/CameraManipulator>
+#include <osgGA/CameraManipulator>
+#include <osgGA/FirstPersonManipulator>
+#include <osgGA/GUIEventHandler>
+#include <osgGA/KeySwitchMatrixManipulator>
+#include <osgGA/OrbitManipulator>
+#include <osgGA/StandardManipulator>
+#include <osgGA/TrackballManipulator>
+#include <osgGA/TrackballManipulator>
+#include <osgManipulator/Projector>
+#include <osgQt/GraphicsWindowQt>
+#include <osgText/Font>
+#include <osgText/Text>
+#include <osgText/Text>
+#include <osgUtil/LineSegmentIntersector>
+#include <osgUtil/SmoothingVisitor>
+#include <osgViewer/CompositeViewer>
+#include <osgViewer/config/PanoramicSphericalDisplay>
+#include <osgViewer/View>
+#include <osgViewer/Viewer>
+#include <osgViewer/ViewerEventHandlers>
+#include <QApplication>
+#include <QGridLayout>
+#include <QTimer>
+
+#endif

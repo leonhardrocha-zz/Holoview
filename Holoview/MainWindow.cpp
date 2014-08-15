@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "qtLib.h"
 #include "mainwindow.h"
 
 static const char * const message =

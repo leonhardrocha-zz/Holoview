@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _VIRTUALSCREENCALLBACK_H
 #define _VIRTUALSCREENCALLBACK_H
 

@@ -1,10 +1,7 @@
+#include "qtLib.h"
 #ifndef _OSG_DOCK_H
 #define _OSG_DOCK_H
 
-#include <QWidget>
-#include <QEvent>
-#include <QPaintEngine>
-#include <QThread>
 #include "DockFrame.h"
 #include "ViewerWidget.h"
 

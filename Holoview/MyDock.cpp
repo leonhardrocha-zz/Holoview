@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "qtLib.h"
 #include "MyDock.h"
 #include <QAction>
 #include <QtEvents>

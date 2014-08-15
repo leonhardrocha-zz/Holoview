@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _HOLOGRAPHIC_TRANSFORM_H
 #define _HOLOGRAPHIC_TRANSFORM_H
 

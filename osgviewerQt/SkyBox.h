@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "osgLib.h"
 #ifndef _SKYBOX_H
 #define _SKYBOX_H
 
