@@ -1,36 +1,34 @@
 #include "osgLib.h"
 #ifndef _SCREENINFO_H
 #define _SCREENINFO_H
-#include "BaseScreenInfo.h"
+#include "DisplayInfo.h"
 
-class ScreenInfo : public BaseScreenInfo
+class ScreenInfo : public DisplayInfo
 {
 public:
-    ScreenInfo() : BaseScreenInfo() { Update(); };
-    ScreenInfo(double angle) : BaseScreenInfo(), rotationAngle(angle) { Update(); };
-public:
-    std::string name;
-    osg::Vec3 center;
-    osg::Vec3 m_basePosition;
-    osg::Plane viewPlane;
-    osg::Matrix rotation;
-    double rotationAngle;
+    ScreenInfo(double fovx = osg::inDegrees(60.0)) : DisplayInfo()
+	{
+		screenWidth = Width - 2 * BezelWidth;
+		screenHeight = Height - 2 * BezelHeight;
+		screenDepth = screenWidth > screenHeight ? screenWidth : screenHeight;
+		left =  -screenWidth/2;
+        right = screenWidth/2;
+        bottom = -screenHeight/2;
+        top = screenHeight/2;
+        zNear = (right - left) / (2.0 * tan(fovx/2.0));
+		zFar = zNear + screenDepth;
+	};
 
-    virtual void Update() 
-    {
-        double cosine = std::cos(rotationAngle);
-        double sine = std::sin(rotationAngle);
-        left =  m_bezelWidth  * sine;
-        right = (m_bezelWidth + m_screenWidth) * sine;
-        bottom = m_tvElevation + m_bezelWidth;
-        top = m_tvElevation + m_bezelWidth + m_screenHeight;
-        zFar = m_bezelWidth * cosine;
-        zNear = (m_bezelWidth + m_screenWidth) * cosine;
-        zRight = zNear;
-        zLeft = zFar;
-        center = osg::Vec3((left + right)/2.0, (top + bottom)/2.0, (zLeft + zRight)/2.0);
-        m_basePosition = osg::Vec3(m_tvWidth / 2.0 * sine, m_tvElevation, m_tvWidth /2.0 * cosine);
-    };
+	virtual osg::Matrix GetFrustum() { return osg::Matrix::frustum(left, right, bottom, top, zNear, zFar); } 
+	virtual bool SetFrustum(osg::Matrix& frustum) { return frustum.getFrustum(left, right, bottom, top, zNear, zFar); }
+	
+	double screenWidth;
+    double screenHeight;
+    double screenDepth;
+
+protected:
+
+	double left, right, top, bottom, zNear, zFar;
 };
 
 #endif

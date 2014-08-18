@@ -7,7 +7,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 {
     osg::ref_ptr<osg::Node> duck = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");
     osg::ref_ptr<osg::Node> airplane = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");
-    osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/osg/cessna.osgt.-90,0,0.rot");
+    osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/3ds/TargetCameraAnim.3ds.-90,0,0.rot");
     osg::ref_ptr<osg::Node> kinect = osgDB::readNodeFile("../Dependencies/Models/3ds/kinect/kinect_edited.3ds.-20,0,0.rot");
 
     osg::Vec3 modelPosition1(0.50, 1.2, 0.0);

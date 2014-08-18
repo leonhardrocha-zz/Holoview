@@ -194,7 +194,7 @@
     <ClCompile Include="ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseScreenInfo.h" />
+    <ClInclude Include="DisplayInfo.h" />
     <ClInclude Include="DualScreenViewer.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HoloCameraView.h" />

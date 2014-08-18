@@ -56,13 +56,13 @@
     <ClInclude Include="osgLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseScreenInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScreenInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ViewerArgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

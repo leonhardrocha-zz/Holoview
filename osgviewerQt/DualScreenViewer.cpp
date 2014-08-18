@@ -1,5 +1,4 @@
 #include "DualScreenViewer.h"
-#include "DualScreenViewer.h"
 #include "TrackerManipulator.h"
 #include "JoystickManipulator.h"
 #include "MatrixExtension.h"
@@ -56,7 +55,6 @@ bool _myclampProjectionMatrix(matrix_type& projection, double& znear, double& zf
     }
     else
     {
-        return true;
         // OSG_INFO << "Persepective matrix before clamping"<<projection<<std::endl;
 
         //std::cout << "_computed_znear"<<_computed_znear<<std::endl;
@@ -145,7 +143,6 @@ protected:
 DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer()
 {
     m_angleBetweenScreensInDegrees = 120;
-    Setup();
     // Create View 0 -- Main.
     {
         osgViewer::View* view = new osgViewer::View;
@@ -212,7 +209,7 @@ DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer()
     m_traits->samples = ds->getNumMultiSamples();
     m_traits->windowDecoration = true;
     m_traits->x = 0;
-    m_traits->y = 0;
+    m_traits->y = 0;	
 }
 
 DualScreenViewer::~DualScreenViewer() 
@@ -221,24 +218,11 @@ DualScreenViewer::~DualScreenViewer()
 
 void DualScreenViewer::Setup()
 {
-    double rotationAngle = osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
-    ScreenInfo leftScreen(-rotationAngle);
-    ScreenInfo rightScreen(rotationAngle);
-    m_screen.clear();
-    m_screen.push_back(leftScreen);
-    m_screen.push_back(rightScreen);
-    m_virtualOrigin = osg::Vec3(0.0, m_screen[0].center.y(), 0);
-    m_virtualCenter = osg::Vec3(0.0, m_screen[0].center.y(), m_screen[0].zNear);
-    m_viewMatrix.makeLookAt(m_virtualCenter, m_virtualOrigin, osg::Vec3(0,1,0));
-    m_projectionMatrix.set(1.0, 0.0, 0.0, 0.0,
-                           0.0, 1.0, 0.0, 0.0,
-                           0.0, 0.0, 1.0, 0.0,
-                           0.0, 0.0, 0.0, 1.0);
-    for(int screenIndex = Left; screenIndex < NumOfScreens; screenIndex++)
-    {
-        CreateViewOffset(screenIndex);
-        CreateProjectionOffset(screenIndex);
-    }
+    SetupView();
+    SetupProjection();
+    m_virtualOrigin = osg::Vec3(0.0, 0.75, 0.0);
+    m_virtualCenter = osg::Vec3(0.0, 0.75, 0.75);
+
 }
 
 void DualScreenViewer::Update(IArgs *results) 
@@ -266,6 +250,16 @@ void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipul
         osg::Vec3d eye;
         trackerManipulator->getTransformation(eye, rotation);
         m_virtualEye = eye;
+		osg::Matrix viewMatrix = trackerManipulator->getMatrix();
+		osg::Vec3 translation = viewMatrix.getTrans();
+		viewMatrix.postMultTranslate(-translation);
+		trackerManipulator->setByMatrix(viewMatrix);
+		osgViewer::View* view = static_cast<osgViewer::View*>(m_viewerArgs.Get("main"));
+		osgViewer::View::Slave& leftSlave = view->getSlave(Left);
+		leftSlave._viewOffset =  m_viewOffset[Left] * osg::Matrix::translate(translation);
+		osgViewer::View::Slave& rightSlave = view->getSlave(Right);;
+		rightSlave._viewOffset = m_viewOffset[Right] * osg::Matrix::translate(translation);
+
     }
 }
 
@@ -284,38 +278,20 @@ void DualScreenViewer::UpdateMap(void* instance, IArgs* args)
 }
 
 
-void DualScreenViewer::CreateViewOffset(int screenIndex)
+void DualScreenViewer::SetupView()
 {
-    osg::Vec3 pa(m_screen[screenIndex].left, m_screen[screenIndex].bottom, m_screen[screenIndex].zLeft);
-    osg::Vec3 pb(m_screen[screenIndex].right, m_screen[screenIndex].bottom, m_screen[screenIndex].zRight);
-    osg::Vec3 pc(m_screen[screenIndex].left, m_screen[screenIndex].top, m_screen[screenIndex].zLeft);
-    osg::Vec3 vr = pb - pa;
-    vr.normalize();
-    osg::Vec3 vu = pc - pa;
-    vu.normalize();
-    osg::Vec3 vn = vr ^ vu;
-    vn.normalize();
-    m_viewMatrixOffset[screenIndex].set(vr.x(), vr.y(), vr.z(), 0.0,
-                                        vu.x(), vu.y(), vu.z(), 0.0,
-                                        vn.x(), vn.y(), vn.z(), 0.0,
-                                        0.0,    0.0,    0.0,    1.0);
-}
+	double angleOffset = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
+	m_viewOffset[Left] = osg::Matrix::rotate(angleOffset, osg::Vec3(0,1,0));						 
+	m_viewOffset[Right] = osg::Matrix::rotate(-angleOffset, osg::Vec3(0,1,0));
+} 
+						  
 
-void DualScreenViewer::CreateProjectionOffset(int screenIndex)
+void DualScreenViewer::SetupProjection()
 {
-    double left, right, top, bottom, zNear, zFar, zRatio;
-
-    zNear =  m_virtualCenter.z() - m_screen[screenIndex].zNear;
-    zFar = m_virtualCenter.z() - m_screen[screenIndex].zFar;
-    zRatio = zNear / zFar;
-    right = (m_screen[screenIndex].right - m_virtualCenter.x()) * zRatio;
-    left = -(m_virtualCenter.x() - m_screen[screenIndex].left)* zRatio;
-    top = (m_screen[screenIndex].top  - m_virtualCenter.y() )* zRatio;
-    bottom = -(m_virtualCenter.y()  - m_screen[screenIndex].bottom) * zRatio;
-    m_projectionMatrixOffset[screenIndex] =  /*HolographicFrustum*/osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
-    double offset = m_screen[screenIndex].m_tvWidth;
-    double xOffset = screenIndex == Left ? -offset : offset;
-    m_projectionMatrixOffset[screenIndex].postMultTranslate(osg::Vec3(xOffset, 0 , 0));
+	m_projectionMatrix = m_display.GetFrustum();
+	double offset = 1.0+m_display.BezelWidth/m_display.Width;
+	m_projectionOffset[Left] = osg::Matrix::translate(-offset, 0, 0);
+	m_projectionOffset[Right] = osg::Matrix::translate(offset, 0, 0);
 }
 
 void DualScreenViewer::CreateGraphicsWindow(osgViewer::View* view)
@@ -326,7 +302,7 @@ void DualScreenViewer::CreateGraphicsWindow(osgViewer::View* view)
         osg::notify(osg::NOTICE)<<"Error, no WindowSystemInterface available, cannot create windows."<<std::endl;
         return;
     }
-
+	Setup();
     osg::Camera* viewCamera = view->getCamera();
     viewCamera->setViewMatrix(m_viewMatrix);
     viewCamera->setProjectionMatrix(m_projectionMatrix);
@@ -358,7 +334,7 @@ void DualScreenViewer::CreateGraphicsWindow(osgViewer::View* view)
         camera->setName(i == Left ? "Left" : "Right");
         osg::ref_ptr<MyClampProjectionMatrixCallback> callback = new MyClampProjectionMatrixCallback(camera->getNearFarRatio());
         camera->setClampProjectionMatrixCallback( callback );
-        view->addSlave(camera.get(), m_projectionMatrixOffset[i], m_viewMatrixOffset[i]);
+        view->addSlave(camera.get(), m_projectionOffset[i], m_viewOffset[i]);
     }
 }
 
@@ -369,11 +345,12 @@ void DualScreenViewer::ToggleStereoSettings(osgViewer::View* view)
     ds->setStereo(!isStereo);
     if (ds->getStereo())
     {
+		ScreenInfo screen;
         ds->setStereoMode(osg::DisplaySettings::HORIZONTAL_SPLIT);
         ds->setDisplayType(osg::DisplaySettings::MONITOR);
-        ds->setScreenDistance(m_screen[0].m_screenDistance); 
-        ds->setScreenHeight(m_screen[0].m_screenHeight);
-        ds->setScreenWidth(m_screen[0].m_screenWidth);
+        ds->setScreenDistance(screen.screenDepth); 
+        ds->setScreenHeight(screen.screenHeight);
+        ds->setScreenWidth(screen.screenWidth);
         ds->setEyeSeparation(0.05f);
     }
 }
