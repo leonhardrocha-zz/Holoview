@@ -5,39 +5,12 @@
 //------------------------------------------------------------------------------
 
 #include "StdAfx.h"
-
+#include "eggavatar.h"
 #include <FaceTrackLib.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "TrackerPose.h"
 #include "Position.h"
-
-const double EyeCurveTop[PointsPerEyeLid] = {0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f};
-const double EyeCurveBottom[PointsPerEyeLid] = {0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f};
-const double EyebrowCurve[NumberEyebrowPoints] = {0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f, 0};
-const double UpperLipCurve[PointsPerLip] = {0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f};
-const double LowerLipCurve[PointsPerLip] = {0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f};
-const double LipCornersCurve[NumberMouthPoints] = 
-    {1.0f, 0.5f, 0.2f, 0, 0, 0, 0.2f, 0.5f, 1.0f, 0.5f, 0.2f, 0, 0, 0, 0.2f, 0.5f};
-const double LipStretchCurve[NumberMouthPoints] = 
-    {-1.0f, -0.925f, -0.775f, -0.5f, 0, 0.5f, 0.775f, 0.925f, 1.0f, 0.925f, 0.775f, 0.5f, 0, -0.5f, -0.775f, -0.925f};
-const double OuterBrowRaiseCurveX[NumberEyebrowPoints] = 
-    {0, 0.0125f, 0.025f, 0.0375f, 0.05f, 0.0625f, 0.075f, 0.0875f, 0.1f};
-const double OuterBrowRaiseCurveY[NumberEyebrowPoints] = 
-    {0, 0.125f, 0.25f, 0.375f, 0.5f, 0.625f, 0.75f, 0.875f, 1.0f};
-
-
-const double AU0LipLiftCoefficient = 0.5f/16.0f;
-const double AU1JawDropCoefficient = 1.0f/12.0f;
-const double AU2LipStretchCoefficient = 1.0f/24.0f;
-const double AU3EyebrowLowerCoefficient = 2.0f/16.0f;
-const double AU4MouthCornerCoefficient = -1.0f/24.0f;
-const double AU5OuterBrowRaiserCoefficient = 1.0f/16.0f;
-
-const double AU2LowerEyelidCoefficient = 1.0f/40.0f;
-const double AU3EyelidsCoefficient = 2.0f/40.0f;
-
-
 
 EggAvatar::EggAvatar()
 {

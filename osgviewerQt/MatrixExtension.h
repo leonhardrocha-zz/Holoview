@@ -1,6 +1,10 @@
 #include "osgLib.h"
 #ifndef _MATRIXEXTENSION_H
 #define _MATRIXEXTENSION_H
+
+namespace MatrixExtension
+{
+
 static osg::Matrix HolographicFrustum(double left, double right,
                          double bottom, double top,
                          double zNear, double zFar)
@@ -35,6 +39,18 @@ static osg::Matrix getInverseRotation(const osg::Vec3& eye, const osg::Vec3& cen
 
 }
 
+static osg::Matrix getShear(const osg::Vec3& eye, const osg::Vec3& center)
+{
+    osg::Vec3 s = eye - center;
+
+    return osg::Matrix(
+        1.0,            0.0,     0.0,      0.0,
+        0.0,    1.0,     0.0,      0.0,
+        -s.x()/s.z(),    0.0,     1.0,      0.0,
+        0.0,            0.0,     0.0,      1.0);
+
+}
+
 static osg::Matrix getRotation(const osg::Vec3& eye, const osg::Vec3& center, const osg::Vec3& up)
 {
     osg::Vec3 f(center-eye);
@@ -50,5 +66,5 @@ static osg::Matrix getRotation(const osg::Vec3& eye, const osg::Vec3& center, co
         0.0,     0.0,     0.0,      1.0);
 
 }
-
+}
 #endif

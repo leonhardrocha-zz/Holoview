@@ -65,6 +65,9 @@
     <ClInclude Include="DisplayInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ObliqueCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViewerWidget.cpp">

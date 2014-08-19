@@ -63,7 +63,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(KINECTSDK10_DIR)inc;$(FTSDK_DIR)inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)$(TargetName)d.pch</PrecompiledHeaderOutputFile>
       <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
@@ -108,9 +108,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\AvatarFace.h" />
     <ClInclude Include="include\eggavatar.h" />
     <ClInclude Include="include\KinectFaceTracker.h" />
     <ClInclude Include="include\KinectSensor.h" />
+    <ClInclude Include="include\KinectPoseController.h" />
     <ClInclude Include="include\KinectTracker.h" />
     <ClInclude Include="include\Options.h" />
     <ClInclude Include="include\Attitude.h" />
@@ -129,6 +131,7 @@
     <ClCompile Include="src\eggavatar.cpp" />
     <ClCompile Include="src\KinectFaceTracker.cpp" />
     <ClCompile Include="src\KinectSensor.cpp" />
+    <ClCompile Include="src\KinectPoseController.cpp" />
     <ClCompile Include="src\MultiTrackerManager.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\TrackerManager.cpp" />

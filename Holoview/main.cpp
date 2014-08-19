@@ -1,6 +1,6 @@
 #include "qtLib.h"
 #include "KinectTracker.h"
-#include "TrackerArgs.h"
+#include "AppArgs.h"
 #include "HoloWindow.h"
 #include "MainWindow.h"
 #include "DualScreenViewer.h"
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     KinectTracker tracker;
     tracker.InitDefault();
     DualScreenViewer* dualViewer = static_cast<DualScreenViewer*>(mainWindow.GetViewer());
-    TrackerArgs args;
+    AppArgs args;
     args.Set("dualViewer", static_cast<void*>(dualViewer));
     tracker.SetCallback(TrackerViewUpdateStatic, &tracker, &args);
     mainWindow.AddTrackerDockWidget(static_cast<ITracker*>(&tracker));

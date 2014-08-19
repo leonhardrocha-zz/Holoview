@@ -5,12 +5,11 @@
 //------------------------------------------------------------------------------
 
 #pragma once
-
-#include <FaceTrackLib.h>
-#include <NuiApi.h>
-#include <NuiSensor.h>
+#include "ITracker.h"
 #include "IAvatar.h"
 #include "EggAvatar.h"
+#include <FaceTrackLib.h>
+#include <NuiApi.h>
 
 class KinectSensor
 {
@@ -29,14 +28,16 @@ public:
     float       GetZoomFactor() { return(m_ZoomFactor); };
     POINT*      GetViewOffSet() { return(&m_ViewOffset); };
     EggAvatar*  GetEggAvatar() { return(&m_eggavatar); };
+    bool        IsInitialized() { return m_bNuiInitialized; };
     HRESULT     GetClosestHint(FT_VECTOR3D* pHint3D);
+    virtual HRESULT SetTiltAngle(LONG angle) { return m_Sensor->NuiCameraElevationSetAngle(angle); }
+    virtual HRESULT GetTiltAngle(LONG* angle) { return m_Sensor->NuiCameraElevationGetAngle(angle); }
     IFTResult*  m_pFTResult;
-    float        m_smallestDistance;
+    float       m_smallestDistance;
 
     bool        IsTracked(UINT skeletonId) { return(m_SkeletonTracked[skeletonId]);};
     FT_VECTOR3D NeckPoint(UINT skeletonId) { return(m_NeckPoint[skeletonId]);};
     FT_VECTOR3D HeadPoint(UINT skeletonId) { return(m_HeadPoint[skeletonId]);};
-
 
 protected:
     IFTImage*   m_VideoBuffer;

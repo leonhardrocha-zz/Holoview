@@ -63,6 +63,12 @@
     <ClInclude Include="include\Attitude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\AvatarFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KinectPoseController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\eggavatar.cpp">
@@ -84,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\MultiTrackerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KinectPoseController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

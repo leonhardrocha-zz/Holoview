@@ -1,19 +1,45 @@
 #include "osgLib.h"
 #ifndef _DUALSCREENVIEWER_H
 #define _DUALSCREENVIEWER_H
+#include "ObliqueCamera.h"
 #include "ViewerArgs.h"
 #include "ScreenInfo.h"
+#include "MatrixExtension.h"
 
 class DualScreenViewer : public osgViewer::CompositeViewer
 {
 
 public:
-
     enum TV_SIDE
     {
         Left = 0,
         Right = 1,
         NumOfScreens = 2
+    };
+
+    struct SlaveCallback : public osg::View::Slave::UpdateSlaveCallback
+    {
+    public:
+        virtual void updateSlave(osg::View& view, osg::View::Slave& slave)
+        {
+            ObliqueCamera* slaveCamera = static_cast<ObliqueCamera*>(slave._camera.get());
+            osg::Camera* viewCamera = view.getCamera();
+        
+            if (!slaveCamera|| !viewCamera) return;
+
+            if (slaveCamera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
+            {
+                osg::Matrix viewMatrix = view.getCamera()->getViewMatrix();
+                //osg::Matrix translation = osg::Matrix::translate(viewMatrix.getTrans());
+                //osg::Vec3 eye, center, viewUp;
+                //viewMatrix.getLookAt(eye, center, viewUp);
+                //osg::Matrix rotationMatrix = MatrixExtension::getInverseRotation(eye, center, osg::Vec3(0,1,0));
+                slaveCamera->setProjectionMatrix(slave._projectionOffset);
+                slaveCamera->setViewMatrix(viewMatrix * slave._viewOffset * viewCamera->getProjectionMatrix());
+            }
+
+            slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
+        };
     };
 
     DualScreenViewer();
@@ -37,8 +63,8 @@ public:
     static void UpdateMap(void* instance, IArgs* args);
     IArgs* GetViewerArgs() { return &m_viewerArgs; };
 protected:
-	ScreenInfo m_display;
-    ViewerArgs  m_viewerArgs;
+    ScreenInfo m_display;
+    ViewerArgs m_viewerArgs;
     virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results=NULL);
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
     osg::Node* m_frustumNode;
@@ -51,6 +77,5 @@ protected:
     osg::Vec3 m_virtualCenter;
     osg::Vec3 m_virtualOrigin;
     double m_angleBetweenScreensInDegrees;
-
 };
 #endif

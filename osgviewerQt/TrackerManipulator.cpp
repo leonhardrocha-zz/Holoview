@@ -150,16 +150,21 @@ void TrackerManipulator::setVelocity( const double& velocity )
 void TrackerManipulator::setTrackingResults( IArgs* results, osg::Vec3 center)
 {
     const osg::Vec3 kinectBasePosition(0.0, 0.615, 0.1);
-    const double kinectTiltAngle = osg::inDegrees(20.0);
     const osg::Vec3 kinectEyeOffset(0.0, 0.06, 0.0);
-    const osg::Vec3 kinectEyePosition = kinectBasePosition + osg::Matrix::rotate(-kinectTiltAngle, osg::Vec3(1.0, 0.0, 0.0)) * kinectEyeOffset;
-
+    double kinectPitchAngle = osg::inDegrees(27.0);
     IPose *position = static_cast<IPose*>(results->Get("position"));
-
     osg::Vec3 avatarPosition(position->Get(0), position->Get(1), position->Get(2));
-    osg::Vec3 kinectFrustumOffset( 0.0, avatarPosition.y() * sin(kinectTiltAngle), avatarPosition.z() * cos(kinectTiltAngle) );
-    osg::Vec3 kinectFrustumTargetPosition = kinectEyePosition + kinectFrustumOffset;
-    osg::Vec3 eye(avatarPosition.x(), avatarPosition.y() + kinectFrustumTargetPosition.y(), avatarPosition.z());
+    /*if (results->Exists("KinectAttitude"))
+    {
+        IPose *kinectAttitude = static_cast<IPose*>(results->Get("KinectAttitude"));
+        kinectPitchAngle = osg::inDegrees(kinectAttitude->Get(0));
+    }*/
+    osg::Vec3 xAxis(1.0, 0.0, 0.0);
+    osg::Vec3 kinectEyePosition = kinectBasePosition + osg::Matrix::rotate(kinectPitchAngle, xAxis) * kinectEyeOffset;
+    osg::Vec3 kinectFrustumOffset =osg::Matrix::rotate(kinectPitchAngle, xAxis) * avatarPosition;
+    osg::Vec3 kinectFrustumPosition = kinectEyePosition + kinectFrustumOffset;
+    osg::Vec3 elevation(0, kinectFrustumPosition.y(), 0);
+    osg::Vec3 eye = avatarPosition + elevation;
     _rotation = osg::Matrix::lookAt(eye, center, osg::Vec3( 0.,1.,0. )).getRotate();
     _eye = eye;
 }

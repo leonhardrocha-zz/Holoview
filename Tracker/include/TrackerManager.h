@@ -45,15 +45,11 @@ public:
 
     int                         GetNumOfTrackingSensors() { return m_numOfSensors; };
     int                         GetNumOfAvailableSensors() { return m_maxNumOfSensors;};
-
-    void                        InitArgs(int argc, char **argv);
-    BOOL                        InitInstanceInHostWindow();
-
 protected:
 
     int                         m_numOfSensors;
     int                         m_maxNumOfSensors;
-    CRITICAL_SECTION            m_CriticalSection;    
+    CRITICAL_SECTION            m_CriticalSection;
 
     std::vector<KinectFaceTracker*> m_pFaceTrackers;
     std::vector<HANDLE>             m_FaceTrackingThreads;

@@ -87,12 +87,11 @@ void TrackerManager::TrackEvent(void* message, IArgs* args)
     ICallback callback = this->GetCallback();
     if(callback)
     {
-        IArgs* pResults = static_cast<IArgs*>(message);
-        void* viewArgs = static_cast<void*>(pResults);
         IArgs* callbackArgs = this->GetArgs();
         if (callbackArgs)
         {
-            callbackArgs->Set("TrackerManagerResults", viewArgs);
+            void* results = message;
+            callbackArgs->Set("TrackingResults", results);
         }
         Call();
     }

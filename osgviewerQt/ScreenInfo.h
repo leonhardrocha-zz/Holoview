@@ -2,9 +2,13 @@
 #ifndef _SCREENINFO_H
 #define _SCREENINFO_H
 #include "DisplayInfo.h"
+#include "MatrixExtension.h"
+
+class DualScreenViewer;
 
 class ScreenInfo : public DisplayInfo
 {
+    friend class DualScreenViewer;
 public:
     ScreenInfo(double fovx = osg::inDegrees(60.0)) : DisplayInfo()
 	{
@@ -29,6 +33,12 @@ public:
 protected:
 
 	double left, right, top, bottom, zNear, zFar;
+};
+
+class HoloScreenInfo : public ScreenInfo
+{
+    friend class DualScreenViewer;
+    virtual osg::Matrix GetFrustum() { return MatrixExtension::HolographicFrustum(left, right, bottom, top, zNear, zFar); } 
 };
 
 #endif

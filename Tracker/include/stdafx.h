@@ -14,12 +14,12 @@
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#define INC_OLE2 //for NuiSensor.h
 #endif
 
 // Windows Header Files:
 #include <windows.h>
 #include <Shellapi.h>
-#include "eggavatar.h"
 // C RunTime Header Files
 #include <stdio.h>
 #include <stdlib.h>

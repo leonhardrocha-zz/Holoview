@@ -142,6 +142,7 @@
     <ClCompile Include="Toolbar.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppArgs.h" />
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h" />
     <ClInclude Include="OsgFrame.h" />
     <ClInclude Include="qtLib.h" />
