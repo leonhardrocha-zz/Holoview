@@ -247,6 +247,8 @@ void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipul
         osg::Vec3d eye;
         trackerManipulator->getTransformation(eye, rotation);
         m_virtualEye = eye;
+
+
         //osg::Matrix viewMatrix = trackerManipulator->getMatrix();
         //osg::Vec3 translation = viewMatrix.getTrans();
         //viewMatrix.postMultTranslate(-translation);
@@ -291,8 +293,8 @@ void DualScreenViewer::SetupProjection()
 {
     m_projectionMatrix = m_display.GetFrustum();
     double offset = 1.0+m_display.BezelWidth/m_display.Width;
-    m_projectionOffset[Left] = osg::Matrix::translate(-offset, 0, -m_display.screenDepth);
-    m_projectionOffset[Right] = osg::Matrix::translate(offset, 0, -m_display.screenDepth);
+    m_projectionOffset[Left] = osg::Matrix::translate(offset, 0, 0);
+    m_projectionOffset[Right] = osg::Matrix::translate(-offset, 0, 0);
 
 }
 
@@ -362,27 +364,10 @@ void DualScreenViewer::ToggleStereoSettings(osgViewer::View* view)
     }
 }
 
-// Given a Camera, create a wireframe representation of its
-// view frustum. Create a default representation if camera==NULL.
-osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera(osgViewer::View* view)
-{
-    // Projection and ModelView matrices
-    osg::Matrixd proj;
-    osg::Matrixd mv;
-    osg::Camera* camera = view->getCamera();
-    if (camera)
-    {
-        proj = camera->getProjectionMatrix();
-        mv = camera->getViewMatrix();
-    }
-    else
-    {
-        // Create some kind of reasonable default Projection matrix.
-        proj.makePerspective( 30., 1., 1., 10. );
-        // leave mv as identity
-    }
 
-    // Get near and far from the Projection matrix.
+osg::Geode* drawFrustum(const osg::Matrixd& proj)
+{
+        // Get near and far from the Projection matrix.
     const double zNear = proj(3,2) / (proj(2,2)-1.0);
     const double zFar = proj(3,2) / (1.0+proj(2,2));
 
@@ -435,12 +420,46 @@ osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera(osgViewer::View* v
 
     geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::PROTECTED );
 
+    return geode;
+}
 
-    // Create parent MatrixTransform to transform the view volume by
+// Given a Camera, create a wireframe representation of its
+// view frustum. Create a default representation if camera==NULL.
+osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera(osgViewer::View* view)
+{
+    // Projection and ModelView matrices
+    osg::Matrixd proj;
+    osg::Matrixd mv;
+    osg::Camera* camera = view->getCamera();
+    if (camera)
+    {
+        proj = camera->getProjectionMatrix();
+        mv = camera->getViewMatrix();
+    }
+    else
+    {
+        // Create some kind of reasonable default Projection matrix.
+        proj.makePerspective( 30., 1., 1., 10. );
+        // leave mv as identity
+    }
+
+     // Create parent MatrixTransform to transform the view volume by
     // the inverse ModelView matrix.
     osg::MatrixTransform* mt = new osg::MatrixTransform;
     mt->setMatrix( osg::Matrixd::inverse( mv ) );
-    mt->addChild( geode );
-
+    unsigned int numOfSlaves = view->getNumSlaves();
+    if (numOfSlaves==0)
+    {
+        mt->addChild( drawFrustum(proj) );
+    }
+    for(unsigned int i = 0; i < numOfSlaves; i++)
+    {
+        osg::View::Slave& slave = view->getSlave(i);
+        osg::Matrixd slaveProj(proj * slave._projectionOffset);
+        osg::MatrixTransform* mtSlave = new osg::MatrixTransform;
+        mtSlave->setMatrix( osg::Matrixd::inverse( slave._viewOffset ) );
+        mtSlave->addChild( drawFrustum(slaveProj) );
+        mt->addChild( mtSlave );
+    }
     return mt;
 }

@@ -30,28 +30,26 @@ bool KinectFaceTracker::Init()
     FT_CAMERA_CONFIG depthConfig;
     FT_CAMERA_CONFIG* pDepthConfig = NULL;
 
-    if (IsKinectSensorPresent)
-    {
-        m_args.Set("trackerId", &m_id);
-        SetCallback(FaceTrackerCallback, this, &m_args);
-        m_pKinectSensor->GetVideoConfiguration(&videoConfig);
-        m_pKinectSensor->GetDepthConfiguration(&depthConfig);
-        pDepthConfig = &depthConfig;
-        m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0 , 0, 0);
-    }
-    else
+    if (!IsKinectSensorPresent)
     {
         throw new TrackerInitializationException("Could not detect the Kinect sensor");
         return false;
     }
 
-    // Try to start the face tracker.
+    m_args.Set("trackerId", &m_id);
+    SetCallback(FaceTrackerCallback, this, &m_args);
+
     m_pFaceTracker = FTCreateFaceTracker();
     if (!m_pFaceTracker)
     {
         throw new TrackerInitializationException("Could not create the face tracker");
         return false;
     }
+
+    m_pKinectSensor->GetVideoConfiguration(&videoConfig);
+    m_pKinectSensor->GetDepthConfiguration(&depthConfig);
+    pDepthConfig = &depthConfig;
+    m_hint3D[0] = m_hint3D[1] = FT_VECTOR3D(0 , 0, 0);
 
     HRESULT hr = m_pFaceTracker->Initialize(&videoConfig, pDepthConfig, NULL, NULL); 
     if (FAILED(hr))
@@ -84,10 +82,14 @@ bool KinectFaceTracker::Init()
             return false;
         }
     }
+
     if (m_parent)
     {
         m_pCriticalSection = static_cast<CRITICAL_SECTION*>(m_parent->GetCriticalSection());
     }
+
+    m_pKinectController = new KinectPoseController(this, this->m_pKinectSensor);
+    m_pKinectController->Init();
 
     return IsKinectSensorPresent;
 }
@@ -138,7 +140,13 @@ KinectFaceTracker::~KinectFaceTracker()
         m_pVideoBuffer->Release();
         m_pVideoBuffer = NULL;
     }
-    
+
+    if (m_pKinectController)
+    {
+        delete m_pKinectController;
+        m_pKinectController = NULL;
+    }
+
     if(m_pKinectSensor)
     {
         delete m_pKinectSensor;
@@ -212,9 +220,6 @@ void KinectFaceTracker::SetCenterOfImage(IFTResult* pResult)
     }
 }
 
-// Get a video image and process it.
-
-
 HRESULT KinectFaceTracker::GetCameraConfig(FT_CAMERA_CONFIG* cameraConfig)
 {
     return IsKinectSensorPresent ? m_pKinectSensor->GetVideoConfiguration(cameraConfig) : E_FAIL;
@@ -239,6 +244,10 @@ HRESULT KinectFaceTracker::Stop()
 bool KinectFaceTracker::Start()
 {
     m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
+    if (m_pKinectController) 
+    {
+        m_pKinectController->Start();
+    }
     return true;
 }
 
@@ -415,11 +424,16 @@ void KinectFaceTracker::UpdateAvatarPose()
             }
             m_trackingResults.Set("position", pEggAvatar->GetPosition());
             m_trackingResults.Set("attitude", pEggAvatar->GetAttitude());
+            if (m_pKinectController)
+            {
+                m_pKinectController->GetTrackingResults();
+            }
             if(m_pCriticalSection)
             {
                 LeaveCriticalSection(m_pCriticalSection);
             }
         }
+
     }
 }
 

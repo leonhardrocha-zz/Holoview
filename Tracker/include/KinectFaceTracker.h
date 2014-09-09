@@ -7,12 +7,12 @@
 #pragma once
 #pragma warning(disable:4786)
 #include <FaceTrackLib.h>
-
 #include "ITracker.h"
 #include "IArgs.h"
 #include "TrackerArgs.h"
 #include "TrackerCallback.h"
 #include "TrackerConfig.h"
+#include "KinectPoseController.h"
 #include <vector>
 #include <queue>
 #include <map>
@@ -38,7 +38,7 @@ public:
     virtual IArgs*              GetTrackingResults(IArgs* args=NULL);
     virtual void                PaintEvent(void *message, IArgs* args=NULL);
     virtual void                TrackEvent(void *message, IArgs* args=NULL);
-    virtual void*               GetCriticalSection() { return static_cast<void*>(&m_pCriticalSection); };
+    virtual void*               GetCriticalSection() { return static_cast<void*>(m_pCriticalSection); };
 
     HRESULT                     Stop();
     HRESULT                     GetTrackerResult();
@@ -83,7 +83,7 @@ protected:
     IFTResult*                  m_pFTResult;
     IFTImage*                   m_colorImage;
     IFTImage*                   m_depthImage;
-    
+    ITracker*                   m_pKinectController;
     FT_VECTOR3D                 m_hint3D[2]; 
     
     double                      m_faceConfidence;

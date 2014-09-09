@@ -32,22 +32,21 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     scene->addChild(transform5);
 
     m_viewer = new DualScreenViewer();
-  
+
     // View 0 -- Just the loaded model.
-    {
-        osgViewer::View* view = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("main"));
-        view->setSceneData( scene.get() );
-        AddSkyBox( view );
-        AddGrid( view );
-    }
+
+    osgViewer::View* mainView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("main"));
+    mainView->setSceneData( scene.get() );
+    AddSkyBox( mainView );
+    AddGrid( mainView );
 
     // View 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
-    {
-        osgViewer::View* view = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("map"));;
-        root->addChild( scene.get() );
-        root->addChild( m_viewer->makeFrustumFromCamera( view ) );
-        view->setSceneData( root.get() );
-    }
+
+    osgViewer::View* mapView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("map"));;
+    root->addChild( scene.get() );
+    root->addChild( m_viewer->makeFrustumFromCamera( mainView ) );
+    mapView->setSceneData( root.get() );
+
 }
 
 HoloWindow::~HoloWindow()
