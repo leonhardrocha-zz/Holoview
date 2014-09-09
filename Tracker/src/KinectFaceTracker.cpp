@@ -73,6 +73,8 @@ bool KinectFaceTracker::Init()
         return false;
     }
 
+    SetCenterOfImage(NULL);
+
     if (pDepthConfig)
     {
         m_depthImage = FTCreateImage();
@@ -199,19 +201,19 @@ BOOL KinectFaceTracker::SubmitFraceTrackingResult(IFTResult* pResult)
 // We compute here the nominal "center of attention" that is used when zooming the presented image.
 void KinectFaceTracker::SetCenterOfImage(IFTResult* pResult)
 {
-    float centerX = ((float)m_colorImage->GetWidth())/2.0f;
-    float centerY = ((float)m_colorImage->GetHeight())/2.0f;
+    double centerX = m_colorImage->GetWidth()/2.0;
+    double centerY = m_colorImage->GetHeight()/2.0;
     if (pResult)
     {
         if (SUCCEEDED(pResult->GetStatus()))
         {
             RECT faceRect;
             pResult->GetFaceRect(&faceRect);
-            centerX = (faceRect.left+faceRect.right)/2.0f;
-            centerY = (faceRect.top+faceRect.bottom)/2.0f;
+            centerX = (faceRect.left+faceRect.right)/2.0;
+            centerY = (faceRect.top+faceRect.bottom)/2.0;
         }
-        m_XCenterFace += 0.02f*(centerX-m_XCenterFace);
-        m_YCenterFace += 0.02f*(centerY-m_YCenterFace);
+        m_XCenterFace += 0.02 *(centerX-m_XCenterFace);
+        m_YCenterFace += 0.02 *(centerY-m_YCenterFace);
     }
     else
     {
