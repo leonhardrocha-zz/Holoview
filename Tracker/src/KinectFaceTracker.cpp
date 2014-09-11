@@ -284,7 +284,7 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
             InvalidateRect(m_hWnd, NULL, FALSE);
             UpdateWindow(m_hWnd);
         }
-        Sleep(16);
+        //Sleep(16);
     }
     return 0;
 }

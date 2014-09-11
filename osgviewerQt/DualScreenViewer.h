@@ -20,26 +20,25 @@ public:
     struct SlaveCallback : public osg::View::Slave::UpdateSlaveCallback
     {
     public:
+
         virtual void updateSlave(osg::View& view, osg::View::Slave& slave)
         {
-            ObliqueCamera* slaveCamera = static_cast<ObliqueCamera*>(slave._camera.get());
+            osg::Camera* slaveCamera = slave._camera.get();
             osg::Camera* viewCamera = view.getCamera();
         
             if (!slaveCamera|| !viewCamera) return;
 
             if (slaveCamera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
             {
-                osg::Matrix viewMatrix = view.getCamera()->getViewMatrix();
-                //osg::Matrix translation = osg::Matrix::translate(viewMatrix.getTrans());
-                //osg::Vec3 eye, center, viewUp;
-                //viewMatrix.getLookAt(eye, center, viewUp);
-                //osg::Matrix rotationMatrix = MatrixExtension::getInverseRotation(eye, center, osg::Vec3(0,1,0));
-                slaveCamera->setProjectionMatrix(slave._projectionOffset);
-                slaveCamera->setViewMatrix(viewMatrix * slave._viewOffset * viewCamera->getProjectionMatrix());
+                osg::Matrix viewMatrix = viewCamera->getViewMatrix();
+                osg::Matrix projMatrix = viewCamera->getProjectionMatrix();
+                slaveCamera->setProjectionMatrix(projMatrix * slave._projectionOffset);
+                slaveCamera->setViewMatrix(viewMatrix * slave._viewOffset);
             }
 
             slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
         };
+
     };
 
     DualScreenViewer();
@@ -68,10 +67,10 @@ protected:
     virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results=NULL);
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
     osg::Node* m_frustumNode;
-    osg::Matrix m_viewMatrix;
-    osg::Matrix m_projectionMatrix;
-    osg::Matrix m_viewOffset[2];
-    osg::Matrix m_projectionOffset[2];
+    osg::Matrixd m_viewMatrix;
+    osg::Matrixd m_projectionMatrix;
+    osg::Matrixd m_viewOffset[2];
+    osg::Matrixd m_projectionOffset[2];
     osg::Quat m_inverseAttitude;
     osg::Vec3 m_virtualEye;
     osg::Vec3 m_virtualCenter;

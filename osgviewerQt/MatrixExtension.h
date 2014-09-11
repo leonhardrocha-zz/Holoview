@@ -13,8 +13,8 @@ static osg::Matrix HolographicFrustum(double left, double right,
     // note transpose of Matrix_implementation wr.t OpenGL documentation, since the OSG use post multiplication rather than pre.
     double A = -(right+left)/(right-left);
     double B = -(top+bottom)/(top-bottom);
-    double C = (fabs(zFar)>DBL_MAX) ? -1. : -(zFar+zNear)/(zFar-zNear);
-    double D = (fabs(zFar)>DBL_MAX) ? 2.*zNear : 2.0*zFar*zNear/(zFar-zNear);
+    double C = /*(fabs(zFar)>DBL_MAX) ? 1. :*/ (zFar+zNear)/(zFar-zNear);
+    double D = /*(fabs(zFar)>DBL_MAX) ? -2.*zNear :*/ -2.0*zFar*zNear/(zFar-zNear);
     m.set(2.0*zNear/(right-left), 0.0,                    0.0,  0.0,
           0.0,                    2.0*zNear/(top-bottom), 0.0,  0.0,
           A,                      B,                      C,    1.0,
@@ -39,14 +39,13 @@ static osg::Matrix getInverseRotation(const osg::Vec3& eye, const osg::Vec3& cen
 
 }
 
-static osg::Matrix getShear(const osg::Vec3& eye, const osg::Vec3& center)
+static osg::Matrix getShearZ(const double shear)
 {
-    osg::Vec3 s = eye - center;
-
+    
     return osg::Matrix(
-        1.0,            0.0,     0.0,      0.0,
+        1.0,            0.0,     shear,      0.0,
         0.0,    1.0,     0.0,      0.0,
-        -s.x()/s.z(),    0.0,     1.0,      0.0,
+        0.0,    0.0,     1.0,      0.0,
         0.0,            0.0,     0.0,      1.0);
 
 }

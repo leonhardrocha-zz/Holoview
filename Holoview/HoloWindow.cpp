@@ -10,11 +10,11 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/3ds/TargetCameraAnim.3ds.-90,0,0.rot");
     osg::ref_ptr<osg::Node> kinect = osgDB::readNodeFile("../Dependencies/Models/3ds/kinect/kinect_edited.3ds.-20,0,0.rot");
 
-    osg::Vec3 modelPosition1(0.50, 1.2, 0.0);
-    osg::Vec3 modelPosition2(-0.50, 1.2, 0.0);
-    osg::Vec3 modelPosition3(0.25, 1.2,  0.0);
-    osg::Vec3 modelPosition4(-0.25, 1.2, 0.0);
-    osg::Vec3 modelPosition5(0.0, 0.65, -0.66); //kinect
+    osg::Vec3 modelPosition1(0.50, 0.0, 0);
+    osg::Vec3 modelPosition2(-0.50, 0.0, 0);
+    osg::Vec3 modelPosition3(0.25, 0.0,  0);
+    osg::Vec3 modelPosition4(-0.25, 0.0, 0);
+    osg::Vec3 modelPosition5(0.0, 0.0, 0.30); //kinect
 
     osg::ref_ptr<osg::PositionAttitudeTransform> transform1 = GetModelTransformHelper(duck, modelPosition1);
     osg::ref_ptr<osg::PositionAttitudeTransform> transform2 = GetModelTransformHelper(airplane, modelPosition2);
@@ -37,16 +37,15 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
     osgViewer::View* mainView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("main"));
     mainView->setSceneData( scene.get() );
-    AddSkyBox( mainView );
     AddGrid( mainView );
+    AddSkyBox( mainView );
 
     // View 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
 
-    osgViewer::View* mapView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("map"));;
+    osgViewer::View* mapView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("map"));
     root->addChild( scene.get() );
     root->addChild( m_viewer->makeFrustumFromCamera( mainView ) );
     mapView->setSceneData( root.get() );
-
 }
 
 HoloWindow::~HoloWindow()

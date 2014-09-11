@@ -28,7 +28,7 @@ namespace osgGA {
             virtual void getTransformation( osg::Vec3d& eye, osg::Quat& rotation ) const;
             virtual void getTransformation( osg::Vec3d& eye, osg::Vec3d& center, osg::Vec3d& up ) const;
 
-            virtual void setTrackingResults( IArgs* results, osg::Vec3 center);
+            virtual void setTrackingResults( IArgs* results, osg::Vec3 center, osg::Vec3 origin);
 
             virtual void setVelocity( const double& velocity );
             inline double getVelocity() const;
@@ -60,6 +60,7 @@ namespace osgGA {
             void moveUp( const double distance );
 
             osg::Vec3d _eye;
+            osg::Vec3d _center;
             osg::Quat  _rotation;
             double _velocity;
 
