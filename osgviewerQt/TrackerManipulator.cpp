@@ -82,7 +82,7 @@ void TrackerManipulator::setByInverseMatrix( const Matrixd& matrix )
 /** Get the position of the manipulator as 4x4 matrix.*/
 Matrixd TrackerManipulator::getMatrix() const
 {
-    osg::Matrixd foo;
+//    osg::Matrixd foo;
     return osg::Matrixd::translate( _eye );
 }
 
@@ -91,7 +91,7 @@ Matrixd TrackerManipulator::getMatrix() const
     typically used as a model view matrix.*/
 Matrixd TrackerManipulator::getInverseMatrix() const
 {
-    osg::Matrix bar;
+//    osg::Matrix bar;
     return osg::Matrixd::translate( -_eye );
 }
 

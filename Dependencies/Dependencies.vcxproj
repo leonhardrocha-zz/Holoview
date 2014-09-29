@@ -51,11 +51,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /D "$(ProjectDir)Runtime\*.*" "$(OutDir)"
-xcopy /Y /D "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)"
-xcopy /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"
-xcopy /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)osgPlugins-3.2.1"
-xcopy /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
+      <Command>xcopy /I /Y /D "$(ProjectDir)Runtime\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)osgPlugins-3.2.1"
+xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
       <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -72,11 +72,11 @@ xcopy /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /D "$(ProjectDir)Runtime\*.*" "$(OutDir)"
-xcopy /Y /D "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)"
-xcopy /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"
-xcopy /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)osgPlugins"
-xcopy /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
+      <Command>xcopy /I /Y /D "$(ProjectDir)Runtime\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)osgPlugins"
+xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
       <Message>Copying dll files</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>

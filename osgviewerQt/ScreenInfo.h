@@ -18,30 +18,22 @@ public:
         screenHeight = Height - 2 * BezelHeight;
         double ar = screenWidth/screenHeight;
         FOV = osg::Vec2(fovx, fovx/ar);
-        left = -screenWidth/2;
-        right = screenWidth/2;
-        bottom = -screenHeight/2;
-        top = screenHeight/2;
-        zNear = right/tan(fovx/2.0);
-        double tiltAngle = osg::inDegrees(60.0);
-        zFar = zNear + screenWidth * cos(tiltAngle);
+        zNear = 0.1;
+        zFar = 40.0;
+        m_frustum = osg::Matrix::perspective(60.0/ar, ar, zNear, zFar);
+        //m_frustum.getFrustum(left, right, bottom, top, zNear, zFar);
         screenDepth = zFar - zNear;
     };
 
-    virtual osg::Matrix GetFrustum() { return osg::Matrix::frustum(left, right, bottom, top, zNear, zFar); } 
-    virtual bool SetFrustum(osg::Matrix& frustum) { return frustum.getFrustum(left, right, bottom, top, zNear, zFar); }
+    virtual osg::Matrix GetFrustum() { return m_frustum; } 
+    virtual bool SetFrustum(osg::Matrix& frustum) { m_frustum = frustum; return true; }
     osg::Vec2 FOV;
     double screenWidth;
     double screenHeight;
     double screenDepth;
 protected:
-    double left, right, top, bottom, zNear, zFar;
-};
-
-class HoloScreenInfo : public ScreenInfo
-{
-    friend class DualScreenViewer;
-    virtual osg::Matrix GetFrustum() { return MatrixExtension::HolographicFrustum(left, right, bottom, top, zNear, zFar); } 
+    double /*left, right, top, bottom, */zNear, zFar;
+    osg::Matrix m_frustum;
 };
 
 #endif

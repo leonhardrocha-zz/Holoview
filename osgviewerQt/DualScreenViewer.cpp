@@ -231,11 +231,8 @@ void DualScreenViewer::Update(IArgs *results)
     osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(view->getCameraManipulator());
     if (keyManipulator)
     {
-        for (unsigned int i=0; i< keyManipulator->getNumMatrixManipulators(); i++)
-        {
-            osgGA::CameraManipulator* cameraManipulator = keyManipulator->getMatrixManipulatorWithIndex(i);
-            HandleManipulator(cameraManipulator, results);
-        }
+        osgGA::CameraManipulator* cameraManipulator = keyManipulator->getCurrentMatrixManipulator(); //keyManipulator->getMatrixManipulatorWithIndex(i);
+        HandleManipulator(cameraManipulator, results);
     }
 
 }
@@ -250,16 +247,6 @@ void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipul
         osgGA::TrackerManipulator* trackerManipulator = static_cast<osgGA::TrackerManipulator*>(cameraManipulator);
         trackerManipulator->setTrackingResults(results, m_virtualCenter, m_virtualOrigin);
         trackerManipulator->getTransformation(eye, rotation);
-
-        osgViewer::View* view = static_cast<osgViewer::View*>(m_viewerArgs.Get("main"));
-        /*osg::Camera* camera = view->getCamera();
-        osg::Matrix vm = camera->getViewMatrix();*/
-        SetupView(eye);
-        for (int i = 0; i < NumOfScreens; i++)
-        {
-            osgViewer::View::Slave& slave = view->getSlave(i);
-            slave._projectionOffset = m_projectionOffset[i];
-        }
     }
 
     if (cameraManipulator->getName() == "Joystick")
@@ -274,19 +261,17 @@ void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipul
         trackballManipulator->getTransformation(eye, rotation);
     }
 
+    SetupProjection(eye);
     m_virtualEye = eye;
+    osgViewer::View* view = static_cast<osgViewer::View*>(m_viewerArgs.Get("main"));
+    for (int i = 0; i < NumOfScreens; i++)
+    {
+        osgViewer::View::Slave& slave = view->getSlave(i);
+        slave._projectionOffset = m_projectionOffset[i];
+    }
 
-
-            //osg::Matrix viewMatrix = trackerManipulator->getMatrix();
-        //osg::Vec3 translation = viewMatrix.getTrans();
-        //viewMatrix.postMultTranslate(-translation);
-        //trackerManipulator->setByMatrix(viewMatrix);
-        //double angleOffset = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
-        
-        //MyClampProjectionMatrixCallback* callback = static_cast<MyClampProjectionMatrixCallback*>( camera->getClampProjectionMatrixCallback() );
-        //callback->clampProjectionMatrixImplementation(camera->getProjectionMatrix(), m_display.zNear, m_display.zFar);
-        
-
+    //MyClampProjectionMatrixCallback* callback = static_cast<MyClampProjectionMatrixCallback*>( camera->getClampProjectionMatrixCallback() );
+    //callback->clampProjectionMatrixImplementation(camera->getProjectionMatrix(), m_display.zNear, m_display.zFar);
 
 }
 
@@ -307,15 +292,16 @@ void DualScreenViewer::UpdateMap(void* instance, IArgs* args)
 
 void DualScreenViewer::SetupView(osg::Vec3 eye)
 {
-    double angleOffset = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
+    //double angleOffset = osg::PI_2 - osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
     //osg::Vec3 rightCenter(m_rightDisplay.Width * cos(angleOffset), eye.y(), m_display.Width * sin(angleOffset));
     //osg::Vec3 leftCenter(-m_rightDisplay.Width * cos(angleOffset), eye.y(), m_display.Width * sin(angleOffset));
 
     //m_viewOffset[Left] = osg::Matrix::translate(-eye) * MatrixExtension::getRotation(eye, leftCenter, osg::Vec3(0,1,0)) * osg::Matrix::translate(eye) ;
     //m_viewOffset[Right] = osg::Matrix::translate(-eye) * MatrixExtension::getRotation(eye, rightCenter, osg::Vec3(0,1,0)) * osg::Matrix::translate(eye) ;
 
-    m_viewOffset[Left] = osg::Matrix::translate(-eye) *osg::Matrix::rotate(angleOffset, osg::Vec3(0,1,0));
-    m_viewOffset[Right] = osg::Matrix::translate(-eye) *osg::Matrix::rotate(-angleOffset, osg::Vec3(0,1,0));
+    /*osg::Vec3 offset = (m_virtualCenter - m_virtualOrigin)/2.0;
+    m_viewOffset[Left] = osg::Matrix::translate(offset);
+    m_viewOffset[Right] = osg::Matrix::translate(offset);*/
 } 
 
 
@@ -323,10 +309,12 @@ void DualScreenViewer::SetupProjection(osg::Vec3 eye)
 {
     m_projectionMatrix = m_display.GetFrustum();
     double offset = (m_display.Width+m_display.BezelWidth)/m_display.Width;
-    //LeftScreen leftDisplay;
-    //RightScreen rightDisplay;
-    m_projectionOffset[Left]  = osg::Matrix::translate(-offset, 0, 0);
-    m_projectionOffset[Right] = osg::Matrix::translate(offset, 0, 0);
+    double offsetX = eye.x()/m_display.Width;
+    double offsetY = eye.y()/m_display.Height;
+    double focusDistance = (m_virtualCenter.z()  + eye.z())/2.0;
+    double offsetZ = eye.z() < focusDistance ?  focusDistance/m_virtualCenter.z() : 0.0;
+    m_projectionOffset[Left]  = osg::Matrix::translate(offsetX-offset, offsetY, offsetZ);
+    m_projectionOffset[Right] = osg::Matrix::translate(offsetX+offset, offsetY, offsetZ);
 }
 
 
