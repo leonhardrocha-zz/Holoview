@@ -72,10 +72,3 @@ protected:
     BOOL                        m_bNearMode;
     BOOL                        m_bSeatedSkeletonMode;
 };
-
-class MultiTrackerManager : public TrackerManager
-{
-protected:
-    virtual        BOOL            PaintWindow(KinectFaceTracker *tracker, HDC hdc, HWND hWnd); 
-
-};

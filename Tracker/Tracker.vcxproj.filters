@@ -89,9 +89,6 @@
     <ClCompile Include="src\TrackerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MultiTrackerManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KinectPoseController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

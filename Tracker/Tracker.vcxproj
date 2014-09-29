@@ -132,7 +132,6 @@
     <ClCompile Include="src\KinectFaceTracker.cpp" />
     <ClCompile Include="src\KinectSensor.cpp" />
     <ClCompile Include="src\KinectPoseController.cpp" />
-    <ClCompile Include="src\MultiTrackerManager.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\TrackerManager.cpp" />
     <ClCompile Include="src\Visualize.cpp" />
