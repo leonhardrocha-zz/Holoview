@@ -82,7 +82,8 @@ void TrackerManipulator::setByInverseMatrix( const Matrixd& matrix )
 /** Get the position of the manipulator as 4x4 matrix.*/
 Matrixd TrackerManipulator::getMatrix() const
 {
-   return Matrixd::rotate( _rotation )   * Matrixd::translate(- _center);
+    osg::Matrixd foo;
+    return osg::Matrixd::translate( _eye );
 }
 
 
@@ -90,7 +91,8 @@ Matrixd TrackerManipulator::getMatrix() const
     typically used as a model view matrix.*/
 Matrixd TrackerManipulator::getInverseMatrix() const
 {
-   return  Matrixd::translate( -_center ) * Matrixd::rotate( _rotation.inverse() );
+    osg::Matrix bar;
+    return osg::Matrixd::translate( -_eye );
 }
 
 
@@ -151,7 +153,7 @@ void TrackerManipulator::setTrackingResults( IArgs* results, osg::Vec3 center, o
 {
     const osg::Vec3 kinectBasePosition(0.0, 0.615, 0.33);
     const osg::Vec3 kinectEyeOffset(0.015, 0.06, 0.03);
-    const double kinectPitchAngle = osg::inDegrees(27.0);
+    const double kinectPitchAngle = osg::inDegrees(15.0);
     const osg::Vec3 xAxis(1.0, 0.0, 0.0);
 
     IPose *position = static_cast<IPose*>(results->Get("position"));
@@ -165,8 +167,8 @@ void TrackerManipulator::setTrackingResults( IArgs* results, osg::Vec3 center, o
     osg::Vec3 kinectFrustumOrigin = kinectBasePosition + osg::Matrix::rotate(kinectPitchAngle, xAxis) * kinectEyeOffset;
     osg::Vec3 eye = kinectFrustumOrigin + kinectFrustumOffset;
 
-    _rotation = osg::Matrix::lookAt(eye, center, osg::Vec3( 0.,1.,0. )).getRotate();
-    _eye = eye;
+    _rotation = osg::Matrix::rotate(osg::PI, osg::Vec3(0,1,0)).getRotate();
+    _eye = eye - origin;
     _center = center - origin;
 }
 /** Sets acceleration.

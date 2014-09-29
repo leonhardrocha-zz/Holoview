@@ -4,6 +4,7 @@
 #include "ObliqueCamera.h"
 #include "ViewerArgs.h"
 #include "ScreenInfo.h"
+#include "TiltedScreen.h"
 #include "MatrixExtension.h"
 
 class DualScreenViewer : public osgViewer::CompositeViewer
@@ -12,8 +13,8 @@ class DualScreenViewer : public osgViewer::CompositeViewer
 public:
     enum TV_SIDE
     {
-        Left = 0,
-        Right = 1,
+        Right = 0,
+        Left = 1,
         NumOfScreens = 2
     };
 
@@ -32,8 +33,8 @@ public:
             {
                 osg::Matrix viewMatrix = viewCamera->getViewMatrix();
                 osg::Matrix projMatrix = viewCamera->getProjectionMatrix();
-                slaveCamera->setProjectionMatrix(projMatrix * slave._projectionOffset);
-                slaveCamera->setViewMatrix(viewMatrix * slave._viewOffset);
+                slaveCamera->setProjectionMatrix(slave._viewOffset * projMatrix * slave._projectionOffset);
+                slaveCamera->setViewMatrix(viewMatrix);
             }
 
             slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
@@ -46,8 +47,8 @@ public:
     virtual void Setup();
     virtual void CreateGraphicsWindow(osgViewer::View* view);
     virtual void Update(IArgs* results);
-    virtual void SetupView();
-    virtual void SetupProjection();
+    virtual void SetupView(osg::Vec3 eye = osg::Vec3(0,0,0));
+    virtual void SetupProjection(osg::Vec3 eye = osg::Vec3(0,0,0));
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; };
     osg::Vec3& GetVirtualCenter() { return m_virtualCenter; };

@@ -207,6 +207,7 @@
     <ClInclude Include="SelectModelHandler.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="osgLib.h" />
+    <ClInclude Include="TiltedScreen.h" />
     <ClInclude Include="TrackerManipulator.h" />
     <ClInclude Include="TwoDimManipulator.h" />
     <ClInclude Include="UpdateScreenCallback.h" />
