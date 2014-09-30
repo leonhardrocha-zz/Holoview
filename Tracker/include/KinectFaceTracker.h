@@ -65,8 +65,22 @@ public:
     BOOL                        PaintWindow(HDC hdc, HWND hWnd);
     void                        UpdateAvatarPose();
     bool                        m_LastTrackSucceeded;
+    HRESULT                     m_trackingStatus;
     bool                        m_ApplicationIsRunning;
+    RECT                        m_startRect;
+    RECT                        m_Roi;
     static void FaceTrackerCallback(void* instance=NULL, IArgs* args=NULL);
+
+    enum HintStep
+    {
+        Previous=0,
+        Current=1,
+    };
+    enum HintHoint
+    {
+        Neck=0,
+        Head=1,
+    };
 protected:
     
 
@@ -81,11 +95,13 @@ protected:
     HANDLE                      m_hFaceTrackingThread;
     IFTFaceTracker*             m_pFaceTracker;
     IFTResult*                  m_pFTResult;
+    IFTResult*                  m_pFTLastResult;
     IFTImage*                   m_colorImage;
     IFTImage*                   m_depthImage;
     ITracker*                   m_pKinectController;
-    FT_VECTOR3D                 m_hint3D[2]; 
-    
+    FT_VECTOR3D                 m_hint3D[2][2]; 
+    POINT                       m_viewOffset;
+
     double                      m_faceConfidence;
 
     bool                        IsKinectSensorPresent;
@@ -99,9 +115,9 @@ protected:
     HWND                        m_hWnd;
     TrackerConfig               m_config;
     TrackerArgs                 m_args;
-
+    UINT32                      m_maskColor;
     BOOL                        SubmitFraceTrackingResult(IFTResult* pResult);
     void                        SetCenterOfImage(IFTResult* pResult);
-    DWORD                        WINAPI FaceTrackingThread();    
+    DWORD                       WINAPI FaceTrackingThread();
 };
 
