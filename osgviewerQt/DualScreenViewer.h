@@ -66,6 +66,7 @@ protected:
     ScreenInfo m_display;
     ViewerArgs m_viewerArgs;
     virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results=NULL);
+    osg::Geode* drawFrustum(const osg::Matrixd& proj);
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
     osg::Node* m_frustumNode;
     osg::Matrixd m_viewMatrix;

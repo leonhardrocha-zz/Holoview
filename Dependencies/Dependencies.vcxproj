@@ -1087,6 +1087,24 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <ClInclude Include="..\include\DirectX\XInput.h" />
     <ClInclude Include="..\include\DirectX\xma2defs.h" />
     <ClInclude Include="..\include\DirectX\xnamath.h" />
+    <ClInclude Include="..\include\OpenVis3d\BTLocalMatcherT.h" />
+    <ClInclude Include="..\include\OpenVis3d\mainpage.h" />
+    <ClInclude Include="..\include\OpenVis3d\MatlabImageAdapter.h" />
+    <ClInclude Include="..\include\OpenVis3d\OpenCVImageAdapter.h" />
+    <ClInclude Include="..\include\OpenVis3d\Openvis3d.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvDisparityPostprocessor.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvFlowDiffuseMatcherT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvFlowGlobalMatcherT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvFlowPostprocessor.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvFlowT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvImageAdapter.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvImagePairPreprocessorT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvImageT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvLocalMatcherT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvStereoDiffuseMatcherT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvStereoGlobalMatcherT.h" />
+    <ClInclude Include="..\include\OpenVis3d\OvStereoT.h" />
+    <ClInclude Include="..\include\OpenVis3d\ProbabilisticEgomotion.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\DirectX\d2d1.lib" />
@@ -1119,6 +1137,7 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <Library Include="..\lib\FaceTrackLib.lib" />
     <Library Include="..\lib\OpenThreads.lib" />
     <Library Include="..\lib\OpenThreadsd.lib" />
+    <Library Include="..\lib\OpenVis3d.lib" />
     <Library Include="..\lib\osg.lib" />
     <Library Include="..\lib\osgAnimation.lib" />
     <Library Include="..\lib\osgAnimationd.lib" />

@@ -393,7 +393,7 @@ HRESULT KinectFaceTracker::GetTrackerResult()
             hrCopy = m_pKinectSensor->GetDepthBuffer()->CopyTo(m_depthImage, NULL, 0, 0);
         }
         // Do face tracking
-        if (SUCCEEDED(hrCopy))
+            if (SUCCEEDED(hrCopy))
         {
             FT_SENSOR_DATA sensorData(m_colorImage, m_depthImage, m_pKinectSensor->GetZoomFactor(), m_pKinectSensor->GetViewOffSet());
 
@@ -411,7 +411,7 @@ HRESULT KinectFaceTracker::GetTrackerResult()
                 if (FAILED(hrFT))
                 {
                     hint[Neck] = AddFtVector3d(hint[Neck], SubFtVector3d(m_hint3D[Current][Neck],m_hint3D[Previous][Neck]));
-                    hint[Head] = AddFtVector3d(hint[Head], SubFtVector3d(m_hint3D[Current][Head],m_hint3D[Previous][Head]));;
+                    hint[Head] = AddFtVector3d(hint[Head], SubFtVector3d(m_hint3D[Current][Head],m_hint3D[Previous][Head]));
                     hrFT = m_pFaceTracker->ContinueTracking(&sensorData, hint, m_pFTResult);
                 }
             }

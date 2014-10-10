@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "osgviewerQtLib", "osgviewer
 		{8CB18462-5377-F135-CF08-F7816DEFEE47} = {8CB18462-5377-F135-CF08-F7816DEFEE47}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utility", "Utility\Utility.vcxproj", "{FB1175CB-8219-4270-8D9A-AFE8C975ABB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -44,6 +46,8 @@ Global
 		{52965829-F97A-492F-8016-718E737A6088}.Debug|Win32.Build.0 = Debug|Win32
 		{52965829-F97A-492F-8016-718E737A6088}.Release|Win32.ActiveCfg = Release|Win32
 		{52965829-F97A-492F-8016-718E737A6088}.Release|Win32.Build.0 = Release|Win32
+		{FB1175CB-8219-4270-8D9A-AFE8C975ABB0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FB1175CB-8219-4270-8D9A-AFE8C975ABB0}.Release|Win32.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

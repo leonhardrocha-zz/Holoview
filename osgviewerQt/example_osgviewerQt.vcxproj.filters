@@ -44,9 +44,6 @@
     <ClInclude Include="HoloCameraView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MatrixExtension.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HolographicTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TiltedScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixExtension.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -69,6 +69,12 @@
     <ClInclude Include="include\KinectPoseController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\MotionDetector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FTImageAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\eggavatar.cpp">

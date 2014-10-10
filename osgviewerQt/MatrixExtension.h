@@ -39,14 +39,14 @@ static osg::Matrix getInverseRotation(const osg::Vec3& eye, const osg::Vec3& cen
 
 }
 
-static osg::Matrix getShearZ(const double shear)
+static osg::Matrix getShear(const osg::Vec3& sh)
 {
     
     return osg::Matrix(
-        1.0,            0.0,     shear,      0.0,
+        1.0,    0.0,     0.0,      0.0,
         0.0,    1.0,     0.0,      0.0,
-        0.0,    0.0,     1.0,      0.0,
-        0.0,            0.0,     0.0,      1.0);
+        sh.x(), sh.y(),  sh.z(),      0.0,
+        0.0,    0.0,     0.0,      1.0);
 
 }
 
@@ -61,7 +61,7 @@ static osg::Matrix getRotation(const osg::Vec3& eye, const osg::Vec3& center, co
     return osg::Matrix(
         s[0],     s[1],      s[2],     0.0,
         u[0],     u[1],      u[2],     0.0,
-       -f[0],    -f[1],     -f[2],     0.0,
+        f[0],     f[1],      f[2],     0.0,
         0.0,     0.0,     0.0,      1.0);
 
 }

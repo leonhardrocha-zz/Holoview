@@ -167,9 +167,15 @@ void TrackerManipulator::setTrackingResults( IArgs* results, osg::Vec3 center, o
     osg::Vec3 kinectFrustumOrigin = kinectBasePosition + osg::Matrix::rotate(kinectPitchAngle, xAxis) * kinectEyeOffset;
     osg::Vec3 eye = kinectFrustumOrigin + kinectFrustumOffset;
 
-    _rotation = osg::Matrix::rotate(osg::PI, osg::Vec3(0,1,0)).getRotate();
-    _eye = eye - origin;
-    _center = center - origin;
+    osg::Vec3 deye = eye - origin;
+    osg::Vec3 dcenter = center - origin;
+    _rotation = osg::Matrix::lookAt(deye, dcenter, osg::Vec3(0,1,0)).getRotate();
+    _eye = deye;
+    _center = dcenter;
+
+    // fix current rotation
+    if( getVerticalAxisFixed() )
+      fixVerticalAxis( _eye, _rotation, true );
 }
 /** Sets acceleration.
  *

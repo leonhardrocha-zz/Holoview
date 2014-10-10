@@ -63,7 +63,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(KINECTSDK10_DIR)lib\x86;$(FTSDK_DIR)lib\x86;$(SolutionDir)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Trackerd.lib;Kinect10.lib;FaceTrackLib.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;OpenThreadsd.lib;osgd.lib;osgDBd.lib;osgUtild.lib;osgGAd.lib;osgFXd.lib;osgViewerd.lib;osgTextd.lib;osgWidgetd.lib;osgQtd.lib;osgdb_gdald.lib;osgdb_ogrd.lib;dinput8.lib;DxErr.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenVis3dd.lib;Trackerd.lib;Kinect10.lib;FaceTrackLib.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;OpenThreadsd.lib;osgd.lib;osgDBd.lib;osgUtild.lib;osgGAd.lib;osgFXd.lib;osgViewerd.lib;osgTextd.lib;osgWidgetd.lib;osgQtd.lib;osgdb_gdald.lib;osgdb_ogrd.lib;dinput8.lib;DxErr.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>

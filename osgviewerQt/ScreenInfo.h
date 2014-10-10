@@ -18,11 +18,12 @@ public:
         screenHeight = Height - 2 * BezelHeight;
         double ar = screenWidth/screenHeight;
         FOV = osg::Vec2(fovx, fovx/ar);
-        zNear = 0.1;
-        zFar = 40.0;
-        m_frustum = osg::Matrix::perspective(60.0/ar, ar, zNear, zFar);
+        zNear = BezelWidth * cos(fovx);
+        zFar = zNear + 2 * screenWidth;
+        screenDepth = (zFar - zNear) / cos(fovx/2.0);
+        m_frustum = osg::Matrix::perspective(60.0/ar, ar, zNear, zFar );
         //m_frustum.getFrustum(left, right, bottom, top, zNear, zFar);
-        screenDepth = zFar - zNear;
+        
     };
 
     virtual osg::Matrix GetFrustum() { return m_frustum; } 

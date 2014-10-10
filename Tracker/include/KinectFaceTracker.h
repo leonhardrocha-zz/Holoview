@@ -1,9 +1,6 @@
-//------------------------------------------------------------------------------
-// <copyright file="FTHelper.h" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
+#include "vld.h"
+#ifndef _KINECTFACETRACKER_H
+#define _KINECTFACETRACKER_H
 #pragma once
 #pragma warning(disable:4786)
 #include <FaceTrackLib.h>
@@ -121,3 +118,4 @@ protected:
     DWORD                       WINAPI FaceTrackingThread();
 };
 
+#endif

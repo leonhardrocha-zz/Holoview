@@ -127,6 +127,9 @@
     <Filter Include="Runtime Files\DirectX">
       <UniqueIdentifier>{221bb04e-6743-46f0-8f76-53fac21eef5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\OpenVis3d">
+      <UniqueIdentifier>{e91a2976-6fa0-40d1-be86-a23d17802553}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\3DS\CameraRollAnim.3ds">
@@ -3143,6 +3146,60 @@
     <ClInclude Include="..\include\DirectX\xnamath.h">
       <Filter>Header Files\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\BTLocalMatcherT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\mainpage.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\MatlabImageAdapter.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OpenCVImageAdapter.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\Openvis3d.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvDisparityPostprocessor.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvFlowDiffuseMatcherT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvFlowGlobalMatcherT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvFlowPostprocessor.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvFlowT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvImageAdapter.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvImagePairPreprocessorT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvImageT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvLocalMatcherT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvStereoDiffuseMatcherT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvStereoGlobalMatcherT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\OvStereoT.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\OpenVis3d\ProbabilisticEgomotion.h">
+      <Filter>Header Files\OpenVis3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\FaceTrackLib.lib">
@@ -3348,6 +3405,9 @@
     </Library>
     <Library Include="..\lib\osgdb_ogrd.lib">
       <Filter>Library Files\osg</Filter>
+    </Library>
+    <Library Include="..\lib\OpenVis3d.lib">
+      <Filter>Library Files</Filter>
     </Library>
   </ItemGroup>
 </Project>
