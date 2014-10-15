@@ -47,8 +47,9 @@ public:
     virtual void Setup();
     virtual void CreateGraphicsWindow(osgViewer::View* view);
     virtual void Update(IArgs* results);
-    virtual void SetupView(osg::Vec3 eye = osg::Vec3(0,0,0));
-    virtual void SetupProjection(osg::Vec3 eye = osg::Vec3(0,0,0));
+    virtual void SetupView();
+    virtual void SetupProjection();
+    virtual void Update(osgViewer::View* view, osg::Vec3 eye);
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; };
     osg::Vec3& GetVirtualCenter() { return m_virtualCenter; };

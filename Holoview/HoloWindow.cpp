@@ -6,30 +6,30 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 	: MainWindow(customSizeHints, parent, flags)
 {
     osg::ref_ptr<osg::Node> duck = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");
-    osg::ref_ptr<osg::Node> airplane = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-10,0.rot");
-    osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/3ds/TargetCameraAnim.3ds.-90,0,0.rot");
-    osg::ref_ptr<osg::Node> kinect = osgDB::readNodeFile("../Dependencies/Models/3ds/kinect/kinect_edited.3ds.-20,0,0.rot");
+    osg::ref_ptr<osg::Node> airplane = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-100,0.rot");
+    //osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/3ds/TargetCameraAnim.3ds.-90,0,0.rot");
+    //osg::ref_ptr<osg::Node> kinect = osgDB::readNodeFile("../Dependencies/Models/3ds/kinect/kinect_edited.3ds.-20,0,0.rot");
 
     osg::Vec3 modelPosition1(0.50, 0.0, 0);
     osg::Vec3 modelPosition2(-0.50, 0.0, 0);
-    osg::Vec3 modelPosition3(0.25, 0.0,  0);
-    osg::Vec3 modelPosition4(-0.25, 0.0, 0);
-    osg::Vec3 modelPosition5(0.0, 0.0, 0.30); //kinect
+    //osg::Vec3 modelPosition3(0.25, 0.0,  0);
+    //osg::Vec3 modelPosition4(-0.25, 0.0, 0);
+    //osg::Vec3 modelPosition5(0.0, 0.0, 0.30); //kinect
 
     osg::ref_ptr<osg::PositionAttitudeTransform> transform1 = GetModelTransformHelper(duck, modelPosition1);
     osg::ref_ptr<osg::PositionAttitudeTransform> transform2 = GetModelTransformHelper(airplane, modelPosition2);
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform3 = GetModelTransformHelper(cessna, modelPosition3);
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform4 = GetModelTransformHelper(duck, modelPosition4);
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform5 = GetModelTransformHelper(kinect, modelPosition5);
+    //osg::ref_ptr<osg::PositionAttitudeTransform> transform3 = GetModelTransformHelper(cessna, modelPosition3);
+    //osg::ref_ptr<osg::PositionAttitudeTransform> transform4 = GetModelTransformHelper(duck, modelPosition4);
+    //osg::ref_ptr<osg::PositionAttitudeTransform> transform5 = GetModelTransformHelper(kinect, modelPosition5);
 
     osg::ref_ptr<osg::Group> root = new osg::Group();
     osg::ref_ptr<osg::Group> scene = new osg::Group();
     
     scene->addChild(transform1);
     scene->addChild(transform2);
-    scene->addChild(transform3);
-    scene->addChild(transform4);
-    scene->addChild(transform5);
+    //scene->addChild(transform3);
+    //scene->addChild(transform4);
+    //scene->addChild(transform5);
 
     m_viewer = new DualScreenViewer();
 
@@ -38,7 +38,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     osgViewer::View* mainView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("main"));
     mainView->setSceneData( scene.get() );
     AddGrid( mainView );
-    AddSkyBox( mainView );
+    AddSkyBox( mainView , "snow");
 
     // View 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
 
@@ -83,7 +83,7 @@ void HoloWindow::AddGrid(osgViewer::View* view)
     view->setSceneData( root );
 }
 
-void HoloWindow::AddSkyBox(osgViewer::View* view)
+void HoloWindow::AddSkyBox(osgViewer::View* view, std::string name)
 {
     osg::Node* scene = view->getSceneData();
 
@@ -93,29 +93,14 @@ void HoloWindow::AddSkyBox(osgViewer::View* view)
 
     SkyBox* skybox = new SkyBox();
     skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
-    std::string name = "axis";
-    std::string path = "../Dependencies/Images/Cubemap_" + name + "/";
-    std::string ext = ".png";
-    std::string sign[] = { "pos", "neg" };
-    std::string axis[] = { "x", "y", "z" };
-    std::vector<osg::Image*> images;
-    bool flipX = true;
-    bool flipY = true;
-    for (int i=0; i < 6; i++)
-    {
-        std::string filename = path + sign[i%2] + axis[i/2] + ext;
-        osg::Image* image = osgDB::readImageFile(filename);
-        if (flipX)
-        {
-            image->flipHorizontal();
-        }
-        if (flipY)
-        {
-            image->flipVertical();
-        }
-        images.push_back(image);
-    }
-    skybox->setEnvironmentMap( 0, images[0], images[1], images[2], images[3], images[4], images[5]);
+
+    skybox->setEnvironmentMap( 0, 
+                                m_skybox.ImageList[name][pos_x],
+                                m_skybox.ImageList[name][neg_x],
+                                m_skybox.ImageList[name][pos_y],
+                                m_skybox.ImageList[name][neg_y],
+                                m_skybox.ImageList[name][pos_z],
+                                m_skybox.ImageList[name][neg_z]);
     skybox->addChild( geode );
 
     osg::Group* root = new osg::Group;
