@@ -89,13 +89,13 @@ enum _D3DXMESHSIMP
 };
 
 typedef enum _D3DXCLEANTYPE {
-	D3DXCLEAN_BACKFACING	= 0x00000001,
-	D3DXCLEAN_BOWTIES		= 0x00000002,
-	
-	// Helper options
-	D3DXCLEAN_SKINNING		= D3DXCLEAN_BACKFACING,	// Bowtie cleaning modifies geometry and breaks skinning
-	D3DXCLEAN_OPTIMIZATION	= D3DXCLEAN_BACKFACING,
-	D3DXCLEAN_SIMPLIFICATION= D3DXCLEAN_BACKFACING | D3DXCLEAN_BOWTIES,	
+    D3DXCLEAN_BACKFACING    = 0x00000001,
+    D3DXCLEAN_BOWTIES        = 0x00000002,
+    
+    // Helper options
+    D3DXCLEAN_SKINNING        = D3DXCLEAN_BACKFACING,    // Bowtie cleaning modifies geometry and breaks skinning
+    D3DXCLEAN_OPTIMIZATION    = D3DXCLEAN_BACKFACING,
+    D3DXCLEAN_SIMPLIFICATION= D3DXCLEAN_BACKFACING | D3DXCLEAN_BOWTIES,    
 } D3DXCLEANTYPE;
 
 enum _MAX_FVF_DECL_SIZE
@@ -573,13 +573,13 @@ DECLARE_INTERFACE_(ID3DXSkinInfo, IUnknown)
 
     // Specify the which vertices do each bones influence and by how much
     STDMETHOD(SetBoneInfluence)(THIS_ DWORD bone, DWORD numInfluences, CONST DWORD* vertices, CONST FLOAT* weights) PURE;
-	STDMETHOD(SetBoneVertexInfluence)(THIS_ DWORD boneNum, DWORD influenceNum, float weight) PURE;
+    STDMETHOD(SetBoneVertexInfluence)(THIS_ DWORD boneNum, DWORD influenceNum, float weight) PURE;
     STDMETHOD_(DWORD, GetNumBoneInfluences)(THIS_ DWORD bone) PURE;
-	STDMETHOD(GetBoneInfluence)(THIS_ DWORD bone, DWORD* vertices, FLOAT* weights) PURE;
-	STDMETHOD(GetBoneVertexInfluence)(THIS_ DWORD boneNum, DWORD influenceNum, float *pWeight, DWORD *pVertexNum) PURE;
+    STDMETHOD(GetBoneInfluence)(THIS_ DWORD bone, DWORD* vertices, FLOAT* weights) PURE;
+    STDMETHOD(GetBoneVertexInfluence)(THIS_ DWORD boneNum, DWORD influenceNum, float *pWeight, DWORD *pVertexNum) PURE;
     STDMETHOD(GetMaxVertexInfluences)(THIS_ DWORD* maxVertexInfluences) PURE;
     STDMETHOD_(DWORD, GetNumBones)(THIS) PURE;
-	STDMETHOD(FindBoneVertexInfluenceIndex)(THIS_ DWORD boneNum, DWORD vertexNum, DWORD *pInfluenceIndex) PURE;
+    STDMETHOD(FindBoneVertexInfluenceIndex)(THIS_ DWORD boneNum, DWORD vertexNum, DWORD *pInfluenceIndex) PURE;
 
     // This gets the max face influences based on a triangle mesh with the specified index buffer
     STDMETHOD(GetMaxFaceInfluences)(THIS_ LPDIRECT3DINDEXBUFFER9 pIB, DWORD NumFaces, DWORD* maxFaceInfluences) PURE;

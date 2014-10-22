@@ -1844,7 +1844,7 @@ typedef struct IDirect3DQuery9 *LPDIRECT3DQUERY9, *PDIRECT3DQUERY9;
 // focus management events (alt-tab, etc.) falls on the 
 // application, and appropriate responses (switching display
 // mode, etc.) should be coded.
-#define D3DCREATE_NOWINDOWCHANGES				0x00000800L
+#define D3DCREATE_NOWINDOWCHANGES                0x00000800L
 
 /* D3D9Ex only -- */
 #if !defined(D3D_DISABLE_9EX)

@@ -19,7 +19,7 @@
 
 class HoloWindow : public MainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
     public:
         HoloWindow(const QMap<QString, QSize> &customSizeHints,
                     QWidget *parent = 0, Qt::WindowFlags flags = 0);

@@ -1,4 +1,11 @@
+#ifdef _DEBUG
 #include "vld.h"
+#endif
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
 #ifndef _ATTITUDE_H
 #define _ATTITUDE_H
 #include "IPose.h"

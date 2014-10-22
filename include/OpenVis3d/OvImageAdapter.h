@@ -28,7 +28,7 @@ public:
   enum OvDataType {
     OV_DATA_UNKNOWN, /**< unknown */
     OV_DATA_UINT8,   /**< unsigned char */
-    OV_DATA_INT8,	 /**< char */
+    OV_DATA_INT8,     /**< char */
     OV_DATA_UINT16,  /**< short */
     OV_DATA_INT16,   /**< unsigned short */
     OV_DATA_UINT32,  /**< int */
@@ -70,14 +70,14 @@ public:
   * @param value value to be set
   * @param row row of the image
   * @param column column of the image
-  * @param channel channel of the image	
+  * @param channel channel of the image    
   */
   virtual void   setPixel(double value, int row, int column, int channel) = 0;
 
 protected:
-  int  mHeight;			/**< height of the image */
-  int  mWidth;			/**< width of the image */
-  int  mChannels;			/**< number of color channels (e.g., 1 for grayscale, 3 for RGB) */
+  int  mHeight;            /**< height of the image */
+  int  mWidth;            /**< width of the image */
+  int  mChannels;            /**< number of color channels (e.g., 1 for grayscale, 3 for RGB) */
 
   /**
   * Data format of a pixel channel

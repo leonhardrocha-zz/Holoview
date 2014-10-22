@@ -50,14 +50,14 @@ void pnmReadHeader(
   int *maxval)
 {
   char line[LENGTH];
-	
+    
   /* Read magic number */
   _getNextString(fp, line);
   if (line[0] != 'P')
     KLTError("(pnmReadHeader) Magic number does not begin with 'P', "
              "but with a '%c'", line[0]);
   sscanf(line, "P%d", magic);
-	
+    
   /* Read size, skipping comments */
   _getNextString(fp, line);
   *ncols = atoi(line);
@@ -66,12 +66,12 @@ void pnmReadHeader(
   if (*ncols < 0 || *nrows < 0 || *ncols > 10000 || *nrows > 10000)
     KLTError("(pnmReadHeader) The dimensions %d x %d are unacceptable",
              *ncols, *nrows);
-	
+    
   /* Read maxval, skipping comments */
   _getNextString(fp, line);
   *maxval = atoi(line);
   fread(line, 1, 1, fp); /* Read newline which follows maxval */
-	
+    
   if (*maxval != 255)
     KLTWarning("(pnmReadHeader) Maxval is not 255, but %d", *maxval);
 }

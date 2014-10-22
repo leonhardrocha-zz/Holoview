@@ -25,6 +25,12 @@
     <ClInclude Include="include\ISynchronizable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\IIPC.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -14,16 +14,16 @@ public:
 // Operations
 public:
 // Overrides
-	virtual void Init();
-	virtual void ResetView();
-	virtual void SetupView();
-	virtual void ResetScene();
-	virtual void SetupScene();
-	virtual void RenderView();
-	virtual void RenderScene();
+    virtual void Init();
+    virtual void ResetView();
+    virtual void SetupView();
+    virtual void ResetScene();
+    virtual void SetupScene();
+    virtual void RenderView();
+    virtual void RenderScene();
     int width;
-	int height;
-	float aspect;
+    int height;
+    float aspect;
 protected:
 };
 

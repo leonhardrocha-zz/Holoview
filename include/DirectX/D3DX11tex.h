@@ -159,9 +159,9 @@ typedef enum D3DX11_IMAGE_FILE_FORMAT
     D3DX11_IFF_JPG         = 1,
     D3DX11_IFF_PNG         = 3,
     D3DX11_IFF_DDS         = 4,
-    D3DX11_IFF_TIFF		  = 10,
-    D3DX11_IFF_GIF		  = 11,
-    D3DX11_IFF_WMP		  = 12,
+    D3DX11_IFF_TIFF          = 10,
+    D3DX11_IFF_GIF          = 11,
+    D3DX11_IFF_WMP          = 12,
     D3DX11_IFF_FORCE_DWORD = 0x7fffffff
 
 } D3DX11_IMAGE_FILE_FORMAT;
@@ -616,7 +616,7 @@ typedef struct _D3DX11_TEXTURE_LOAD_INFO
 
 HRESULT WINAPI
     D3DX11LoadTextureFromTexture(
-		ID3D11DeviceContext       *pContext,
+        ID3D11DeviceContext       *pContext,
         ID3D11Resource            *pSrcTexture,
         D3DX11_TEXTURE_LOAD_INFO  *pLoadInfo,
         ID3D11Resource            *pDstTexture);
@@ -640,7 +640,7 @@ HRESULT WINAPI
 
 HRESULT WINAPI
     D3DX11FilterTexture(
-		ID3D11DeviceContext       *pContext,
+        ID3D11DeviceContext       *pContext,
         ID3D11Resource            *pTexture,
         UINT                      SrcLevel,
         UINT                      MipFilter);
@@ -663,14 +663,14 @@ HRESULT WINAPI
 
 HRESULT WINAPI
     D3DX11SaveTextureToFileA(
-		ID3D11DeviceContext       *pContext,
+        ID3D11DeviceContext       *pContext,
         ID3D11Resource            *pSrcTexture,
         D3DX11_IMAGE_FILE_FORMAT    DestFormat,
         LPCSTR                    pDestFile);
 
 HRESULT WINAPI
     D3DX11SaveTextureToFileW(
-		ID3D11DeviceContext       *pContext,
+        ID3D11DeviceContext       *pContext,
         ID3D11Resource            *pSrcTexture,
         D3DX11_IMAGE_FILE_FORMAT    DestFormat,
         LPCWSTR                   pDestFile);
@@ -700,7 +700,7 @@ HRESULT WINAPI
 
 HRESULT WINAPI
     D3DX11SaveTextureToMemory(
-		ID3D11DeviceContext       *pContext,
+        ID3D11DeviceContext       *pContext,
         ID3D11Resource*            pSrcTexture,
         D3DX11_IMAGE_FILE_FORMAT   DestFormat,
         ID3D10Blob**               ppDestBuf,
@@ -729,11 +729,11 @@ HRESULT WINAPI
 HRESULT WINAPI
     D3DX11ComputeNormalMap(
         ID3D11DeviceContext      *pContext,
-        ID3D11Texture2D		     *pSrcTexture,
+        ID3D11Texture2D             *pSrcTexture,
         UINT                      Flags,
         UINT                      Channel,
         FLOAT                     Amplitude,
-        ID3D11Texture2D		     *pDestTexture);
+        ID3D11Texture2D             *pDestTexture);
 
 
 //----------------------------------------------------------------------------

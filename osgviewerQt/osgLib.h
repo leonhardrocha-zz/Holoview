@@ -1,8 +1,9 @@
+#ifdef _MSC_VER 
 #ifdef _MSC_VER
 #pragma once
 #undef _OSGLIB_H
 #endif
-
+#endif
 #ifndef _OSGLIB_H
 #define _OSGLIB_H
 #include <osg/AnimationPath>

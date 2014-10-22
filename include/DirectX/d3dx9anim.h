@@ -119,52 +119,52 @@ DECLARE_INTERFACE(ID3DXAllocateHierarchy)
 {
     // ID3DXAllocateHierarchy
 
-	//------------------------------------------------------------------------
-	// CreateFrame:
-	// ------------
-	// Requests allocation of a frame object.
-	//
-	// Parameters:
-	//  Name
-	//		Name of the frame to be created
-	//	ppNewFrame
-	//		Returns the created frame object
-	//
-	//------------------------------------------------------------------------
+    //------------------------------------------------------------------------
+    // CreateFrame:
+    // ------------
+    // Requests allocation of a frame object.
+    //
+    // Parameters:
+    //  Name
+    //        Name of the frame to be created
+    //    ppNewFrame
+    //        Returns the created frame object
+    //
+    //------------------------------------------------------------------------
     STDMETHOD(CreateFrame)(THIS_ LPCSTR Name, 
                             LPD3DXFRAME *ppNewFrame) PURE;
 
-	//------------------------------------------------------------------------
-	// CreateMeshContainer:
-	// --------------------
-	// Requests allocation of a mesh container object.
-	//
-	// Parameters:
-	//  Name
-	//		Name of the mesh
-	//	pMesh
-	//		Pointer to the mesh object if basic polygon data found
-	//	pPMesh
-	//		Pointer to the progressive mesh object if progressive mesh data found
-	//	pPatchMesh
-	//		Pointer to the patch mesh object if patch data found
-	//	pMaterials
-	//		Array of materials used in the mesh
-	//	pEffectInstances
-	//		Array of effect instances used in the mesh
-	//	NumMaterials
-	//		Num elements in the pMaterials array
-	//	pAdjacency
-	//		Adjacency array for the mesh
-	//	pSkinInfo
-	//		Pointer to the skininfo object if the mesh is skinned
-	//	pBoneNames
-	//		Array of names, one for each bone in the skinned mesh. 
-	//		The numberof bones can be found from the pSkinMesh object
-	//	pBoneOffsetMatrices
-	//		Array of matrices, one for each bone in the skinned mesh.
-	//
-	//------------------------------------------------------------------------
+    //------------------------------------------------------------------------
+    // CreateMeshContainer:
+    // --------------------
+    // Requests allocation of a mesh container object.
+    //
+    // Parameters:
+    //  Name
+    //        Name of the mesh
+    //    pMesh
+    //        Pointer to the mesh object if basic polygon data found
+    //    pPMesh
+    //        Pointer to the progressive mesh object if progressive mesh data found
+    //    pPatchMesh
+    //        Pointer to the patch mesh object if patch data found
+    //    pMaterials
+    //        Array of materials used in the mesh
+    //    pEffectInstances
+    //        Array of effect instances used in the mesh
+    //    NumMaterials
+    //        Num elements in the pMaterials array
+    //    pAdjacency
+    //        Adjacency array for the mesh
+    //    pSkinInfo
+    //        Pointer to the skininfo object if the mesh is skinned
+    //    pBoneNames
+    //        Array of names, one for each bone in the skinned mesh. 
+    //        The numberof bones can be found from the pSkinMesh object
+    //    pBoneOffsetMatrices
+    //        Array of matrices, one for each bone in the skinned mesh.
+    //
+    //------------------------------------------------------------------------
     STDMETHOD(CreateMeshContainer)(THIS_ 
         LPCSTR Name, 
         CONST D3DXMESHDATA *pMeshData, 
@@ -175,28 +175,28 @@ DECLARE_INTERFACE(ID3DXAllocateHierarchy)
         LPD3DXSKININFO pSkinInfo, 
         LPD3DXMESHCONTAINER *ppNewMeshContainer) PURE;
 
-	//------------------------------------------------------------------------
-	// DestroyFrame:
-	// -------------
-	// Requests de-allocation of a frame object.
-	//
-	// Parameters:
-	//  pFrameToFree
-	//		Pointer to the frame to be de-allocated
-	//
-	//------------------------------------------------------------------------
+    //------------------------------------------------------------------------
+    // DestroyFrame:
+    // -------------
+    // Requests de-allocation of a frame object.
+    //
+    // Parameters:
+    //  pFrameToFree
+    //        Pointer to the frame to be de-allocated
+    //
+    //------------------------------------------------------------------------
     STDMETHOD(DestroyFrame)(THIS_ LPD3DXFRAME pFrameToFree) PURE; 
 
-	//------------------------------------------------------------------------
-	// DestroyMeshContainer:
-	// ---------------------
-	// Requests de-allocation of a mesh container object.
-	//
-	// Parameters:
-	//  pMeshContainerToFree
-	//		Pointer to the mesh container object to be de-allocated
-	//
-	//------------------------------------------------------------------------
+    //------------------------------------------------------------------------
+    // DestroyMeshContainer:
+    // ---------------------
+    // Requests de-allocation of a mesh container object.
+    //
+    // Parameters:
+    //  pMeshContainerToFree
+    //        Pointer to the mesh container object to be de-allocated
+    //
+    //------------------------------------------------------------------------
     STDMETHOD(DestroyMeshContainer)(THIS_ LPD3DXMESHCONTAINER pMeshContainerToFree) PURE; 
 };
 
@@ -438,32 +438,32 @@ DECLARE_INTERFACE_(ID3DXKeyframedAnimationSet, ID3DXAnimationSet)
 
     // Scale keys
     STDMETHOD_(UINT, GetNumScaleKeys)(THIS_ UINT Animation) PURE;
-	STDMETHOD(GetScaleKeys)(THIS_ UINT Animation, LPD3DXKEY_VECTOR3 pScaleKeys) PURE;
-	STDMETHOD(GetScaleKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pScaleKey) PURE;
-	STDMETHOD(SetScaleKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pScaleKey) PURE;
+    STDMETHOD(GetScaleKeys)(THIS_ UINT Animation, LPD3DXKEY_VECTOR3 pScaleKeys) PURE;
+    STDMETHOD(GetScaleKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pScaleKey) PURE;
+    STDMETHOD(SetScaleKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pScaleKey) PURE;
 
     // Rotation keys
     STDMETHOD_(UINT, GetNumRotationKeys)(THIS_ UINT Animation) PURE;
-	STDMETHOD(GetRotationKeys)(THIS_ UINT Animation, LPD3DXKEY_QUATERNION pRotationKeys) PURE;
-	STDMETHOD(GetRotationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_QUATERNION pRotationKey) PURE;
-	STDMETHOD(SetRotationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_QUATERNION pRotationKey) PURE;
+    STDMETHOD(GetRotationKeys)(THIS_ UINT Animation, LPD3DXKEY_QUATERNION pRotationKeys) PURE;
+    STDMETHOD(GetRotationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_QUATERNION pRotationKey) PURE;
+    STDMETHOD(SetRotationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_QUATERNION pRotationKey) PURE;
 
     // Translation keys
     STDMETHOD_(UINT, GetNumTranslationKeys)(THIS_ UINT Animation) PURE;
-	STDMETHOD(GetTranslationKeys)(THIS_ UINT Animation, LPD3DXKEY_VECTOR3 pTranslationKeys) PURE;
-	STDMETHOD(GetTranslationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pTranslationKey) PURE;
-	STDMETHOD(SetTranslationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pTranslationKey) PURE;
+    STDMETHOD(GetTranslationKeys)(THIS_ UINT Animation, LPD3DXKEY_VECTOR3 pTranslationKeys) PURE;
+    STDMETHOD(GetTranslationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pTranslationKey) PURE;
+    STDMETHOD(SetTranslationKey)(THIS_ UINT Animation, UINT Key, LPD3DXKEY_VECTOR3 pTranslationKey) PURE;
 
     // Callback keys
     STDMETHOD_(UINT, GetNumCallbackKeys)(THIS) PURE;
-	STDMETHOD(GetCallbackKeys)(THIS_ LPD3DXKEY_CALLBACK pCallbackKeys) PURE;
-	STDMETHOD(GetCallbackKey)(THIS_ UINT Key, LPD3DXKEY_CALLBACK pCallbackKey) PURE;
-	STDMETHOD(SetCallbackKey)(THIS_ UINT Key, LPD3DXKEY_CALLBACK pCallbackKey) PURE;
+    STDMETHOD(GetCallbackKeys)(THIS_ LPD3DXKEY_CALLBACK pCallbackKeys) PURE;
+    STDMETHOD(GetCallbackKey)(THIS_ UINT Key, LPD3DXKEY_CALLBACK pCallbackKey) PURE;
+    STDMETHOD(SetCallbackKey)(THIS_ UINT Key, LPD3DXKEY_CALLBACK pCallbackKey) PURE;
 
-	// Key removal methods. These are slow, and should not be used once the animation starts playing
-	STDMETHOD(UnregisterScaleKey)(THIS_ UINT Animation, UINT Key) PURE;
-	STDMETHOD(UnregisterRotationKey)(THIS_ UINT Animation, UINT Key) PURE;
-	STDMETHOD(UnregisterTranslationKey)(THIS_ UINT Animation, UINT Key) PURE;
+    // Key removal methods. These are slow, and should not be used once the animation starts playing
+    STDMETHOD(UnregisterScaleKey)(THIS_ UINT Animation, UINT Key) PURE;
+    STDMETHOD(UnregisterRotationKey)(THIS_ UINT Animation, UINT Key) PURE;
+    STDMETHOD(UnregisterTranslationKey)(THIS_ UINT Animation, UINT Key) PURE;
 
     // One-time animaton SRT keyframe registration
     STDMETHOD(RegisterAnimationSRTKeys)(THIS_ 
@@ -473,8 +473,8 @@ DECLARE_INTERFACE_(ID3DXKeyframedAnimationSet, ID3DXAnimationSet)
         UINT NumTranslationKeys,                        // Number of translation keys
         CONST D3DXKEY_VECTOR3 *pScaleKeys,              // Array of scale keys
         CONST D3DXKEY_QUATERNION *pRotationKeys,        // Array of rotation keys
-        CONST D3DXKEY_VECTOR3 *pTranslationKeys,		// Array of translation keys
-		DWORD *pAnimationIndex) PURE;					// Returns the animation index 
+        CONST D3DXKEY_VECTOR3 *pTranslationKeys,        // Array of translation keys
+        DWORD *pAnimationIndex) PURE;                    // Returns the animation index 
 
     // Compression
     STDMETHOD(Compress)(THIS_ 
@@ -795,7 +795,7 @@ extern "C" {
 //      Returns root node pointer of the loaded frame hierarchy
 //  ppAnimController
 //      Returns pointer to an animation controller corresponding to animation
-//		in the .X file. This is created with default max tracks and events
+//        in the .X file. This is created with default max tracks and events
 //
 //----------------------------------------------------------------------------
 HRESULT WINAPI 
@@ -893,8 +893,8 @@ D3DXSaveMeshHierarchyToFileW
 // Destroys the subtree of frames under the root, including the root
 //
 // Parameters:
-//	pFrameRoot
-//		Pointer to the root node
+//    pFrameRoot
+//        Pointer to the root node
 //  pAlloc
 //      Allocation interface used to de-allocate nodes of the frame hierarchy
 //
@@ -912,8 +912,8 @@ D3DXFrameDestroy
 // Add a child frame to a frame
 //
 // Parameters:
-//	pFrameParent
-//		Pointer to the parent node
+//    pFrameParent
+//        Pointer to the parent node
 //  pFrameChild
 //      Pointer to the child node
 //
@@ -931,8 +931,8 @@ D3DXFrameAppendChild
 // Finds a frame with the given name.  Returns NULL if no frame found.
 //
 // Parameters:
-//	pFrameRoot
-//		Pointer to the root node
+//    pFrameRoot
+//        Pointer to the root node
 //  Name
 //      Name of frame to find
 //
@@ -951,10 +951,10 @@ D3DXFrameFind
 // matrices to the given animation controller
 //
 // Parameters:
-//	pFrameRoot
-//		Pointer to the root node
-//	pAnimController
-//		Pointer to the animation controller where the matrices are registered
+//    pFrameRoot
+//        Pointer to the root node
+//    pAnimController
+//        Pointer to the animation controller where the matrices are registered
 //
 //----------------------------------------------------------------------------
 HRESULT WINAPI
@@ -970,10 +970,10 @@ D3DXFrameRegisterNamedMatrices
 // Counts number of frames in a subtree that have non-null names 
 //
 // Parameters:
-//	pFrameRoot
-//		Pointer to the root node of the subtree
+//    pFrameRoot
+//        Pointer to the root node of the subtree
 // Return Value:
-//		Count of frames
+//        Count of frames
 //
 //----------------------------------------------------------------------------
 UINT WINAPI
@@ -988,12 +988,12 @@ D3DXFrameNumNamedMatrices
 // Computes the bounding sphere of all the meshes in the frame hierarchy.
 //
 // Parameters:
-//	pFrameRoot
-//		Pointer to the root node
-//	pObjectCenter
-//		Returns the center of the bounding sphere
-//	pObjectRadius
-//		Returns the radius of the bounding sphere
+//    pFrameRoot
+//        Pointer to the root node
+//    pObjectCenter
+//        Returns the center of the bounding sphere
+//    pObjectRadius
+//        Returns the radius of the bounding sphere
 //
 //----------------------------------------------------------------------------
 HRESULT WINAPI
@@ -1026,7 +1026,7 @@ D3DXFrameCalculateBoundingSphere
 //  ppAnimationSet
 //      Returns the animation set interface
 // 
-//-----------------------------------------------------------------------------		
+//-----------------------------------------------------------------------------        
 HRESULT WINAPI
 D3DXCreateKeyframedAnimationSet
     (
@@ -1062,7 +1062,7 @@ D3DXCreateKeyframedAnimationSet
 //  ppAnimationSet
 //      Returns the animation set interface
 // 
-//-----------------------------------------------------------------------------		
+//-----------------------------------------------------------------------------        
 HRESULT WINAPI
 D3DXCreateCompressedAnimationSet
     (
@@ -1093,7 +1093,7 @@ D3DXCreateCompressedAnimationSet
 //  ppAnimController
 //      Returns the animation controller interface
 //
-//-----------------------------------------------------------------------------		
+//-----------------------------------------------------------------------------        
 HRESULT WINAPI
 D3DXCreateAnimationController
     (

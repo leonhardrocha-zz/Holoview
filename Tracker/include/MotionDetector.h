@@ -2,7 +2,10 @@
 
 //#ifndef _MOTIONDETECTOR_H
 //#define _MOTIONDETECTOR_H
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 #include "ProbabilisticEgomotion.h"
 #include "FaceTrackLib.h"
 #include "FTImageAdapter.h"

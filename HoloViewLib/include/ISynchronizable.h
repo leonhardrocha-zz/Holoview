@@ -17,7 +17,7 @@ class Lock {
 public:
     Lock(Mutex& mutex) : _mutex(mutex) { _mutex.lock(); }
     ~Lock() { _mutex.unlock(); }
-	operator bool() const { return true; }
+    operator bool() const { return true; }
 private:
     Mutex& _mutex;
 };

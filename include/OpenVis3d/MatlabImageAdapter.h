@@ -17,7 +17,7 @@ extern "C" {
 *
 * @author Abhijit Ogale
 */
-class MatlabImageAdapter :	public OvImageAdapter
+class MatlabImageAdapter :    public OvImageAdapter
 {
   MatlabImageAdapter(){}; /**< to prevent the default constructor from being used */
 
@@ -29,7 +29,7 @@ public:
   virtual void   setPixel(double value, int row, int column, int channel);
 
 protected:
-  mxArray* mMatlabImage;	/**< saved pointer to Matlab mxArray object */
+  mxArray* mMatlabImage;    /**< saved pointer to Matlab mxArray object */
   void * mImageDataPtr;   /**< saved pointer to the raw data array within the Matlab mxArray object */
 
   double (MatlabImageAdapter::*getPixelfptr) (int row, int column, int channel) const; /**< function pointer used to store getpixel function appropriate for image datatype */

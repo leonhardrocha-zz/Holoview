@@ -3,7 +3,10 @@
 //     Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 
 #include <FaceTrackLib.h>
 #include "resource.h"

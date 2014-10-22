@@ -90,6 +90,8 @@
   <ItemGroup>
     <ClInclude Include="include\ICallable.h" />
     <ClInclude Include="include\IAvatar.h" />
+    <ClInclude Include="include\IIPC.H" />
+    <ClInclude Include="include\IPC.h" />
     <ClInclude Include="include\IPose.h" />
     <ClInclude Include="include\IArgs.h" />
     <ClInclude Include="include\ITracker.h" />

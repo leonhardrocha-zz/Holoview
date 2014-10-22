@@ -61,7 +61,7 @@ void DockFrame::paintEvent(QPaintEvent *e)
 
 #ifdef DEBUG_SIZEHINTS
 
-	QPainter p(this);
+    QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
     p.fillRect(rect(), bgColorForName(color));
 

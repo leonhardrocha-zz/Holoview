@@ -38,7 +38,7 @@ typedef enum _D3D10_DEVICE_STATE_TYPES
     D3D10_DST_VS,                       // Single-value state
     D3D10_DST_VS_SAMPLERS,              // Count: D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT
     D3D10_DST_VS_SHADER_RESOURCES,      // Count: D3D10_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT
-    D3D10_DST_VS_CONSTANT_BUFFERS,      // Count:			
+    D3D10_DST_VS_CONSTANT_BUFFERS,      // Count:            
 
     D3D10_DST_GS,                       // Single-value state
     D3D10_DST_GS_SAMPLERS,              // Count: D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT

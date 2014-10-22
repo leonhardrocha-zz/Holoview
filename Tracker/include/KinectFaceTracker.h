@@ -1,9 +1,15 @@
 #include "vld.h"
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
 #ifndef _KINECTFACETRACKER_H
 #define _KINECTFACETRACKER_H
-#pragma once
+
 #pragma warning(disable:4786)
 #include <FaceTrackLib.h>
+#include "IPC.h"
 #include "ITracker.h"
 #include "IArgs.h"
 #include "TrackerArgs.h"
@@ -17,7 +23,7 @@
 class KinectFaceTracker : public TrackerCallback, ITracker
 {
 public:
-    KinectFaceTracker(ITracker* parent=NULL, int id=0) : 
+    KinectFaceTracker(ITracker* parent=NULL, int id=0) :
           m_parent(parent), 
           m_hWnd(NULL), 
           m_pKinectSensor(NULL), 
@@ -73,7 +79,7 @@ public:
         Previous=0,
         Current=1,
     };
-    enum HintHoint
+    enum HintJoint
     {
         Neck=0,
         Head=1,
@@ -116,6 +122,8 @@ protected:
     BOOL                        SubmitFraceTrackingResult(IFTResult* pResult);
     void                        SetCenterOfImage(IFTResult* pResult);
     DWORD                       WINAPI FaceTrackingThread();
+
+    IPC                         m_messageQueue;
 };
 
 #endif

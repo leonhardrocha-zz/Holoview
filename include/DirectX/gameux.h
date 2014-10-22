@@ -51,25 +51,25 @@
 #ifndef __IGameExplorer_FWD_DEFINED__
 #define __IGameExplorer_FWD_DEFINED__
 typedef interface IGameExplorer IGameExplorer;
-#endif 	/* __IGameExplorer_FWD_DEFINED__ */
+#endif     /* __IGameExplorer_FWD_DEFINED__ */
 
 
 #ifndef __IGameStatistics_FWD_DEFINED__
 #define __IGameStatistics_FWD_DEFINED__
 typedef interface IGameStatistics IGameStatistics;
-#endif 	/* __IGameStatistics_FWD_DEFINED__ */
+#endif     /* __IGameStatistics_FWD_DEFINED__ */
 
 
 #ifndef __IGameStatisticsMgr_FWD_DEFINED__
 #define __IGameStatisticsMgr_FWD_DEFINED__
 typedef interface IGameStatisticsMgr IGameStatisticsMgr;
-#endif 	/* __IGameStatisticsMgr_FWD_DEFINED__ */
+#endif     /* __IGameStatisticsMgr_FWD_DEFINED__ */
 
 
 #ifndef __IGameExplorer2_FWD_DEFINED__
 #define __IGameExplorer2_FWD_DEFINED__
 typedef interface IGameExplorer2 IGameExplorer2;
-#endif 	/* __IGameExplorer2_FWD_DEFINED__ */
+#endif     /* __IGameExplorer2_FWD_DEFINED__ */
 
 
 #ifndef __GameExplorer_FWD_DEFINED__
@@ -81,7 +81,7 @@ typedef class GameExplorer GameExplorer;
 typedef struct GameExplorer GameExplorer;
 #endif /* __cplusplus */
 
-#endif 	/* __GameExplorer_FWD_DEFINED__ */
+#endif     /* __GameExplorer_FWD_DEFINED__ */
 
 
 #ifndef __GameStatistics_FWD_DEFINED__
@@ -93,7 +93,7 @@ typedef class GameStatistics GameStatistics;
 typedef struct GameStatistics GameStatistics;
 #endif /* __cplusplus */
 
-#endif 	/* __GameStatistics_FWD_DEFINED__ */
+#endif     /* __GameStatistics_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -116,10 +116,10 @@ extern "C"{
 #define ID_GDF_THUMBNAIL_STR L"__GDF_THUMBNAIL"
 typedef /* [v1_enum] */ 
 enum GAME_INSTALL_SCOPE
-    {	GIS_NOT_INSTALLED	= 1,
-	GIS_CURRENT_USER	= 2,
-	GIS_ALL_USERS	= 3
-    } 	GAME_INSTALL_SCOPE;
+    {    GIS_NOT_INSTALLED    = 1,
+    GIS_CURRENT_USER    = 2,
+    GIS_ALL_USERS    = 3
+    }     GAME_INSTALL_SCOPE;
 
 
 
@@ -159,7 +159,7 @@ EXTERN_C const IID IID_IGameExplorer;
         
     };
     
-#else 	/* C style interface */
+#else     /* C style interface */
 
     typedef struct IGameExplorerVtbl
     {
@@ -210,37 +210,37 @@ EXTERN_C const IID IID_IGameExplorer;
 #ifdef COBJMACROS
 
 
-#define IGameExplorer_QueryInterface(This,riid,ppvObject)	\
+#define IGameExplorer_QueryInterface(This,riid,ppvObject)    \
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define IGameExplorer_AddRef(This)	\
+#define IGameExplorer_AddRef(This)    \
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define IGameExplorer_Release(This)	\
+#define IGameExplorer_Release(This)    \
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define IGameExplorer_AddGame(This,bstrGDFBinaryPath,bstrGameInstallDirectory,installScope,pguidInstanceID)	\
+#define IGameExplorer_AddGame(This,bstrGDFBinaryPath,bstrGameInstallDirectory,installScope,pguidInstanceID)    \
     ( (This)->lpVtbl -> AddGame(This,bstrGDFBinaryPath,bstrGameInstallDirectory,installScope,pguidInstanceID) ) 
 
-#define IGameExplorer_RemoveGame(This,guidInstanceID)	\
+#define IGameExplorer_RemoveGame(This,guidInstanceID)    \
     ( (This)->lpVtbl -> RemoveGame(This,guidInstanceID) ) 
 
-#define IGameExplorer_UpdateGame(This,guidInstanceID)	\
+#define IGameExplorer_UpdateGame(This,guidInstanceID)    \
     ( (This)->lpVtbl -> UpdateGame(This,guidInstanceID) ) 
 
-#define IGameExplorer_VerifyAccess(This,bstrGDFBinaryPath,pfHasAccess)	\
+#define IGameExplorer_VerifyAccess(This,bstrGDFBinaryPath,pfHasAccess)    \
     ( (This)->lpVtbl -> VerifyAccess(This,bstrGDFBinaryPath,pfHasAccess) ) 
 
 #endif /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#endif     /* C style interface */
 
 
 
 
-#endif 	/* __IGameExplorer_INTERFACE_DEFINED__ */
+#endif     /* __IGameExplorer_INTERFACE_DEFINED__ */
 
 
 /* interface __MIDL_itf_gameux_0000_0001 */
@@ -248,15 +248,15 @@ EXTERN_C const IID IID_IGameExplorer;
 
 typedef /* [v1_enum] */ 
 enum GAMESTATS_OPEN_TYPE
-    {	GAMESTATS_OPEN_OPENORCREATE	= 0,
-	GAMESTATS_OPEN_OPENONLY	= 1
-    } 	GAMESTATS_OPEN_TYPE;
+    {    GAMESTATS_OPEN_OPENORCREATE    = 0,
+    GAMESTATS_OPEN_OPENONLY    = 1
+    }     GAMESTATS_OPEN_TYPE;
 
 typedef /* [v1_enum] */ 
 enum GAMESTATS_OPEN_RESULT
-    {	GAMESTATS_OPEN_CREATED	= 0,
-	GAMESTATS_OPEN_OPENED	= 1
-    } 	GAMESTATS_OPEN_RESULT;
+    {    GAMESTATS_OPEN_CREATED    = 0,
+    GAMESTATS_OPEN_OPENED    = 1
+    }     GAMESTATS_OPEN_RESULT;
 
 
 
@@ -324,7 +324,7 @@ EXTERN_C const IID IID_IGameStatistics;
         
     };
     
-#else 	/* C style interface */
+#else     /* C style interface */
 
     typedef struct IGameStatisticsVtbl
     {
@@ -411,61 +411,61 @@ EXTERN_C const IID IID_IGameStatistics;
 #ifdef COBJMACROS
 
 
-#define IGameStatistics_QueryInterface(This,riid,ppvObject)	\
+#define IGameStatistics_QueryInterface(This,riid,ppvObject)    \
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define IGameStatistics_AddRef(This)	\
+#define IGameStatistics_AddRef(This)    \
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define IGameStatistics_Release(This)	\
+#define IGameStatistics_Release(This)    \
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define IGameStatistics_GetMaxCategoryLength(This,cch)	\
+#define IGameStatistics_GetMaxCategoryLength(This,cch)    \
     ( (This)->lpVtbl -> GetMaxCategoryLength(This,cch) ) 
 
-#define IGameStatistics_GetMaxNameLength(This,cch)	\
+#define IGameStatistics_GetMaxNameLength(This,cch)    \
     ( (This)->lpVtbl -> GetMaxNameLength(This,cch) ) 
 
-#define IGameStatistics_GetMaxValueLength(This,cch)	\
+#define IGameStatistics_GetMaxValueLength(This,cch)    \
     ( (This)->lpVtbl -> GetMaxValueLength(This,cch) ) 
 
-#define IGameStatistics_GetMaxCategories(This,pMax)	\
+#define IGameStatistics_GetMaxCategories(This,pMax)    \
     ( (This)->lpVtbl -> GetMaxCategories(This,pMax) ) 
 
-#define IGameStatistics_GetMaxStatsPerCategory(This,pMax)	\
+#define IGameStatistics_GetMaxStatsPerCategory(This,pMax)    \
     ( (This)->lpVtbl -> GetMaxStatsPerCategory(This,pMax) ) 
 
-#define IGameStatistics_SetCategoryTitle(This,categoryIndex,title)	\
+#define IGameStatistics_SetCategoryTitle(This,categoryIndex,title)    \
     ( (This)->lpVtbl -> SetCategoryTitle(This,categoryIndex,title) ) 
 
-#define IGameStatistics_GetCategoryTitle(This,categoryIndex,pTitle)	\
+#define IGameStatistics_GetCategoryTitle(This,categoryIndex,pTitle)    \
     ( (This)->lpVtbl -> GetCategoryTitle(This,categoryIndex,pTitle) ) 
 
-#define IGameStatistics_GetStatistic(This,categoryIndex,statIndex,pName,pValue)	\
+#define IGameStatistics_GetStatistic(This,categoryIndex,statIndex,pName,pValue)    \
     ( (This)->lpVtbl -> GetStatistic(This,categoryIndex,statIndex,pName,pValue) ) 
 
-#define IGameStatistics_SetStatistic(This,categoryIndex,statIndex,name,value)	\
+#define IGameStatistics_SetStatistic(This,categoryIndex,statIndex,name,value)    \
     ( (This)->lpVtbl -> SetStatistic(This,categoryIndex,statIndex,name,value) ) 
 
-#define IGameStatistics_Save(This,trackChanges)	\
+#define IGameStatistics_Save(This,trackChanges)    \
     ( (This)->lpVtbl -> Save(This,trackChanges) ) 
 
-#define IGameStatistics_SetLastPlayedCategory(This,categoryIndex)	\
+#define IGameStatistics_SetLastPlayedCategory(This,categoryIndex)    \
     ( (This)->lpVtbl -> SetLastPlayedCategory(This,categoryIndex) ) 
 
-#define IGameStatistics_GetLastPlayedCategory(This,pCategoryIndex)	\
+#define IGameStatistics_GetLastPlayedCategory(This,pCategoryIndex)    \
     ( (This)->lpVtbl -> GetLastPlayedCategory(This,pCategoryIndex) ) 
 
 #endif /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#endif     /* C style interface */
 
 
 
 
-#endif 	/* __IGameStatistics_INTERFACE_DEFINED__ */
+#endif     /* __IGameStatistics_INTERFACE_DEFINED__ */
 
 
 #ifndef __IGameStatisticsMgr_INTERFACE_DEFINED__
@@ -494,7 +494,7 @@ EXTERN_C const IID IID_IGameStatisticsMgr;
         
     };
     
-#else 	/* C style interface */
+#else     /* C style interface */
 
     typedef struct IGameStatisticsMgrVtbl
     {
@@ -536,31 +536,31 @@ EXTERN_C const IID IID_IGameStatisticsMgr;
 #ifdef COBJMACROS
 
 
-#define IGameStatisticsMgr_QueryInterface(This,riid,ppvObject)	\
+#define IGameStatisticsMgr_QueryInterface(This,riid,ppvObject)    \
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define IGameStatisticsMgr_AddRef(This)	\
+#define IGameStatisticsMgr_AddRef(This)    \
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define IGameStatisticsMgr_Release(This)	\
+#define IGameStatisticsMgr_Release(This)    \
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define IGameStatisticsMgr_GetGameStatistics(This,GDFBinaryPath,openType,pOpenResult,ppiStats)	\
+#define IGameStatisticsMgr_GetGameStatistics(This,GDFBinaryPath,openType,pOpenResult,ppiStats)    \
     ( (This)->lpVtbl -> GetGameStatistics(This,GDFBinaryPath,openType,pOpenResult,ppiStats) ) 
 
-#define IGameStatisticsMgr_RemoveGameStatistics(This,GDFBinaryPath)	\
+#define IGameStatisticsMgr_RemoveGameStatistics(This,GDFBinaryPath)    \
     ( (This)->lpVtbl -> RemoveGameStatistics(This,GDFBinaryPath) ) 
 
 #endif /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#endif     /* C style interface */
 
 
 
 
-#endif 	/* __IGameStatisticsMgr_INTERFACE_DEFINED__ */
+#endif     /* __IGameStatisticsMgr_INTERFACE_DEFINED__ */
 
 
 #ifndef __IGameExplorer2_INTERFACE_DEFINED__
@@ -592,7 +592,7 @@ EXTERN_C const IID IID_IGameExplorer2;
         
     };
     
-#else 	/* C style interface */
+#else     /* C style interface */
 
     typedef struct IGameExplorer2Vtbl
     {
@@ -638,34 +638,34 @@ EXTERN_C const IID IID_IGameExplorer2;
 #ifdef COBJMACROS
 
 
-#define IGameExplorer2_QueryInterface(This,riid,ppvObject)	\
+#define IGameExplorer2_QueryInterface(This,riid,ppvObject)    \
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define IGameExplorer2_AddRef(This)	\
+#define IGameExplorer2_AddRef(This)    \
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define IGameExplorer2_Release(This)	\
+#define IGameExplorer2_Release(This)    \
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define IGameExplorer2_InstallGame(This,binaryGDFPath,installDirectory,installScope)	\
+#define IGameExplorer2_InstallGame(This,binaryGDFPath,installDirectory,installScope)    \
     ( (This)->lpVtbl -> InstallGame(This,binaryGDFPath,installDirectory,installScope) ) 
 
-#define IGameExplorer2_UninstallGame(This,binaryGDFPath)	\
+#define IGameExplorer2_UninstallGame(This,binaryGDFPath)    \
     ( (This)->lpVtbl -> UninstallGame(This,binaryGDFPath) ) 
 
-#define IGameExplorer2_CheckAccess(This,binaryGDFPath,pHasAccess)	\
+#define IGameExplorer2_CheckAccess(This,binaryGDFPath,pHasAccess)    \
     ( (This)->lpVtbl -> CheckAccess(This,binaryGDFPath,pHasAccess) ) 
 
 #endif /* COBJMACROS */
 
 
-#endif 	/* C style interface */
+#endif     /* C style interface */
 
 
 
 
-#endif 	/* __IGameExplorer2_INTERFACE_DEFINED__ */
+#endif     /* __IGameExplorer2_INTERFACE_DEFINED__ */
 
 
 

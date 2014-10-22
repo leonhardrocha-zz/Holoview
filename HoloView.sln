@@ -2,11 +2,15 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tracker", "Tracker\Tracker.vcxproj", "{0C756FDF-8218-4D6A-8121-7AA5CB12869E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8CB18462-5377-F135-CF08-F7816DEFEE47} = {8CB18462-5377-F135-CF08-F7816DEFEE47}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HoloviewLib", "HoloviewLib\HoloViewLib.vcxproj", "{8CB18462-5377-F135-CF08-F7816DEFEE47}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Holoview", "Holoview\Holoview.vcxproj", "{F2012380-39F4-4388-9416-F78B3237F2CB}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8CB18462-5377-F135-CF08-F7816DEFEE47} = {8CB18462-5377-F135-CF08-F7816DEFEE47}
 		{C8FF07CF-A07C-4D41-89DB-072E0604295B} = {C8FF07CF-A07C-4D41-89DB-072E0604295B}
 		{0C756FDF-8218-4D6A-8121-7AA5CB12869E} = {0C756FDF-8218-4D6A-8121-7AA5CB12869E}
 	EndProjectSection
@@ -17,8 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "osgviewerQtLib", "osgviewer
 	ProjectSection(ProjectDependencies) = postProject
 		{8CB18462-5377-F135-CF08-F7816DEFEE47} = {8CB18462-5377-F135-CF08-F7816DEFEE47}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utility", "Utility\Utility.vcxproj", "{FB1175CB-8219-4270-8D9A-AFE8C975ABB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,8 +48,6 @@ Global
 		{52965829-F97A-492F-8016-718E737A6088}.Debug|Win32.Build.0 = Debug|Win32
 		{52965829-F97A-492F-8016-718E737A6088}.Release|Win32.ActiveCfg = Release|Win32
 		{52965829-F97A-492F-8016-718E737A6088}.Release|Win32.Build.0 = Release|Win32
-		{FB1175CB-8219-4270-8D9A-AFE8C975ABB0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{FB1175CB-8219-4270-8D9A-AFE8C975ABB0}.Release|Win32.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

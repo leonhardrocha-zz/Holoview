@@ -218,7 +218,7 @@ D3DGetDebugInfo(__in_bcount(SrcDataSize) LPCVOID pSrcData,
 HRESULT WINAPI
 D3DReflect(__in_bcount(SrcDataSize) LPCVOID pSrcData,
            __in SIZE_T SrcDataSize,
-	   __in REFIID pInterface,
+       __in REFIID pInterface,
            __out void** ppReflector);
 
 //----------------------------------------------------------------------------
@@ -373,12 +373,12 @@ D3DCompressShaders(__in UINT uNumShaders,
 HRESULT WINAPI
 D3DDecompressShaders(__in_bcount(SrcDataSize) LPCVOID pSrcData,
                      __in SIZE_T SrcDataSize,
-                     __in UINT uNumShaders,	      
+                     __in UINT uNumShaders,          
                      __in UINT uStartIndex,
                      __in_ecount_opt(uNumShaders) UINT* pIndices,
                      __in UINT uFlags,
                      __out_ecount(uNumShaders) ID3DBlob** ppShaders,
-		     __out_opt UINT* pTotalShaders);
+             __out_opt UINT* pTotalShaders);
 
 //----------------------------------------------------------------------------
 // D3DCreateBlob:

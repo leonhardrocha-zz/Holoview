@@ -14,39 +14,39 @@ typedef std::pair<ITracker&,void*> TrackerEvent;
 //{
 //public:
 //
-//	TrackerFrame::TrackerFrame(const QString &dockName, QWidget *parent, ITracker* tracker) : DockFrame(dockName, parent), m_pTracker(tracker)
-//	{
-//		RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
-//		setAttribute(Qt::WA_NativeWindow);
-//		setAttribute(Qt::WA_PaintOnScreen);	
-//	}
-//	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
-//	{	
-//		m_pTracker->PaintEvent(message);
-//		return true;
-//	}
-//	ITracker* m_pTracker;
+//    TrackerFrame::TrackerFrame(const QString &dockName, QWidget *parent, ITracker* tracker) : DockFrame(dockName, parent), m_pTracker(tracker)
+//    {
+//        RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
+//        setAttribute(Qt::WA_NativeWindow);
+//        setAttribute(Qt::WA_PaintOnScreen);    
+//    }
+//    virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
+//    {    
+//        m_pTracker->PaintEvent(message);
+//        return true;
+//    }
+//    ITracker* m_pTracker;
 //};
 
 class  TrackerFrame :  public DockFrame
 {
 public:
 
-	TrackerFrame::TrackerFrame(const int trackerId, QWidget *parent, ITracker* tracker) : DockFrame("tracker", parent), m_pTracker(tracker)
-	{
-		RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
-		setAttribute(Qt::WA_NativeWindow);
-		setAttribute(Qt::WA_PaintOnScreen);
-		id = trackerId;
+    TrackerFrame::TrackerFrame(const int trackerId, QWidget *parent, ITracker* tracker) : DockFrame("tracker", parent), m_pTracker(tracker)
+    {
+        RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
+        setAttribute(Qt::WA_NativeWindow);
+        setAttribute(Qt::WA_PaintOnScreen);
+        id = trackerId;
         m_args.Set("trackerId", &id);
-	}
-	virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
-	{	
-		m_pTracker->PaintEvent(message, &m_args);
-		return true;
-	}
-	ITracker* m_pTracker;
-	int id;
+    }
+    virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
+    {    
+        m_pTracker->PaintEvent(message, &m_args);
+        return true;
+    }
+    ITracker* m_pTracker;
+    int id;
 protected:
     TrackerArgs m_args;
 };

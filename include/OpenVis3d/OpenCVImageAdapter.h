@@ -15,7 +15,7 @@
 *
 * @author Abhijit Ogale
 */
-class OpenCVImageAdapter :	public OvImageAdapter
+class OpenCVImageAdapter :    public OvImageAdapter
 {
   OpenCVImageAdapter(){}; /**< to prevent the default constructor from being used */
 
@@ -27,7 +27,7 @@ public:
   virtual void   setPixel(double value, int row, int column, int channel);
 
 protected:
-  IplImage*mIplImage;	/**< saved pointer to OpenCV IplImage object */
+  IplImage*mIplImage;    /**< saved pointer to OpenCV IplImage object */
 
   double (OpenCVImageAdapter::*getPixelfptr) (int row, int column, int channel) const; /**< function pointer used to store getpixel function appropriate for image datatype */
   void   (OpenCVImageAdapter::*setPixelfptr) (double value, int row, int column, int channel); /**< function pointer used to store setpixel function appropriate for image datatype */

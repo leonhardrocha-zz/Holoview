@@ -23,11 +23,11 @@ MyDock::MyDock(const QString &name, QWidget *parent, Qt::WindowFlags flags, QWid
 {
     setObjectName(name + QLatin1String(" Dock Widget"));
     setWindowTitle(objectName() + QLatin1String(" [*]"));
-	
-	if (m_dockFrame)
-	{
-		setWidget(m_dockFrame);
-	}
+    
+    if (m_dockFrame)
+    {
+        setWidget(m_dockFrame);
+    }
 
     changeSizeHintsAction = new QAction(tr("Change Size Hints"), this);
     connect(changeSizeHintsAction, SIGNAL(triggered()), frame, SLOT(changeSizeHints()));

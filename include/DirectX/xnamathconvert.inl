@@ -8,7 +8,7 @@ Module Name:
 
 Abstract:
 
-	XNA math library for Windows and Xbox 360: Conversion, loading, and storing functions.
+    XNA math library for Windows and Xbox 360: Conversion, loading, and storing functions.
 --*/
 
 #if defined(_MSC_VER) && (_MSC_VER > 1000)
@@ -1672,7 +1672,7 @@ XMFINLINE XMVECTOR XMLoadHalf4
     return vResult;
     }
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     XMVECTOR vResult = {
         XMConvertHalfToFloat(pSource->x),
         XMConvertHalfToFloat(pSource->y),
@@ -1707,7 +1707,7 @@ XMFINLINE XMVECTOR XMLoadShortN4
     return vResult;
     }
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     XMASSERT(pSource->x != -32768);
     XMASSERT(pSource->y != -32768);
     XMASSERT(pSource->z != -32768);
@@ -1800,10 +1800,10 @@ XMFINLINE XMVECTOR XMLoadUShortN4
     return V;
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     static const XMVECTORF32 FixupY16W16 = {1.0f/65535.0f,1.0f/65535.0f,1.0f/(65535.0f*65536.0f),1.0f/(65535.0f*65536.0f)};
     static const XMVECTORF32 FixaddY16W16  = {0,0,32768.0f*65536.0f,32768.0f*65536.0f};
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Splat the color in all four entries (x,z,y,w)
     __m128d vIntd = _mm_load1_pd(reinterpret_cast<const double *>(&pSource->x));
     // Shift x&0ffff,z&0xffff,y&0xffff0000,w&0xffff0000
@@ -1845,7 +1845,7 @@ XMFINLINE XMVECTOR XMLoadUShort4
 #elif defined(_XM_SSE_INTRINSICS_)
     XMASSERT(pSource);
     static const XMVECTORF32 FixaddY16W16  = {0,0,32768.0f,32768.0f};
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Splat the color in all four entries (x,z,y,w)
     __m128d vIntd = _mm_load1_pd(reinterpret_cast<const double *>(&pSource->x));
     // Shift x&0ffff,z&0xffff,y&0xffff0000,w&0xffff0000
@@ -1897,7 +1897,7 @@ XMFINLINE XMVECTOR XMLoadXIcoN4
     XMASSERT(((pSource->v >> 20) & 0xFFFFFull) != 0x80000ull);
     XMASSERT(((pSource->v >> 40) & 0xFFFFFull) != 0x80000ull);
     static const XMVECTORF32 LoadXIcoN4Mul = {1.0f/524287.0f,1.0f/(524287.0f*4096.0f),1.0f/524287.0f,1.0f/(15.0f*4096.0f*65536.0f)};
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Grab the 64 bit structure
     __m128d vResultd = _mm_load_sd(reinterpret_cast<const double *>(&pSource->v));
     // By shifting down 8 bits, y and z are in seperate 32 bit elements
@@ -2202,7 +2202,7 @@ XMFINLINE XMVECTOR XMLoadXDecN4
     return V;
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Splat the color in all four entries
     __m128 vTemp = _mm_load_ps1(reinterpret_cast<const float *>(&pSource->v));
     // Shift R&0xFF0000, G&0xFF00, B&0xFF, A&0xFF000000
@@ -2489,7 +2489,7 @@ XMFINLINE XMVECTOR XMLoadUByteN4
 
 #elif defined(_XM_SSE_INTRINSICS_)
     static const XMVECTORF32 LoadUByteN4Mul = {1.0f/255.0f,1.0f/(255.0f*256.0f),1.0f/(255.0f*65536.0f),1.0f/(255.0f*65536.0f*256.0f)};
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Splat the color in all four entries (x,z,y,w)
     XMVECTOR vTemp = _mm_load1_ps(reinterpret_cast<const float *>(&pSource->x));
     // Mask x&0ff,y&0xff00,z&0xff0000,w&0xff000000
@@ -2529,7 +2529,7 @@ XMFINLINE XMVECTOR XMLoadUByte4
 
 #elif defined(_XM_SSE_INTRINSICS_)
     static const XMVECTORF32 LoadUByte4Mul = {1.0f,1.0f/256.0f,1.0f/65536.0f,1.0f/(65536.0f*256.0f)};
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Splat the color in all four entries (x,z,y,w)
     XMVECTOR vTemp = _mm_load1_ps(reinterpret_cast<const float *>(&pSource->x));
     // Mask x&0ff,y&0xff00,z&0xff0000,w&0xff000000
@@ -2743,7 +2743,7 @@ XMFINLINE XMVECTOR XMLoadColor
     return vColor;
     }
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Splat the color in all four entries
     __m128i vInt = _mm_set1_epi32(pSource->c);
     // Shift R&0xFF0000, G&0xFF00, B&0xFF, A&0xFF000000
@@ -2796,29 +2796,29 @@ XMFINLINE XMMATRIX XMLoadFloat3x3
     return M;
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMMATRIX M;
-	XMVECTOR V1, V2, V3, Z, T1, T2, T3, T4, T5;
+    XMMATRIX M;
+    XMVECTOR V1, V2, V3, Z, T1, T2, T3, T4, T5;
 
-	Z = _mm_setzero_ps();
+    Z = _mm_setzero_ps();
 
-	XMASSERT(pSource);
+    XMASSERT(pSource);
 
-	V1 = _mm_loadu_ps( &pSource->m[0][0] );
-	V2 = _mm_loadu_ps( &pSource->m[1][1] );
-	V3 = _mm_load_ss( &pSource->m[2][2] );
+    V1 = _mm_loadu_ps( &pSource->m[0][0] );
+    V2 = _mm_loadu_ps( &pSource->m[1][1] );
+    V3 = _mm_load_ss( &pSource->m[2][2] );
 
-	T1 = _mm_unpackhi_ps( V1, Z );
-	T2 = _mm_unpacklo_ps( V2, Z );
-	T3 = _mm_shuffle_ps( V3, T2, _MM_SHUFFLE( 0, 1, 0, 0 ) );
-	T4 = _mm_movehl_ps( T2, T3 );
-	T5 = _mm_movehl_ps( Z, T1 );  
+    T1 = _mm_unpackhi_ps( V1, Z );
+    T2 = _mm_unpacklo_ps( V2, Z );
+    T3 = _mm_shuffle_ps( V3, T2, _MM_SHUFFLE( 0, 1, 0, 0 ) );
+    T4 = _mm_movehl_ps( T2, T3 );
+    T5 = _mm_movehl_ps( Z, T1 );  
 
-	M.r[0] = _mm_movelh_ps( V1, T1 );
-	M.r[1] = _mm_add_ps( T4, T5 );
-	M.r[2] = _mm_shuffle_ps( V2, V3, _MM_SHUFFLE(1, 0, 3, 2) );
-	M.r[3] = g_XMIdentityR3;
+    M.r[0] = _mm_movelh_ps( V1, T1 );
+    M.r[1] = _mm_add_ps( T4, T5 );
+    M.r[2] = _mm_shuffle_ps( V2, V3, _MM_SHUFFLE(1, 0, 3, 2) );
+    M.r[3] = g_XMIdentityR3;
 
-	return M;
+    return M;
 #elif defined(XM_NO_MISALIGNED_VECTOR_ACCESS)
 #endif // _XM_VMX128_INTRINSICS_
 }
@@ -2928,7 +2928,7 @@ XMFINLINE XMMATRIX XMLoadFloat4x3A
     return M;
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pSource);
+    XMASSERT(pSource);
     // Use aligned load instructions to 
     // load the 12 floats
     // vTemp1 = x1,y1,z1,x2
@@ -3046,16 +3046,16 @@ XMFINLINE XMMATRIX XMLoadFloat4x4A
     return M;
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMMATRIX M;
+    XMMATRIX M;
 
-	XMASSERT(pSource);
+    XMASSERT(pSource);
 
-	M.r[0] = _mm_load_ps( &pSource->_11 );
-	M.r[1] = _mm_load_ps( &pSource->_21 );
-	M.r[2] = _mm_load_ps( &pSource->_31 );
-	M.r[3] = _mm_load_ps( &pSource->_41 );
+    M.r[0] = _mm_load_ps( &pSource->_11 );
+    M.r[1] = _mm_load_ps( &pSource->_21 );
+    M.r[2] = _mm_load_ps( &pSource->_31 );
+    M.r[3] = _mm_load_ps( &pSource->_41 );
 
-	return M;
+    return M;
 #else // _XM_VMX128_INTRINSICS_
 #endif // _XM_VMX128_INTRINSICS_
 }
@@ -3266,11 +3266,11 @@ XMFINLINE VOID XMStoreShortN2
     pDestination->y = (SHORT)N.vector4_f32[1];
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
     static CONST XMVECTORF32 Scale = {32767.0f, 32767.0f, 32767.0f, 32767.0f};
 
-	XMVECTOR vResult = _mm_max_ps(V,g_XMNegativeOne);
-	vResult = _mm_min_ps(vResult,g_XMOne);
+    XMVECTOR vResult = _mm_max_ps(V,g_XMNegativeOne);
+    vResult = _mm_min_ps(vResult,g_XMOne);
     vResult = _mm_mul_ps(vResult,Scale);
     __m128i vResulti = _mm_cvtps_epi32(vResult);
     vResulti = _mm_packs_epi32(vResulti,vResulti);
@@ -5035,7 +5035,7 @@ XMFINLINE VOID XMStoreUDec4
                        (((UINT)N.vector4_f32[0] & 0x3FF));
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
     static const XMVECTORF32 MaxUDec4 = { 1023.0f, 1023.0f, 1023.0f, 3.0f};
     static const XMVECTORF32 ScaleUDec4 = {1.0f,1024.0f/2.0f,1024.0f*1024.0f,1024.0f*1024.0f*1024.0f/2.0f};
     static const XMVECTORI32 MaskUDec4= {0x3FF,0x3FF<<(10-1),0x3FF<<20,0x3<<(30-1)};
@@ -5291,7 +5291,7 @@ XMFINLINE VOID XMStoreByteN4
     pDestination->w = (CHAR)N.vector4_f32[3];
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
     static const XMVECTORF32 ScaleByteN4 = {127.0f,127.0f*256.0f,127.0f*256.0f*256.0f,127.0f*256.0f*256.0f*256.0f};
     static const XMVECTORI32 MaskByteN4 = {0xFF,0xFF<<8,0xFF<<16,0xFF<<24};
     // Clamp to bounds
@@ -5341,7 +5341,7 @@ XMFINLINE VOID XMStoreByte4
     pDestination->w = (CHAR)N.vector4_f32[3];
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
     static const XMVECTORF32 MinByte4 = {-127.0f,-127.0f,-127.0f,-127.0f};
     static const XMVECTORF32 MaxByte4 = { 127.0f, 127.0f, 127.0f, 127.0f};
     static const XMVECTORF32 ScaleByte4 = {1.0f,256.0f,256.0f*256.0f,256.0f*256.0f*256.0f};
@@ -5500,8 +5500,8 @@ XMFINLINE VOID XMStoreColor
 
 XMFINLINE VOID XMStoreFloat3x3
 (
-    XMFLOAT3X3*	pDestination, 
-    CXMMATRIX	M
+    XMFLOAT3X3*    pDestination, 
+    CXMMATRIX    M
 )
 {
 #if defined(_XM_NO_INTRINSICS_) || defined(XM_NO_MISALIGNED_VECTOR_ACCESS) || defined(_XM_SSE_INTRINSICS_)
@@ -5537,7 +5537,7 @@ XMFINLINE VOID XMStoreFloat3x3NC
     pDestination->m[2][2] = M.r[2].vector4_f32[2];
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
     XMVECTOR vTemp1 = M.r[0];
     XMVECTOR vTemp2 = M.r[1];
     XMVECTOR vTemp3 = M.r[2];
@@ -5572,8 +5572,8 @@ XMFINLINE VOID XMStoreFloat4x3
 
 XMFINLINE VOID XMStoreFloat4x3A
 (
-    XMFLOAT4X3A*	pDestination, 
-    CXMMATRIX		M
+    XMFLOAT4X3A*    pDestination, 
+    CXMMATRIX        M
 )
 {
 #if defined(_XM_NO_INTRINSICS_)
@@ -5598,7 +5598,7 @@ XMFINLINE VOID XMStoreFloat4x3A
     pDestination->m[3][2] = M.r[3].vector4_f32[2];
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
     XMASSERT(((UINT_PTR)pDestination & 0xF) == 0);
     // x1,y1,z1,w1
     XMVECTOR vTemp1 = M.r[0];
@@ -5655,7 +5655,7 @@ XMFINLINE VOID XMStoreFloat4x3NC
     pDestination->m[3][2] = M.r[3].vector4_f32[2];
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
     XMVECTOR vTemp1 = M.r[0];
     XMVECTOR vTemp2 = M.r[1];
     XMVECTOR vTemp3 = M.r[2];
@@ -5685,12 +5685,12 @@ XMFINLINE VOID XMStoreFloat4x4
     XMStoreFloat4x4NC(pDestination, M);
 
 #elif defined(_XM_SSE_INTRINSICS_)
-	XMASSERT(pDestination);
+    XMASSERT(pDestination);
 
-	_mm_storeu_ps( &pDestination->_11, M.r[0] );
-	_mm_storeu_ps( &pDestination->_21, M.r[1] );
-	_mm_storeu_ps( &pDestination->_31, M.r[2] );
-	_mm_storeu_ps( &pDestination->_41, M.r[3] );
+    _mm_storeu_ps( &pDestination->_11, M.r[0] );
+    _mm_storeu_ps( &pDestination->_21, M.r[1] );
+    _mm_storeu_ps( &pDestination->_31, M.r[2] );
+    _mm_storeu_ps( &pDestination->_41, M.r[3] );
 #else // _XM_VMX128_INTRINSICS_
 #endif // _XM_VMX128_INTRINSICS_
 }
@@ -5699,8 +5699,8 @@ XMFINLINE VOID XMStoreFloat4x4
 
 XMFINLINE VOID XMStoreFloat4x4A
 (
-    XMFLOAT4X4A*	pDestination, 
-    CXMMATRIX		M
+    XMFLOAT4X4A*    pDestination, 
+    CXMMATRIX        M
 )
 {
 #if defined(_XM_NO_INTRINSICS_)

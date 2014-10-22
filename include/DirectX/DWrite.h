@@ -1741,7 +1741,7 @@ enum DWRITE_TRIMMING_GRANULARITY
     /// <summary>
     /// Trimming occurs at word boundary.
     /// </summary>
-    DWRITE_TRIMMING_GRANULARITY_WORD	
+    DWRITE_TRIMMING_GRANULARITY_WORD    
 };
 
 /// <summary>

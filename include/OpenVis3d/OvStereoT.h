@@ -93,7 +93,7 @@ public:
   * @param leftDisparityMap the disparity map for the left image. (method returns this).
   * @param rightDisparityMap the disparity map for the right image. (method returns this).
   * @param leftOcclusions the occlusion map for the left image. (method returns this).
-  * @param rightOcclusions the occlusion map for the right image. (method returns this).	
+  * @param rightOcclusions the occlusion map for the right image. (method returns this).    
   * @return true if successful.
   */
   virtual bool doStereoMatching(const OvImageAdapter & i1, const OvImageAdapter & i2, double minshift, double maxshift, OvImageAdapter & leftDisparityMap, OvImageAdapter & rightDisparityMap, OvImageAdapter & leftOcclusions, OvImageAdapter & rightOcclusions);
@@ -101,10 +101,10 @@ public:
 
 protected:
 
-  OvImagePairPreprocessorT<T>		*mImagePairPreprocessor;	/**< Image pair preprocessor */
-  OvLocalMatcherT<T>				*mLocalImageMatcher;		/**< Local image pair matcher */
-  OvStereoGlobalMatcherT<T>		*mStereoGlobalMatcher;		/**< Global stereo algorithm */
-  OvDisparityPostprocessor		*mDisparityPostprocessor;	/**< Disparity map post processor */
+  OvImagePairPreprocessorT<T>        *mImagePairPreprocessor;    /**< Image pair preprocessor */
+  OvLocalMatcherT<T>                *mLocalImageMatcher;        /**< Local image pair matcher */
+  OvStereoGlobalMatcherT<T>        *mStereoGlobalMatcher;        /**< Global stereo algorithm */
+  OvDisparityPostprocessor        *mDisparityPostprocessor;    /**< Disparity map post processor */
 
   // The flags below are for marking whether the above variables are internally allocated.
   // In case they are, we are responsible for releasing them at destruction. 
@@ -192,7 +192,7 @@ bool OvStereoT<T>::doStereoMatching(const OvImageAdapter & i1, const OvImageAdap
   mLeftOcclusions.copyFromAdapter(leftOcclusions);
   mRightOcclusions.copyFromAdapter(rightOcclusions);
 
-  if(!haveEqualDimensions(mImage1, mImage2)) return false; //return if images have different dimensions	
+  if(!haveEqualDimensions(mImage1, mImage2)) return false; //return if images have different dimensions    
 
   //output images must have the same height and width as input, but at least one channel
   if(!haveEqualHeightWidth(mImage1, mLeftDisparityMap)) return false; 

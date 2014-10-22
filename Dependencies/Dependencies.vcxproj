@@ -53,6 +53,7 @@
     <PostBuildEvent>
       <Command>xcopy /I /Y /D "$(ProjectDir)Runtime\*.*" "$(OutDir)"
 xcopy /I /Y /D "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\ZeroMQ\*.*" "$(OutDir)"
 xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"
 xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)osgPlugins-3.2.1"
 xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
@@ -74,6 +75,7 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <PostBuildEvent>
       <Command>xcopy /I /Y /D "$(ProjectDir)Runtime\*.*" "$(OutDir)"
 xcopy /I /Y /D "$(ProjectDir)Runtime\DirectX\*.*" "$(OutDir)"
+xcopy /I /Y /D "$(ProjectDir)Runtime\ZeroMQ\*.*" "$(OutDir)"
 xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\*.*" "$(OutDir)"
 xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\plugins\*.*" "$(OutDir)osgPlugins"
 xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDir)"</Command>
@@ -656,6 +658,8 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <None Include="..\include\osg\osg\VertexProgram" />
     <None Include="..\include\osg\osg\View" />
     <None Include="..\include\osg\osg\Viewport" />
+    <None Include="..\lib\ZeroMQ\libzmq.exp" />
+    <None Include="..\lib\ZeroMQ\libzmqd.exp" />
     <None Include="Models\3DS\airplane\Airplane AN-2 N200314.3DS" />
     <None Include="Models\3DS\airplane\Airplane AN-2 N200314.gsm" />
     <None Include="Models\3DS\airplane\archibase.net.txt" />
@@ -1011,6 +1015,8 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <None Include="Runtime\osg\Release\plugins\osgdb_vtf.dll" />
     <None Include="Runtime\osg\Release\plugins\osgdb_x.dll" />
     <None Include="Runtime\osg\Release\plugins\osgdb_zip.dll" />
+    <None Include="Runtime\ZeroMQ\libzmq.dll" />
+    <None Include="Runtime\ZeroMQ\libzmqd.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DirectX\audiodefs.h" />
@@ -1105,6 +1111,8 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <ClInclude Include="..\include\OpenVis3d\OvStereoGlobalMatcherT.h" />
     <ClInclude Include="..\include\OpenVis3d\OvStereoT.h" />
     <ClInclude Include="..\include\OpenVis3d\ProbabilisticEgomotion.h" />
+    <ClInclude Include="..\include\ZeroMQ\zmq.h" />
+    <ClInclude Include="..\include\ZeroMQ\zmq.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\DirectX\d2d1.lib" />
@@ -1176,6 +1184,10 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <Library Include="..\lib\osgVolumed.lib" />
     <Library Include="..\lib\osgWidget.lib" />
     <Library Include="..\lib\osgWidgetd.lib" />
+    <Library Include="..\lib\ZeroMQ\libzmq-v100-mt-4_0_4.lib" />
+    <Library Include="..\lib\ZeroMQ\libzmq-v100-mt-gd-4_0_4.lib" />
+    <Library Include="..\lib\ZeroMQ\libzmq.lib" />
+    <Library Include="..\lib\ZeroMQ\libzmqd.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

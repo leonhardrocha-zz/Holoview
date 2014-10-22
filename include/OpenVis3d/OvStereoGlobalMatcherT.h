@@ -30,7 +30,7 @@ public:
   * @param leftDisparityMap the disparity map for the left image. (method sets this).
   * @param rightDisparityMap the disparity map for the right image. (method sets this).
   * @param leftOcclusions the occlusion map for the left image. (method sets this).
-  * @param rightOcclusions the occlusion map for the right image. (method sets this).	
+  * @param rightOcclusions the occlusion map for the right image. (method sets this).    
   * @return true if successful.
   */
   virtual bool doMatching(OvImageT<T> & i1, OvImageT<T> & i2, double minshift, double maxshift, OvImageT<double> & leftDisparityMap, OvImageT<double> & rightDisparityMap, OvImageT<double> & leftOcclusions, OvImageT<double> & rightOcclusions) = 0;

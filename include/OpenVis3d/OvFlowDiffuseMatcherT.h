@@ -193,7 +193,7 @@ void OvFlowDiffuseMatcherT<T>::computeGoodnessHoriz(const OvImageT<double> & iMa
       iGoodness(i,j) = temp;
       leftval = temp;
     }
-  }	
+  }    
 
   //now right to left
   for(i=0;i<height;i++)
@@ -205,7 +205,7 @@ void OvFlowDiffuseMatcherT<T>::computeGoodnessHoriz(const OvImageT<double> & iMa
       iGoodness(i,j) += temp; //we are not including iMatch here since we would only subtract it later
       rightval = temp + iMatch(i,j); //but we have to include it here before propagation
     }
-  }		
+  }        
 }
 
 template<typename T>
@@ -220,25 +220,25 @@ void OvFlowDiffuseMatcherT<T>::computeGoodnessVert(const OvImageT<double> & iMat
   for(j=0;j<width;j++)
   {
     topval = 0;
-    for(i=0;i<height;i++)	
+    for(i=0;i<height;i++)    
     {
       temp = iMatch(i,j) + topval*iConductivity(i,j);
       iGoodness(i,j) = temp;
       topval = temp;
     }
-  }	
+  }    
 
   //now bottom to top
   for(j=0;j<width;j++)
   {
     bottomval = 0;
-    for(i=(height-1);i>=0;i--)	
+    for(i=(height-1);i>=0;i--)    
     {
       temp = bottomval*iConductivity(i,j);
       iGoodness(i,j) += temp; //we are not including iMatch here since we would only subtract it later
       bottomval = temp + iMatch(i,j); //but we have to include it here before propagation
     }
-  }		
+  }        
 }
 
 #endif //__OVFLOWDIFFUSEMATCHERT_H

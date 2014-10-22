@@ -2764,7 +2764,7 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFI
  *  The settings have been successfully applied but could not be 
  *  persisted. 
  */
-#define DI_SETTINGSNOTSAVED				((HRESULT)0x0000000BL)
+#define DI_SETTINGSNOTSAVED                ((HRESULT)0x0000000BL)
 
 /*
  *  Equal to DI_EFFECTRESTARTED | DI_TRUNCATED.

@@ -126,7 +126,7 @@ KLT_TrackingContext KLTCreateTrackingContext()
 
   /* Change nPyramidLevels and subsampling */
   KLTChangeTCPyramid(tc, search_range);
-	
+    
   /* Update border, which is dependent upon  */
   /* smooth_sigma_fact, pyramid_sigma_fact, window_size, and subsampling */
   KLTUpdateTCBorder(tc);
@@ -149,10 +149,10 @@ KLT_FeatureList KLTCreateFeatureList(
     nFeatures * sizeof(KLT_Feature) +
     nFeatures * sizeof(KLT_FeatureRec);
   int i;
-	
+    
   /* Allocate memory for feature list */
   fl = (KLT_FeatureList)  malloc(nbytes);
-	
+    
   /* Set parameters */
   fl->nFeatures = nFeatures; 
 
@@ -184,13 +184,13 @@ KLT_FeatureHistory KLTCreateFeatureHistory(
     nFrames * sizeof(KLT_Feature) +
     nFrames * sizeof(KLT_FeatureRec);
   int i;
-	
+    
   /* Allocate memory for feature history */
   fh = (KLT_FeatureHistory)  malloc(nbytes);
-	
+    
   /* Set parameters */
   fh->nFrames = nFrames; 
-	
+    
   /* Set pointers */
   fh->feature = (KLT_Feature *) (fh + 1);
   first = (KLT_Feature) (fh->feature + nFrames);
@@ -215,14 +215,14 @@ KLT_FeatureTable KLTCreateFeatureTable(
   KLT_Feature first;
   int nbytes = sizeof(KLT_FeatureTableRec);
   int i, j;
-	
+    
   /* Allocate memory for feature history */
   ft = (KLT_FeatureTable)  malloc(nbytes);
-	
+    
   /* Set parameters */
   ft->nFrames = nFrames; 
   ft->nFeatures = nFeatures; 
-	
+    
   /* Set pointers */
   ft->feature = (KLT_Feature **) 
     _createArray2D(nFrames, nFeatures, sizeof(KLT_Feature));
@@ -317,15 +317,15 @@ void KLTChangeTCPyramid(
 
   subsampling = ((float) search_range) / window_halfwidth;
 
-  if (subsampling < 1.0)  {		/* 1.0 = 0+1 */
+  if (subsampling < 1.0)  {        /* 1.0 = 0+1 */
     tc->nPyramidLevels = 1;
-  } else if (subsampling <= 3.0)  {	/* 3.0 = 2+1 */
+  } else if (subsampling <= 3.0)  {    /* 3.0 = 2+1 */
     tc->nPyramidLevels = 2;
     tc->subsampling = 2;
-  } else if (subsampling <= 5.0)  {	/* 5.0 = 4+1 */
+  } else if (subsampling <= 5.0)  {    /* 5.0 = 4+1 */
     tc->nPyramidLevels = 2;
     tc->subsampling = 4;
-  } else if (subsampling <= 9.0)  {	/* 9.0 = 8+1 */
+  } else if (subsampling <= 9.0)  {    /* 9.0 = 8+1 */
     tc->nPyramidLevels = 2;
     tc->subsampling = 8;
   } else {

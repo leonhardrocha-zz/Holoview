@@ -1,4 +1,9 @@
 #include "osgLib.h"
+
+#ifdef _MSC_VER
+#pragma warning (disable : 4505 )
+#endif
+
 #ifndef _MATRIXEXTENSION_H
 #define _MATRIXEXTENSION_H
 

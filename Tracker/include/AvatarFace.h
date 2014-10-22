@@ -1,4 +1,7 @@
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 
 static const double EyeInside = 1.0f/18.0f;
 static const double EyeOutside = 1.0f/6.0f;

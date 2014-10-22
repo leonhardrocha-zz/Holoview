@@ -5,14 +5,14 @@
 
 /* Standard includes */
 #include <assert.h>
-#include <stdlib.h>		/* malloc() ? */
-#include <string.h>		/* memset() ? */
-#include <math.h>		/* */
+#include <stdlib.h>        /* malloc() ? */
+#include <string.h>        /* memset() ? */
+#include <math.h>        /* */
 
 /* Our includes */
 #include "base.h"
 #include "error.h"
-#include "convolve.h"	/* for computing pyramid */
+#include "convolve.h"    /* for computing pyramid */
 #include "pyramid.h"
 
 
@@ -27,7 +27,7 @@ _KLT_Pyramid _KLTCreatePyramid(
   int nlevels)
 {
   _KLT_Pyramid pyramid;
-  int nbytes = sizeof(_KLT_PyramidRec) +	
+  int nbytes = sizeof(_KLT_PyramidRec) +    
     nlevels * sizeof(_KLT_FloatImage *) +
     nlevels * sizeof(int) +
     nlevels * sizeof(int);
@@ -96,7 +96,7 @@ void _KLTComputePyramid(
   float sigma = subsampling * sigma_fact;  /* empirically determined */
   int oldncols;
   int i, x, y;
-	
+    
   if (subsampling != 2 && subsampling != 4 && 
       subsampling != 8 && subsampling != 16 && subsampling != 32)
     KLTError("(_KLTComputePyramid)  Pyramid's subsampling must "
@@ -125,7 +125,7 @@ void _KLTComputePyramid(
 
     /* Reassign current image */
     currimg = pyramid->img[i];
-				
+                
     _KLTFreeFloatImage(tmpimg);
   }
 }

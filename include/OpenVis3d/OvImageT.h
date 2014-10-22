@@ -42,7 +42,7 @@ public:
   //for debugging
   void print(void); /**< print image contents (only for debugging) */
 
-  //special operators	
+  //special operators    
   inline T& operator() (int row, int column = 0, int channel = 0); //allows easy indexing into the image, e.g., im(i,j,k)
   inline T& operator() (int row, int column = 0, int channel = 0) const; //const version of above operator
   OvImageT<T>& operator = (const OvImageT<T> & rhsImage); //assignment operator (e.g., i1 = i2; )
@@ -56,57 +56,57 @@ public:
   bool copyMasked(const OvImageT<bool> & mask, const T & value); //set pixels = value only where mask is set to true
   bool copyChannel(OvImageT<T> & input, int inputchannel, int outputchannel); //copies a certain input channel to a certain output channel
   //bool copyRegion(const T & value, int rowLo=-1, int rowHi=-1, int columnLo=-1, int columnHi=-1, int channelLo=-1, int channelHi=-1);
-  //bool copyRegionEx(const T & value, int rowLo=-1, int rowHi=-1, int columnLo=-1, int columnHi=-1, int channelLo=-1, int channelHi=-1);	
+  //bool copyRegionEx(const T & value, int rowLo=-1, int rowHi=-1, int columnLo=-1, int columnHi=-1, int channelLo=-1, int channelHi=-1);    
 
   const OvImageT<T> getSubImage(int rowLo=-1, int rowHi=-1, int columnLo=-1, int columnHi=-1, int channelLo=-1, int channelHi=-1); //copy and return rectangular image block
 
   //arithmetic operators 
-  OvImageT<T> & operator += (const OvImageT<T> & rhs);	/**< e.g., i1 += i2;*/
-  OvImageT<T> & operator += (const T & rhs);				/**< e.g., i1 += 3.2;*/
-  OvImageT<T> & operator -= (const OvImageT<T> & rhs);	/**< e.g., i1 -= i2;*/
-  OvImageT<T> & operator -= (const T & rhs);				/**< e.g., i1 -= 5.5;*/
-  OvImageT<T> & operator *= (const OvImageT<T> & rhs);	/**< e.g., i1 *= i2;*/
-  OvImageT<T> & operator *= (const T & rhs);				/**< e.g., i1 *= 2;*/
-  OvImageT<T> & operator /= (const OvImageT<T> & rhs);	/**< e.g., i1 /= i2;*/
-  OvImageT<T> & operator /= (const T & rhs);				/**< e.g., i1 /= 10;*/
+  OvImageT<T> & operator += (const OvImageT<T> & rhs);    /**< e.g., i1 += i2;*/
+  OvImageT<T> & operator += (const T & rhs);                /**< e.g., i1 += 3.2;*/
+  OvImageT<T> & operator -= (const OvImageT<T> & rhs);    /**< e.g., i1 -= i2;*/
+  OvImageT<T> & operator -= (const T & rhs);                /**< e.g., i1 -= 5.5;*/
+  OvImageT<T> & operator *= (const OvImageT<T> & rhs);    /**< e.g., i1 *= i2;*/
+  OvImageT<T> & operator *= (const T & rhs);                /**< e.g., i1 *= 2;*/
+  OvImageT<T> & operator /= (const OvImageT<T> & rhs);    /**< e.g., i1 /= i2;*/
+  OvImageT<T> & operator /= (const T & rhs);                /**< e.g., i1 /= 10;*/
 
-  OvImageT<T> & operator ++ (); 							/**< e.g., ++i1;*/
-  OvImageT<T> & operator -- ();							/**< e.g., --i1;*/
-  const OvImageT<T> operator ++ (int); 					/**< e.g., i1++;*/
-  const OvImageT<T> operator -- (int);					/**< e.g., i1--;*/
+  OvImageT<T> & operator ++ ();                             /**< e.g., ++i1;*/
+  OvImageT<T> & operator -- ();                            /**< e.g., --i1;*/
+  const OvImageT<T> operator ++ (int);                     /**< e.g., i1++;*/
+  const OvImageT<T> operator -- (int);                    /**< e.g., i1--;*/
 
-  const OvImageT<T> operator - (); 						/**< e.g., i1 = -i2;*/
-  const OvImageT<T> operator + ();						/**< e.g., i1 = +i2;*/
+  const OvImageT<T> operator - ();                         /**< e.g., i1 = -i2;*/
+  const OvImageT<T> operator + ();                        /**< e.g., i1 = +i2;*/
 
   template<typename C> friend const OvImageT<C> operator + (const OvImageT<C> & i1, const OvImageT<C> & i2);  /**< e.g., i1 = i2+i3; */
-  template<typename C> friend const OvImageT<C> operator + (const double i1, const OvImageT<C> & i2);			/**< e.g., i1 = 5.2+i3; */
-  template<typename C> friend const OvImageT<C> operator + (const OvImageT<C> & i1, const double i2);			/**< e.g., i1 = i2+5.2; */
-  template<typename C> friend const OvImageT<C> operator - (const OvImageT<C> & i1, const OvImageT<C> & i2);	/**< e.g., i1 = i2-i3; */
-  template<typename C> friend const OvImageT<C> operator - (const double i1, const OvImageT<C> & i2);			/**< e.g., i1 = 5.2-i3; */
-  template<typename C> friend const OvImageT<C> operator - (const OvImageT<C> & i1, const double i2);			/**< e.g., i1 = i2-5.2; */
-  template<typename C> friend const OvImageT<C> operator * (const OvImageT<C> & i1, const OvImageT<C> & i2);	/**< e.g., i1 = i2*i3; */
-  template<typename C> friend const OvImageT<C> operator * (const double i1, const OvImageT<C> & i2);			/**< e.g., i1 = 10*i3; */
-  template<typename C> friend const OvImageT<C> operator * (const OvImageT<C> & i1, const double i2);			/**< e.g., i1 = i2*10; */
+  template<typename C> friend const OvImageT<C> operator + (const double i1, const OvImageT<C> & i2);            /**< e.g., i1 = 5.2+i3; */
+  template<typename C> friend const OvImageT<C> operator + (const OvImageT<C> & i1, const double i2);            /**< e.g., i1 = i2+5.2; */
+  template<typename C> friend const OvImageT<C> operator - (const OvImageT<C> & i1, const OvImageT<C> & i2);    /**< e.g., i1 = i2-i3; */
+  template<typename C> friend const OvImageT<C> operator - (const double i1, const OvImageT<C> & i2);            /**< e.g., i1 = 5.2-i3; */
+  template<typename C> friend const OvImageT<C> operator - (const OvImageT<C> & i1, const double i2);            /**< e.g., i1 = i2-5.2; */
+  template<typename C> friend const OvImageT<C> operator * (const OvImageT<C> & i1, const OvImageT<C> & i2);    /**< e.g., i1 = i2*i3; */
+  template<typename C> friend const OvImageT<C> operator * (const double i1, const OvImageT<C> & i2);            /**< e.g., i1 = 10*i3; */
+  template<typename C> friend const OvImageT<C> operator * (const OvImageT<C> & i1, const double i2);            /**< e.g., i1 = i2*10; */
   template<typename C> friend const OvImageT<C> operator / (const OvImageT<C> & i1, const OvImageT<C> & i2);  /**< e.g., i1 = i2/i3; */
-  template<typename C> friend const OvImageT<C> operator / (const double i1, const OvImageT<C> & i2);			/**< e.g., i1 = 1/i3; */
-  template<typename C> friend const OvImageT<C> operator / (const OvImageT<C> & i1, const double i2);			/**< e.g., i1 = i2/5; */
+  template<typename C> friend const OvImageT<C> operator / (const double i1, const OvImageT<C> & i2);            /**< e.g., i1 = 1/i3; */
+  template<typename C> friend const OvImageT<C> operator / (const OvImageT<C> & i1, const double i2);            /**< e.g., i1 = i2/5; */
 
   //logical operators
-  template<typename C> friend const OvImageT<bool> operator < (const OvImageT<C> & i1, const OvImageT<C> & i2);	/**< e.g., iresult = i1<i2; */
-  template<typename C> friend const OvImageT<bool> operator < (const double i1, const OvImageT<C> & i2);			/**< e.g., iresult = 2<i2; */
-  template<typename C> friend const OvImageT<bool> operator < (const OvImageT<C> & i1, const double i2);			/**< e.g., iresult = i1<2; */
-  template<typename C> friend const OvImageT<bool> operator <= (const OvImageT<C> & i1, const OvImageT<C> & i2);	/**< e.g., iresult = i1<=i2; */
-  template<typename C> friend const OvImageT<bool> operator <= (const double i1, const OvImageT<C> & i2);			/**< e.g., iresult = 2<=i2; */
-  template<typename C> friend const OvImageT<bool> operator <= (const OvImageT<C> & i1, const double i2);			/**< e.g., iresult = i1<=2; */
-  template<typename C> friend const OvImageT<bool> operator > (const OvImageT<C> & i1, const OvImageT<C> & i2);	/**< e.g., iresult = i1>i2; */
-  template<typename C> friend const OvImageT<bool> operator > (const double i1, const OvImageT<C> & i2);			/**< e.g., iresult = 2>i2; */
-  template<typename C> friend const OvImageT<bool> operator > (const OvImageT<C> & i1, const double i2);			/**< e.g., iresult = i1>2; */
-  template<typename C> friend const OvImageT<bool> operator >= (const OvImageT<C> & i1, const OvImageT<C> & i2);	/**< e.g., iresult = i1>=i2; */
-  template<typename C> friend const OvImageT<bool> operator >= (const double i1, const OvImageT<C> & i2);			/**< e.g., iresult = 2>=i2; */
-  template<typename C> friend const OvImageT<bool> operator >= (const OvImageT<C> & i1, const double i2);			/**< e.g., iresult = i1>=2; */
-  template<typename C> friend const OvImageT<bool> operator == (const OvImageT<C> & i1, const OvImageT<C> & i2);	/**< e.g., iresult = i1==i2; */
-  template<typename C> friend const OvImageT<bool> operator == (const double i1, const OvImageT<C> & i2);			/**< e.g., iresult = 2==i2; */
-  template<typename C> friend const OvImageT<bool> operator == (const OvImageT<C> & i1, const double i2);			/**< e.g., iresult = i1==2; */
+  template<typename C> friend const OvImageT<bool> operator < (const OvImageT<C> & i1, const OvImageT<C> & i2);    /**< e.g., iresult = i1<i2; */
+  template<typename C> friend const OvImageT<bool> operator < (const double i1, const OvImageT<C> & i2);            /**< e.g., iresult = 2<i2; */
+  template<typename C> friend const OvImageT<bool> operator < (const OvImageT<C> & i1, const double i2);            /**< e.g., iresult = i1<2; */
+  template<typename C> friend const OvImageT<bool> operator <= (const OvImageT<C> & i1, const OvImageT<C> & i2);    /**< e.g., iresult = i1<=i2; */
+  template<typename C> friend const OvImageT<bool> operator <= (const double i1, const OvImageT<C> & i2);            /**< e.g., iresult = 2<=i2; */
+  template<typename C> friend const OvImageT<bool> operator <= (const OvImageT<C> & i1, const double i2);            /**< e.g., iresult = i1<=2; */
+  template<typename C> friend const OvImageT<bool> operator > (const OvImageT<C> & i1, const OvImageT<C> & i2);    /**< e.g., iresult = i1>i2; */
+  template<typename C> friend const OvImageT<bool> operator > (const double i1, const OvImageT<C> & i2);            /**< e.g., iresult = 2>i2; */
+  template<typename C> friend const OvImageT<bool> operator > (const OvImageT<C> & i1, const double i2);            /**< e.g., iresult = i1>2; */
+  template<typename C> friend const OvImageT<bool> operator >= (const OvImageT<C> & i1, const OvImageT<C> & i2);    /**< e.g., iresult = i1>=i2; */
+  template<typename C> friend const OvImageT<bool> operator >= (const double i1, const OvImageT<C> & i2);            /**< e.g., iresult = 2>=i2; */
+  template<typename C> friend const OvImageT<bool> operator >= (const OvImageT<C> & i1, const double i2);            /**< e.g., iresult = i1>=2; */
+  template<typename C> friend const OvImageT<bool> operator == (const OvImageT<C> & i1, const OvImageT<C> & i2);    /**< e.g., iresult = i1==i2; */
+  template<typename C> friend const OvImageT<bool> operator == (const double i1, const OvImageT<C> & i2);            /**< e.g., iresult = 2==i2; */
+  template<typename C> friend const OvImageT<bool> operator == (const OvImageT<C> & i1, const double i2);            /**< e.g., iresult = i1==2; */
 
   //operations defined only on boolean images
   const OvImageT<bool> operator ! () const; /**< e.g., iflag1 = !iflag2; */
@@ -114,42 +114,42 @@ public:
   friend const OvImageT<bool> operator || (const OvImageT<bool> & i1, const OvImageT<bool> & i2); /**< e.g., iflag1 = iflag2 || iflag3; */
 
   //math functions
-  template<typename C> friend const OvImageT<C> cos (const OvImageT<C> & i1);	/**< e.g., i2 = cos(i1); */
-  template<typename C> friend const OvImageT<C> sin (const OvImageT<C> & i1);	/**< e.g., i2 = sin(i1); */
-  template<typename C> friend const OvImageT<C> tan (const OvImageT<C> & i1);	/**< e.g., i2 = tan(i1); */
-  template<typename C> friend const OvImageT<C> acos (const OvImageT<C> & i1);	/**< e.g., i2 = acos(i1); */
-  template<typename C> friend const OvImageT<C> asin (const OvImageT<C> & i1);	/**< e.g., i2 = asin(i1); */
-  template<typename C> friend const OvImageT<C> atan (const OvImageT<C> & i1);	/**< e.g., i2 = atan(i1); */
+  template<typename C> friend const OvImageT<C> cos (const OvImageT<C> & i1);    /**< e.g., i2 = cos(i1); */
+  template<typename C> friend const OvImageT<C> sin (const OvImageT<C> & i1);    /**< e.g., i2 = sin(i1); */
+  template<typename C> friend const OvImageT<C> tan (const OvImageT<C> & i1);    /**< e.g., i2 = tan(i1); */
+  template<typename C> friend const OvImageT<C> acos (const OvImageT<C> & i1);    /**< e.g., i2 = acos(i1); */
+  template<typename C> friend const OvImageT<C> asin (const OvImageT<C> & i1);    /**< e.g., i2 = asin(i1); */
+  template<typename C> friend const OvImageT<C> atan (const OvImageT<C> & i1);    /**< e.g., i2 = atan(i1); */
   template<typename C> friend const OvImageT<C> atan2 (const OvImageT<C> & iy, const OvImageT<C> & ix); /**< e.g., i2 = atan2(iy,ix); */
-  template<typename C> friend const OvImageT<C> cosh (const OvImageT<C> & i1);	/**< e.g., i2 = cosh(i1); */
-  template<typename C> friend const OvImageT<C> sinh (const OvImageT<C> & i1);	/**< e.g., i2 = sinh(i1); */
-  template<typename C> friend const OvImageT<C> tanh (const OvImageT<C> & i1);	/**< e.g., i2 = tang(i1); */
-  template<typename C> friend const OvImageT<C> exp (const OvImageT<C> & i1);		/**< e.g., i2 = exp(i1); */
-  template<typename C> friend const OvImageT<C> log (const OvImageT<C> & i1);		/**< e.g., i2 = log(i1); */
-  template<typename C> friend const OvImageT<C> log10 (const OvImageT<C> & i1);	/**< e.g., i2 = log10(i1); */
-  template<typename C> friend const OvImageT<C> abs (const OvImageT<C> & i1);		/**< e.g., i2 = abs(i1); */
-  template<typename C> friend const OvImageT<C> ceil (const OvImageT<C> & i1);	/**< e.g., i2 = ceil(i1); */
-  template<typename C> friend const OvImageT<C> floor (const OvImageT<C> & i1);	/**< e.g., i2 = floor(i1); */
-  template<typename C> friend const OvImageT<C> round (const OvImageT<C> & i1);	/**< e.g., i2 = round(i1); */
-  template<typename C> friend const OvImageT<C> mod (const OvImageT<C> & i1, double d);	/**< e.g., i2 = mod(i1,5); */
-  template<typename C> friend const OvImageT<C> pow (const OvImageT<C> & i1, double p);	/**< e.g., i2 = pow(i1,2); */
-  template<typename C> friend const OvImageT<C> pow (double p, const OvImageT<C> & i1);	/**< e.g., i2 = pow(3,i1); */
-  template<typename C> friend const OvImageT<C> sqrt (const OvImageT<C> & i1);			/**< e.g., i2 = sqrt(i1); */
+  template<typename C> friend const OvImageT<C> cosh (const OvImageT<C> & i1);    /**< e.g., i2 = cosh(i1); */
+  template<typename C> friend const OvImageT<C> sinh (const OvImageT<C> & i1);    /**< e.g., i2 = sinh(i1); */
+  template<typename C> friend const OvImageT<C> tanh (const OvImageT<C> & i1);    /**< e.g., i2 = tang(i1); */
+  template<typename C> friend const OvImageT<C> exp (const OvImageT<C> & i1);        /**< e.g., i2 = exp(i1); */
+  template<typename C> friend const OvImageT<C> log (const OvImageT<C> & i1);        /**< e.g., i2 = log(i1); */
+  template<typename C> friend const OvImageT<C> log10 (const OvImageT<C> & i1);    /**< e.g., i2 = log10(i1); */
+  template<typename C> friend const OvImageT<C> abs (const OvImageT<C> & i1);        /**< e.g., i2 = abs(i1); */
+  template<typename C> friend const OvImageT<C> ceil (const OvImageT<C> & i1);    /**< e.g., i2 = ceil(i1); */
+  template<typename C> friend const OvImageT<C> floor (const OvImageT<C> & i1);    /**< e.g., i2 = floor(i1); */
+  template<typename C> friend const OvImageT<C> round (const OvImageT<C> & i1);    /**< e.g., i2 = round(i1); */
+  template<typename C> friend const OvImageT<C> mod (const OvImageT<C> & i1, double d);    /**< e.g., i2 = mod(i1,5); */
+  template<typename C> friend const OvImageT<C> pow (const OvImageT<C> & i1, double p);    /**< e.g., i2 = pow(i1,2); */
+  template<typename C> friend const OvImageT<C> pow (double p, const OvImageT<C> & i1);    /**< e.g., i2 = pow(3,i1); */
+  template<typename C> friend const OvImageT<C> sqrt (const OvImageT<C> & i1);            /**< e.g., i2 = sqrt(i1); */
 
   //filtering, convolution, and other utility functions
-  template<typename C> friend const OvImageT<C> convolve2D (const OvImageT<C> & ikernel, const OvImageT<C> & input);	//2D convolution
-  template<typename C> friend const OvImageT<C> filter2D (const OvImageT<C> & ikernel, const OvImageT<C> & input);	//2D filtering
+  template<typename C> friend const OvImageT<C> convolve2D (const OvImageT<C> & ikernel, const OvImageT<C> & input);    //2D convolution
+  template<typename C> friend const OvImageT<C> filter2D (const OvImageT<C> & ikernel, const OvImageT<C> & input);    //2D filtering
   //need to implement separable versions for greater speed with separable filters
 
   template<typename C> friend const OvImageT<C> medianFilter2D (const OvImageT<C> & input, int filterHeight, int filterWidth); //median filter
-  template<typename C> friend const OvImageT<C> minFilter2D (const OvImageT<C> & input, int filterHeight, int filterWidth);	 //minimum filter
-  template<typename C> friend const OvImageT<C> maxFilter2D (const OvImageT<C> & input, int filterHeight, int filterWidth);	 //maximum filter
-  template<typename C> friend const OvImageT<C> meanFilter2D (const OvImageT<C> & input, int filterHeight, int filterWidth);	 //mean filter
+  template<typename C> friend const OvImageT<C> minFilter2D (const OvImageT<C> & input, int filterHeight, int filterWidth);     //minimum filter
+  template<typename C> friend const OvImageT<C> maxFilter2D (const OvImageT<C> & input, int filterHeight, int filterWidth);     //maximum filter
+  template<typename C> friend const OvImageT<C> meanFilter2D (const OvImageT<C> & input, int filterHeight, int filterWidth);     //mean filter
 
-  template<typename C> friend const OvImageT<C> min(const OvImageT<C> & input, int dimension);	//min along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = min(i2,3); returns image with same height and width but 1 color channel
-  template<typename C> friend const OvImageT<C> max(const OvImageT<C> & input, int dimension);	//max along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = max(i2,3); returns image with same height and width but 1 color channel
-  template<typename C> friend const OvImageT<C> mean(const OvImageT<C> & input, int dimension);	//mean along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = mean(i2,3); returns image with same height and width but 1 color channel
-  template<typename C> friend const OvImageT<C> sum(const OvImageT<C> & input, int dimension);	//sum along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = sum(i2,3); returns image with same height and width but 1 color channel
+  template<typename C> friend const OvImageT<C> min(const OvImageT<C> & input, int dimension);    //min along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = min(i2,3); returns image with same height and width but 1 color channel
+  template<typename C> friend const OvImageT<C> max(const OvImageT<C> & input, int dimension);    //max along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = max(i2,3); returns image with same height and width but 1 color channel
+  template<typename C> friend const OvImageT<C> mean(const OvImageT<C> & input, int dimension);    //mean along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = mean(i2,3); returns image with same height and width but 1 color channel
+  template<typename C> friend const OvImageT<C> sum(const OvImageT<C> & input, int dimension);    //sum along a certain dimension (1,2,3 = height, width, or color respectively), e.g., i1 = sum(i2,3); returns image with same height and width but 1 color channel
   template<typename C> friend C sumRegion(const OvImageT<C> & input, int rowLo, int rowHi, int columnLo, int columnHi, int channelLo, int channelHi); //sum pixels in a rectangular image region
   template<typename C> friend C sumSingleChannel(const OvImageT<C> & input, int channel); //sum all pixels in a single color channel
   template<typename C> friend C sumAll(const OvImageT<C> & input); //sum all image pixels
@@ -163,10 +163,10 @@ public:
   template<typename C> friend const OvImageT<C> repmat (const OvImageT<C> & input, int height, int width, int channels); //tile input image 'height' times vertically, 'width' times horizontally, and 'channels' times along color channels
   template<typename C> friend const OvImageT<C> shiftImageXY (const OvImageT<C> & input, int columns, int rows); //return copy of input image translated by (rows, columns)
 
-  template<typename C> friend const OvImageT<C> resizeNearestNbr(const OvImageT<C> & input, double scale, bool preSmooth);	//rescale image using nearest neighbor method; use preSmooth to enable resampling
-  template<typename C> friend const OvImageT<C> resizeBilinear(const OvImageT<C> & input, double scale, bool preSmooth);		//rescale image using bilinear interpolation method; use preSmooth to enable resampling
+  template<typename C> friend const OvImageT<C> resizeNearestNbr(const OvImageT<C> & input, double scale, bool preSmooth);    //rescale image using nearest neighbor method; use preSmooth to enable resampling
+  template<typename C> friend const OvImageT<C> resizeBilinear(const OvImageT<C> & input, double scale, bool preSmooth);        //rescale image using bilinear interpolation method; use preSmooth to enable resampling
 
-  //methods to create specific images and kernels	and their standalone friend versions
+  //methods to create specific images and kernels    and their standalone friend versions
   void setToRandom(double lowerbound, double upperbound); //fill caller with random numbers
   friend const OvImageT<double> random(double lowerbound, double upperbound, int height, int width, int nColorChannels); //create new image filled with random numbers
 
@@ -176,22 +176,22 @@ public:
   void setToMeshgridY (T x1, T x2, T y1, T y2, T dx = 1, T dy = 1); //set caller to an image of height y2-y1+1 and width x2-x1+1 with each pixel set to its y-coordinate (from y1 to y2)
   friend const OvImageT<double> meshgridY (double x1, double x2, double y1, double y2, double dx, double dy); //create new image of height y2-y1+1 and width x2-x1+1 with each pixel set to its y-coordinate (from y1 to y2)
 
-  void setToGaussian(int size, double sigma);	 //set caller to a gaussian
-  friend const OvImageT<double> gaussian(int size, double sigma);	 //create a new gaussian
+  void setToGaussian(int size, double sigma);     //set caller to a gaussian
+  friend const OvImageT<double> gaussian(int size, double sigma);     //create a new gaussian
 
-  void setToGaborX(int size, double sigma, double period, double phaseshift);	//set caller to a gabor filter oriented horizontally
-  friend const OvImageT<double> gaborX(int size, double sigma, double period, double phaseshift);	//create a gabor filter oriented horizontally
+  void setToGaborX(int size, double sigma, double period, double phaseshift);    //set caller to a gabor filter oriented horizontally
+  friend const OvImageT<double> gaborX(int size, double sigma, double period, double phaseshift);    //create a gabor filter oriented horizontally
 
-  void setToGaborY(int size, double sigma, double period, double phaseshift);	//set caller to a gabor filter oriented vertically
-  friend const OvImageT<double> gaborY(int size, double sigma, double period, double phaseshift);	//create a gabor filter oriented vertically
+  void setToGaborY(int size, double sigma, double period, double phaseshift);    //set caller to a gabor filter oriented vertically
+  friend const OvImageT<double> gaborY(int size, double sigma, double period, double phaseshift);    //create a gabor filter oriented vertically
 
   void setToGaborOriented(int size, double sigma, double period, double angle, double phaseshift); //set caller to a gabor filter with a user-specified orientation
-  friend const OvImageT<double> gaborOriented(int size, double sigma, double period, double angle, double phaseshift);	//create a gabor filter with a user-specified orientation
+  friend const OvImageT<double> gaborOriented(int size, double sigma, double period, double angle, double phaseshift);    //create a gabor filter with a user-specified orientation
 
   OvImageT<double> getGaborPhaseStack();
 
-  void setToGray();	//convert caller to gray image (single channel)
-  template<typename C> friend const OvImageT<C> rgb2gray(const OvImageT<C> & input);	 //convert color image (multiple channels) to gray image (single channel)
+  void setToGray();    //convert caller to gray image (single channel)
+  template<typename C> friend const OvImageT<C> rgb2gray(const OvImageT<C> & input);     //convert color image (multiple channels) to gray image (single channel)
 
   template<typename C> friend bool haveEqualDimensions (const OvImageT<C> & i1, const OvImageT<C> & i2); // Returns true if the two input images have the same height, width and channels
   template<typename C> friend bool haveEqualHeightWidth (const OvImageT<C> & i1, const OvImageT<C> & i2); // Returns true if the two input images have the same height and width, ignores number of channels
@@ -203,19 +203,19 @@ public:
 
 
 protected:
-  int  mHeight;			/**<height of the image*/
-  int  mWidth;			/**<width of the image*/
-  int  mChannels;			/**<number of color channels or dimensions (e.g., 1 for grayscale, 3 for RGB)*/
+  int  mHeight;            /**<height of the image*/
+  int  mWidth;            /**<width of the image*/
+  int  mChannels;            /**<number of color channels or dimensions (e.g., 1 for grayscale, 3 for RGB)*/
 
   //for convenience
-  int  mHeightTimesWidth;	/**< mWidth*mHeight (for convenience) */
-  int  mSize;				/**< mWidth*mHeight*mChannels (for convenience) */
+  int  mHeightTimesWidth;    /**< mWidth*mHeight (for convenience) */
+  int  mSize;                /**< mWidth*mHeight*mChannels (for convenience) */
 
-  T   *mData;				/**< Image data */
+  T   *mData;                /**< Image data */
 };
 
 /**  Rounds to nearest integer
-* @param value	input value
+* @param value    input value
 * @return the rounded value
 */
 inline int ov_round(double value)
@@ -238,7 +238,7 @@ OvImageT<T>::OvImageT()
 /** 
 * Constructor specifying height, width and number of color channels.
 * 
-* @param height	desired height of the image
+* @param height    desired height of the image
 * @param width desired width of image
 * @param nColorChannels desired number of color channels
 * @see OvImageT()
@@ -252,7 +252,7 @@ OvImageT<T>::OvImageT(int height, int width, int nColorChannels)
   if(height>0) mHeight = height;
   if(width>0) mWidth = width;
   if(nColorChannels>0) mChannels = nColorChannels;
-  mSize = mWidth*mHeight*mChannels;	
+  mSize = mWidth*mHeight*mChannels;    
 
   if(mSize>0) 
   {
@@ -406,7 +406,7 @@ OvImageT<T>::~OvImageT()
 *    OpenCVImageAdapter*opencvAdaptor = new OpenCVImageAdapter(img);
 *    OvImageT<float> i1;
 *    i1.copyFromAdapter(*opencvAdaptor); //Now the opencv image is copied to i1
-*    i1 = i1/2;	//divide all pixel values by 2
+*    i1 = i1/2;    //divide all pixel values by 2
 *    i1.copyToAdapter(*opencvAdaptor); //copy back to opencv image
 * </pre>
 * @see copyToAdapter(OvImageAdapter & iadapter)
@@ -444,7 +444,7 @@ bool OvImageT<T>::copyFromAdapter(const OvImageAdapter & iadapter)
 *    OpenCVImageAdapter*opencvAdaptor = new OpenCVImageAdapter(img);
 *    OvImageT<float> i1;
 *    i1.copyFromAdapter(*opencvAdaptor); //Now the opencv image is copied to i1
-*    i1 = i1/2;	//divide all pixel values by 2
+*    i1 = i1/2;    //divide all pixel values by 2
 *    i1.copyToAdapter(*opencvAdaptor); //copy back to opencv image
 * </pre>
 * @see copyFromAdapter(OvImageAdapter & iadapter)
@@ -531,7 +531,7 @@ void OvImageT<T>::resetDimensions(int height, int width, int nColorChannels)
   if(height>0) mHeight = height; else height = 0;
   if(width>0) mWidth = width; else width = 0;
   if(nColorChannels>0) mChannels = nColorChannels; else nColorChannels = 0;
-  mSize = mWidth*mHeight*mChannels;	
+  mSize = mWidth*mHeight*mChannels;    
 
   if(mSize>0) 
   {
@@ -756,8 +756,8 @@ bool OvImageT<T>::copyMasked(const OvImageT<bool> & mask, const OvImageT<T> & sr
   mask.getDimensions(maskHeight,maskWidth,maskChannels);
   srcImage.getDimensions(srcHeight,srcWidth,srcChannels);
 
-  if((mHeight!=maskHeight)||(mWidth!=maskWidth)||(mChannels!=maskChannels)) return false;		
-  if((mHeight!=srcHeight)||(mWidth!=srcWidth)||(mChannels!=srcChannels)) return false;		
+  if((mHeight!=maskHeight)||(mWidth!=maskWidth)||(mChannels!=maskChannels)) return false;        
+  if((mHeight!=srcHeight)||(mWidth!=srcWidth)||(mChannels!=srcChannels)) return false;        
 
   for(int k=0; k<mChannels;k++)
     for(int j=0; j<mWidth;j++)
@@ -780,7 +780,7 @@ bool OvImageT<T>::copyMasked(const OvImageT<bool> & mask, const T & value)
 {
   int maskHeight, maskWidth, maskChannels;
   mask.getDimensions(maskHeight,maskWidth,maskChannels);
-  if((mHeight!=maskHeight)||(mWidth!=maskWidth)||(mChannels!=maskChannels)) return false;		
+  if((mHeight!=maskHeight)||(mWidth!=maskWidth)||(mChannels!=maskChannels)) return false;        
 
   for(int k=0; k<mChannels;k++)
     for(int j=0; j<mWidth;j++)
@@ -803,9 +803,9 @@ bool OvImageT<T>::copyMasked(const OvImageT<bool> & mask, const T & value)
 template<typename T>
 bool OvImageT<T>::copyChannel(OvImageT<T> & input, int inputChannel, int outputChannel)
 {
-  if((mHeight!=input.mHeight)||(mWidth!=input.mWidth)) return false;		
-  if((input.mChannels>=inputChannel)||(inputChannel<0)) return false;		
-  if((mChannels>=outputChannel)||(outputChannel<0)) return false;		
+  if((mHeight!=input.mHeight)||(mWidth!=input.mWidth)) return false;        
+  if((input.mChannels>=inputChannel)||(inputChannel<0)) return false;        
+  if((mChannels>=outputChannel)||(outputChannel<0)) return false;        
 
   for(int j=0; j<mWidth; j++)
     for(int i=0; i<mHeight; i++)
@@ -836,11 +836,11 @@ const OvImageT<T> OvImageT<T>::getSubImage(int rowLo, int rowHi, int columnLo, i
   OvImageT<T> result;
 
   if(rowLo<0) rowLo = 0; if(rowLo>=mHeight) rowLo = mHeight-1;
-  if(rowHi<0) rowHi = mHeight-1; if(rowHi>=mHeight) rowHi = mHeight-1;	
+  if(rowHi<0) rowHi = mHeight-1; if(rowHi>=mHeight) rowHi = mHeight-1;    
   if(columnLo<0) columnLo = 0; if(columnLo>=mWidth) columnLo = mWidth-1;
-  if(columnHi<0) columnHi = mWidth-1; if(columnHi>=mWidth) columnHi = mWidth-1;	
+  if(columnHi<0) columnHi = mWidth-1; if(columnHi>=mWidth) columnHi = mWidth-1;    
   if(channelLo<0) channelLo = 0; if(channelLo>=mChannels) channelLo = mChannels-1;
-  if(channelHi<0) channelHi = mChannels-1; if(channelHi>=mChannels) channelHi = mChannels-1;	
+  if(channelHi<0) channelHi = mChannels-1; if(channelHi>=mChannels) channelHi = mChannels-1;    
 
   height = rowHi-rowLo+1;
   width  = columnHi-columnLo+1;
@@ -986,7 +986,7 @@ const OvImageT<T> OvImageT<T>::operator ++ (int)
 {
   OvImageT<T> oldImage(*this); //make a copy
   for(int i=0; i<mSize; i++) 
-    ++mData[i];				//increment original
+    ++mData[i];                //increment original
 
   return (oldImage); //return the copy
 }
@@ -996,7 +996,7 @@ const OvImageT<T> OvImageT<T>::operator -- (int)
 {
   OvImageT<T> oldImage(*this); //make a copy
   for(int i=0; i<mSize; i++)
-    --mData[i];			//decrement original
+    --mData[i];            //decrement original
 
   return (oldImage); //return the copy
 }
@@ -1670,9 +1670,9 @@ const OvImageT<T> medianFilter2D (const OvImageT<T> & input, int filterHeight, i
             tempValue = input(iInput,jInput,k);
             if(tempValue!=tempValue) continue; //check if value is NaN
             listOfElements[count] = tempValue;
-            count++;						
+            count++;                        
           }
-        }				
+        }                
 
         result(iResult,jResult,k) = medianFilter2DHelperFunc_FindMedian<T>(count, listOfElements);
       }
@@ -1736,7 +1736,7 @@ const OvImageT<T> minFilter2D (const OvImageT<T> & input, int filterHeight, int 
 
             if(resultValue>tempValue) resultValue = tempValue;
           }
-        }				
+        }                
 
         result(iResult,jResult,k) = resultValue;
       }
@@ -1799,7 +1799,7 @@ const OvImageT<T> maxFilter2D (const OvImageT<T> & input, int filterHeight, int 
 
             if(resultValue<tempValue) resultValue = tempValue;
           }
-        }				
+        }                
 
         result(iResult,jResult,k) = resultValue;
       }
@@ -1877,7 +1877,7 @@ const OvImageT<T> mean(const OvImageT<T> & input, int dimension = 3)
         tempVal = 0;
         for(i=0; i<input.mHeight;i++) tempVal+=input(i,j,k);
         result(0,j,k) = tempVal/input.mHeight;
-      }					
+      }                    
       break;
   case 2:
     result.resetDimensions(input.mHeight, 1, input.mChannels);
@@ -1887,7 +1887,7 @@ const OvImageT<T> mean(const OvImageT<T> & input, int dimension = 3)
         tempVal = 0;
         for(j=0; j<input.mWidth;j++) tempVal+=input(i,j,k);
         result(i,0,k) = tempVal/input.mWidth;
-      }					
+      }                    
       break;
   case 3:
     result.resetDimensions(input.mHeight, input.mWidth, 1);
@@ -1897,7 +1897,7 @@ const OvImageT<T> mean(const OvImageT<T> & input, int dimension = 3)
         tempVal = 0;
         for(k=0; k<input.mChannels;k++) tempVal+=input(i,j,k);
         result(i,j,0) = tempVal/input.mChannels;
-      }					
+      }                    
       break;
   }
   return result;
@@ -1936,7 +1936,7 @@ const OvImageT<T> min(const OvImageT<T> & input, int dimension = 3)
         tempVal = input(0,j,k);
         for(i=1; i<input.mHeight;i++) tempVal=(tempVal<input(i,j,k))?tempVal:input(i,j,k);
         result(0,j,k) = tempVal;
-      }					
+      }                    
       break;
   case 2:
     result.resetDimensions(input.mHeight, 1, input.mChannels);
@@ -1946,7 +1946,7 @@ const OvImageT<T> min(const OvImageT<T> & input, int dimension = 3)
         tempVal = input(i,0,k);
         for(j=1; j<input.mWidth;j++) tempVal=(tempVal<input(i,j,k))?tempVal:input(i,j,k);
         result(i,0,k) = tempVal;
-      }					
+      }                    
       break;
   case 3:
     result.resetDimensions(input.mHeight, input.mWidth, 1);
@@ -1956,7 +1956,7 @@ const OvImageT<T> min(const OvImageT<T> & input, int dimension = 3)
         tempVal = input(i,j,0);
         for(k=1; k<input.mChannels;k++) tempVal=(tempVal<input(i,j,k))?tempVal:input(i,j,k);
         result(i,j,0) = tempVal;
-      }					
+      }                    
       break;
   }
   return result;
@@ -1995,7 +1995,7 @@ const OvImageT<T> max(const OvImageT<T> & input, int dimension = 3)
         tempVal = input(0,j,k);
         for(i=1; i<input.mHeight;i++) tempVal=(tempVal>input(i,j,k))?tempVal:input(i,j,k);
         result(0,j,k) = tempVal;
-      }					
+      }                    
       break;
   case 2:
     result.resetDimensions(input.mHeight, 1, input.mChannels);
@@ -2005,7 +2005,7 @@ const OvImageT<T> max(const OvImageT<T> & input, int dimension = 3)
         tempVal = input(i,0,k);
         for(j=1; j<input.mWidth;j++) tempVal=(tempVal>input(i,j,k))?tempVal:input(i,j,k);
         result(i,0,k) = tempVal;
-      }					
+      }                    
       break;
   case 3:
     result.resetDimensions(input.mHeight, input.mWidth, 1);
@@ -2015,7 +2015,7 @@ const OvImageT<T> max(const OvImageT<T> & input, int dimension = 3)
         tempVal = input(i,j,0);
         for(k=1; k<input.mChannels;k++) tempVal=(tempVal>input(i,j,k))?tempVal:input(i,j,k);
         result(i,j,0) = tempVal;
-      }					
+      }                    
       break;
   }
   return result;
@@ -2055,7 +2055,7 @@ const OvImageT<T> sum(const OvImageT<T> & input, int dimension = 3)
         tempVal = 0;
         for(i=0; i<input.mHeight;i++) tempVal+=input(i,j,k);
         result(0,j,k) = tempVal;
-      }					
+      }                    
       break;
   case 2:
     result.resetDimensions(input.mHeight, 1, input.mChannels);
@@ -2065,7 +2065,7 @@ const OvImageT<T> sum(const OvImageT<T> & input, int dimension = 3)
         tempVal = 0;
         for(j=0; j<input.mWidth;j++) tempVal+=input(i,j,k);
         result(i,0,k) = tempVal;
-      }					
+      }                    
       break;
   case 3:
     result.resetDimensions(input.mHeight, input.mWidth, 1);
@@ -2075,7 +2075,7 @@ const OvImageT<T> sum(const OvImageT<T> & input, int dimension = 3)
         tempVal = 0;
         for(k=0; k<input.mChannels;k++) tempVal+=input(i,j,k);
         result(i,j,0) = tempVal;
-      }					
+      }                    
       break;
   }
   return result;
@@ -2104,11 +2104,11 @@ T sumRegion(const OvImageT<T> & input, int rowLo=-1, int rowHi=-1, int columnLo=
   T result;
 
   if(rowLo<0) rowLo = 0; if(rowLo>=input.mHeight) rowLo = input.mHeight-1;
-  if(rowHi<0) rowHi = input.mHeight-1; if(rowHi>=input.mHeight) rowHi = input.mHeight-1;	
+  if(rowHi<0) rowHi = input.mHeight-1; if(rowHi>=input.mHeight) rowHi = input.mHeight-1;    
   if(columnLo<0) columnLo = 0; if(columnLo>=input.mWidth) columnLo = input.mWidth-1;
-  if(columnHi<0) columnHi = input.mWidth-1; if(columnHi>=input.mWidth) columnHi = input.mWidth-1;	
+  if(columnHi<0) columnHi = input.mWidth-1; if(columnHi>=input.mWidth) columnHi = input.mWidth-1;    
   if(channelLo<0) channelLo = 0; if(channelLo>=input.mChannels) channelLo = input.mChannels-1;
-  if(channelHi<0) channelHi = input.mChannels-1; if(channelHi>=input.mChannels) channelHi = input.mChannels-1;	
+  if(channelHi<0) channelHi = input.mChannels-1; if(channelHi>=input.mChannels) channelHi = input.mChannels-1;    
 
   result = 0;
 
@@ -2245,7 +2245,7 @@ const OvImageT<T> flipLR(const OvImageT<T> & input)
         result(i,j,k) = input(i,(result.mWidth-1)-j,k);
       }
 
-      return result;	
+      return result;    
 }
 
 /** 
@@ -2272,7 +2272,7 @@ const OvImageT<T> flipUD(const OvImageT<T> & input)
         result(i,j,k) = input((result.mHeight-1)-i,j,k);
       }
 
-      return result;	
+      return result;    
 }
 
 /** 
@@ -2289,9 +2289,9 @@ const OvImageT<T> rgb2gray(const OvImageT<T> & input)
 {
   OvImageT<T> result(input,false);
 
-  result = mean(input,3);	
+  result = mean(input,3);    
 
-  return result;	
+  return result;    
 }
 
 
@@ -2353,7 +2353,7 @@ const OvImageT<T> repmat (const OvImageT<T> & input, int height=1, int width=1, 
 */
 template<typename T> 
 const OvImageT<T> shiftImageXY (const OvImageT<T> & input, int columns=0, int rows=0)
-{	
+{    
   OvImageT<T> result(input,false);
   int i,j,k, iLow, iHigh, jLow, jHigh;
 
@@ -2370,7 +2370,7 @@ const OvImageT<T> shiftImageXY (const OvImageT<T> & input, int columns=0, int ro
         result(i,j,k) = input(i-rows,j-columns,k); //translate
       }
 
-      return result;	
+      return result;    
 }
 
 /** 
@@ -2399,14 +2399,14 @@ const OvImageT<T> resizeNearestNbr(const OvImageT<T> & input, double scale, bool
   if(preSmooth && (scale<1)) //smooth if presmooth is set and we are shrinking only; no need to smooth when magnifying image
   {
     kernel.setToGaussian((int)ceil((1/scale)*3),1/scale);
-    intermediate = filter2D(kernel,input);		
+    intermediate = filter2D(kernel,input);        
 
     for(k=0; k<result.mChannels;k++)
       for(j=0; j<result.mWidth;j++)
         for(i=0; i<result.mHeight;i++)
         {
           result(i,j,k) = (T) intermediate(ov_round(i/scale),ov_round(j/scale),k); //scale
-        }		
+        }        
   }
   else
   {
@@ -2415,7 +2415,7 @@ const OvImageT<T> resizeNearestNbr(const OvImageT<T> & input, double scale, bool
         for(i=0; i<result.mHeight;i++)
         {
           result(i,j,k) = (T) input(ov_round(i/scale),ov_round(j/scale),k); //scale
-        }		
+        }        
   }
 
   return result;
@@ -2437,7 +2437,7 @@ const OvImageT<T> resizeNearestNbr(const OvImageT<T> & input, double scale, bool
 */
 template<typename T> 
 const OvImageT<T> resizeBilinear(const OvImageT<T> & input, double scale, bool preSmooth=false)
-{	
+{    
   int i,j,k;
   double iInput,jInput;
   int iInputLo,jInputLo,iInputHi,jInputHi;
@@ -2451,7 +2451,7 @@ const OvImageT<T> resizeBilinear(const OvImageT<T> & input, double scale, bool p
   if(preSmooth && (scale<1)) //smooth if presmooth is set and we are shrinking only; no need to smooth when magnifying image
   {
     kernel.setToGaussian((int)ceil((1/scale)*3),1/scale);
-    intermediate = filter2D(kernel,input);		
+    intermediate = filter2D(kernel,input);        
 
     for(k=0; k<result.mChannels;k++)
       for(j=0; j<result.mWidth;j++)
@@ -2464,7 +2464,7 @@ const OvImageT<T> resizeBilinear(const OvImageT<T> & input, double scale, bool p
           interp2 = (T) ((iInputHi-iInput)*intermediate(iInputLo,jInputHi,k) + (iInput-iInputLo)*intermediate(iInputHi,jInputHi,k));
 
           result(i,j,k) = (T) ((jInputHi-jInput)*interp1+(jInput-jInputLo)*interp2);
-        }		
+        }        
   }
   else
   {
@@ -2479,7 +2479,7 @@ const OvImageT<T> resizeBilinear(const OvImageT<T> & input, double scale, bool p
           interp2 = (T) ((iInputHi-iInput)*input(iInputLo,jInputHi,k) + (iInput-iInputLo)*input(iInputHi,jInputHi,k));
 
           result(i,j,k) = (T) ((jInputHi-jInput)*interp1+(jInput-jInputLo)*interp2);
-        }		
+        }        
   }
 
   return result;
@@ -2598,7 +2598,7 @@ void OvImageT<T> ::setToGaussian(int size, double sigma)
   double halfsize;
 
   this->resetDimensions(size, size, 1); 
-  halfsize = (size-1)/2.0;	
+  halfsize = (size-1)/2.0;    
 
   for(int j=0; j<mWidth; j++)
     for(int i=0; i<mHeight; i++)
@@ -2606,7 +2606,7 @@ void OvImageT<T> ::setToGaussian(int size, double sigma)
       x = j-halfsize;
       y = i-halfsize;
       (*this)(i,j) = (T) exp(-0.5*(x*x+y*y)/(sigma*sigma));
-    }	
+    }    
     (*this) /= L1Norm(*this);
 }
 
@@ -2640,7 +2640,7 @@ void OvImageT<T> ::setToGaborX(int size, double sigma, double period, double pha
   phaseshift = phaseshift*pi/180; //convert phaseshift from degrees to radians
 
   this->resetDimensions(size, size, 1); 
-  halfsize = (size-1)/2.0;	
+  halfsize = (size-1)/2.0;    
 
   normalizer = 0;
   for(int j=0; j<mWidth; j++)
@@ -2654,7 +2654,7 @@ void OvImageT<T> ::setToGaborX(int size, double sigma, double period, double pha
 
       //now multiply by sinusoid to get gabor function
       (*this)(i,j) = (T) (tempVal*sin(2.0*pi*x/period + phaseshift));
-    }	
+    }    
 
     (*this) /= (T) normalizer;
 }
@@ -2689,7 +2689,7 @@ void OvImageT<T> ::setToGaborY(int size, double sigma, double period, double pha
   phaseshift = phaseshift*pi/180; //convert phaseshift from degrees to radians
 
   this->resetDimensions(size, size, 1); 
-  halfsize = (size-1)/2.0;	
+  halfsize = (size-1)/2.0;    
 
   normalizer = 0;
   for(int j=0; j<mWidth; j++)
@@ -2703,7 +2703,7 @@ void OvImageT<T> ::setToGaborY(int size, double sigma, double period, double pha
 
       //now multiply by sinusoid to get gabor function
       (*this)(i,j) = (T) (tempVal*sin(2.0*pi*y/period + phaseshift));
-    }	
+    }    
 
     (*this) /= (T) normalizer;
 }
@@ -2716,7 +2716,7 @@ void OvImageT<T> ::setToGaborY(int size, double sigma, double period, double pha
 *
 * @param lowerbound lower bound on the desired random numbers
 * @param upperbound upper bound on the desired random numbers
-* @param height	desired height of the image
+* @param height    desired height of the image
 * @param width desired width of image
 * @param nColorChannels desired number of color channels
 * @return a new image of type OvImageT<double>
@@ -2883,10 +2883,10 @@ void OvImageT<T>::setToGaborOriented(int size, double sigma, double period, doub
   if(period<=0) return;
 
   phaseshift = phaseshift*pi/180; //convert phaseshift from degrees to radians
-  angle      = angle*pi/180;		//convert orientation from degrees to radians
+  angle      = angle*pi/180;        //convert orientation from degrees to radians
 
   this->resetDimensions(size, size, 1); 
-  halfsize = (size-1)/2.0;	
+  halfsize = (size-1)/2.0;    
 
   normalizer = 0;
   for(int j=0; j<mWidth; j++)
@@ -2900,7 +2900,7 @@ void OvImageT<T>::setToGaborOriented(int size, double sigma, double period, doub
 
       //now multiply by sinusoid to get gabor function
       (*this)(i,j) = (T) (tempVal*sin(2.0*pi*(x*cos(angle)+y*sin(angle))/period + phaseshift));
-    }	
+    }    
 
     (*this) /= (T) normalizer;
 }

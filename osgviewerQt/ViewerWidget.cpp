@@ -73,5 +73,5 @@ void ViewerWidget::UnsetStereoSettings()
 
 void ViewerWidget::paintEvent( QPaintEvent* event )
 { 
-	frame(); 
+    frame(); 
 }

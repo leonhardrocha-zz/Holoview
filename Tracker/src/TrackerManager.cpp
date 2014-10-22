@@ -1,4 +1,7 @@
-﻿#pragma once
+﻿#ifdef _MSC_VER
+#pragma once
+#endif
+
 //------------------------------------------------------------------------------
 // <copyright file="TrackerManager.cpp" company="Microsoft">
 //     Copyright (c) Microsoft Corporation.  All rights reserved.

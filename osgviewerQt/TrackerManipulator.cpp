@@ -170,8 +170,8 @@ void TrackerManipulator::setTrackingResults( IArgs* results, osg::Vec3 center, o
     osg::Vec3 deye = eye - origin;
     osg::Vec3 dcenter = center - origin;
     _rotation = osg::Matrix::lookAt(deye, dcenter, osg::Vec3(0,1,0)).getRotate();
-    _eye = deye;
-    _center = dcenter;
+    _eye = eye;
+    _center = center;
 
     // fix current rotation
     if( getVerticalAxisFixed() )

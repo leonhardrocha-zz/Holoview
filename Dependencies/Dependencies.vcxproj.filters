@@ -130,6 +130,15 @@
     <Filter Include="Header Files\OpenVis3d">
       <UniqueIdentifier>{e91a2976-6fa0-40d1-be86-a23d17802553}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ZeroMQ">
+      <UniqueIdentifier>{13f1e55c-2b42-4f1b-86b0-3f90d6c7b48d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library Files\ZeroMQ">
+      <UniqueIdentifier>{86b21199-345c-4046-8bb4-7ccbebefffbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime Files\ZeroMQ">
+      <UniqueIdentifier>{8c2939c3-da58-4fb5-8953-36e207acb4c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\3DS\CameraRollAnim.3ds">
@@ -2922,6 +2931,18 @@
     <None Include="Runtime\osg\Release\3rdparty\zlib1.dll">
       <Filter>Runtime Files\osg\Release\3rdparty</Filter>
     </None>
+    <None Include="Runtime\ZeroMQ\libzmq.dll">
+      <Filter>Runtime Files\ZeroMQ</Filter>
+    </None>
+    <None Include="Runtime\ZeroMQ\libzmqd.dll">
+      <Filter>Runtime Files\ZeroMQ</Filter>
+    </None>
+    <None Include="..\lib\ZeroMQ\libzmq.exp">
+      <Filter>Library Files\ZeroMQ</Filter>
+    </None>
+    <None Include="..\lib\ZeroMQ\libzmqd.exp">
+      <Filter>Library Files\ZeroMQ</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DirectX\audiodefs.h">
@@ -3200,6 +3221,12 @@
     <ClInclude Include="..\include\OpenVis3d\ProbabilisticEgomotion.h">
       <Filter>Header Files\OpenVis3d</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ZeroMQ\zmq.h">
+      <Filter>Header Files\ZeroMQ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ZeroMQ\zmq.hpp">
+      <Filter>Header Files\ZeroMQ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\FaceTrackLib.lib">
@@ -3408,6 +3435,18 @@
     </Library>
     <Library Include="..\lib\OpenVis3d.lib">
       <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\lib\ZeroMQ\libzmq.lib">
+      <Filter>Library Files\ZeroMQ</Filter>
+    </Library>
+    <Library Include="..\lib\ZeroMQ\libzmqd.lib">
+      <Filter>Library Files\ZeroMQ</Filter>
+    </Library>
+    <Library Include="..\lib\ZeroMQ\libzmq-v100-mt-4_0_4.lib">
+      <Filter>Library Files\ZeroMQ</Filter>
+    </Library>
+    <Library Include="..\lib\ZeroMQ\libzmq-v100-mt-gd-4_0_4.lib">
+      <Filter>Library Files\ZeroMQ</Filter>
     </Library>
   </ItemGroup>
 </Project>

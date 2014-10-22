@@ -381,10 +381,10 @@ DECLARE_INTERFACE_(ID3DXEffect, ID3DXBaseEffect)
     STDMETHOD(GetPixelShader)(THIS_ D3DXHANDLE hParameter, LPDIRECT3DPIXELSHADER9 *ppPShader) PURE;
     STDMETHOD(GetVertexShader)(THIS_ D3DXHANDLE hParameter, LPDIRECT3DVERTEXSHADER9 *ppVShader) PURE;
 
-	//Set Range of an Array to pass to device
-	//Usefull for sending only a subrange of an array down to the device
-	STDMETHOD(SetArrayRange)(THIS_ D3DXHANDLE hParameter, UINT uStart, UINT uEnd) PURE; 
-	// ID3DXBaseEffect
+    //Set Range of an Array to pass to device
+    //Usefull for sending only a subrange of an array down to the device
+    STDMETHOD(SetArrayRange)(THIS_ D3DXHANDLE hParameter, UINT uStart, UINT uEnd) PURE; 
+    // ID3DXBaseEffect
     
     
     // Pool
@@ -514,10 +514,10 @@ DECLARE_INTERFACE_(ID3DXEffectCompiler, ID3DXBaseEffect)
     STDMETHOD(GetPixelShader)(THIS_ D3DXHANDLE hParameter, LPDIRECT3DPIXELSHADER9 *ppPShader) PURE;
     STDMETHOD(GetVertexShader)(THIS_ D3DXHANDLE hParameter, LPDIRECT3DVERTEXSHADER9 *ppVShader) PURE;
     
-	//Set Range of an Array to pass to device
-	//Usefull for sending only a subrange of an array down to the device
-	STDMETHOD(SetArrayRange)(THIS_ D3DXHANDLE hParameter, UINT uStart, UINT uEnd) PURE; 
-	// ID3DXBaseEffect
+    //Set Range of an Array to pass to device
+    //Usefull for sending only a subrange of an array down to the device
+    STDMETHOD(SetArrayRange)(THIS_ D3DXHANDLE hParameter, UINT uStart, UINT uEnd) PURE; 
+    // ID3DXBaseEffect
 
     // Parameter sharing, specialization, and information
     STDMETHOD(SetLiteral)(THIS_ D3DXHANDLE hParameter, BOOL Literal) PURE;

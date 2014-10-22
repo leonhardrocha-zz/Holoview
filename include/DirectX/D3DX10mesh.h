@@ -40,7 +40,7 @@ DEFINE_GUID(IID_ID3DX10PatchMesh,
 // Mesh options - lower 3 bytes only, upper byte used by _D3DX10MESHOPT option flags
 enum _D3DX10_MESH {
     D3DX10_MESH_32_BIT                  = 0x001, // If set, then use 32 bit indices, if not set use 16 bit indices.
-    D3DX10_MESH_GS_ADJACENCY			= 0x004, // If set, mesh contains GS adjacency info. Not valid on input.
+    D3DX10_MESH_GS_ADJACENCY            = 0x004, // If set, mesh contains GS adjacency info. Not valid on input.
 
 };
 
@@ -152,7 +152,7 @@ DECLARE_INTERFACE_(ID3DX10Mesh, IUnknown)
     STDMETHOD(Optimize)(THIS_ UINT Flags, UINT * pFaceRemap, LPD3D10BLOB *ppVertexRemap) PURE;
     STDMETHOD(GenerateAttributeBufferFromTable)(THIS) PURE;
     
-	STDMETHOD(Intersect)(THIS_ D3DXVECTOR3 *pRayPos, D3DXVECTOR3 *pRayDir, 
+    STDMETHOD(Intersect)(THIS_ D3DXVECTOR3 *pRayPos, D3DXVECTOR3 *pRayDir, 
                                         UINT *pHitCount, UINT *pFaceIndex, float *pU, float *pV, float *pDist, ID3D10Blob **ppAllHits);
     STDMETHOD(IntersectSubset)(THIS_ UINT AttribId, D3DXVECTOR3 *pRayPos, D3DXVECTOR3 *pRayDir, 
                                         UINT *pHitCount, UINT *pFaceIndex, float *pU, float *pV, float *pDist, ID3D10Blob **ppAllHits);

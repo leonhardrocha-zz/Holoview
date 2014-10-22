@@ -1,4 +1,7 @@
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 #include "ITracker.h"
 #include "ITrackerFactory.h"
 #include "TrackerManager.h"

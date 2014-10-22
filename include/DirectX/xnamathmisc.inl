@@ -8,7 +8,7 @@ Module Name:
 
 Abstract:
 
-	XNA math library for Windows and Xbox 360: Quaternion, plane, and color functions.
+    XNA math library for Windows and Xbox 360: Quaternion, plane, and color functions.
 --*/
 
 #if defined(_MSC_VER) && (_MSC_VER > 1000)
@@ -1221,7 +1221,7 @@ XMFINLINE XMVECTOR XMPlaneNormalizeEst
     // Result.x = (x+y)+z
     vDot = _mm_add_ss(vDot,vTemp);
     // Splat x
-	vDot = _mm_shuffle_ps(vDot,vDot,_MM_SHUFFLE(0,0,0,0));
+    vDot = _mm_shuffle_ps(vDot,vDot,_MM_SHUFFLE(0,0,0,0));
     // Get the reciprocal
     vDot = _mm_rsqrt_ps(vDot);
     // Get the reciprocal
@@ -1260,7 +1260,7 @@ XMFINLINE XMVECTOR XMPlaneNormalize
     vLengthSq = _mm_add_ss(vLengthSq,vTemp);
     vTemp = _mm_shuffle_ps(vTemp,vTemp,_MM_SHUFFLE(1,1,1,1));
     vLengthSq = _mm_add_ss(vLengthSq,vTemp);
-	vLengthSq = _mm_shuffle_ps(vLengthSq,vLengthSq,_MM_SHUFFLE(0,0,0,0));
+    vLengthSq = _mm_shuffle_ps(vLengthSq,vLengthSq,_MM_SHUFFLE(0,0,0,0));
     // Prepare for the division
     XMVECTOR vResult = _mm_sqrt_ps(vLengthSq);
     // Failsafe on zero (Or epsilon) length planes
@@ -1707,7 +1707,7 @@ XMFINLINE XMVECTOR XMColorNegative
     // Negate only x,y and z.
     XMVECTOR vTemp = _mm_xor_ps(vColor,g_XMNegate3);
     // Add 1,1,1,0 to -x,-y,-z,w
-	return _mm_add_ps(vTemp,g_XMOne3);
+    return _mm_add_ps(vTemp,g_XMOne3);
 #else // _XM_VMX128_INTRINSICS_
 #endif // _XM_VMX128_INTRINSICS_
 }
@@ -1817,11 +1817,11 @@ XMFINLINE XMVECTOR XMColorAdjustContrast
 XMINLINE BOOL XMVerifyCPUSupport()
 {
 #if defined(_XM_NO_INTRINSICS_) || !defined(_XM_SSE_INTRINSICS_)
-	return TRUE;
+    return TRUE;
 #else // _XM_SSE_INTRINSICS_
-	// Note that on Windows 2000 or older, SSE2 detection is not supported so this will always fail
-	// Detecting SSE2 on older versions of Windows would require using cpuid directly
-	return ( IsProcessorFeaturePresent( PF_XMMI_INSTRUCTIONS_AVAILABLE ) && IsProcessorFeaturePresent( PF_XMMI64_INSTRUCTIONS_AVAILABLE ) );
+    // Note that on Windows 2000 or older, SSE2 detection is not supported so this will always fail
+    // Detecting SSE2 on older versions of Windows would require using cpuid directly
+    return ( IsProcessorFeaturePresent( PF_XMMI_INSTRUCTIONS_AVAILABLE ) && IsProcessorFeaturePresent( PF_XMMI64_INSTRUCTIONS_AVAILABLE ) );
 #endif
 }
 
@@ -1927,9 +1927,9 @@ XMFINLINE XMVECTOR XMFresnelTerm
     vTemp = _mm_add_ps(vTemp,G);
     // max((0-vTemp),vTemp) == abs(vTemp)
     // The abs is needed to deal with refraction and cosine being zero
-	G = _mm_setzero_ps();
-	G = _mm_sub_ps(G,vTemp);
-	G = _mm_max_ps(G,vTemp);
+    G = _mm_setzero_ps();
+    G = _mm_sub_ps(G,vTemp);
+    G = _mm_max_ps(G,vTemp);
     // Last operation, the sqrt()
     G = _mm_sqrt_ps(G);
 

@@ -4,8 +4,8 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+#ifdef _MSC_VER
 #pragma once
-
 // Including SDKDDKVer.h defines the highest available Windows platform.
 
 // If you wish to build your application for a previous Windows platform, include WinSDKVer.h and
@@ -18,8 +18,11 @@
 #endif
 
 // Windows Header Files:
+#include <WinSock2.h>
 #include <windows.h>
 #include <Shellapi.h>
+#endif
+
 // C RunTime Header Files
 #include <stdio.h>
 #include <stdlib.h>

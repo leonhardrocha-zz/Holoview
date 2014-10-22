@@ -4,7 +4,10 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 
 HRESULT VisualizeFacetracker(IFTImage* pColorImg, IFTResult* pAAMRlt, UINT32 color);
 

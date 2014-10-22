@@ -4,7 +4,10 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 #include "TrackerCallback.h"
 #include "ITracker.h"
 #include "TrackerArgs.h"

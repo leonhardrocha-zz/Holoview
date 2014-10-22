@@ -9,7 +9,7 @@
 #ifdef _DEBUG
 #include "vld.h"
 #endif
-	
+    
 void usage()
 {
     qWarning() << "Usage: mainwindow [-SizeHint<color> <width>x<height>] ...";

@@ -11,6 +11,7 @@
 #include "IAvatar.h"
 #include "ICallable.h"
 
+
 FT_VECTOR3D AddFtVector3d(const FT_VECTOR3D& a, const FT_VECTOR3D& b)
 {
     FT_VECTOR3D c;
@@ -182,6 +183,8 @@ bool KinectFaceTracker::Init()
     m_pKinectController = new KinectPoseController(this, this->m_pKinectSensor);
     m_pKinectController->Init();
 
+    m_messageQueue.Init();
+
     return IsKinectSensorPresent;
 }
 
@@ -348,6 +351,7 @@ bool KinectFaceTracker::Start()
     if (m_pKinectController) 
     {
         m_pKinectController->Start();
+        m_messageQueue.Start();
     }
     return true;
 }

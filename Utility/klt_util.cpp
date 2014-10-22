@@ -5,7 +5,7 @@
 /* Standard includes */
 #include <assert.h>
 #include <stdlib.h>  /* malloc() */
-#include <math.h>		/* fabs() */
+#include <math.h>        /* fabs() */
 
 /* Our includes */
 #include "base.h"
@@ -86,7 +86,7 @@ void _KLTPrintSubFloatImage(
   }
   fprintf(stderr, "\n");
 }
-	
+    
 
 /*********************************************************************
  * _KLTWriteFloatImageToPGM
@@ -110,7 +110,7 @@ void _KLTWriteFloatImageToPGM(
     mmin = min(mmin, *ptr);
     ptr++;
   }
-	
+    
   /* Allocate memory to hold converted image */
   byteimg = (uchar *) malloc(npixs * sizeof(uchar));
 
@@ -143,7 +143,7 @@ void _KLTWriteAbsFloatImageToPGM(
   uchar *byteimg, *ptrout;
   int i;
   float tmp;
-	
+    
   /* Allocate memory to hold converted image */
   byteimg = (uchar *) malloc(npixs * sizeof(uchar));
 

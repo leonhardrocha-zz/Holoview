@@ -4,7 +4,10 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 #include "ITracker.h"
 #include "IAvatar.h"
 #include "EggAvatar.h"

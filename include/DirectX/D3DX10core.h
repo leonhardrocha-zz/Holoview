@@ -197,9 +197,9 @@ HRESULT WINAPI
 
 DECLARE_INTERFACE(ID3DX10DataLoader)
 {
-	STDMETHOD(Load)(THIS) PURE;
-	STDMETHOD(Decompress)(THIS_ void **ppData, SIZE_T *pcBytes) PURE;
-	STDMETHOD(Destroy)(THIS) PURE;
+    STDMETHOD(Load)(THIS) PURE;
+    STDMETHOD(Decompress)(THIS_ void **ppData, SIZE_T *pcBytes) PURE;
+    STDMETHOD(Destroy)(THIS) PURE;
 };
 
 #undef INTERFACE
@@ -207,9 +207,9 @@ DECLARE_INTERFACE(ID3DX10DataLoader)
 
 DECLARE_INTERFACE(ID3DX10DataProcessor)
 {
-	STDMETHOD(Process)(THIS_ void *pData, SIZE_T cBytes) PURE;
-	STDMETHOD(CreateDeviceObject)(THIS_ void **ppDataObject) PURE;
-	STDMETHOD(Destroy)(THIS) PURE;
+    STDMETHOD(Process)(THIS_ void *pData, SIZE_T cBytes) PURE;
+    STDMETHOD(CreateDeviceObject)(THIS_ void **ppDataObject) PURE;
+    STDMETHOD(Destroy)(THIS) PURE;
 };
 
 // {C93FECFA-6967-478a-ABBC-402D90621FCB}

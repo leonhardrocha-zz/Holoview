@@ -145,14 +145,14 @@ static void _enforceMinimumDistance(
   int x, y, val;     /* Location and trackability of pixel under consideration */
   uchar *featuremap; /* Boolean array recording proximity of features */
   int *ptr;
-	
+    
   /* Cannot add features with an eigenvalue less than one */
   if (min_eigenvalue < 1)  min_eigenvalue = 1;
 
   /* Allocate memory for feature map and clear it */
   featuremap = (uchar *) malloc(ncols * nrows * sizeof(uchar));
   memset(featuremap, 0, ncols*nrows);
-	
+    
   /* Necessary because code below works with (mindist-1) */
   mindist--;
 
@@ -173,21 +173,21 @@ static void _enforceMinimumDistance(
     /* If we can't add all the points, then fill in the rest
        of the featurelist with -1's */
     if (ptr >= pointlist + 3*npoints)  {
-      while (indx < featurelist->nFeatures)  {	
+      while (indx < featurelist->nFeatures)  {    
         if (overwriteAllFeatures || 
             featurelist->feature[indx]->val < 0) {
           featurelist->feature[indx]->x   = -1;
           featurelist->feature[indx]->y   = -1;
           featurelist->feature[indx]->val = KLT_NOT_FOUND;
-	  featurelist->feature[indx]->aff_img = NULL;
-	  featurelist->feature[indx]->aff_img_gradx = NULL;
-	  featurelist->feature[indx]->aff_img_grady = NULL;
-	  featurelist->feature[indx]->aff_x = -1.0;
-	  featurelist->feature[indx]->aff_y = -1.0;
-	  featurelist->feature[indx]->aff_Axx = 1.0;
-	  featurelist->feature[indx]->aff_Ayx = 0.0;
-	  featurelist->feature[indx]->aff_Axy = 0.0;
-	  featurelist->feature[indx]->aff_Ayy = 1.0;
+      featurelist->feature[indx]->aff_img = NULL;
+      featurelist->feature[indx]->aff_img_gradx = NULL;
+      featurelist->feature[indx]->aff_img_grady = NULL;
+      featurelist->feature[indx]->aff_x = -1.0;
+      featurelist->feature[indx]->aff_y = -1.0;
+      featurelist->feature[indx]->aff_Axx = 1.0;
+      featurelist->feature[indx]->aff_Ayx = 0.0;
+      featurelist->feature[indx]->aff_Axy = 0.0;
+      featurelist->feature[indx]->aff_Ayy = 1.0;
         }
         indx++;
       }
@@ -197,13 +197,13 @@ static void _enforceMinimumDistance(
     x   = *ptr++;
     y   = *ptr++;
     val = *ptr++;
-		
+        
     /* Ensure that feature is in-bounds */
     assert(x >= 0);
     assert(x < ncols);
     assert(y >= 0);
     assert(y < nrows);
-	
+    
     while (!overwriteAllFeatures && 
            indx < featurelist->nFeatures &&
            featurelist->feature[indx]->val >= 0)
@@ -290,7 +290,7 @@ static float _minEigenvalue(float gxx, float gxy, float gyy)
 {
   return (float) ((gxx + gyy - sqrt((gxx - gyy)*(gxx - gyy) + 4*gxy*gxy))/2.0f);
 }
-	
+    
 
 /*********************************************************************/
 
@@ -333,7 +333,7 @@ void _KLTSelectGoodFeatures(
   }
   window_hw = tc->window_width/2; 
   window_hh = tc->window_height/2;
-		
+        
   /* Create pointlist, which is a simplified version of a featurelist, */
   /* for speed.  Contains only integer locations and values. */
   pointlist = (int *) malloc(ncols * nrows * 3 * sizeof(int));
@@ -362,7 +362,7 @@ void _KLTSelectGoodFeatures(
     /* Compute gradient of image in x and y direction */
     _KLTComputeGradients(floatimg, tc->grad_sigma, gradx, grady);
   }
-	
+    
   /* Write internal images */
   if (tc->writeInternalImages)  {
     _KLTWriteFloatImageToPGM(floatimg, "kltimg_sgfrlf.pgm");
@@ -379,18 +379,18 @@ void _KLTSelectGoodFeatures(
     register int *ptr;
     float val;
     unsigned int limit = 1;
-    int borderx = tc->borderx;	/* Must not touch cols */
-    int bordery = tc->bordery;	/* lost by convolution */
+    int borderx = tc->borderx;    /* Must not touch cols */
+    int bordery = tc->bordery;    /* lost by convolution */
     int x, y;
     int i;
-	
+    
     if (borderx < window_hw)  borderx = window_hw;
     if (bordery < window_hh)  bordery = window_hh;
 
     /* Find largest value of an int */
     for (i = 0 ; i < sizeof(int) ; i++)  limit *= 256;
     limit = limit/2 - 1;
-		
+        
     /* For most of the pixels in the image, do ... */
     ptr = pointlist;
     for (y = bordery ; y < nrows - bordery ; y += tc->nSkippedPixels + 1)
@@ -422,7 +422,7 @@ void _KLTSelectGoodFeatures(
         npoints++;
       }
   }
-			
+            
   /* Sort the features  */
   _sortPointList(pointlist, npoints);
 
@@ -460,13 +460,13 @@ void _KLTSelectGoodFeatures(
  * an image.  
  * 
  * INPUTS
- * tc:	Contains parameters used in computation (size of image,
+ * tc:    Contains parameters used in computation (size of image,
  *        size of window, min distance b/w features, sigma to compute
  *        image gradients, # of features desired).
- * img:	Pointer to the data of an image (probably unsigned chars).
+ * img:    Pointer to the data of an image (probably unsigned chars).
  * 
  * OUTPUTS
- * features:	List of features.  The member nFeatures is computed.
+ * features:    List of features.  The member nFeatures is computed.
  */
 
 void KLTSelectGoodFeatures(
@@ -502,13 +502,13 @@ void KLTSelectGoodFeatures(
  * in an image.  
  * 
  * INPUTS
- * tc:	Contains parameters used in computation (size of image,
+ * tc:    Contains parameters used in computation (size of image,
  *        size of window, min distance b/w features, sigma to compute
  *        image gradients, # of features desired).
- * img:	Pointer to the data of an image (probably unsigned chars).
+ * img:    Pointer to the data of an image (probably unsigned chars).
  * 
  * OUTPUTS
- * features:	List of features.  The member nFeatures is computed.
+ * features:    List of features.  The member nFeatures is computed.
  */
 
 void KLTReplaceLostFeatures(

@@ -708,7 +708,7 @@ typedef struct IDirectInputJoyConfig8 *LPDIRECTINPUTJOYCONFIG8;
  *  DIERR_DRIVERFIRST + 1   
  *      The requested usage was not found.
  *  DIERR_DRIVERFIRST + 2   
- *      The parameter block couldn't be	downloaded to the device.
+ *      The parameter block couldn't be    downloaded to the device.
  *  DIERR_DRIVERFIRST + 3   
  *      PID initialization failed.
  *  DIERR_DRIVERFIRST + 4   

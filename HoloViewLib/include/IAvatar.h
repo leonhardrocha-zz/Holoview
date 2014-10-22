@@ -14,6 +14,6 @@ public:
     virtual void SetScale(double scale)=0;
     virtual void SetTranslationX(double X)=0;
     virtual void SetTranslationY(double Y)=0;
-	virtual bool DrawImage(void* image)=0;
+    virtual bool DrawImage(void* image)=0;
 };
 #endif

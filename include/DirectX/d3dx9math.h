@@ -911,7 +911,7 @@ FLOAT WINAPI D3DXMatrixDeterminant
 
 HRESULT WINAPI D3DXMatrixDecompose
     ( D3DXVECTOR3 *pOutScale, D3DXQUATERNION *pOutRotation, 
-	  D3DXVECTOR3 *pOutTranslation, CONST D3DXMATRIX *pM );
+      D3DXVECTOR3 *pOutTranslation, CONST D3DXMATRIX *pM );
 
 D3DXMATRIX* WINAPI D3DXMatrixTranspose
     ( D3DXMATRIX *pOut, CONST D3DXMATRIX *pM );

@@ -1,5 +1,21 @@
 #ifdef _MSC_VER
 #pragma once
+
+#include <WinSock2.h>
+#include <windows.h>
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#endif
+
+#ifdef max
+#undef max
+#endif
+
+#ifdef min
+#undef min
+#endif
+
 #undef _QTLIB_H
 #endif
 

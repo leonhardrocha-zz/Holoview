@@ -5,7 +5,10 @@
 //------------------------------------------------------------------------------
 
 
+#ifdef _MSC_VER
 #pragma once
+#endif
+
 
 #ifndef _SAMPLE_DEBUG_OPTIONS_
 #define _SAMPLE_DEBUG_OPTIONS_

@@ -285,6 +285,7 @@ void DualScreenViewer::SetupView()
     double angle = osg::inDegrees(m_angleBetweenScreensInDegrees/2.0);
     double angleOffset = osg::PI_2 - angle;
     double sx = tan(angleOffset);
+
     m_viewOffset[Right] = osg::Matrix::translate(-m_virtualCenter) * osg::Matrix::rotate(-angleOffset, osg::Vec3(0,1,0)) * MatrixExtension::getShear(osg::Vec3(sx, 0.0, 1.0)) * osg::Matrix::translate(m_virtualCenter);
     m_viewOffset[Left] = osg::Matrix::translate(-m_virtualCenter) * osg::Matrix::rotate(angleOffset, osg::Vec3(0,1,0)) * MatrixExtension::getShear(osg::Vec3(-sx, 0.0, 1.0)) * osg::Matrix::translate(m_virtualCenter);;
 } 
@@ -299,18 +300,19 @@ void DualScreenViewer::SetupProjection()
 
 void DualScreenViewer::Update(osgViewer::View* view, osg::Vec3 eye)
 {
-    double offsetX = eye.x()/m_display.screenWidth;
-    double offsetY = eye.y()/m_display.screenHeight;
-    double offsetZ = (eye.z()-m_virtualCenter.z())/m_display.screenDepth;
+    osg::Vec3 offset = eye-m_virtualCenter;
+    double offsetX = offset.x()/m_display.screenWidth;
+    double offsetY = offset.y()/m_display.screenHeight;
+    double offsetZ = offset.z()/m_display.screenDepth;
 
     osg::DisplaySettings* ds = view->getDisplaySettings();
     ds->setScreenDistance(-eye.length());
 
-    for (int i = 0; i < NumOfScreens; i++)
+    for (int i = Right; i < NumOfScreens; i++)
     {
         osgViewer::View::Slave& slave = view->getSlave(i);
-        //slave._viewOffset = m_viewOffset[i];
-        slave._projectionOffset = m_projectionOffset[i] * osg::Matrix::translate(offsetX, offsetY, offsetZ);
+        slave._viewOffset = m_viewOffset[i];
+        slave._projectionOffset = osg::Matrix::translate(offsetX, offsetY, offsetZ) * m_projectionOffset[i];
     }
 }
 

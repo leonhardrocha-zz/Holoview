@@ -62,9 +62,9 @@ HRESULT WINAPI D3DX11CheckVersion(UINT D3DSdkVersion, UINT D3DX11SdkVersion);
 
 DECLARE_INTERFACE(ID3DX11DataLoader)
 {
-	STDMETHOD(Load)(THIS) PURE;
-	STDMETHOD(Decompress)(THIS_ void **ppData, SIZE_T *pcBytes) PURE;
-	STDMETHOD(Destroy)(THIS) PURE;
+    STDMETHOD(Load)(THIS) PURE;
+    STDMETHOD(Decompress)(THIS_ void **ppData, SIZE_T *pcBytes) PURE;
+    STDMETHOD(Destroy)(THIS) PURE;
 };
 
 #undef INTERFACE
@@ -72,9 +72,9 @@ DECLARE_INTERFACE(ID3DX11DataLoader)
 
 DECLARE_INTERFACE(ID3DX11DataProcessor)
 {
-	STDMETHOD(Process)(THIS_ void *pData, SIZE_T cBytes) PURE;
-	STDMETHOD(CreateDeviceObject)(THIS_ void **ppDataObject) PURE;
-	STDMETHOD(Destroy)(THIS) PURE;
+    STDMETHOD(Process)(THIS_ void *pData, SIZE_T cBytes) PURE;
+    STDMETHOD(CreateDeviceObject)(THIS_ void **ppDataObject) PURE;
+    STDMETHOD(Destroy)(THIS) PURE;
 };
 
 // {C93FECFA-6967-478a-ABBC-402D90621FCB}

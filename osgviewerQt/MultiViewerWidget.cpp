@@ -250,5 +250,5 @@ void MultiViewerWidget::SetStereoSettings()
 
 void MultiViewerWidget::paintEvent( QPaintEvent* event )
 { 
-	frame(); 
+    frame(); 
 }

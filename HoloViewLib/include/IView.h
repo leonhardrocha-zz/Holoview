@@ -9,10 +9,10 @@ public:
 // Operations
 public:
 // Overrides
-	virtual void Init()=0;
-	virtual void ResetView()=0;
-	virtual void SetupView()=0;
-	virtual void RenderView()=0;
+    virtual void Init()=0;
+    virtual void ResetView()=0;
+    virtual void SetupView()=0;
+    virtual void RenderView()=0;
 };
 
 #endif

@@ -937,7 +937,7 @@ FLOAT WINAPI D3DXMatrixDeterminant
 
 HRESULT WINAPI D3DXMatrixDecompose
     ( D3DXVECTOR3 *pOutScale, D3DXQUATERNION *pOutRotation, 
-	  D3DXVECTOR3 *pOutTranslation, CONST D3DXMATRIX *pM );
+      D3DXVECTOR3 *pOutTranslation, CONST D3DXMATRIX *pM );
 
 D3DXMATRIX* WINAPI D3DXMatrixTranspose
     ( D3DXMATRIX *pOut, CONST D3DXMATRIX *pM );
@@ -1797,17 +1797,17 @@ BOOL WINAPI
 
 HRESULT WINAPI 
     D3DXComputeBoundingSphere(
-        CONST D3DXVECTOR3 *pFirstPosition,	// pointer to first position
+        CONST D3DXVECTOR3 *pFirstPosition,    // pointer to first position
         DWORD NumVertices, 
-        DWORD dwStride,							// count in bytes to subsequent position vectors
+        DWORD dwStride,                            // count in bytes to subsequent position vectors
         D3DXVECTOR3 *pCenter, 
         FLOAT *pRadius);
 
 HRESULT WINAPI 
     D3DXComputeBoundingBox(
-        CONST D3DXVECTOR3 *pFirstPosition,	// pointer to first position
+        CONST D3DXVECTOR3 *pFirstPosition,    // pointer to first position
         DWORD NumVertices, 
-        DWORD dwStride,							// count in bytes to subsequent position vectors
+        DWORD dwStride,                            // count in bytes to subsequent position vectors
         D3DXVECTOR3 *pMin, 
         D3DXVECTOR3 *pMax);
 

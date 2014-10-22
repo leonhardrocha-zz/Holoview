@@ -105,10 +105,10 @@ public:
 
 protected:
 
-  OvImagePairPreprocessorT<T>		*mImagePairPreprocessor;	/**< Image pair preprocessor */
-  OvLocalMatcherT<T>				*mLocalImageMatcher;		/**< Local image pair matcher */
-  OvFlowGlobalMatcherT<T>			*mFlowGlobalMatcher;		/**< Global optical flow algorithm */
-  OvFlowPostprocessor				*mFlowPostprocessor;	/**< Flow post processor */
+  OvImagePairPreprocessorT<T>        *mImagePairPreprocessor;    /**< Image pair preprocessor */
+  OvLocalMatcherT<T>                *mLocalImageMatcher;        /**< Local image pair matcher */
+  OvFlowGlobalMatcherT<T>            *mFlowGlobalMatcher;        /**< Global optical flow algorithm */
+  OvFlowPostprocessor                *mFlowPostprocessor;    /**< Flow post processor */
 
   // The flags below are for marking whether the above variables are internally allocated.
   // In case they are, we are responsible for releasing them at destruction. 
@@ -198,7 +198,7 @@ bool OvFlowT<T>::doOpticalFlow(const OvImageAdapter & i1, const OvImageAdapter &
   mV2.copyFromAdapter(v2);
   mO2.copyFromAdapter(o2);
 
-  if(!haveEqualDimensions(mImage1, mImage2)) return false; //return if images have different dimensions	
+  if(!haveEqualDimensions(mImage1, mImage2)) return false; //return if images have different dimensions    
 
   //output images must have the same height and width as input, but at least one channel
   if(!haveEqualHeightWidth(mImage1, mU1)) return false; 

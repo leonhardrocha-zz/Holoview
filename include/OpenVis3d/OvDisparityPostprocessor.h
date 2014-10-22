@@ -26,7 +26,7 @@ public:
   * @param leftDisparityMap the disparity map for the left image
   * @param rightDisparityMap the disparity map for the right image
   * @param leftOcclusions the occlusion map for the left image
-  * @param rightOcclusions the occlusion map for the right image	
+  * @param rightOcclusions the occlusion map for the right image    
   * @return true if successful.
   */
   virtual bool postProcessDisparity(OvImageT<double> & leftDisparityMap, OvImageT<double> & rightDisparityMap, OvImageT<double> & leftOcclusions, OvImageT<double> & rightOcclusions) = 0;
