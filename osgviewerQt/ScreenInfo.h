@@ -10,7 +10,7 @@ class TiltedScreen;
 class ScreenInfo : public DisplayInfo
 {
     friend class DualScreenViewer;
-    friend class TiltedScreen;
+    //friend class TiltedScreen;
 public:
     ScreenInfo(double fovx = osg::inDegrees(60.0)) : DisplayInfo()
     {
@@ -20,12 +20,13 @@ public:
         FOV = osg::Vec2(fovx, fovx/ar);
         zNear = BezelWidth * cos(fovx);
         zFar = zNear + 2 * screenWidth;
-        screenDepth = (zFar - zNear) / cos(fovx/2.0);
+        screenDepth = screenWidth * cos(fovx/2.0);
         m_frustum = osg::Matrix::perspective(60.0/ar, ar, zNear, zFar );
-        //m_frustum.getFrustum(left, right, bottom, top, zNear, zFar);
+        m_frustum.getFrustum(left, right, bottom, top, zNear, zFar);
         
     };
 
+    virtual osg::Matrix GetView() { return m_view; } 
     virtual osg::Matrix GetFrustum() { return m_frustum; } 
     virtual bool SetFrustum(osg::Matrix& frustum) { m_frustum = frustum; return true; }
     osg::Vec2 FOV;
@@ -33,8 +34,9 @@ public:
     double screenHeight;
     double screenDepth;
 protected:
-    double /*left, right, top, bottom, */zNear, zFar;
+    double left, right, top, bottom, zNear, zFar;
     osg::Matrix m_frustum;
+    osg::Matrix m_view;
 };
 
 #endif

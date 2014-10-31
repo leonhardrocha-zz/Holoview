@@ -87,46 +87,6 @@ static osg::Matrix getViewRotation(const osg::Vec3& eye, const osg::Vec3& center
 
 }
 
-static osg::Matrix getScreenProjection(const osg::Vec3& pa, const osg::Vec3& pb, const osg::Vec3& pc, const osg::Vec3& eye, double n, double f)
-{
-    osg::Vec3 va, vb, vc;
-    osg::Vec3 vr, vu, vn;
-    float l, r, b, t, d;
-
-    // Compute an orthonormal basis for the screen.
-    vr = pb- pa;
-    vu = pc -pa;
-    vr.normalize();
-    vu.normalize();
-    vn  = vr ^ vu;
-    vn.normalize();
-    
-    // Compute the screen corner vectors.
-    va = pa - eye;
-    vb = pb - eye;
-    vc = pc - eye;
-
-    // Find the distance from the eye to screen plane.
-    d = -(va * vn);
-    // Find the extent of the perpendicular projection.
-    l = (vr * va) * n / d;
-
-    r = (vr * vb) * n / d;
-    b = (vu * va) * n / d;
-    t = (vu * vc) * n / d;
-
-     // Load the perpendicular projection.
-
-    osg::Matrix Mproj = osg::Matrix::frustum(l, r, b, t, n, f);
-    
-    // Rotate the projection to be non-perpendicular.
-    osg::Matrix M(  vr.x(), vu.x(), vn.x(), 0,
-                    vr.y(), vu.y(), vn.y(), 0,
-                    vr.z(), vu.z(), vn.z(), 0,
-                    0, 0, 0, 1);
-
-    return osg::Matrix::translate(-eye) * M * Mproj;
-}
 
 }
 #endif

@@ -62,13 +62,13 @@
     <ClInclude Include="DisplayInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObliqueCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TiltedScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MatrixExtension.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="osgExtension.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

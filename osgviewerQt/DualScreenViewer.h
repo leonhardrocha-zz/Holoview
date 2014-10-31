@@ -1,7 +1,7 @@
 #include "osgLib.h"
 #ifndef _DUALSCREENVIEWER_H
 #define _DUALSCREENVIEWER_H
-#include "ObliqueCamera.h"
+#include "osgExtension.h"
 #include "ViewerArgs.h"
 #include "ScreenInfo.h"
 #include "TiltedScreen.h"
@@ -16,30 +16,6 @@ public:
         Right = 0,
         Left = 1,
         NumOfScreens = 2
-    };
-
-    struct SlaveCallback : public osg::View::Slave::UpdateSlaveCallback
-    {
-    public:
-
-        virtual void updateSlave(osg::View& view, osg::View::Slave& slave)
-        {
-            osg::Camera* slaveCamera = slave._camera.get();
-            osg::Camera* viewCamera = view.getCamera();
-        
-            if (!slaveCamera|| !viewCamera) return;
-
-            if (slaveCamera->getReferenceFrame()==osg::Transform::RELATIVE_RF)
-            {
-                osg::Matrix viewMatrix = viewCamera->getViewMatrix();
-                osg::Matrix projMatrix = viewCamera->getProjectionMatrix();
-                slaveCamera->setProjectionMatrix(slave._viewOffset * projMatrix * slave._projectionOffset);
-                slaveCamera->setViewMatrix(viewMatrix);
-            }
-
-            slaveCamera->inheritCullSettings(*viewCamera, slaveCamera->getInheritanceMask());
-        };
-
     };
 
     DualScreenViewer();
@@ -65,19 +41,25 @@ public:
     IArgs* GetViewerArgs() { return &m_viewerArgs; };
 protected:
     ScreenInfo m_display;
+    std::vector<TiltedScreen> m_displays;
     ViewerArgs m_viewerArgs;
     virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results=NULL);
-    osg::Geode* drawFrustum(const osg::Matrixd& proj);
+    osg::Geode* DrawFrustum(const ScreenInfo& info);
+    osg::Geode* DrawFrustum(const TiltedScreen& info);
+    osg::Geometry* GetFrustumGeometry(const ScreenInfo& info);
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
     osg::Node* m_frustumNode;
     osg::Matrixd m_viewMatrix;
     osg::Matrixd m_projectionMatrix;
     osg::Matrixd m_viewOffset[2];
     osg::Matrixd m_projectionOffset[2];
+    osg::Matrixd m_postViewOffset[2];
+    osg::Matrixd m_postProjectionOffset[2];
     osg::Quat m_inverseAttitude;
     osg::Vec3 m_virtualEye;
     osg::Vec3 m_virtualCenter;
     osg::Vec3 m_virtualOrigin;
+    bool m_swapScreens;
     double m_angleBetweenScreensInDegrees;
 };
 #endif
