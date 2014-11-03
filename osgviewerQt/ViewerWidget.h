@@ -9,13 +9,15 @@
 class ViewerWidget : public QWidget, public osgViewer::CompositeViewer
 {
 public:
-    ViewerWidget(QWidget* parent = (QWidget*)NULL);
-    ~ViewerWidget();
+    ViewerWidget(QWidget* parent = (QWidget*)NULL) : osgViewer::CompositeViewer(), QWidget(parent) {};
+    ~ViewerWidget() {};
+    virtual void Init(osgViewer::ViewerBase* view = new osgViewer::Viewer(), osg::Camera* camera = new osg::Camera());
     virtual void CreateGraphicsWindow();
     osg::ref_ptr<osg::DisplaySettings> GetDisplaySettings() { return m_displaySettings; };
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
     virtual void SetStereoSettings();
     virtual void UnsetStereoSettings();
+    virtual osg::Camera* GetMainCamera() { return m_camera.get(); }
 
 protected:
     virtual void paintEvent( QPaintEvent* event );
@@ -23,5 +25,7 @@ protected:
     osg::ref_ptr<osg::DisplaySettings> m_displaySettings;
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
     QWidget* m_parent;
+    osg::ref_ptr<osgViewer::ViewerBase> m_viewer;
+    osg::ref_ptr<osg::Camera> m_camera;
 };
 #endif

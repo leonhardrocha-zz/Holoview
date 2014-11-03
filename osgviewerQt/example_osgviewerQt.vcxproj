@@ -203,6 +203,7 @@
     <ClInclude Include="HolographicTransform.h" />
     <ClInclude Include="JoystickManipulator.h" />
     <ClInclude Include="MultiViewerWidget.h" />
+    <ClInclude Include="OsgWidgetDriver.h" />
     <ClInclude Include="ScreenInfo.h" />
     <ClInclude Include="SelectModelHandler.h" />
     <ClInclude Include="SkyBox.h" />

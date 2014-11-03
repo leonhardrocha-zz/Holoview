@@ -97,13 +97,19 @@
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="OsgFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="qtLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AppArgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OsgGridWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OsgViewerWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OsgFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

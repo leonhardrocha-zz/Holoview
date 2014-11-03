@@ -31,18 +31,18 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     //scene->addChild(transform4);
     //scene->addChild(transform5);
 
-    m_viewer = new DualScreenViewer();
+    m_viewer = new DualScreenViewer(true);
 
     // View 0 -- Just the loaded model.
 
-    osgViewer::View* mainView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("main"));
+    osgViewer::View* mainView = m_viewer->GetMainView();
     mainView->setSceneData( scene.get() );
     AddGrid( mainView );
     AddSkyBox( mainView , "snow");
 
     // View 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
 
-    osgViewer::View* mapView = static_cast<osgViewer::View*>(m_viewer->GetViewerArgs()->Get("map"));
+    osgViewer::View* mapView = m_viewer->GetMapView();
     root->addChild( scene.get() );
     root->addChild( m_viewer->makeFrustumFromCamera( mainView ) );
     mapView->setSceneData( root.get() );
@@ -113,15 +113,16 @@ void HoloWindow::AddSkyBox(osgViewer::View* view, std::string name)
 bool HoloWindow::AddOsgDockWidget(QWidget* parent)
 {
     QString osgName = QString::fromLatin1("Scene View");
-    OsgFrame *osgFrame = new OsgFrame(osgName, parent, m_viewer->getView(0)->getScene());
-    osgFrame->setFrameStyle(QFrame::Box | QFrame::Sunken);
-
-    MyDock *osgDock = new MyDock(osgName, this, Qt::WindowFlags(0), osgFrame);
+    OsgGridWidget *osgGrid = new OsgGridWidget(osgName, parent);
+    osgGrid->setFrameStyle(QFrame::Box | QFrame::Sunken);
+    osgGrid->Init(m_viewer->GetViewerArgs(), "map");
+    MyDock *osgDock = new MyDock(osgName, this, Qt::WindowFlags(0), osgGrid);
     osgDock->setCustomSizeHint(m_customSizeHints.value("Scene View"));
     osgDock->setFloating(false);
     addDockWidget(Qt::RightDockWidgetArea, osgDock);
     dockWidgetMenu->addMenu(osgDock->menu);
-    osgFrame->show();
+    osgGrid->show();
+
     return true;
 }
 

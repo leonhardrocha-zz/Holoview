@@ -5,6 +5,7 @@
 class DisplayInfo
 {
 public:
+    static double DisplayInfo::inMeters(double meters) { return meters; };
     static double DisplayInfo::inInches(double inches) { return inches * 0.0254; };
     static double DisplayInfo::inCentimeters(double cm) { return cm * 0.01; };
 

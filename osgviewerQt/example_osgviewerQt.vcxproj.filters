@@ -71,6 +71,9 @@
     <ClInclude Include="osgExtension.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OsgWidgetDriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViewerWidget.cpp">

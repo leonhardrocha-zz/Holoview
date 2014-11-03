@@ -10,15 +10,13 @@
 
 
 
-DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer(), m_swapScreens(false), m_angleBetweenScreensInDegrees(120.0)
+DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(), m_swapScreens(swapViews), m_angleBetweenScreensInDegrees(120.0)
 {
     // Create View 0 -- Main.
     {
         osgViewer::View* view = new osgViewer::View();
         osg::DisplaySettings* ds = new osg::DisplaySettings();
         view->setDisplaySettings(ds);
-        CreateGraphicsWindow(view);
-        ToggleStereoSettings(view);
 
         OsgExtension::ViewUpdateHandler* viewUpdateHandler = new  OsgExtension::ViewUpdateHandler();
         viewUpdateHandler->SetCallback(DualScreenViewer::UpdateMap, this, &m_viewerArgs);
@@ -43,10 +41,7 @@ DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer(), m_swapScree
         view->setName("main");
         view->getCamera()->setComputeNearFarMode(osgUtil::CullVisitor::DO_NOT_COMPUTE_NEAR_FAR);
         m_viewerArgs.Set(view->getName(), view);
-
-        //view->getCamera()->setClampProjectionMatrixCallback( dynamic_cast<osg::CullSettings::ClampProjectionMatrixCallback*>(new MyClampProjectionMatrixCallback(-m_virtualCenter.z()) ));
-
-        addView( view );
+        //addView( view );
     }
 
     // Create view 1 -- Map.
@@ -54,14 +49,14 @@ DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer(), m_swapScree
         osgViewer::View* view = new osgViewer::View();
         osg::DisplaySettings* ds = new osg::DisplaySettings();
         view->setDisplaySettings(ds);
-        view->setUpViewInWindow( 10, 510, 640, 480 );
+        //view->setUpViewInWindow( 10, 510, 640, 480 );
 
         osg::ref_ptr<osgGA::TrackballManipulator> mouseManipulator = new osgGA::TrackballManipulator;
         mouseManipulator->setName("MapMouse");
         view->setCameraManipulator( mouseManipulator );
         view->setName("map");
         m_viewerArgs.Set(view->getName(), view);
-        addView( view );
+        //addView( view );
     }
 
     m_traits = new osg::GraphicsContext::Traits;
@@ -90,7 +85,7 @@ DualScreenViewer::~DualScreenViewer()
 {
 }
 
-void DualScreenViewer::Setup()
+void DualScreenViewer::Init()
 {
     m_virtualOrigin = osg::Vec3(0.0,    m_display.Elevation + m_display.Height/2,   0.0);
     m_virtualCenter = osg::Vec3(0.0,    m_virtualOrigin.y(),                        m_display.screenDepth);
@@ -106,6 +101,16 @@ void DualScreenViewer::Setup()
 
     SetupView();
     SetupProjection();
+
+    osgViewer::View* mainView = static_cast<osgViewer::View*>(m_viewerArgs.Get("main"));
+    CreateGraphicsWindow(mainView);
+    ToggleStereoSettings(mainView);
+
+    osgViewer::View* mapView = static_cast<osgViewer::View*>(m_viewerArgs.Get("map"));
+
+    m_driver.init(this);
+    m_driver.addView(mainView);
+    m_driver.addView(mapView);
 }
 
 void DualScreenViewer::Update(IArgs *results) 
@@ -221,7 +226,6 @@ void DualScreenViewer::CreateGraphicsWindow(osgViewer::View* view)
         osg::notify(osg::NOTICE)<<"Error, no WindowSystemInterface available, cannot create windows."<<std::endl;
         return;
     }
-    Setup();
     osg::Camera* viewCamera = view->getCamera();
     viewCamera->setViewMatrix(m_viewMatrix);
     viewCamera->setProjectionMatrix(m_projectionMatrix);

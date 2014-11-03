@@ -4,10 +4,13 @@
 #include "vld.h"
 #endif
 
-ViewerWidget::ViewerWidget(QWidget* parent) : QWidget(parent)
+void ViewerWidget::Init(osgViewer::ViewerBase* viewer, osg::Camera* camera)
 {
-     m_displaySettings = osg::DisplaySettings::instance().get();
-     m_traits = new osg::GraphicsContext::Traits;
+    m_viewer = viewer;
+    m_camera = camera;
+
+    m_displaySettings = osg::DisplaySettings::instance().get();
+    m_traits = new osg::GraphicsContext::Traits;
     
 #ifndef WIN32
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
@@ -36,26 +39,25 @@ ViewerWidget::ViewerWidget(QWidget* parent) : QWidget(parent)
     _timer.start( 10 );
 }
 
-ViewerWidget::~ViewerWidget() 
-{
-}
-
 void ViewerWidget::CreateGraphicsWindow()
 {
-    osgViewer::View* view = new osgViewer::View;
-    osg::Camera* camera = view->getCamera();
-
     osgQt::GraphicsWindowQt* qtWindow = new osgQt::GraphicsWindowQt(m_traits.get());
-    camera->setGraphicsContext( qtWindow );
-    camera->setClearColor( osg::Vec4(0.2, 0.2, 0.6, 1.0) );
-    camera->setViewport( new osg::Viewport(0, 0, m_traits->width, m_traits->height) );
-    /*camera->setViewMatrixAsLookAt(osg::Vec3(0,0,0), osg::Vec3(0,0,-1), osg::Vec3(0,1,0));*/
-    camera->setProjectionMatrixAsOrtho(-1, 1, -1, 1, -1, 1);
-    //camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(m_traits->width)/static_cast<double>(m_traits->height), 1.0f, 10000.0f );
+    m_camera->setGraphicsContext( qtWindow );
+    m_camera->setClearColor( osg::Vec4(0.2, 0.2, 0.6, 1.0) );
+    m_camera->setViewport( new osg::Viewport(0, 0, m_traits->width, m_traits->height) );
+    m_camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(m_traits->width)/static_cast<double>(m_traits->height), 1.0f, 10000.0f );
     QWidget* widget = qtWindow->getGLWidget();
     QGridLayout* grid = static_cast<QGridLayout*>(layout());
     grid->addWidget(widget, 0, getNumViews() );
-    addView(view);
+    osgViewer::ViewerBase::Views views;
+    m_viewer->getViews(views);
+    if (!views.empty())
+    {
+        for (auto view = views.begin(); view != views.end(); view++)
+        { 
+            addView(*view);
+        }
+    }
 }
 
 void ViewerWidget::SetStereoSettings()

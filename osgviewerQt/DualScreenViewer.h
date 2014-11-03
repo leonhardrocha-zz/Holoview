@@ -6,6 +6,7 @@
 #include "ScreenInfo.h"
 #include "TiltedScreen.h"
 #include "MatrixExtension.h"
+#include "OsgWidgetDriver.h"
 
 class DualScreenViewer : public osgViewer::CompositeViewer
 {
@@ -18,9 +19,10 @@ public:
         NumOfScreens = 2
     };
 
-    DualScreenViewer();
+    DualScreenViewer(bool swapViews = true);
     ~DualScreenViewer();
-    virtual void Setup();
+    virtual void Init();
+    virtual void Setup() { Init(); }; //deprecated
     virtual void CreateGraphicsWindow(osgViewer::View* view);
     virtual void Update(IArgs* results);
     virtual void SetupView();
@@ -39,10 +41,14 @@ public:
     osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera( osgViewer::View* view );
     static void UpdateMap(void* instance, IArgs* args);
     IArgs* GetViewerArgs() { return &m_viewerArgs; };
+    OsgWidgetDriver* GetDriver() { return &m_driver; };
+    osgViewer::View* GetMainView()  { return static_cast<osgViewer::View*>(m_viewerArgs.Get("main")); }
+    osgViewer::View* GetMapView()  { return static_cast<osgViewer::View*>(m_viewerArgs.Get("map")); }
 protected:
     ScreenInfo m_display;
     std::vector<TiltedScreen> m_displays;
     ViewerArgs m_viewerArgs;
+    OsgWidgetDriver m_driver;
     virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results=NULL);
     osg::Geode* DrawFrustum(const ScreenInfo& info);
     osg::Geode* DrawFrustum(const TiltedScreen& info);

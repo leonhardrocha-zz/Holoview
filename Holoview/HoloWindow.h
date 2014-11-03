@@ -11,7 +11,7 @@
 #include "TrackerManipulator.h"
 #include "JoystickManipulator.h"
 #include "MyDock.h"
-#include "OsgFrame.h"
+#include "OsgGridWidget.h"
 #include "SelectModelHandler.h"
 #include "Grid.h"
 
@@ -25,6 +25,7 @@ class HoloWindow : public MainWindow
                     QWidget *parent = 0, Qt::WindowFlags flags = 0);
         HoloWindow(const HoloWindow& parent) : MainWindow(parent) {};
         ~HoloWindow();
+        virtual void Init() { m_viewer->Init(); }
         virtual void Run() { m_viewer->run(); }
         static osg::ref_ptr<osg::PositionAttitudeTransform> GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, 
                                                                                     const osg::Vec3 modelPosition = osg::Vec3(0,0,0), 
@@ -55,7 +56,6 @@ class HoloWindow : public MainWindow
         neg_z = 5,
         NumOfBoxSides = 6
     };
-
     struct SkyBoxInfo
     {
         SkyBoxInfo()

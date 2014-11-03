@@ -8,8 +8,8 @@ class  TiltedScreen : public ScreenInfo
 {
 public:
     TiltedScreen() : ScreenInfo() {};
-    TiltedScreen(const TiltedScreen& scr) : ScreenInfo(scr), m_bottomLeft(scr.m_bottomLeft), m_topLeft(scr.m_topLeft), m_bottomRight(scr.m_bottomRight)  {};
-    TiltedScreen(const osg::Vec3& bottomLeft, const osg::Vec3& topLeft, const osg::Vec3& bottomRight) : ScreenInfo(), m_bottomLeft(bottomLeft), m_topLeft(topLeft), m_bottomRight(bottomRight), m_topRight(osg::Vec3(m_bottomRight.x(), m_topLeft.y(), m_bottomRight.z())) {};
+    TiltedScreen(const TiltedScreen& scr) : ScreenInfo(scr), m_bottomLeft(scr.m_bottomLeft), m_topLeft(scr.m_topLeft), m_bottomRight(scr.m_bottomRight), IsClipped(false)  {};
+    TiltedScreen(const osg::Vec3& bottomLeft, const osg::Vec3& topLeft, const osg::Vec3& bottomRight, bool isClipped = false) : ScreenInfo(), m_bottomLeft(bottomLeft), m_topLeft(topLeft), m_bottomRight(bottomRight), m_topRight(osg::Vec3(m_bottomRight.x(), m_topLeft.y(), m_bottomRight.z())), IsClipped(isClipped) {};
     virtual void Update(const osg::Vec3& eye)
     {
         osg::Vec3 va, vb, vc;
@@ -29,12 +29,12 @@ public:
         vc = m_topLeft - eye;
 
         // Find the distance from the eye to screen plane.
-        screenDistance = -(va * vn);
+        ScreenDistance = -(va * vn);
         // Find the extent of the perpendicular projection.
-        left = (vr * va) * zNear / screenDistance;
-        right = (vr * vb) * zNear / screenDistance;
-        bottom = (vu * va) * zNear / screenDistance;
-        top = (vu * vc) * zNear / screenDistance;
+        left = (vr * va) * zNear / ScreenDistance;
+        right = (vr * vb) * zNear / ScreenDistance;
+        bottom = (vu * va) * zNear / ScreenDistance;
+        top = (vu * vc) * zNear / ScreenDistance;
 
          // Load the perpendicular projection.
 
@@ -44,12 +44,16 @@ public:
                          vr.z(), vu.z(), vn.z(), 0,
                          0, 0, 0, 1);
         m_view = Mrot;
-        zFar = screenDistance;
+        if (IsClipped)
+        {
+            zFar = ScreenDistance;
+        }
         m_frustum = osg::Matrix::frustum(left, right, bottom, top, zNear, zFar);
     }
     
     osg::Vec3 m_topLeft, m_bottomLeft, m_bottomRight, m_topRight;
-    double screenDistance;
+    double ScreenDistance;
+    bool IsClipped;
 };
 
 //class  RightScreen : public TiltedScreen
