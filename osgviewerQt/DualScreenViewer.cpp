@@ -10,7 +10,7 @@
 
 
 
-DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer(), m_swapScreens(true), m_angleBetweenScreensInDegrees(120.0)
+DualScreenViewer::DualScreenViewer() : osgViewer::CompositeViewer(), m_swapScreens(false), m_angleBetweenScreensInDegrees(120.0)
 {
     // Create View 0 -- Main.
     {
@@ -229,7 +229,7 @@ void DualScreenViewer::CreateGraphicsWindow(osgViewer::View* view)
 
     for(unsigned int j=0; j < NumOfScreens; ++j)
     {
-        unsigned int i = m_swapScreens ? NumOfScreens -1 - j : i;
+        unsigned int i = m_swapScreens ? NumOfScreens -1 - j : j;
         osg::GraphicsContext::ScreenIdentifier screenId = osg::GraphicsContext::ScreenIdentifier(i);
         screenId.setUndefinedScreenDetailsToDefaultScreen();
         screenId.readDISPLAY();

@@ -19,7 +19,7 @@ public:
         double ar = screenWidth/screenHeight;
         FOV = osg::Vec2(fovx, fovx/ar);
         zNear = BezelWidth * cos(fovx);
-        zFar = zNear + 2 * screenWidth;
+        zFar = screenWidth * cos(fovx) + 4; // virtual screen + kinect range
         screenDepth = screenWidth * cos(fovx/2.0);
         m_frustum = osg::Matrix::perspective(60.0/ar, ar, zNear, zFar );
         m_frustum.getFrustum(left, right, bottom, top, zNear, zFar);
