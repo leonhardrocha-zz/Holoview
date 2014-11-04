@@ -46,6 +46,7 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     root->addChild( scene.get() );
     root->addChild( m_viewer->makeFrustumFromCamera( mainView ) );
     mapView->setSceneData( root.get() );
+    installEventFilter(this);
 }
 
 HoloWindow::~HoloWindow()
@@ -113,9 +114,9 @@ void HoloWindow::AddSkyBox(osgViewer::View* view, std::string name)
 bool HoloWindow::AddOsgDockWidget(QWidget* parent)
 {
     QString osgName = QString::fromLatin1("Scene View");
-    OsgGridWidget *osgGrid = new OsgGridWidget(osgName, parent);
+    OsgViewerGrid *osgGrid = new OsgViewerGrid(osgName, parent);
     osgGrid->setFrameStyle(QFrame::Box | QFrame::Sunken);
-    osgGrid->Init(m_viewer->GetViewerArgs(), "map");
+    osgGrid->AddView(m_viewer->GetViewerArgs(), "map");
     MyDock *osgDock = new MyDock(osgName, this, Qt::WindowFlags(0), osgGrid);
     osgDock->setCustomSizeHint(m_customSizeHints.value("Scene View"));
     osgDock->setFloating(false);
@@ -126,5 +127,11 @@ bool HoloWindow::AddOsgDockWidget(QWidget* parent)
     return true;
 }
 
-
-
+bool HoloWindow::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == centralWidget() && e->type() == QEvent::Paint) 
+    {
+        o->event(e);
+    }
+    return QMainWindow::eventFilter(o, e);
+}

@@ -148,7 +148,7 @@
     <ClInclude Include="AppArgs.h" />
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h" />
     <ClInclude Include="OsgFrame.h" />
-    <ClInclude Include="OsgGridWidget.h" />
+    <ClInclude Include="OsgViewerGrid.h" />
     <ClInclude Include="OsgViewerWidget.h" />
     <ClInclude Include="qtLib.h" />
     <ClInclude Include="TrackerFrame.h" />

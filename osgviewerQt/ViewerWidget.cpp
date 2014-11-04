@@ -6,27 +6,17 @@
 
 void ViewerWidget::Init(osgViewer::ViewerBase* viewer, osg::Camera* camera)
 {
-    m_viewer = viewer;
-    m_camera = camera;
-
-    m_displaySettings = osg::DisplaySettings::instance().get();
-    m_traits = new osg::GraphicsContext::Traits;
-    
+    m_viewer = osg::ref_ptr<osgViewer::ViewerBase>(viewer);
 #ifndef WIN32
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
 #endif
-    setKeyEventSetsDone(0);
-    m_traits->windowName = getName();
-    m_traits->windowDecoration = isWindow();
-    m_traits->x = 0;
-    m_traits->y = 0;
-    m_traits->width = width();
-    m_traits->height = height();
-    m_traits->doubleBuffer = true;
-    m_traits->alpha = m_displaySettings->getMinimumNumAlphaBits();
-    m_traits->stencil = m_displaySettings->getMinimumNumStencilBits();
-    m_traits->sampleBuffers = m_displaySettings->getMultiSamples();
-    m_traits->samples = m_displaySettings->getNumMultiSamples();
+    m_viewer->setKeyEventSetsDone(0);
+
+    m_displaySettings = osg::DisplaySettings::instance().get();
+
+    m_traits = CreateDefaultTraits(m_displaySettings, m_viewer->getName() + " View");
+
+    m_camera = osg::ref_ptr<osg::Camera>((camera == NULL) ? CreateDefaultCamera(m_traits) : camera);
 
     QGridLayout* grid = new QGridLayout;
     setLayout(grid);
@@ -48,16 +38,7 @@ void ViewerWidget::CreateGraphicsWindow()
     m_camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(m_traits->width)/static_cast<double>(m_traits->height), 1.0f, 10000.0f );
     QWidget* widget = qtWindow->getGLWidget();
     QGridLayout* grid = static_cast<QGridLayout*>(layout());
-    grid->addWidget(widget, 0, getNumViews() );
-    osgViewer::ViewerBase::Views views;
-    m_viewer->getViews(views);
-    if (!views.empty())
-    {
-        for (auto view = views.begin(); view != views.end(); view++)
-        { 
-            addView(*view);
-        }
-    }
+    grid->addWidget(widget, 0, 0 );
 }
 
 void ViewerWidget::SetStereoSettings()
@@ -75,5 +56,43 @@ void ViewerWidget::UnsetStereoSettings()
 
 void ViewerWidget::paintEvent( QPaintEvent* event )
 { 
-    frame(); 
+    m_viewer->frame(); 
+}
+
+bool ViewerWidget::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::Paint) 
+    {
+        paintEvent((QPaintEvent *)e);
+    }
+    return QWidget::eventFilter(o, e);
+}
+
+osg::Camera* ViewerWidget::CreateDefaultCamera(osg::GraphicsContext::Traits* traits)
+{
+    osg::ref_ptr<osg::Camera> camera = new osg::Camera;
+    camera->setGraphicsContext( new osgQt::GraphicsWindowQt(traits));
+    camera->setClearColor( osg::Vec4(0.2, 0.2, 0.6, 1.0) );
+    camera->setViewport( new osg::Viewport(0, 0, traits->width, traits->height) );
+    camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(traits->width)/static_cast<double>(traits->height), 1.0f, 10000.0f );
+    return camera.release();
+}
+
+osg::GraphicsContext::Traits* ViewerWidget::CreateDefaultTraits(osg::DisplaySettings* ds, const std::string& windowName)
+{
+    osg::GraphicsContext::Traits* traits =  new osg::GraphicsContext::Traits(ds);
+    
+    traits->windowName = windowName;
+    traits->windowDecoration = isWindow();
+    traits->x = 0;
+    traits->y = 0;
+    traits->width = width();
+    traits->height = height();
+    traits->doubleBuffer = true;
+    traits->alpha = m_displaySettings->getMinimumNumAlphaBits();
+    traits->stencil = m_displaySettings->getMinimumNumStencilBits();
+    traits->sampleBuffers = m_displaySettings->getMultiSamples();
+    traits->samples = m_displaySettings->getNumMultiSamples();
+
+    return traits;
 }

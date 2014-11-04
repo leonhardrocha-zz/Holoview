@@ -44,6 +44,7 @@ DockFrame::DockFrame(const QString &c, QWidget *parent)
     setFont(font);
     szHint = QSize(-1, -1);
     minSzHint = QSize(125, 75);
+    installEventFilter(this);
 }
 
 QSize DockFrame::sizeHint() const
@@ -56,46 +57,6 @@ QSize DockFrame::minimumSizeHint() const
     return minSzHint;
 }
 
-void DockFrame::paintEvent(QPaintEvent *e)
-{
-
-#ifdef DEBUG_SIZEHINTS
-
-    QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.fillRect(rect(), bgColorForName(color));
-
-    p.save();
-
-    extern void render_qt_text(QPainter *, int, int, const QColor &);
-    render_qt_text(&p, width(), height(), fgColorForName(color));
-
-    p.restore();
-
-    p.setRenderHint(QPainter::Antialiasing, false);
-
-    QSize sz = size();
-    QSize szHint = sizeHint();
-    QSize minSzHint = minimumSizeHint();
-    QSize maxSz = maximumSize();
-    QString text = QString::fromLatin1("sz: %1x%2\nszHint: %3x%4\nminSzHint: %5x%6\n"
-                                        "maxSz: %8x%9")
-                    .arg(sz.width()).arg(sz.height())
-                    .arg(szHint.width()).arg(szHint.height())
-                    .arg(minSzHint.width()).arg(minSzHint.height())
-                    .arg(maxSz.width()).arg(maxSz.height());
-
-    QRect r = fontMetrics().boundingRect(rect(), Qt::AlignLeft|Qt::AlignTop, text);
-    r.adjust(-2, -2, 1, 1);
-    p.translate(4, 4);
-    QColor bg = Qt::yellow;
-    bg.setAlpha(120);
-    p.setBrush(bg);
-    p.setPen(Qt::black);
-    p.drawRect(r);
-    p.drawText(rect(), Qt::AlignLeft|Qt::AlignTop, text);
-#endif // DEBUG_SIZEHINTS
-}
 
 static QSpinBox *createSpinBox(int value, QWidget *parent, int max = 1000)
 {

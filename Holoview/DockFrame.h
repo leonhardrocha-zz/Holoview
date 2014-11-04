@@ -19,7 +19,6 @@ public slots:
     void changeSizeHints();
 
 protected:
-    void paintEvent(QPaintEvent *e);
     QString color;
     QSize szHint, minSzHint;
 };

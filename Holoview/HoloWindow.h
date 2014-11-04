@@ -11,7 +11,7 @@
 #include "TrackerManipulator.h"
 #include "JoystickManipulator.h"
 #include "MyDock.h"
-#include "OsgGridWidget.h"
+#include "OsgViewerGrid.h"
 #include "SelectModelHandler.h"
 #include "Grid.h"
 
@@ -39,7 +39,7 @@ class HoloWindow : public MainWindow
         virtual void AddGrid(osgViewer::View* view);
         osg::ref_ptr<DualScreenViewer> m_viewer;
         osg::ref_ptr<SelectModelHandler> m_selectModel;
-
+        virtual bool eventFilter(QObject *o, QEvent *e);
     enum SKYBOX_ID
     {
         Axis = 0,

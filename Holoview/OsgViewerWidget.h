@@ -11,32 +11,28 @@
 class  OsgViewerWidget :  public ViewerWidget
 {
 public:
-    OsgViewerWidget::OsgViewerWidget(const QString &dockName, QWidget *parent) : ViewerWidget(parent)
+    OsgViewerWidget::OsgViewerWidget(QWidget *parent) : ViewerWidget(parent)
     {
         setMouseTracking(true);
     }
 
-protected:
-    virtual void paintEvent(QPaintEvent *paintevent)
-    { 
-        bool handled = QWidget::event( paintevent );
-
-        switch( paintevent->type() )
+    virtual void AddView(IArgs *viewArgs = NULL, std::string viewName = "")
+    {
+        if (viewArgs == NULL)
         {
-            case QEvent::KeyPress:
-            case QEvent::KeyRelease:
-            case QEvent::MouseButtonDblClick:
-            case QEvent::MouseButtonPress:
-            case QEvent::MouseButtonRelease:
-            case QEvent::MouseMove:
-            this->update();
-        break;
+            return;
+        }
 
-        default:
-            break;
+        if (viewArgs->Exists(viewName))
+        {
+            osgViewer::View* view = static_cast<osgViewer::View*>(viewArgs->Get(viewName));
+            if (view)
+            {
+                Init(view->getViewerBase(), view->getCamera());
+            }
         }
     }
-    QTimer _timer;
+protected:
 };
 
 #endif
