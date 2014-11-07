@@ -212,7 +212,6 @@
     <ClInclude Include="TrackerManipulator.h" />
     <ClInclude Include="TwoDimManipulator.h" />
     <ClInclude Include="UpdateScreenCallback.h" />
-    <ClInclude Include="ViewerArgs.h" />
     <ClInclude Include="ViewerWidget.h" />
     <ClInclude Include="VirtualScreenCallback.h" />
   </ItemGroup>

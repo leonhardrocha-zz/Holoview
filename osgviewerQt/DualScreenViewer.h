@@ -2,7 +2,7 @@
 #ifndef _DUALSCREENVIEWER_H
 #define _DUALSCREENVIEWER_H
 #include "osgExtension.h"
-#include "ViewerArgs.h"
+#include "Args.h"
 #include "ScreenInfo.h"
 #include "TiltedScreen.h"
 #include "MatrixExtension.h"
@@ -21,7 +21,7 @@ public:
 
     DualScreenViewer(bool swapViews = true);
     ~DualScreenViewer();
-    virtual void Init();
+    virtual bool Init(IArgs* args=NULL);
     virtual void Setup() { Init(); }; //deprecated
     virtual void CreateGraphicsWindow(osgViewer::View* view);
     virtual void Update(IArgs* results);
@@ -40,19 +40,20 @@ public:
     void ToggleStereoSettings(osgViewer::View* view);
     osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera( osgViewer::View* view );
     static void UpdateMap(void* instance, IArgs* args);
-    IArgs* GetViewerArgs() { return &m_viewerArgs; };
+    IArgs* GetViewerArgs() { return m_viewerArgs; };
     OsgWidgetDriver* GetDriver() { return &m_driver; };
-    osgViewer::View* GetMainView()  { return static_cast<osgViewer::View*>(m_viewerArgs.Get("main")); }
-    osgViewer::View* GetMapView()  { return static_cast<osgViewer::View*>(m_viewerArgs.Get("map")); }
+    osgViewer::View* GetMainView()  { return static_cast<osgViewer::View*>(m_viewerArgs->Get("main")); }
+    osgViewer::View* GetMapView()  { return static_cast<osgViewer::View*>(m_viewerArgs->Get("map")); }
 protected:
+    virtual bool InitViews(IArgs* args);
+    IArgs* m_viewerArgs;
     ScreenInfo m_display;
     std::vector<TiltedScreen> m_displays;
-    ViewerArgs m_viewerArgs;
     OsgWidgetDriver m_driver;
     virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results=NULL);
-    osg::Geode* DrawFrustum(const ScreenInfo& info);
-    osg::Geode* DrawFrustum(const TiltedScreen& info);
-    osg::Geometry* GetFrustumGeometry(const ScreenInfo& info);
+    osg::Geode* DrawFrustum(ScreenInfo& info);
+    osg::Geode* DrawFrustum(TiltedScreen& info);
+    osg::Geometry* GetFrustumGeometry(ScreenInfo& info);
     osg::ref_ptr<osg::GraphicsContext::Traits> m_traits;
     osg::Node* m_frustumNode;
     osg::Matrixd m_viewMatrix;

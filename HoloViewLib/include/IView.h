@@ -1,3 +1,11 @@
+#ifdef _MEMORY_DEBUG
+#include "vld.h"
+#endif
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
 #ifndef _IVIEW_H_
 #define _IVIEW_H_
 

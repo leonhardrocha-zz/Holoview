@@ -12,16 +12,16 @@
 #include "resource.h"
 #include "EggAvatar.h"
 #include "KinectFaceTracker.h"
-#include "TrackerCallBack.h"
+#include "CallBack.h"
 #include "ITracker.h"
 #include "IArgs.h"
 #include "IPose.h"
 #include <vector>
-
+#include "AppArgs.h"
 
 class KinectTracker;
 
-class TrackerManager : public ITracker, public TrackerCallback 
+class TrackerManager : public ITracker, public Callback
 {
     friend class KinectTracker;
 public:
@@ -36,24 +36,19 @@ public:
         , m_bNearMode(TRUE)
         , m_bSeatedSkeletonMode(TRUE)
 {
+    
 }
     ~TrackerManager()    { UninitInstance();    };
 
-    virtual bool                Init();
-    virtual bool                Start();
-    virtual IArgs*              GetTrackingResults(IArgs* args=NULL);
-    virtual void                PaintEvent(void *message, IArgs* args=NULL);
-    virtual void                TrackEvent(void *message, IArgs* args=NULL);
+    virtual bool                Init(IArgs* args=NULL);
+    virtual bool                Start(IArgs* args=NULL);
+    virtual void                TrackEvent(IArgs* args=NULL);
     virtual void*               GetCriticalSection() { return static_cast<void*>(&m_CriticalSection); };
-
     int                         GetNumOfTrackingSensors() { return m_numOfSensors; };
-    int                         GetNumOfAvailableSensors() { return m_maxNumOfSensors;};
+    EggAvatar*                  GetEggAvatar() { return(&m_eggavatar); };
 protected:
-
     int                         m_numOfSensors;
-    int                         m_maxNumOfSensors;
     CRITICAL_SECTION            m_CriticalSection;
-
     std::vector<KinectFaceTracker*> m_pFaceTrackers;
     std::vector<HANDLE>             m_FaceTrackingThreads;
 
@@ -74,4 +69,7 @@ protected:
     NUI_IMAGE_RESOLUTION        m_colorRes;
     BOOL                        m_bNearMode;
     BOOL                        m_bSeatedSkeletonMode;
+
+    EggAvatar     m_eggavatar;
+    std::string   m_configArg;
 };

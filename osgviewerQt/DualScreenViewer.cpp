@@ -12,6 +12,15 @@
 
 DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(), m_swapScreens(swapViews), m_angleBetweenScreensInDegrees(120.0)
 {
+    
+}
+
+DualScreenViewer::~DualScreenViewer() 
+{
+}
+
+bool DualScreenViewer::InitViews(IArgs* args)
+{
     // Create View 0 -- Main.
     {
         osgViewer::View* view = new osgViewer::View();
@@ -19,7 +28,7 @@ DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(
         view->setDisplaySettings(ds);
 
         OsgExtension::ViewUpdateHandler* viewUpdateHandler = new  OsgExtension::ViewUpdateHandler();
-        viewUpdateHandler->SetCallback(DualScreenViewer::UpdateMap, this, &m_viewerArgs);
+        viewUpdateHandler->SetCallback(DualScreenViewer::UpdateMap, this, m_viewerArgs);
         view->addEventHandler( viewUpdateHandler );
 
         osg::ref_ptr<osgGA::TrackerManipulator> trackerManipulator = new osgGA::TrackerManipulator();
@@ -40,7 +49,7 @@ DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(
 
         view->setName("main");
         view->getCamera()->setComputeNearFarMode(osgUtil::CullVisitor::DO_NOT_COMPUTE_NEAR_FAR);
-        m_viewerArgs.Set(view->getName(), view);
+        m_viewerArgs->Set(view->getName(), view);
         //addView( view );
     }
 
@@ -55,7 +64,7 @@ DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(
         mouseManipulator->setName("MapMouse");
         view->setCameraManipulator( mouseManipulator );
         view->setName("map");
-        m_viewerArgs.Set(view->getName(), view);
+        m_viewerArgs->Set(view->getName(), view);
         //addView( view );
     }
 
@@ -66,7 +75,7 @@ DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(
 #endif
 
     setKeyEventSetsDone(0);
-    osgViewer::View* mainView = static_cast<osgViewer::View*>(m_viewerArgs.Get("main"));
+    osgViewer::View* mainView = GetMainView();
     m_traits->windowName = mainView->getName();
     osg::DisplaySettings* ds = mainView->getDisplaySettings();
     m_traits->width = ds->getScreenWidth();
@@ -79,14 +88,16 @@ DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(
     m_traits->windowDecoration = true;
     m_traits->x = 0;
     m_traits->y = 0;
+
+    return true;
 }
 
-DualScreenViewer::~DualScreenViewer() 
+bool DualScreenViewer::Init(IArgs* args)
 {
-}
+    m_viewerArgs = args;
 
-void DualScreenViewer::Init()
-{
+    InitViews(args);
+
     m_virtualOrigin = osg::Vec3(0.0,    m_display.Elevation + m_display.Height/2,   0.0);
     m_virtualCenter = osg::Vec3(0.0,    m_virtualOrigin.y(),                        m_display.screenDepth);
 
@@ -102,25 +113,26 @@ void DualScreenViewer::Init()
     SetupView();
     SetupProjection();
 
-    osgViewer::View* mainView = static_cast<osgViewer::View*>(m_viewerArgs.Get("main"));
+    osgViewer::View* mainView = GetMainView();
     CreateGraphicsWindow(mainView);
     ToggleStereoSettings(mainView);
 
-    osgViewer::View* mapView = static_cast<osgViewer::View*>(m_viewerArgs.Get("map"));
-
+    osgViewer::View* mapView = GetMapView();
     m_driver.init(this);
     m_driver.addView(mainView);
     m_driver.addView(mapView);
+    
+    return true;
 }
 
-void DualScreenViewer::Update(IArgs *results) 
+void DualScreenViewer::Update(IArgs *args) 
 {
-    osgViewer::View* view = static_cast<osgViewer::View*>(m_viewerArgs.Get("main"));
+    osgViewer::View* view = GetMainView();
     osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(view->getCameraManipulator());
     if (keyManipulator)
     {
         osgGA::CameraManipulator* cameraManipulator = keyManipulator->getCurrentMatrixManipulator(); //keyManipulator->getMatrixManipulatorWithIndex(i);
-        HandleManipulator(cameraManipulator, results);
+        HandleManipulator(cameraManipulator, args);
     }
     Update(view, m_virtualEye);
 }
@@ -156,12 +168,12 @@ void DualScreenViewer::UpdateMap(void* instance, IArgs* args)
 {
     // Update the wireframe frustum
     DualScreenViewer* pThis = static_cast<DualScreenViewer*>(instance);
-    osgViewer::View* mapView = static_cast<osgViewer::View*>(args->Get("map"));
+    osgViewer::View* mapView = pThis->GetMapView();
     osg::Group* root = static_cast<osg::Group*>(mapView->getSceneData());
     if (root) 
     {
         osg::Node* map = root->getChild(1);
-        osgViewer::View* mainView = static_cast<osgViewer::View*>(args->Get("main"));
+        osgViewer::View* mainView = pThis->GetMainView();
         root->replaceChild(map, pThis->makeFrustumFromCamera( mainView ));
     }
 }
@@ -206,7 +218,7 @@ void DualScreenViewer::Update(osgViewer::View* view, osg::Vec3 eye)
     }
 }
 
-//bool addSlave(osg::View* view, osg::Camera* camera,  const osg::Matrix& projectionOffset, const osg::Matrix& viewOffset, const osg::Matrix& postProjectionOffset, const osg::Matrix& postViewOffset, bool useMastersSceneData=true)
+//bool addSlave(osg::View* view, osg::Camera* camera,  osg::Matrix& projectionOffset, osg::Matrix& viewOffset, osg::Matrix& postProjectionOffset, osg::Matrix& postViewOffset, bool useMastersSceneData=true)
 //{
 //    OsgExtension::View* extView = static_cast<OsgExtension::View*>(view);
 //    if (extView)
@@ -289,7 +301,7 @@ void DualScreenViewer::ToggleStereoSettings(osgViewer::View* view)
 }
 
 
-osg::Geometry* DualScreenViewer::GetFrustumGeometry(const ScreenInfo& info)
+osg::Geometry* DualScreenViewer::GetFrustumGeometry(ScreenInfo& info)
 {
     double nLeft = info.left;
     double nRight = info.right;
@@ -339,7 +351,7 @@ osg::Geometry* DualScreenViewer::GetFrustumGeometry(const ScreenInfo& info)
     return geom;
 }
 
-osg::Geode* DualScreenViewer::DrawFrustum(const ScreenInfo& info)
+osg::Geode* DualScreenViewer::DrawFrustum(ScreenInfo& info)
 {
     osg::Geode* geode = new osg::Geode;
     geode->addDrawable( GetFrustumGeometry(info) );
@@ -348,7 +360,7 @@ osg::Geode* DualScreenViewer::DrawFrustum(const ScreenInfo& info)
 
 }
 
-osg::Geode* DualScreenViewer::DrawFrustum(const TiltedScreen& info)
+osg::Geode* DualScreenViewer::DrawFrustum(TiltedScreen& info)
 {
     osg::Geode* geode = new osg::Geode;
     geode->addDrawable( GetFrustumGeometry(info) );

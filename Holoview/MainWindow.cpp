@@ -28,10 +28,10 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     setObjectName("MainWindow");
     setWindowTitle("Qt Main Window Example");
 
-    //center = new QTextEdit(this);
-    //center->setReadOnly(true);
-    //center->setMinimumSize(800, 600);
-    //setCentralWidget(center);
+    center = new QTextEdit(this);
+    center->setReadOnly(true);
+    center->setMinimumSize(800, 600);
+    setCentralWidget(center);
 
     setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
     setWindowState(windowState() | Qt::WindowFullScreen);
@@ -43,7 +43,7 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     setupToolBar();
 
     setupDockWidgets(customSizeHints);
-    ExtendToFullScreen(this);
+
 
     setMouseTracking(true);
 }
@@ -321,7 +321,7 @@ void MainWindow::setupDockWidgets(const QMap<QString, QSize> &customSizeHints)
     dockWidgetMenu->addMenu(destroyDockWidgetMenu);
 }
 
-bool MainWindow::AddTrackerDockWidget(ITracker *tracker)
+bool MainWindow::AddTrackerDockWidget(ITracker *tracker, IArgs *args)
 {
     KinectTracker* kinectTracker = dynamic_cast<KinectTracker*>(tracker);
     if(!kinectTracker) return false;
@@ -330,7 +330,7 @@ bool MainWindow::AddTrackerDockWidget(ITracker *tracker)
     int numOfSensors = kinectTracker->GetNumOfTrackingSensors();
     for (int i =0; i< numOfSensors; i++)
     {
-        TrackerFrame *frame = new TrackerFrame(i, this,  tracker);
+        TrackerFrame *frame = new TrackerFrame(this, tracker, "WindowHandlerArg", args);
         frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
 
         MyDock *trackerDock = new MyDock(name + i, this, Qt::WindowFlags(0), frame);
@@ -491,4 +491,20 @@ void MainWindow::destroyDockWidget(QAction *action)
 
     if (destroyDockWidgetMenu->isEmpty())
         destroyDockWidgetMenu->setEnabled(false);
+}
+
+void MainWindow::mouseDoubleClickEvent(QMouseEvent *e) 
+{
+  QMainWindow::mouseDoubleClickEvent(e);
+  if(isFullScreen()) {
+     this->setWindowState(Qt::WindowMaximized);
+  } else {
+     this->setWindowState(Qt::WindowFullScreen);
+     ExtendToFullScreen(this);
+  }
+}
+
+
+void MainWindow::handleResults(const QString& str)
+{
 }

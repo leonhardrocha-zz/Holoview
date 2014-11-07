@@ -1,27 +1,28 @@
 #include "stdafx.h"
 #ifndef _TRACKERCONFIG_H
 #define _TRACKERCONFIG_H
-#include "KinectSensor.h"
+#include <FaceTrackLib.h>
+#include <NuiApi.h>
 class TrackerConfig
 {
 public: 
     TrackerConfig() :
-        m_DrawMask(TRUE),
-        m_depthType(NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX),
-        m_depthRes(NUI_IMAGE_RESOLUTION_640x480),
-        m_bNearMode(TRUE),
-        m_bFallbackToDefault(TRUE),
-        m_bSeatedSkeletonMode(TRUE),
-        m_colorType(NUI_IMAGE_TYPE_COLOR),    
-        m_colorRes(NUI_IMAGE_RESOLUTION_1280x960)
+        DrawMask(TRUE),
+        DepthType(NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX),
+        DepthResolution(NUI_IMAGE_RESOLUTION_640x480),
+        IsNearMode(TRUE),
+        IsFallbackToDefault(TRUE),
+        IsSeatedSkeletonMode(TRUE),
+        ColorType(NUI_IMAGE_TYPE_COLOR),    
+        ColorResolution(NUI_IMAGE_RESOLUTION_1280x960)
     {}
-    BOOL                 m_DrawMask;
-    NUI_IMAGE_TYPE       m_depthType;
-    NUI_IMAGE_RESOLUTION m_depthRes;
-    BOOL                 m_bNearMode;
-    BOOL                 m_bFallbackToDefault;
-    BOOL                 m_bSeatedSkeletonMode;
-    NUI_IMAGE_TYPE       m_colorType;
-    NUI_IMAGE_RESOLUTION m_colorRes;
+    BOOL                 DrawMask;
+    NUI_IMAGE_TYPE       DepthType;
+    NUI_IMAGE_RESOLUTION DepthResolution;
+    BOOL                 IsNearMode;
+    BOOL                 IsFallbackToDefault;
+    BOOL                 IsSeatedSkeletonMode;
+    NUI_IMAGE_TYPE       ColorType;
+    NUI_IMAGE_RESOLUTION ColorResolution;
 };
 #endif

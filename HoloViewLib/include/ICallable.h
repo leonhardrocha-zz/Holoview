@@ -1,4 +1,11 @@
+#ifdef _MEMORY_DEBUG
 #include "vld.h"
+#endif
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
 #ifndef _ICALLABLE_H
 #define _ICALLABLE_H
 

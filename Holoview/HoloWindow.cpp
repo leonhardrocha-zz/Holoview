@@ -5,6 +5,17 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
                 QWidget *parent, Qt::WindowFlags flags)
     : MainWindow(customSizeHints, parent, flags)
 {
+    m_viewer = new DualScreenViewer(true);
+}
+
+HoloWindow::~HoloWindow()
+{
+
+}
+bool HoloWindow::Init(IArgs* args)
+{
+    m_viewer->Init(args); 
+
     osg::ref_ptr<osg::Node> duck = osgDB::readNodeFile("../Dependencies/Models/Collada/duck.dae.-90,-90,0.rot");
     osg::ref_ptr<osg::Node> airplane = osgDB::readNodeFile("../Dependencies/Models/3ds/airplane/Airplane AN-2 N200314.3DS.-90,-100,0.rot");
     //osg::ref_ptr<osg::Node> cessna = osgDB::readNodeFile("../Dependencies/Models/3ds/TargetCameraAnim.3ds.-90,0,0.rot");
@@ -31,8 +42,6 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     //scene->addChild(transform4);
     //scene->addChild(transform5);
 
-    m_viewer = new DualScreenViewer(true);
-
     // View 0 -- Just the loaded model.
 
     osgViewer::View* mainView = m_viewer->GetMainView();
@@ -46,13 +55,21 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     root->addChild( scene.get() );
     root->addChild( m_viewer->makeFrustumFromCamera( mainView ) );
     mapView->setSceneData( root.get() );
-    installEventFilter(this);
-}
 
-HoloWindow::~HoloWindow()
+    Worker *worker = new Worker(m_viewer);
+    connect(&workerThread, &QThread::finished, worker, &QObject::deleteLater);
+    connect(this, &HoloWindow::operate, worker, &Worker::doWork);
+    connect(worker, &Worker::resultReady, this, &HoloWindow::handleResults);
+    worker->moveToThread(&workerThread);
+
+    return true;
+}
+bool HoloWindow::Start(IArgs* args)
 {
-
+    return true;
 }
+
+
 
 osg::ref_ptr<osg::PositionAttitudeTransform> HoloWindow::GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3 modelPosition, const osg::Quat modelAttitude, const double modelRadius)
 {
@@ -126,12 +143,12 @@ bool HoloWindow::AddOsgDockWidget(QWidget* parent)
 
     return true;
 }
-
-bool HoloWindow::eventFilter(QObject *o, QEvent *e)
-{
-    if (o == centralWidget() && e->type() == QEvent::Paint) 
-    {
-        o->event(e);
-    }
-    return QMainWindow::eventFilter(o, e);
-}
+//
+//bool HoloWindow::eventFilter(QObject *o, QEvent *e)
+//{
+//    if (o == centralWidget() && e->type() == QEvent::Paint) 
+//    {
+//        o->event(e);
+//    }
+//    return QMainWindow::eventFilter(o, e);
+//}

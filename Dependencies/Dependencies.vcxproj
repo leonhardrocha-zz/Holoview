@@ -1187,7 +1187,9 @@ xcopy /I /Y /D "$(ProjectDir)Runtime\osg\$(Configuration)\3rdparty\*.*" "$(OutDi
     <Library Include="..\lib\ZeroMQ\libzmq-v100-mt-4_0_4.lib" />
     <Library Include="..\lib\ZeroMQ\libzmq-v100-mt-gd-4_0_4.lib" />
     <Library Include="..\lib\ZeroMQ\libzmq.lib" />
-    <Library Include="..\lib\ZeroMQ\libzmqd.lib" />
+    <Library Include="..\lib\ZeroMQ\libzmqd.lib">
+      <DeploymentContent>false</DeploymentContent>
+    </Library>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

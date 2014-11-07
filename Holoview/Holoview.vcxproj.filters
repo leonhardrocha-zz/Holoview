@@ -100,9 +100,6 @@
     <ClInclude Include="qtLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppArgs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OsgViewerWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>

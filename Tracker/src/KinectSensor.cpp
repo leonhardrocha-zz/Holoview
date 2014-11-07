@@ -6,9 +6,10 @@
 
 #include "StdAfx.h"
 #include "KinectSensor.h"
+
 #include <math.h>
 
-static int numOfInitilizedSensors = 0;
+int KinectSensor::NumOfInitilizedSensors = 0;
 
 KinectSensor::KinectSensor()
 {
@@ -27,11 +28,7 @@ KinectSensor::KinectSensor()
     m_ZoomFactor = 1.0f;
     m_ViewOffset.x = 0;
     m_ViewOffset.y = 0;
-
-    // Get a working kinect sensor
-    if (NuiCreateSensorByIndex(numOfInitilizedSensors, &m_Sensor) >= 0) {
-        numOfInitilizedSensors++;
-    }
+    m_configArg = "TrackerConfig";
 }
 
 
@@ -40,6 +37,24 @@ KinectSensor::~KinectSensor()
     Release();
 }
 
+bool KinectSensor::Init(IArgs* args)
+{
+    // Get a working kinect sensor
+    if (NuiCreateSensorByIndex(NumOfInitilizedSensors, &m_pSensor) >= 0) 
+    {
+        NumOfInitilizedSensors++;
+        if (args != NULL)
+        {
+            if (args->Exists(m_configArg))
+            {
+                m_config = *(static_cast<TrackerConfig*>(args->Get(m_configArg)));
+            }
+        }
+        InitializeSensor(m_config);
+        return true;
+    }
+    return false;
+}
 
 HRESULT KinectSensor::GetVideoConfiguration(FT_CAMERA_CONFIG* videoConfig)
 {
@@ -109,15 +124,15 @@ HRESULT KinectSensor::GetDepthConfiguration(FT_CAMERA_CONFIG* depthConfig)
     return S_OK;
 }
 
-HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthRes, BOOL bNearMode, BOOL bFallbackToDefault, NUI_IMAGE_TYPE colorType, NUI_IMAGE_RESOLUTION colorRes, BOOL bSeatedSkeletonMode)
+HRESULT KinectSensor::InitializeSensor(TrackerConfig& config)
 {
     HRESULT hr = E_UNEXPECTED;
 
     Release(); // Deal with double initializations.
 
     //do not support NUI_IMAGE_TYPE_COLOR_RAW_YUV for now
-    if(colorType != NUI_IMAGE_TYPE_COLOR && colorType != NUI_IMAGE_TYPE_COLOR_YUV
-        || depthType != NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX && depthType != NUI_IMAGE_TYPE_DEPTH)
+    if(config.ColorType != NUI_IMAGE_TYPE_COLOR && config.ColorType != NUI_IMAGE_TYPE_COLOR_YUV
+        || config.DepthType != NUI_IMAGE_TYPE_DEPTH_AND_PLAYER_INDEX && config.DepthType != NUI_IMAGE_TYPE_DEPTH)
     {
         return E_INVALIDARG;
     }
@@ -131,7 +146,7 @@ HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthR
     DWORD width = 0;
     DWORD height = 0;
 
-    NuiImageResolutionToSize(colorRes, width, height);
+    NuiImageResolutionToSize(config.ColorResolution, width, height);
 
     hr = m_VideoBuffer->Allocate(width, height, FTIMAGEFORMAT_UINT8_B8G8R8X8);
     if (FAILED(hr))
@@ -145,7 +160,7 @@ HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthR
         return E_OUTOFMEMORY;
     }
 
-    NuiImageResolutionToSize(depthRes, width, height);
+    NuiImageResolutionToSize(config.DepthResolution, width, height);
 
     hr = m_DepthBuffer->Allocate(width, height, FTIMAGEFORMAT_UINT16_D13P3);
     if (FAILED(hr))
@@ -166,9 +181,9 @@ HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthR
     m_hNextVideoFrameEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
     m_hNextSkeletonEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 
-    DWORD dwNuiInitDepthFlag = (depthType == NUI_IMAGE_TYPE_DEPTH)? NUI_INITIALIZE_FLAG_USES_DEPTH : NUI_INITIALIZE_FLAG_USES_DEPTH_AND_PLAYER_INDEX;
+    DWORD dwNuiInitDepthFlag = (config.DepthType == NUI_IMAGE_TYPE_DEPTH)? NUI_INITIALIZE_FLAG_USES_DEPTH : NUI_INITIALIZE_FLAG_USES_DEPTH_AND_PLAYER_INDEX;
 
-    hr = m_Sensor->NuiInitialize(dwNuiInitDepthFlag | NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR);
+    hr = m_pSensor->NuiInitialize(dwNuiInitDepthFlag | NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR);
     if (FAILED(hr))
     {
         return hr;
@@ -176,19 +191,19 @@ HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthR
     m_bNuiInitialized = true;
 
     DWORD dwSkeletonFlags = NUI_SKELETON_TRACKING_FLAG_ENABLE_IN_NEAR_RANGE;
-    if (bSeatedSkeletonMode)
+    if (config.IsSeatedSkeletonMode)
     {
         dwSkeletonFlags |= NUI_SKELETON_TRACKING_FLAG_ENABLE_SEATED_SUPPORT;
     }
-    hr = m_Sensor->NuiSkeletonTrackingEnable( m_hNextSkeletonEvent, dwSkeletonFlags );
+    hr = m_pSensor->NuiSkeletonTrackingEnable( m_hNextSkeletonEvent, dwSkeletonFlags );
     if (FAILED(hr))
     {
         return hr;
     }
 
-    hr = m_Sensor->NuiImageStreamOpen(
-        colorType,
-        colorRes,
+    hr = m_pSensor->NuiImageStreamOpen(
+        config.ColorType,
+        config.ColorResolution,
         0,
         2,
         m_hNextVideoFrameEvent,
@@ -198,20 +213,20 @@ HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthR
         return hr;
     }
 
-    hr = m_Sensor->NuiImageStreamOpen(
-        depthType,
-        depthRes,
-        (bNearMode)? NUI_IMAGE_STREAM_FLAG_ENABLE_NEAR_MODE : 0,
+    hr = m_pSensor->NuiImageStreamOpen(
+        config.DepthType,
+        config.DepthResolution,
+        (config.IsNearMode)? NUI_IMAGE_STREAM_FLAG_ENABLE_NEAR_MODE : 0,
         2,
         m_hNextDepthFrameEvent,
         &m_pDepthStreamHandle );
     if (FAILED(hr))
     {
-        if(bNearMode && bFallbackToDefault)
+        if(config.IsNearMode && config.IsFallbackToDefault)
         {
-            hr = m_Sensor->NuiImageStreamOpen(
-                depthType,
-                depthRes,
+            hr = m_pSensor->NuiImageStreamOpen(
+                config.DepthType,
+                config.DepthResolution,
                 0,
                 2,
                 m_hNextDepthFrameEvent,
@@ -223,15 +238,26 @@ HRESULT KinectSensor::Init(NUI_IMAGE_TYPE depthType, NUI_IMAGE_RESOLUTION depthR
             return hr;
         }
     }
-
+    return hr;
+}
+bool KinectSensor::Start(IArgs* args)
+{
     // Start the Nui processing thread
     m_hEvNuiProcessStop=CreateEvent(NULL,TRUE,FALSE,NULL);
     m_hThNuiProcess=CreateThread(NULL,0,ProcessThread,this,0,NULL);
-
-    return hr;
+    m_bSensorRunning = m_bNuiInitialized  && (m_hEvNuiProcessStop !=NULL) && (m_hThNuiProcess !=NULL);
+    return m_bSensorRunning;
 }
 
-void KinectSensor::Release()
+void KinectSensor::TrackEvent(IArgs* args)
+{
+    if (m_bSensorRunning)
+    {
+        m_eggavatar.TrackEvent(args);
+    }
+}
+
+bool KinectSensor::Stop()
 {
     // Stop the Nui processing thread
     if(m_hEvNuiProcessStop!=NULL)
@@ -245,6 +271,7 @@ void KinectSensor::Release()
             WaitForSingleObject(m_hThNuiProcess,INFINITE);
             CloseHandle(m_hThNuiProcess);
             m_hThNuiProcess = NULL;
+            m_bSensorRunning = false;
         }
         CloseHandle(m_hEvNuiProcessStop);
         m_hEvNuiProcessStop = NULL;
@@ -252,9 +279,16 @@ void KinectSensor::Release()
 
     if (m_bNuiInitialized)
     {
-        m_Sensor->NuiShutdown();
+        /**/NuiShutdown();
     }
     m_bNuiInitialized = false;
+
+    return !m_bSensorRunning;
+}
+
+bool KinectSensor::Release()
+{
+    Stop();
 
     if (m_hNextSkeletonEvent && m_hNextSkeletonEvent != INVALID_HANDLE_VALUE)
     {
@@ -281,6 +315,14 @@ void KinectSensor::Release()
         m_DepthBuffer->Release();
         m_DepthBuffer = NULL;
     }
+
+    //if (m_pKinectController)
+    //{
+    //    delete m_pKinectController;
+    //    m_pKinectController = NULL;
+    //}
+
+    return true;
 }
 
 DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
@@ -295,7 +337,8 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
     hEvents[3]=pthis->m_hNextSkeletonEvent;
 
     // Main thread loop
-    while (true)
+    pthis->m_bSensorRunning = true;
+    while (pthis->m_bSensorRunning)
     {
         // Wait for an event to be signaled
         WaitForMultipleObjects(sizeof(hEvents)/sizeof(hEvents[0]),hEvents,FALSE,100);
@@ -328,9 +371,14 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
 
 void KinectSensor::GotVideoAlert( )
 {
+    if (!m_pSensor)
+    {
+        return;
+    }
+
     NUI_IMAGE_FRAME pImageFrame;
 
-    HRESULT hr = m_Sensor->NuiImageStreamGetNextFrame(m_pVideoStreamHandle, 0, &pImageFrame);
+    HRESULT hr = m_pSensor->NuiImageStreamGetNextFrame(m_pVideoStreamHandle, 0, &pImageFrame);
     if (FAILED(hr))
     {
         return;
@@ -348,15 +396,20 @@ void KinectSensor::GotVideoAlert( )
         OutputDebugString(L"Buffer length of received texture is bogus\r\n");
     }
 
-    hr = m_Sensor->NuiImageStreamReleaseFrame(m_pVideoStreamHandle, &pImageFrame);
+    hr = NuiImageStreamReleaseFrame(m_pVideoStreamHandle, &pImageFrame);
 }
 
 
 void KinectSensor::GotDepthAlert( )
 {
+    if (!m_pSensor)
+    {
+        return;
+    }
+
     NUI_IMAGE_FRAME pImageFrame;
 
-    HRESULT hr = m_Sensor->NuiImageStreamGetNextFrame(m_pDepthStreamHandle, 0, &pImageFrame);
+    HRESULT hr = m_pSensor->NuiImageStreamGetNextFrame(m_pDepthStreamHandle, 0, &pImageFrame);
 
     if (FAILED(hr))
     {
@@ -375,14 +428,14 @@ void KinectSensor::GotDepthAlert( )
         OutputDebugString( L"Buffer length of received depth texture is bogus\r\n" );
     }
 
-    hr = m_Sensor->NuiImageStreamReleaseFrame(m_pDepthStreamHandle, &pImageFrame);
+    hr = NuiImageStreamReleaseFrame(m_pDepthStreamHandle, &pImageFrame);
 }
 
 void KinectSensor::GotSkeletonAlert()
 {
     NUI_SKELETON_FRAME SkeletonFrame = {0};
 
-    HRESULT hr = m_Sensor->NuiSkeletonGetNextFrame(0, &SkeletonFrame);
+    HRESULT hr = NuiSkeletonGetNextFrame(0, &SkeletonFrame);
     if(FAILED(hr))
     {
         return;

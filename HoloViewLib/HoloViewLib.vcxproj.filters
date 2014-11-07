@@ -4,12 +4,6 @@
     <ClInclude Include="include\ITracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ITrackerFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\IAvatar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\IView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -22,13 +16,31 @@
     <ClInclude Include="include\IArgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ISynchronizable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\IIPC.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\IPC.h">
+    <ClInclude Include="include\Position.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Attitude.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Template.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ZmqIPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Args.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Callback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AppArgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,5 +49,13 @@
       <UniqueIdentifier>{6e48411f-5980-4956-a2b0-6459aeefc9d2}</UniqueIdentifier>
       <Extensions>h</Extensions>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{d55a95d2-d953-47d5-b82a-4e1f9d9c887e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ZmqIPC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

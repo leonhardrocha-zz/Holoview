@@ -73,7 +73,8 @@
       <AdditionalDependencies>libzmqd.lib;FaceTrackLib.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>libzmqd.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(LibDir);$(FTSDK_DIR)lib\x86;$(KINECTSDK10_DIR)lib\x86;C:\Program Files (x86)\Visual Leak Detector\lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -106,7 +107,8 @@
       <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)Lib;$(FTSDK_DIR)Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalDependencies>libzmq.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(LibDir);$(FTSDK_DIR)lib\x86;$(KINECTSDK10_DIR)lib\x86;C:\Program Files (x86)\Visual Leak Detector\lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -119,19 +121,17 @@
     <ClInclude Include="include\FTImageAdapter.h" />
     <ClInclude Include="include\KinectFaceTracker.h" />
     <ClInclude Include="include\KinectSensor.h" />
-    <ClInclude Include="include\KinectPoseController.h" />
+    <ClInclude Include="include\KinectController.h" />
     <ClInclude Include="include\KinectTracker.h" />
     <ClInclude Include="include\MotionDetector.h" />
     <ClInclude Include="include\Options.h" />
-    <ClInclude Include="include\Attitude.h" />
     <ClInclude Include="include\Position.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\TrackerCallback.h" />
     <ClInclude Include="include\TrackerConfig.h" />
     <ClInclude Include="include\TrackerException.h" />
+    <ClInclude Include="include\TrackerHelper.h" />
     <ClInclude Include="include\TrackerManager.h" />
-    <ClInclude Include="include\TrackerArgs.h" />
     <ClInclude Include="include\TrackerPose.h" />
     <ClInclude Include="include\Visualize.h" />
   </ItemGroup>
@@ -139,7 +139,8 @@
     <ClCompile Include="src\eggavatar.cpp" />
     <ClCompile Include="src\KinectFaceTracker.cpp" />
     <ClCompile Include="src\KinectSensor.cpp" />
-    <ClCompile Include="src\KinectPoseController.cpp" />
+    <ClCompile Include="src\KinectController.cpp" />
+    <ClCompile Include="src\KinectTracker.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\TrackerManager.cpp" />
     <ClCompile Include="src\Visualize.cpp" />

@@ -5,7 +5,8 @@
 #include "DockFrame.h"
 #include "ITracker.h"
 #include "ICallable.h"
-#include "TrackerArgs.h"
+#include "Args.h"
+#include <string>
 
 typedef std::pair<ITracker&,void*> TrackerEvent;
 
@@ -32,23 +33,27 @@ class  TrackerFrame :  public DockFrame
 {
 public:
 
-    TrackerFrame::TrackerFrame(const int trackerId, QWidget *parent, ITracker* tracker) : DockFrame("tracker", parent), m_pTracker(tracker)
+    TrackerFrame::TrackerFrame(QWidget *parent, ITracker* tracker, std::string windowHandlerArg = "WindowHandlerArg", IArgs* args = NULL) : DockFrame("tracker", parent), m_pTracker(tracker), m_args(args), WindowHandlerArg(windowHandlerArg)
     {
         RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
         setAttribute(Qt::WA_NativeWindow);
         setAttribute(Qt::WA_PaintOnScreen);
-        id = trackerId;
-        m_args.Set("trackerId", &id);
     }
+
     virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
-    {    
-        m_pTracker->PaintEvent(message, &m_args);
+    {
+        if (m_args)
+        {
+            m_args->Set(WindowHandlerArg, message);
+            m_pTracker->TrackEvent(m_args);
+        }
         return true;
     }
-    ITracker* m_pTracker;
-    int id;
+    
 protected:
-    TrackerArgs m_args;
+    std::string WindowHandlerArg;
+    ITracker* m_pTracker;
+    IArgs* m_args;
 };
 
 #endif

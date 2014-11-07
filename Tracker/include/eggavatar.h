@@ -7,41 +7,39 @@
 #pragma once
 #endif
 
-
-#include "IAvatar.h"
+#include "ITracker.h"
 #include "IPose.h"
 #include "TrackerPose.h"
 #include "AvatarFace.h"
-
+#include <string>
 
 struct IFTImage;
 
 
-class EggAvatar : public IAvatar
+class EggAvatar : public ITracker
 {
 public:
-    EggAvatar(void);
+    EggAvatar(std::string resultsArg = "results");
+    virtual bool Init(IArgs* args=NULL) { return true; };
+    virtual bool Start(IArgs* args=NULL) { return true; };
+    virtual void TrackEvent(IArgs* args=NULL);
     ~EggAvatar();
-    IPose* GetAttitude() { return static_cast<Attitude*>(&m_trackedPose); };
-    IPose* GetPosition() { return static_cast<Position*>(&m_trackedPose); };
+    //IPose* GetAttitude() { return static_cast<Attitude*>(&m_trackedPose); };
+    //IPose* GetPosition() { return static_cast<Position*>(&m_trackedPose); };
     bool SetCandideAU(const double * AU, const int numberAU);
     bool SetRandomAU();
     bool SetRotations(const double pitchDegrees, const double yawDegrees, const double rollDegrees);
     bool SetRandomRotations();
     bool SetTranslations(const double tX, const double tY, const double tZ);
-
     bool SetScaleAndTranslationToWindow(int height, int width);
     void SetScale(double scale) { m_Scale = scale;}
     void SetTranslationX(double X){ m_TranslationX = X;}
     void SetTranslationY(double Y){ m_TranslationY = Y;}
-
     bool DrawImage(void* pImage);
     bool DrawBgLine(IFTImage* pImage, double x1, double y1, double x2, double y2, UINT32 color);
-
-
     double m_FacePointLatLon[NumberFacePoints][2];
     double m_FacePointXYZ[NumberTotalPoints][3];
-
+    std::string ResultsArg;
     // Weight of the different animated part in the egg avatar model
     double m_JawDrop;
     double m_UpperLipLift;
@@ -68,6 +66,7 @@ public:
     unsigned int m_SamePositionCount;
 protected:
     TrackerPose m_trackedPose;
+
 private:
     void LatLonEye(const bool left);
     void LatLonEyeBrow(const bool left);

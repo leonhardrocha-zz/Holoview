@@ -78,7 +78,7 @@ osg::Camera* ViewerWidget::CreateDefaultCamera(osg::GraphicsContext::Traits* tra
     return camera.release();
 }
 
-osg::GraphicsContext::Traits* ViewerWidget::CreateDefaultTraits(osg::DisplaySettings* ds, const std::string& windowName)
+osg::GraphicsContext::Traits* ViewerWidget::CreateDefaultTraits(osg::DisplaySettings* ds, std::string windowName)
 {
     osg::GraphicsContext::Traits* traits =  new osg::GraphicsContext::Traits(ds);
     

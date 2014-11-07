@@ -21,7 +21,7 @@ public:
 
 protected:
     osg::Camera* CreateDefaultCamera(osg::GraphicsContext::Traits* traits);
-    osg::GraphicsContext::Traits* CreateDefaultTraits(osg::DisplaySettings* ds, const std::string& windowName = "");
+    osg::GraphicsContext::Traits* CreateDefaultTraits(osg::DisplaySettings* ds, std::string windowName = "");
     virtual void paintEvent( QPaintEvent* event );
     bool eventFilter(QObject *o, QEvent *e);
     QTimer _timer;

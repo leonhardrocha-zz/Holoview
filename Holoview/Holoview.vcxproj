@@ -17,6 +17,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -37,9 +38,9 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <CustomBuildAfterTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     </CustomBuildAfterTargets>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)Utility;$(SolutionDir)include\DirectX;$(SolutionDir)HoloviewLib\include\DirectX;$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)include\ZeroMQ;$(SolutionDir)Utility;$(SolutionDir)include\DirectX;$(SolutionDir)HoloviewLib\include\DirectX;$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)lib\ZeroMQ;$(SolutionDir)lib\DirectX;$(SolutionDir)lib\DirectX\x86;$(SolutionDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\Program Files (x86)\Visual Leak Detector\lib\Win32</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)Utility;$(SolutionDir)include\DirectX;$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(OSG_INCLUDE_PATH);$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)include\ZeroMQ;$(SolutionDir)Utility;$(SolutionDir)include\DirectX;$(SolutionDir)include\osg;$(SolutionDir)osgviewerQt;$(OSG_INCLUDE_PATH);$(SolutionDir)include;C:\Program Files (x86)\Visual Leak Detector\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)lib\ZeroMQ;$(SolutionDir)lib\DirectX;$(OSG_LIB_PATH);$(SolutionDir)lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\Program Files (x86)\Visual Leak Detector\lib\Win32</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)</TargetName>
     <ExecutablePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)Dependencies\Runtime\ZeroMQ;$(OutputPath)\osgPlugins-3.2.1;$(ExecutablePath)</ExecutablePath>
@@ -145,7 +146,6 @@
     <ClCompile Include="Toolbar.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppArgs.h" />
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h" />
     <ClInclude Include="OsgFrame.h" />
     <ClInclude Include="OsgViewerGrid.h" />

@@ -2,6 +2,7 @@
 #ifndef _HOLOWINDOW_H
 #define _HOLOWINDOW_H
 
+#include "Callback.h"
 #include "MainWindow.h"
 #include "ViewerWidget.h"
 #include "DualScreenViewer.h"
@@ -17,16 +18,36 @@
 
 #define defaultModelRadius 0.15
 
+class Worker : public QObject
+{
+    Q_OBJECT
+public:
+    Worker(osgViewer::ViewerBase* viewer = NULL) : m_viewer(viewer) {} 
+public slots:
+    void doWork(const QString &parameter) {
+        QString result;
+        /* ... here is the expensive or blocking operation ... */
+        m_viewer->run();
+        emit resultReady(result);
+    }
+protected:
+    osgViewer::ViewerBase* m_viewer;
+signals:
+    void resultReady(const QString &result);
+};
+
 class HoloWindow : public MainWindow
 {
     Q_OBJECT
+
     public:
         HoloWindow(const QMap<QString, QSize> &customSizeHints,
                     QWidget *parent = 0, Qt::WindowFlags flags = 0);
         HoloWindow(const HoloWindow& parent) : MainWindow(parent) {};
         ~HoloWindow();
-        virtual void Init() { m_viewer->Init(); }
-        virtual void Run() { m_viewer->run(); }
+        virtual bool Init(IArgs* args=NULL);
+        virtual bool Start(IArgs* args=NULL);
+        virtual void Run() { }
         static osg::ref_ptr<osg::PositionAttitudeTransform> GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, 
                                                                                     const osg::Vec3 modelPosition = osg::Vec3(0,0,0), 
                                                                                     const osg::Quat modelAttitude = osg::Quat(), 
@@ -34,12 +55,14 @@ class HoloWindow : public MainWindow
         osgViewer::CompositeViewer* GetViewer() {return m_viewer;};
         bool AddOsgDockWidget(QWidget *parent = 0);
     protected:
+
         /*Ui_HoloWindowClass ui;*/
+        QThread workerThread;
         virtual void AddSkyBox(osgViewer::View* view, std::string name);
         virtual void AddGrid(osgViewer::View* view);
         osg::ref_ptr<DualScreenViewer> m_viewer;
         osg::ref_ptr<SelectModelHandler> m_selectModel;
-        virtual bool eventFilter(QObject *o, QEvent *e);
+        //virtual bool eventFilter(QObject *o, QEvent *e);
     enum SKYBOX_ID
     {
         Axis = 0,

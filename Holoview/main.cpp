@@ -50,11 +50,17 @@ QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
 void TrackerViewUpdateStatic(void* lpParam, IArgs* args=NULL)
 {
     KinectTracker* pThis = reinterpret_cast<KinectTracker*>(lpParam);
-    IArgs* results = pThis->GetTrackingResults();
-    DualScreenViewer* dualViewer = reinterpret_cast<DualScreenViewer*>(args->Get("dualViewer"));
-    if(dualViewer)
+    if (!args)
     {
-        dualViewer->Update(results);
+        return;
+    }
+    if (args->Exists("dualViewer"))
+    {
+        DualScreenViewer* dualViewer = reinterpret_cast<DualScreenViewer*>(args->Get("dualViewer"));
+        if(dualViewer)
+        {
+            dualViewer->Update(args);
+        }
     }
 }
 
@@ -62,25 +68,26 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QMap<QString, QSize> customSizeHints = parseCustomSizeHints(argc, argv);
+    Args args;
 
     // tracker
     KinectTracker tracker;
-    tracker.InitDefault();
-
+    tracker.Init(&args);
     // main window
     HoloWindow mainWindow(customSizeHints);
-    mainWindow.Init();
+    mainWindow.Init(&args);
     mainWindow.AddOsgDockWidget(mainWindow.centralWidget());
-    mainWindow.AddTrackerDockWidget(static_cast<ITracker*>(&tracker));
+    mainWindow.AddTrackerDockWidget(static_cast<ITracker*>(&tracker), &args);
 
     //top level tracker update callback
-    AppArgs args;
+    
     DualScreenViewer* dualViewer = static_cast<DualScreenViewer*>(mainWindow.GetViewer());
     args.Set("dualViewer", static_cast<void*>(dualViewer));
     tracker.SetCallback(TrackerViewUpdateStatic, &tracker, &args);
 
     // run all modules
-    tracker.Start();
+    tracker.Start(&args);
+    mainWindow.Start(&args);
     mainWindow.show();
     return app.exec();
 }

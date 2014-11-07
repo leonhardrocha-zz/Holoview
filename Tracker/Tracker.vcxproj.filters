@@ -45,34 +45,28 @@
     <ClInclude Include="include\TrackerException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\TrackerCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TrackerArgs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TrackerConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TrackerPose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Attitude.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\AvatarFace.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\KinectPoseController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\MotionDetector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\FTImageAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TrackerHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KinectController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TrackerConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,7 +89,10 @@
     <ClCompile Include="src\TrackerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KinectPoseController.cpp">
+    <ClCompile Include="src\KinectTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KinectController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

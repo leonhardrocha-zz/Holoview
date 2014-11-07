@@ -1,3 +1,11 @@
+#ifdef _MEMORY_DEBUG
+#include "vld.h"
+#endif
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
 #ifndef OMP_SYNC_H_
 #define OMP_SYNC_H_
 
