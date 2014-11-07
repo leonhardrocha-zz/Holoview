@@ -125,7 +125,6 @@
     <ClInclude Include="include\KinectTracker.h" />
     <ClInclude Include="include\MotionDetector.h" />
     <ClInclude Include="include\Options.h" />
-    <ClInclude Include="include\Position.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\TrackerConfig.h" />
@@ -146,6 +145,7 @@
     <ClCompile Include="src\Visualize.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\SingleFace.ico" />
   </ItemGroup>
   <ItemGroup>

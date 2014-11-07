@@ -45,9 +45,6 @@
     <ClInclude Include="include\TrackerException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Position.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\TrackerPose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,6 +97,7 @@
     <None Include="Resources\SingleFace.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\SingleFace.rc">

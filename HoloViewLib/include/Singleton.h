@@ -22,7 +22,7 @@ public:
  
 private:
     Singleton();	// hide constructor
-    ~Singleton();	// hide destructor
+    ~Singleton()  { delete Instance(); };	// hide destructor
     Singleton(const Singleton &); // hide copy constructor
     Singleton& operator=(const Singleton &); // hide assign op
 };

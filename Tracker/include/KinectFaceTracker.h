@@ -13,7 +13,9 @@
 #include "ITracker.h"
 #include "IArgs.h"
 #include "TrackerConfig.h"
-#include "KinectController.h"
+#include "Callback.h"
+#include "KinectSensor.h"
+#include "Callback.h"
 #include <vector>
 #include <queue>
 #include <map>
@@ -21,7 +23,7 @@
 
 class TrackerManager;
 
-class KinectFaceTracker : public Callback, public KinectController
+class KinectFaceTracker : public KinectSensor
 {
 public:
 
@@ -47,7 +49,6 @@ public:
     virtual void                TrackEvent(IArgs* args=NULL);
 
     //virtual void*               GetCriticalSection() { return static_cast<void*>(m_pCriticalSection); };
-    
     HRESULT                     GetTrackerResult();
     void                        CheckCameraInput();
     int                         GetId()             { return(m_id);};
@@ -90,7 +91,7 @@ public:
     };
 protected:
     
-
+    Callback                    TrackerCallback;
     //CRITICAL_SECTION*           m_pCriticalSection;
     IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;

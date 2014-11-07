@@ -47,7 +47,7 @@ public:
             m_args->Set(WindowHandlerArg, message);
             m_pTracker->TrackEvent(m_args);
         }
-        return true;
+        return DockFrame::nativeEvent(eventType, message, result);
     }
     
 protected:

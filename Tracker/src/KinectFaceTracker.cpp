@@ -9,7 +9,6 @@
 #include "TrackerException.h"
 #include "Visualize.h"
 #include "ICallable.h"
-#include "KinectTracker.h"
 #include "TrackerHelper.h"
 
 using namespace TrackerHelper;
@@ -23,7 +22,7 @@ bool KinectFaceTracker::Init(IArgs* args)
     }
 
     args->Set("trackerId", &m_id);
-    SetCallback(FaceTrackerCallback, this, args);
+    TrackerCallback.SetCallback(FaceTrackerCallback, this, args);
 
     m_pFaceTracker = FTCreateFaceTracker();
     if (!m_pFaceTracker)
@@ -152,7 +151,7 @@ bool KinectFaceTracker::Release()
     //    m_pKinectSensor = NULL;
     //}
 
-    return KinectController::Release();
+    return KinectSensor::Release();
 }
 
  
@@ -162,10 +161,10 @@ BOOL KinectFaceTracker::SubmitFraceTrackingResult(IFTResult* pResult)
     {
         if (SUCCEEDED(m_trackingStatus))
         {
-            ICallback callback = GetCallback();
+            ICallback callback = TrackerCallback.GetCallback();
             if (callback)
             {
-                Call();
+                TrackerCallback.Call();
             }
         }
 
@@ -230,7 +229,7 @@ bool KinectFaceTracker::Stop()
         m_ApplicationIsRunning = false;
     }
     m_hFaceTrackingThread = 0;
-    return KinectController::Stop();
+    return KinectSensor::Stop();
 }
 
 

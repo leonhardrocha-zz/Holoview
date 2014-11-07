@@ -11,7 +11,4 @@
 #include "Args.h"
 #include "Singleton.h"
 
-class AppArgs : public Singleton<Args>
-{
-};
 #endif
