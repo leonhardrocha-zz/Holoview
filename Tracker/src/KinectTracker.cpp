@@ -4,17 +4,29 @@
 
 #include "stdafx.h"
 #include "KinectTracker.h"
+#include "KinectFaceTracker.h"
 #include "TrackerException.h"
 
 void KinectTracker::PaintEvent(IArgs* args)
 {
-    const MSG* msg = reinterpret_cast<const MSG*>(args->Get(WindowHandlerArg));
-    if (msg != NULL)
+    if (args && args->Exists(WindowHandlerArg))
     {
-        PAINTSTRUCT ps;
-        HDC hdc= BeginPaint(msg->hwnd, &ps);
-        // Draw the avatar window and the video window
-        GetBestTracker()->PaintWindow(hdc, msg->hwnd);
-        EndPaint(msg->hwnd, &ps);
+        MSG* msg = reinterpret_cast<MSG*>(args->Get(WindowHandlerArg));
+        if (msg != NULL)
+        {
+            PAINTSTRUCT ps;
+            HDC hdc= BeginPaint(msg->hwnd, &ps);
+            KinectFaceTracker* faceTracker = GetBestTracker(args);
+            faceTracker->SetWindow(msg->hwnd);
+            // Draw the avatar window and the video window
+            faceTracker->PaintWindow(hdc, msg->hwnd);
+            EndPaint(msg->hwnd, &ps);
+        }
     }
+}
+
+void KinectTracker::TrackEvent(IArgs* args)
+{
+    PaintEvent(args);
+    TrackerManager::TrackEvent(args);
 }

@@ -47,7 +47,7 @@
       <FileName>include\KinectController.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="KinectTracker" Collapsed="true">
+  <Class Name="KinectTracker">
     <Position X="3.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAQAAAAAAAABAAAAAA=</HashCode>
@@ -69,14 +69,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TrackerException" Collapsed="true">
-    <Position X="3.5" Y="3.5" Width="1.5" />
+    <Position X="3.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAACAAAAAAAAAAAAAAAAEAAAABAwAAAAAAAA=</HashCode>
       <FileName>include\TrackerException.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TrackerInitializationException" Collapsed="true">
-    <Position X="3.5" Y="5" Width="1.5" />
+    <Position X="3.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>include\TrackerException.h</FileName>

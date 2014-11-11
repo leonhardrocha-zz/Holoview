@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include "KinectFaceTracker.h"
+#include "KinectTracker.h"
 #include "TrackerException.h"
 #include "Visualize.h"
 #include "ICallable.h"
@@ -31,20 +32,21 @@ bool KinectFaceTracker::Init(IArgs* args)
         return false;
     }
 
-    /*m_hint3D[Current][Head] = m_hint3D[Current][Neck] = FT_VECTOR3D(0 , 0, 0);
+    m_hint3D[Current][Head] = m_hint3D[Current][Neck] = FT_VECTOR3D(0 , 0, 0);
     m_hint3D[Previous][Head] = m_hint3D[Previous][Neck] = FT_VECTOR3D(0 , 0, 0);
     m_maskColor = 0xFFFF00;
-    m_LastTrackSucceeded = false;*/
+    m_LastTrackSucceeded = false;
 
     m_pImageBuffer = FTCreateImage();
     m_pVideoBuffer = FTCreateImage();
-    
+
     FT_CAMERA_CONFIG videoConfig;
     FT_CAMERA_CONFIG depthConfig;
     GetVideoConfiguration(&videoConfig);
     GetDepthConfiguration(&depthConfig);
+    FT_CAMERA_CONFIG* pDepthConfig = &depthConfig;
     
-    HRESULT hr = m_pFaceTracker->Initialize(&videoConfig, &depthConfig, NULL, NULL); 
+    HRESULT hr = m_pFaceTracker->Initialize(&videoConfig, pDepthConfig, NULL, NULL); 
     if (FAILED(hr))
     {
         throw new TrackerInitializationException("Could not initilize the face tracker video config");
@@ -71,8 +73,6 @@ bool KinectFaceTracker::Init(IArgs* args)
     m_startRect.right = videoConfig.Width/2 + videoConfig.Height/16;
 
     SetCenterOfImage(NULL);
-
-    FT_CAMERA_CONFIG* pDepthConfig = &depthConfig;
     if (pDepthConfig)
     {
         m_depthImage = FTCreateImage();
@@ -83,11 +83,12 @@ bool KinectFaceTracker::Init(IArgs* args)
         }
     }
 
-    //KinectTracker* pTracker = static_cast<KinectTracker*>(m_parent);
-    //if (pTracker)
-    //{
-    //    m_pCriticalSection = static_cast<CRITICAL_SECTION*>(pTracker->GetCriticalSection());
-    //}
+    KinectTracker* pTracker = static_cast<KinectTracker*>(m_parent);
+    if (pTracker)
+    {
+        m_pCriticalSection = static_cast<CRITICAL_SECTION*>(pTracker->GetCriticalSection());
+    }
+
     m_messageQueue.Init(args);
     return true;
 }
@@ -235,10 +236,15 @@ bool KinectFaceTracker::Stop()
 
 bool KinectFaceTracker::Start(IArgs* args)
 {
-    m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
-    SetThreadPriority(m_hFaceTrackingThread, THREAD_PRIORITY_HIGHEST);
-    m_messageQueue.Start();
-    return true;
+    if (KinectSensor::Start(args))
+    {
+        m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
+        SetThreadPriority(m_hFaceTrackingThread, THREAD_PRIORITY_HIGHEST);
+        m_ApplicationIsRunning = m_bNuiInitialized && m_bSensorRunning;
+        m_messageQueue.Start();
+        return true;
+    }
+    return false;
 }
 
 
@@ -260,11 +266,39 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
         HRESULT hrFT = GetTrackerResult();
         m_trackingStatus = m_pFTResult->GetStatus();
         m_LastTrackSucceeded = SUCCEEDED(hrFT) && SUCCEEDED(m_trackingStatus);
+        CheckCameraInput();
+#ifdef TRACKER_DEBUG
+        if (!m_LastTrackSucceeded)
+        {
+            std::string msg = "Tracker Error: ";
+            if (FAILED(hrFT))
+            {
+                msg += TrackerHelper::GetFTErrorMessage(hrFT);
+                if (FAILED(m_trackingStatus))
+                {
+                    msg += " and ";
+                }
+            }
+            if (FAILED(m_trackingStatus))
+            {
+                msg += TrackerHelper::GetFTErrorMessage(m_trackingStatus);;
+            }
+            std::wstring stemp = std::wstring(msg.begin(), msg.end());
+            int msgboxID = MessageBox(
+                NULL,
+                stemp.c_str(),
+                L"Tracker Error",
+                MB_ICONEXCLAMATION);
+        }
+#endif
         if (m_hWnd)
         {
             InvalidateRect(m_hWnd, NULL, FALSE);
             UpdateWindow(m_hWnd);
         }
+        
+            // TODO: add code
+
         Sleep(16);
     }
     return 0;
@@ -281,7 +315,7 @@ HRESULT KinectFaceTracker::GetTrackerResult()
             hrCopy = GetDepthBuffer()->CopyTo(m_depthImage, NULL, 0, 0);
         }
         // Do face tracking
-            if (SUCCEEDED(hrCopy))
+        if (SUCCEEDED(hrCopy))
         {
             FT_SENSOR_DATA sensorData(m_colorImage, m_depthImage, GetZoomFactor(), GetViewOffSet());
 
@@ -296,18 +330,12 @@ HRESULT KinectFaceTracker::GetTrackerResult()
             if (m_LastTrackSucceeded)
             {
                 hrFT = m_pFaceTracker->ContinueTracking(&sensorData, hint, m_pFTResult);
-                //if (FAILED(hrFT))
-                //{
-                //    hint[Neck] = AddFtVector3d(hint[Neck], SubFtVector3d(m_hint3D[Current][Neck],m_hint3D[Previous][Neck]));
-                //    hint[Head] = AddFtVector3d(hint[Head], SubFtVector3d(m_hint3D[Current][Head],m_hint3D[Previous][Head]));
-                //    hrFT = m_pFaceTracker->ContinueTracking(&sensorData, hint, m_pFTResult);
-                //}
             }
             else
             {
                 hrFT = m_pFaceTracker->StartTracking(&sensorData, NULL, hint, m_pFTResult);
             }
-
+            
             HRESULT hr = m_pFTResult->GetFaceRect(&m_Roi);
             bool  hasFoundFace = SUCCEEDED(hr) && SUCCEEDED(m_pFTResult->GetStatus());
             if(hasFoundFace)
@@ -370,6 +398,12 @@ BOOL KinectFaceTracker::PaintWindow(HDC hdc, HWND hWnd)
 
 void KinectFaceTracker::TrackEvent(IArgs* args)
 { 
+    if (!m_pCriticalSection)
+    {
+        return;
+    }
+
+    EnterCriticalSection(m_pCriticalSection);
     IFTResult* pResult = GetResult();
     if (args)
     {
@@ -378,14 +412,13 @@ void KinectFaceTracker::TrackEvent(IArgs* args)
 
     if (pResult && SUCCEEDED(pResult->GetStatus()))
     {
-        
-        if (m_parent)
+        KinectSensor::TrackEvent(args);
+        if(m_parent)
         {
             m_parent->TrackEvent(args);
         }
     }
-    
-    KinectSensor::TrackEvent(args);
+    LeaveCriticalSection(&m_CriticalSection);
 }
 
 void KinectFaceTracker::FaceTrackerCallback(void* instance, IArgs* args)

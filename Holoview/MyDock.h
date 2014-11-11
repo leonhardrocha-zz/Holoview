@@ -48,7 +48,7 @@ public:
 protected:
     virtual void contextMenuEvent(QContextMenuEvent *event);
     virtual void resizeEvent(QResizeEvent *e);    
-    virtual void paintEvent(QPaintEvent *e);
+    //virtual void paintEvent(QPaintEvent *e);
 
 private:
     void allow(Qt::DockWidgetArea area, bool allow);

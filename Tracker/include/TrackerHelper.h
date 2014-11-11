@@ -10,6 +10,8 @@
 #pragma warning(disable:4786)
 #include <FaceTrackLib.h>
 
+
+
 namespace std
 {
     int lround(float d)
@@ -19,7 +21,24 @@ namespace std
 }
 namespace TrackerHelper
 {
-
+    static std::string ErrorMessageMap[15] =
+    {
+        "Success",
+        "The face tracking models loaded by the tracking engine have incorrect format",
+        "Passed input image is invalid",
+        "Face tracking fails due to face detection errors",
+        "Face tracking fails due to errors in tracking individual face parts",
+        "Face tracking fails due to inability of the Neural Network to find nose, mouth corners and eyes",
+        "Uninitialized face tracker is used",
+        "A file path to the face model files is invalid or when the model files could not be located",
+        "Face tracking worked but later evaluation found that the quality of the results was poor",
+        "The passed camera configuration is invalid",
+        "The passed 3D hint vectors contain invalid values (for example out of range)",
+        "The system cannot find the head area in the passed data based on passed 3D hint vectors or region of interest rectangle",
+        "The user ID of the subject being tracked is switched or lost so we should call StartTracking on next call for tracking face",
+        "Kinect DLL failed to load",
+        "Kinect sensor was not detected in the system "
+    };
     FT_VECTOR3D AddFtVector3d(const FT_VECTOR3D& a, const FT_VECTOR3D& b)
     {
         FT_VECTOR3D c;
@@ -78,6 +97,20 @@ namespace TrackerHelper
             return true;
     }
     return true;
+    }
+
+    std::string GetFTErrorMessage(HRESULT trackingStatus)
+    {
+        for (int i = 0; i < 15; i++)
+        {
+            HRESULT error = MAKE_HRESULT(SEVERITY_ERROR, FT_FACILITY, i+1);
+            if (trackingStatus == error)
+            {
+                return ErrorMessageMap[i];
+            }
+        }
+
+        return ErrorMessageMap[0];
     }
 
 #if 0
@@ -194,7 +227,6 @@ namespace TrackerHelper
 }
 #endif
 }
-
 
 
 // Face Tracking Error Codes

@@ -6,6 +6,8 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
     : MainWindow(customSizeHints, parent, flags)
 {
     m_viewer = new DualScreenViewer(true);
+    m_viewer->setRunFrameScheme( osgViewer::ViewerBase::ON_DEMAND );
+    m_viewer->setThreadingModel( osgViewer::ViewerBase::CullDrawThreadPerContext );
 }
 
 HoloWindow::~HoloWindow()

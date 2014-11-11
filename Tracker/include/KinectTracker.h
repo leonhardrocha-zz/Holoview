@@ -9,10 +9,11 @@ class KinectTracker :  public TrackerManager
 {    
 
 public:
-    KinectTracker::KinectTracker(ITracker* parent=NULL, std::string windowHangerArg = "TrackerWindow") : TrackerManager(parent), WindowHandlerArg(windowHangerArg) {};
+    KinectTracker::KinectTracker(ITracker* parent=NULL, std::string windowHanglerArg = "WindowHanglerArg") : TrackerManager(parent), WindowHandlerArg(windowHanglerArg) {};
     std::string                 WindowHandlerArg;
-protected:
     virtual void                PaintEvent(IArgs* args=NULL);
+    virtual void                TrackEvent(IArgs* args=NULL);
+protected:
 private:
 
 };

@@ -35,6 +35,12 @@ KinectSensor::KinectSensor()
 KinectSensor::~KinectSensor()
 {
     Release();
+
+    if(m_pSensor)
+    {
+        delete m_pSensor;
+        m_pSensor = NULL;
+    }
 }
 
 bool KinectSensor::Init(IArgs* args)
@@ -238,14 +244,17 @@ HRESULT KinectSensor::InitializeSensor(TrackerConfig& config)
             return hr;
         }
     }
+
     return hr;
 }
 bool KinectSensor::Start(IArgs* args)
 {
     // Start the Nui processing thread
+    m_bSensorRunning = m_bNuiInitialized;
     m_hEvNuiProcessStop=CreateEvent(NULL,TRUE,FALSE,NULL);
     m_hThNuiProcess=CreateThread(NULL,0,ProcessThread,this,0,NULL);
-    m_bSensorRunning = m_bNuiInitialized  && (m_hEvNuiProcessStop !=NULL) && (m_hThNuiProcess !=NULL);
+    m_bSensorRunning |=  (m_hThNuiProcess !=NULL);
+    m_bSensorRunning |=  (m_hEvNuiProcessStop !=NULL);
     return m_bSensorRunning;
 }
 
@@ -279,7 +288,7 @@ bool KinectSensor::Stop()
 
     if (m_bNuiInitialized)
     {
-        /**/NuiShutdown();
+        m_pSensor->NuiShutdown();
     }
     m_bNuiInitialized = false;
 
@@ -328,6 +337,7 @@ bool KinectSensor::Release()
 DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
 {
     KinectSensor*  pthis=(KinectSensor *) pParam;
+
     HANDLE          hEvents[4];
 
     // Configure events to be listened on
@@ -337,7 +347,6 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
     hEvents[3]=pthis->m_hNextSkeletonEvent;
 
     // Main thread loop
-    pthis->m_bSensorRunning = true;
     while (pthis->m_bSensorRunning)
     {
         // Wait for an event to be signaled
@@ -371,7 +380,7 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
 
 void KinectSensor::GotVideoAlert( )
 {
-    if (!m_pSensor)
+    if (!m_pSensor || !m_bSensorRunning)
     {
         return;
     }
@@ -396,7 +405,7 @@ void KinectSensor::GotVideoAlert( )
         OutputDebugString(L"Buffer length of received texture is bogus\r\n");
     }
 
-    hr = NuiImageStreamReleaseFrame(m_pVideoStreamHandle, &pImageFrame);
+    hr = m_pSensor->NuiImageStreamReleaseFrame(m_pVideoStreamHandle, &pImageFrame);
 }
 
 
@@ -428,14 +437,14 @@ void KinectSensor::GotDepthAlert( )
         OutputDebugString( L"Buffer length of received depth texture is bogus\r\n" );
     }
 
-    hr = NuiImageStreamReleaseFrame(m_pDepthStreamHandle, &pImageFrame);
+    hr = m_pSensor->NuiImageStreamReleaseFrame(m_pDepthStreamHandle, &pImageFrame);
 }
 
 void KinectSensor::GotSkeletonAlert()
 {
     NUI_SKELETON_FRAME SkeletonFrame = {0};
 
-    HRESULT hr = NuiSkeletonGetNextFrame(0, &SkeletonFrame);
+    HRESULT hr = m_pSensor->NuiSkeletonGetNextFrame(0, &SkeletonFrame);
     if(FAILED(hr))
     {
         return;

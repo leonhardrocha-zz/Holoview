@@ -44,7 +44,6 @@ DockFrame::DockFrame(const QString &c, QWidget *parent)
     setFont(font);
     szHint = QSize(-1, -1);
     minSzHint = QSize(125, 75);
-    installEventFilter(this);
 }
 
 QSize DockFrame::sizeHint() const

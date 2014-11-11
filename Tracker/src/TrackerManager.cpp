@@ -70,15 +70,6 @@ void TrackerManager::UninitInstance()
 
 void TrackerManager::TrackEvent(IArgs* args)
 {
-    EnterCriticalSection(&m_CriticalSection);
-
-    KinectFaceTracker* currentTracker = GetBestTracker();
-
-    if (currentTracker)
-    {
-        currentTracker->TrackEvent(args);
-
-    }
     if (m_parent)
     {
         m_parent->TrackEvent(args);
@@ -92,7 +83,6 @@ void TrackerManager::TrackEvent(IArgs* args)
             Call();
         }
     }
-    LeaveCriticalSection(&m_CriticalSection);
 };
 
 

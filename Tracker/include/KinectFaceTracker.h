@@ -39,7 +39,7 @@ public:
           m_depthImage(NULL),
           m_pImageBuffer(NULL),
           m_pVideoBuffer(NULL),
-          //m_pCriticalSection(NULL),
+          m_pCriticalSection(NULL),
           m_id(id) {};
     ~KinectFaceTracker();
     virtual bool                Init(IArgs* args=NULL);
@@ -48,7 +48,7 @@ public:
     virtual bool                Stop();
     virtual void                TrackEvent(IArgs* args=NULL);
 
-    //virtual void*               GetCriticalSection() { return static_cast<void*>(m_pCriticalSection); };
+    virtual void*               GetCriticalSection() { return static_cast<void*>(m_pCriticalSection); };
     HRESULT                     GetTrackerResult();
     void                        CheckCameraInput();
     int                         GetId()             { return(m_id);};
@@ -90,9 +90,9 @@ public:
         Head=1,
     };
 protected:
-    
+    CRITICAL_SECTION            m_CriticalSection;
     Callback                    TrackerCallback;
-    //CRITICAL_SECTION*           m_pCriticalSection;
+    CRITICAL_SECTION*           m_pCriticalSection;
     IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;
     ITracker*                   m_parent;
