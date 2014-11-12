@@ -35,7 +35,7 @@ bool KinectFaceTracker::Init(IArgs* args)
     m_hint3D[Current][Head] = m_hint3D[Current][Neck] = FT_VECTOR3D(0 , 0, 0);
     m_hint3D[Previous][Head] = m_hint3D[Previous][Neck] = FT_VECTOR3D(0 , 0, 0);
     m_maskColor = 0xFFFF00;
-    m_LastTrackSucceeded = false;
+    LastTrackSucceeded = false;
 
     m_pImageBuffer = FTCreateImage();
     m_pVideoBuffer = FTCreateImage();
@@ -186,6 +186,7 @@ BOOL KinectFaceTracker::SubmitFraceTrackingResult(IFTResult* pResult)
             HRESULT hr = m_pFaceTracker->GetFaceModel(&ftModel);
             if (SUCCEEDED(hr))
             {
+                m_maskColor = GetErrorColor(m_trackingStatus);
                 hr = VisualizeFaceModel(m_colorImage, ftModel, &cameraConfig, pSU, 1.0, m_viewOffset, pResult, m_maskColor);
                 ftModel->Release();
             }
@@ -201,7 +202,7 @@ void KinectFaceTracker::SetCenterOfImage(IFTResult* pResult)
     double centerY = m_colorImage->GetHeight()/2.0;
     if (pResult)
     {
-        if (SUCCEEDED(pResult->GetStatus()))
+        if (LastTrackSucceeded)
         {
             RECT faceRect;
             pResult->GetFaceRect(&faceRect);
@@ -227,7 +228,7 @@ bool KinectFaceTracker::Stop()
     if (m_hFaceTrackingThread)
     {
         WaitForSingleObject(m_hFaceTrackingThread, 5000/*INFINITE*/);
-        m_ApplicationIsRunning = false;
+        ApplicationIsRunning = false;
     }
     m_hFaceTrackingThread = 0;
     return KinectSensor::Stop();
@@ -240,7 +241,7 @@ bool KinectFaceTracker::Start(IArgs* args)
     {
         m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
         SetThreadPriority(m_hFaceTrackingThread, THREAD_PRIORITY_HIGHEST);
-        m_ApplicationIsRunning = m_bNuiInitialized && m_bSensorRunning;
+        ApplicationIsRunning = m_bNuiInitialized && m_bSensorRunning;
         m_messageQueue.Start();
         return true;
     }
@@ -261,15 +262,30 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingStaticThread(PVOID lpParam)
 
 DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
 {     
-    while (m_ApplicationIsRunning)
+    while (ApplicationIsRunning)
     {    
         HRESULT hrFT = GetTrackerResult();
         m_trackingStatus = m_pFTResult->GetStatus();
-        m_LastTrackSucceeded = SUCCEEDED(hrFT) && SUCCEEDED(m_trackingStatus);
-        CheckCameraInput();
-#ifdef TRACKER_DEBUG
-        if (!m_LastTrackSucceeded)
+        LastTrackSucceeded = SUCCEEDED(hrFT) && SUCCEEDED(m_trackingStatus);
+        // Get a video image and process it.
+        if (LastTrackSucceeded)
         {
+            SubmitFraceTrackingResult(m_pFTResult);
+        } 
+        else
+        {
+            if (!IsFTErrorSevere(m_trackingStatus))
+            {
+                m_viewOffset.x = std::lround(m_hint3D[Current][Head].x); // lround defined at the top
+                m_viewOffset.y = std::lround(m_hint3D[Current][Head].y);
+            }
+        }
+
+#ifdef TRACKER_DEBUG
+        if (!LastTrackSucceeded)
+        {
+                
+
             std::string msg = "Tracker Error: ";
             if (FAILED(hrFT))
             {
@@ -327,12 +343,13 @@ HRESULT KinectFaceTracker::GetTrackerResult()
                 m_hint3D[Current][Neck] = hint[Neck];
                 m_hint3D[Current][Head] = hint[Head];
             }
-            if (m_LastTrackSucceeded)
+            if (LastTrackSucceeded)
             {
                 hrFT = m_pFaceTracker->ContinueTracking(&sensorData, hint, m_pFTResult);
             }
             else
             {
+                m_pFTResult->Reset();
                 hrFT = m_pFaceTracker->StartTracking(&sensorData, NULL, hint, m_pFTResult);
             }
             
@@ -356,24 +373,24 @@ HRESULT KinectFaceTracker::GetTrackerResult()
 }
 
 
-// Get a video image and process it.
-void KinectFaceTracker::CheckCameraInput()
-{
-    m_maskColor = GetErrorColor(m_trackingStatus);
-    if (m_LastTrackSucceeded)
-    {
-        SubmitFraceTrackingResult(m_pFTResult);
-    } 
-    else
-    {
-        if (!IsFTErrorSevere(m_trackingStatus))
-        {
-            m_viewOffset.x = std::lround(m_hint3D[Current][Head].x); // lround defined at the top
-            m_viewOffset.y = std::lround(m_hint3D[Current][Head].y);
-        }
-        m_pFTResult->Reset();
-    }
-}
+//// Get a video image and process it.
+//void KinectFaceTracker::CheckCameraInput()
+//{
+//    m_maskColor = GetErrorColor(m_trackingStatus);
+//    if (LastTrackSucceeded)
+//    {
+//        SubmitFraceTrackingResult(m_pFTResult);
+//    } 
+//    else
+//    {
+//        if (!IsFTErrorSevere(m_trackingStatus))
+//        {
+//            m_viewOffset.x = std::lround(m_hint3D[Current][Head].x); // lround defined at the top
+//            m_viewOffset.y = std::lround(m_hint3D[Current][Head].y);
+//        }
+//        m_pFTResult->Reset();
+//    }
+//}
 
 // Draw the egg head and the camera video with the mask superimposed.
 BOOL KinectFaceTracker::PaintWindow(HDC hdc, HWND hWnd)
@@ -386,7 +403,7 @@ BOOL KinectFaceTracker::PaintWindow(HDC hdc, HWND hWnd)
     int height = rect.bottom - rect.top;
     int halfWidth = width/2;
     // Show the video on the right of the window
-    if (m_bSensorRunning && m_ApplicationIsRunning)
+    if (m_bSensorRunning && ApplicationIsRunning)
     {
         errCount += !ShowVideo(hdc, width - halfWidth, height, halfWidth, 0);
         // Draw the egg avatar on the left of the window
@@ -410,14 +427,12 @@ void KinectFaceTracker::TrackEvent(IArgs* args)
         args->Set(GetEggAvatar()->ResultsArg, pResult);
     }
 
-    if (pResult && SUCCEEDED(pResult->GetStatus()))
+    KinectSensor::TrackEvent(args);
+    if(m_parent)
     {
-        KinectSensor::TrackEvent(args);
-        if(m_parent)
-        {
-            m_parent->TrackEvent(args);
-        }
+        m_parent->TrackEvent(args);
     }
+    
     LeaveCriticalSection(&m_CriticalSection);
 }
 

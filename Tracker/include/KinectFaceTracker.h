@@ -70,13 +70,9 @@ public:
     BOOL                        ShowVideo(HDC hdc, int width, int height, int originX, int originY);
     BOOL                        ShowEggAvatar(HDC hdc, int width, int height, int originX, int originY);
     BOOL                        PaintWindow(HDC hdc, HWND hWnd);
-    
-    bool                        m_LastTrackSucceeded;
-    HRESULT                     m_trackingStatus;
-    bool                        m_ApplicationIsRunning;
-    RECT                        m_startRect;
-    RECT                        m_Roi;
-
+    bool                        LastTrackSucceeded;
+    bool                        ApplicationIsRunning;
+    Callback                    TrackerCallback;
     static void FaceTrackerCallback(void* instance=NULL, IArgs* args=NULL);
 
     enum HintStep
@@ -90,8 +86,11 @@ public:
         Head=1,
     };
 protected:
+    HRESULT                     m_trackingStatus;
+    RECT                        m_startRect;
+    RECT                        m_Roi;
     CRITICAL_SECTION            m_CriticalSection;
-    Callback                    TrackerCallback;
+
     CRITICAL_SECTION*           m_pCriticalSection;
     IFTImage*                   m_pImageBuffer;
     IFTImage*                   m_pVideoBuffer;

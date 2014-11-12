@@ -62,6 +62,7 @@ class HoloWindow : public MainWindow
         virtual void AddGrid(osgViewer::View* view);
         osg::ref_ptr<DualScreenViewer> m_viewer;
         osg::ref_ptr<SelectModelHandler> m_selectModel;
+        virtual void handleResults();
         //virtual bool eventFilter(QObject *o, QEvent *e);
     enum SKYBOX_ID
     {

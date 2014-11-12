@@ -64,7 +64,7 @@ void EggAvatar::TrackEvent(IArgs* args)
         }
 
         IFTResult* pResult = static_cast<IFTResult*>(args->Get(ResultsArg));
-        if (pResult)
+        if (pResult && SUCCEEDED(pResult->GetStatus()))
         {
             FLOAT* pAU = NULL;
             UINT numAU;

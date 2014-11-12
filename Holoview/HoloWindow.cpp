@@ -66,12 +66,17 @@ bool HoloWindow::Init(IArgs* args)
 
     return true;
 }
+
 bool HoloWindow::Start(IArgs* args)
 {
+    if (center) 
+    {
+        center->setMinimumSize(800, 600);
+        setCentralWidget(center);
+    }
+
     return true;
 }
-
-
 
 osg::ref_ptr<osg::PositionAttitudeTransform> HoloWindow::GetModelTransformHelper(const osg::ref_ptr<osg::Node> model, const osg::Vec3 modelPosition, const osg::Quat modelAttitude, const double modelRadius)
 {
@@ -144,6 +149,10 @@ bool HoloWindow::AddOsgDockWidget(QWidget* parent)
     osgGrid->show();
 
     return true;
+}
+
+void HoloWindow::handleResults()
+{
 }
 //
 //bool HoloWindow::eventFilter(QObject *o, QEvent *e)

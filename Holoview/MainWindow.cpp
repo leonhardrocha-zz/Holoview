@@ -28,27 +28,25 @@ MainWindow::MainWindow(const QMap<QString, QSize> &customSizeHints,
     setObjectName("MainWindow");
     setWindowTitle("Qt Main Window Example");
 
-    center = new QTextEdit(this);
+    /*center = new QTextEdit(this);
     center->setReadOnly(true);
     center->setMinimumSize(800, 600);
-    setCentralWidget(center);
+    setCentralWidget(center);*/
 
     setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
-    setWindowState(windowState() | Qt::WindowFullScreen);
-
+//    setWindowState(windowState() | Qt::WindowFullScreen);
+    readSettings();
     statusBar()->showMessage(tr("Status Bar"));
     statusBarRect = statusBar()->geometry();
 
     setupMenuBar();
     setupToolBar();
-
     setupDockWidgets(customSizeHints);
-
-
+    
     setMouseTracking(true);
 }
 
-void MainWindow::ExtendToFullScreen(QWidget* widget)
+void MainWindow::ExtendToAllScreens(QWidget* widget)
 {
     if (!widget)
     {
@@ -66,22 +64,64 @@ void MainWindow::ExtendToFullScreen(QWidget* widget)
         desk_x += desk_rect.width();
         desk_y = desk_y > desk_rect.height() ? desk_y : desk_rect.height();
     }
+    widget->saveGeometry();
     widget->setFixedWidth(desk_x);
     widget->setFixedHeight(desk_y);
 }
 
-void MainWindow::mouseMoveEvent ( QMouseEvent * event )
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    QPoint mousePos = event->pos();
+    QSettings settings("UDESC", "Holoview");
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+    QMainWindow::closeEvent(event);
+}
 
-    if (menuBarRect.isNull()) 
+void MainWindow::readSettings()
+{
+    QSettings settings("UDESC", "Holoview");
+    restoreGeometry(settings.value("myWidget/geometry").toByteArray());
+    restoreState(settings.value("myWidget/windowState").toByteArray());
+}
+
+void MainWindow::ReduceToScreen(QWidget* widget, int id)
+{
+    if (!widget)
     {
-        QPoint firstToolbarPoint = toolBars.first()->geometry().topLeft();
-        QPoint lastToolbarPoint = toolBars.last()->geometry().bottomRight();
-        menuBarRect = QRect(firstToolbarPoint, lastToolbarPoint);
+        return;
     }
 
-    if( menuBarRect.contains(mousePos) )
+    QDesktopWidget* desktop = QApplication::desktop();
+  
+    int numOfScreens = desktop->numScreens();
+    
+    if (0 <= id && id < numOfScreens)
+    {
+        QRect desk_rect = desktop->screenGeometry(id);
+        widget->setGeometry(desk_rect);
+    }
+}
+
+void MainWindow::mouseMoveEvent ( QMouseEvent * event )
+{
+    //QPoint mousePos = event->pos();
+    QMainWindow::mouseMoveEvent(event);
+}
+
+void MainWindow::mouseDoubleClickEvent(QMouseEvent *e) 
+{
+    QMainWindow::mouseDoubleClickEvent(e);
+    ToogleScreen();
+}
+
+void MainWindow::toogleMenuBar()
+{
+    if (menuBarRect.isNull())
+    {
+        return;
+    }
+
+    if(!isMenuBarOn)
     {
         menuBar()->show();
         isMenuBarOn = true;
@@ -91,8 +131,41 @@ void MainWindow::mouseMoveEvent ( QMouseEvent * event )
         menuBar()->hide();
         isMenuBarOn = false;
     }
+}
 
-    if( statusBarRect.contains(mousePos) )
+void MainWindow::toogleToolBar()
+{
+    if (toolBars.empty())
+    {
+        return;
+    }
+
+    if( !isToolBarOn )
+    {
+        for (auto itoolbar = toolBars.begin(); itoolbar != toolBars.end(); itoolbar++)
+        {
+            (*itoolbar)->show();
+        }
+        isToolBarOn = true;
+    }
+    else
+    {
+        for (auto itoolbar = toolBars.begin(); itoolbar != toolBars.end(); itoolbar++)
+        {
+            (*itoolbar)->hide();
+        }
+        isToolBarOn = false;
+    }
+}
+
+void MainWindow::toogleStatusBar()
+{
+    if (statusBarRect.isNull())
+    {
+        return;
+    }
+
+    if(!isStatusBarOn)
     {
         statusBar()->show();
         isStatusBarOn = true;
@@ -102,7 +175,6 @@ void MainWindow::mouseMoveEvent ( QMouseEvent * event )
         statusBar()->hide();
         isStatusBarOn = false;
     }
-    QMainWindow::mouseMoveEvent(event);
 }
 
 void MainWindow::actionTriggered(QAction *action)
@@ -494,18 +566,53 @@ void MainWindow::destroyDockWidget(QAction *action)
         destroyDockWidgetMenu->setEnabled(false);
 }
 
-void MainWindow::mouseDoubleClickEvent(QMouseEvent *e) 
+void MainWindow::ToogleScreen()
 {
-  QMainWindow::mouseDoubleClickEvent(e);
-  if(isFullScreen()) {
-     this->setWindowState(Qt::WindowMaximized);
-  } else {
-     this->setWindowState(Qt::WindowFullScreen);
-     ExtendToFullScreen(this);
-  }
+    if(isFullScreen()) 
+    {
+        this->setWindowState(Qt::WindowMaximized);
+    } else {
+        this->setWindowState(Qt::WindowFullScreen);
+    }
+    UpdateScreen();
 }
 
-
-void MainWindow::handleResults(const QString& str)
+void MainWindow::UpdateScreen()
 {
+    if (isExtendedToAllDisplays)
+    {
+        ExtendToAllScreens(this);
+    }
+    else
+    {
+        ReduceToScreen(this, mainScreenId);
+    }
+
+    if (menuBar())
+    {
+        menuBarRect = menuBar()->geometry();
+    }
+
+    if (toolBars.size() > 0)
+    {
+        toolBarRect.setBottomLeft(toolBars.first()->geometry().bottomLeft());
+        toolBarRect.setTopRight(toolBars.last()->geometry().topRight());
+    }
+
+    if (statusBar())
+    {
+        statusBarRect = statusBar()->geometry();
+    }
+
+}
+
+int MainWindow::GetMainScreen()
+{
+    return mainScreenId;
+}
+
+void MainWindow::SetMainScreen(int id)
+{
+    mainScreenId = id;
+    UpdateScreen();
 }

@@ -37,11 +37,21 @@ protected:
     void showEvent(QShowEvent *event);
     void mouseMoveEvent ( QMouseEvent * event );
     void mouseDoubleClickEvent(QMouseEvent *e);
+    void closeEvent(QCloseEvent *event);
+    void readSettings();
     QMap<QString, QSize> m_customSizeHints;
     QRect menuBarRect;
     QRect statusBarRect;
+    QRect toolBarRect;
+    virtual void ExtendToAllScreens(QWidget* widget);
+    virtual void ReduceToScreen(QWidget* widget, int screenId);
+    virtual void ToogleScreen();
+    virtual void UpdateScreen();
+    virtual void toogleMenuBar();
+    virtual void toogleStatusBar();
+    virtual void toogleToolBar();
+    
 public slots:
-    void handleResults(const QString &);
     void actionTriggered(QAction *action);
     void saveLayout();
     void loadLayout();
@@ -50,7 +60,8 @@ public slots:
     void setDockOptions();
     void createDockWidget();
     void destroyDockWidget(QAction *action);
-    void ExtendToFullScreen(QWidget* widget);
+    int GetMainScreen();
+    void SetMainScreen(int id);
 signals:
     void operate(const QString &);
 private:
@@ -58,7 +69,10 @@ private:
     void setupMenuBar();
     void setupDockWidgets(const QMap<QString, QSize> &customSizeHints);
     bool isMenuBarOn;
+    bool isToolBarOn;
     bool isStatusBarOn;
+    bool isExtendedToAllDisplays;
+    int mainScreenId;
 };
 
 

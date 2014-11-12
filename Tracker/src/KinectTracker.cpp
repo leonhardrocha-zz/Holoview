@@ -12,7 +12,7 @@ void KinectTracker::PaintEvent(IArgs* args)
     if (args && args->Exists(WindowHandlerArg))
     {
         MSG* msg = reinterpret_cast<MSG*>(args->Get(WindowHandlerArg));
-        if (msg != NULL)
+        if (msg != NULL && msg->hwnd !=NULL)
         {
             PAINTSTRUCT ps;
             HDC hdc= BeginPaint(msg->hwnd, &ps);
@@ -23,10 +23,4 @@ void KinectTracker::PaintEvent(IArgs* args)
             EndPaint(msg->hwnd, &ps);
         }
     }
-}
-
-void KinectTracker::TrackEvent(IArgs* args)
-{
-    PaintEvent(args);
-    TrackerManager::TrackEvent(args);
 }

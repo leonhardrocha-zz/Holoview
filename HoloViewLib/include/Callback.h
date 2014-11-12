@@ -30,7 +30,7 @@ public:
     virtual inline void Call() { if (m_callback) { (*m_callback)(m_instance, m_pArgs); } else throw new std::exception("Callback is not set or NULL");};
 
 protected:
-
+   
     ICallback               m_callback;
     void*             m_instance;
     IArgs*            m_pArgs;
