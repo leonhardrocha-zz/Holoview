@@ -19,9 +19,9 @@ class KinectController : public KinectSensor
 public:
     KinectController() : KinectSensor() { };
     ~KinectController() {  Stop(); Release(); };
-    virtual bool    Init(IArgs* args=NULL) { return KinectSensor::Init(args); };
-    virtual bool    Start(IArgs* args=NULL);
-    virtual void    TrackEvent(IArgs* args=NULL);
+    virtual bool    Init() { return KinectSensor::Init(); };
+    virtual bool    Start();
+    virtual void    TrackEvent(void* message);
     bool Release();
     bool Stop();
 protected:

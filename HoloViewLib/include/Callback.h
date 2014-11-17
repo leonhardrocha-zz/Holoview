@@ -11,29 +11,31 @@
 
 #include "ICallable.h"
 #include "IArgs.h"
+#include "Synchronizable.h"
 #include <exception>
 
 
-class Callback : ICallable
+class Callback : public ICallable, Synchronizable
 {
 public:
-    virtual void SetCallback(ICallback callback, void* instance, IArgs* args=NULL)
+    Callback() :m_callback(NULL), m_instance(NULL) { }
+    Callback(ICallback callback, void* instance) :m_callback(callback), m_instance(instance) {}
+
+    virtual void Set(ICallback callback, void* instance)
     {
         m_callback = callback;
         m_instance = (void*)instance;
-        m_pArgs = (IArgs*)args;
     };
 
     virtual inline ICallback GetCallback() { return m_callback;};
-    virtual inline IArgs* GetArgs() { return m_pArgs;};
     virtual inline void* GetInstance() { return m_instance;};
-    virtual inline void Call() { if (m_callback) { (*m_callback)(m_instance, m_pArgs); } else throw new std::exception("Callback is not set or NULL");};
-
+    virtual inline void Call() { if (m_callback) { (*m_callback)(m_instance); } else throw new std::exception("Callback is not set or NULL");};
+    virtual inline void SyncCall() { synchronized(Callback) { Call(); }};
+    
 protected:
    
-    ICallback               m_callback;
+    ICallback         m_callback;
     void*             m_instance;
-    IArgs*            m_pArgs;
 
 };
 #endif

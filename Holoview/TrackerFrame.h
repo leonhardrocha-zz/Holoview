@@ -13,20 +13,22 @@ class  TrackerFrame :  public DockFrame
 {
 public:
 
-    TrackerFrame::TrackerFrame(QWidget *parent, QString name) : DockFrame(name, parent)
+    TrackerFrame::TrackerFrame(QString name, QWidget *parent = 0) : DockFrame(name, parent)
     {
         
         RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);
         setAttribute(Qt::WA_NativeWindow);
         setAttribute(Qt::WA_PaintOnScreen);
-        TrackerHandlerArg = "TrackerHandlerArg";
     }
 
-    bool Init(IArgs* args = NULL)
+    void SetTracker(KinectTracker* tracker)
     {
-        m_args = args;
-        
-        return args !=NULL;
+        pTracker = tracker;
+        //if (pTracker)
+        //{
+        //    QWindow* hwnd  = this->windowHandle();
+        //    pTracker->SetWindowHandler(static_cast<void*>(hwnd->handle()));
+        //}
     }
 
     std::string TrackerHandlerArg;
@@ -35,21 +37,16 @@ protected:
     
     virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)
     {
-        if (m_args && m_args->Exists(TrackerHandlerArg))
+        if (pTracker)
         {
-            KinectTracker* tracker = static_cast<KinectTracker*>(m_args->Get(TrackerHandlerArg));
-            if (tracker)
-            {
-                m_args->Set(tracker->WindowHandlerArg, message);
-                tracker->PaintEvent(m_args);
-            }
-        } 
+            pTracker->PaintEvent(message);
+        }
 
         return DockFrame::nativeEvent(eventType, message, result);
     }
 protected:
 
-    IArgs* m_args;
+    KinectTracker* pTracker;
 };
 
 #endif

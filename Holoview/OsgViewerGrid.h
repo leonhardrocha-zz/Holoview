@@ -16,7 +16,7 @@
 class  OsgViewerGrid :  public DockFrame
 {
 public:
-    OsgViewerGrid::OsgViewerGrid(const QString &dockName, QWidget *parent) : DockFrame(dockName, parent), MaxNumOfColumns(2), MaxNumOfRows(2)
+    OsgViewerGrid::OsgViewerGrid(const QString &name, QWidget *parent=NULL) : DockFrame(name, parent), MaxNumOfColumns(2), MaxNumOfRows(2)
     {
         m_grid = new QGridLayout;
         RenderFlags(QWidget::DrawChildren | QWidget::IgnoreMask);

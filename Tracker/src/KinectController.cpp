@@ -8,15 +8,10 @@
 #include "Position.h"
 #include "KinectTracker.h"
 
-void KinectController::TrackEvent(IArgs* args)
+void KinectController::TrackEvent(void* message)
 {
-    if (args)
-    {
-        if (!args->Exists("position"))
-        {
-            return;
-        }
-
+    
+#if 0
         double* trackedPose = static_cast<double*>(args->Get("position"));
         if (trackedPose)
         {
@@ -32,13 +27,14 @@ void KinectController::TrackEvent(IArgs* args)
                 SetEvent(m_hSetTiltAngleEvent);
             }
         }
-    }
+#endif
+
 }
 
 /// <summary>
 /// Start a new thread to run the elevation task
 /// </summary>
-bool KinectController::Start(IArgs* args)
+bool KinectController::Start()
 {
     // Create the events for elevation task thread
     m_hSetTiltAngleEvent = CreateEventW(NULL, FALSE, FALSE, NULL);
@@ -65,7 +61,7 @@ DWORD WINAPI KinectController::TiltTrackingStaticThread(PVOID lpParam)
     KinectController* pThis = static_cast<KinectController*>(lpParam);
     HANDLE events[numEvents] = {pThis->m_hSetTiltAngleEvent, pThis->m_hExitThreadEvent};
 
-    while(pThis->m_bSensorRunning)
+    while(pThis->IsRunning)
     {
         // Check if we have a setting tilt angle event or an exiting thread event
         DWORD dwEvent = WaitForMultipleObjects(numEvents, events, FALSE, INFINITE);

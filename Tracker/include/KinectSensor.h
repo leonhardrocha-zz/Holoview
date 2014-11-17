@@ -14,30 +14,32 @@
 #include <FaceTrackLib.h>
 #include <NuiApi.h>
 
+class KinectFaceTracker;
+
 class KinectSensor : public ITracker
 {
+    friend class KinectFaceTracker;
 public:
-    KinectSensor();
+    KinectSensor(ITracker *parent=NULL, bool initialize = true, bool start = true);
     ~KinectSensor();
-    bool        Init(IArgs* args=NULL);
-    bool        Start(IArgs* args=NULL);
-    void        TrackEvent(IArgs* args=NULL);
+    bool        Init();
+    bool        Start();
+    void        TrackEvent(void* message);
     bool        Stop();
     bool        Release();
-
-    EggAvatar*  GetEggAvatar() { return(&m_eggavatar); };
+    bool        IsInitialized; 
+    bool        IsRunning;
+    static int      NumOfInitilizedSensors;
+protected:
     HRESULT     GetVideoConfiguration(FT_CAMERA_CONFIG* videoConfig);
     HRESULT     GetDepthConfiguration(FT_CAMERA_CONFIG* depthConfig);
     IFTImage*   GetVideoBuffer(){ return(m_VideoBuffer); };
     IFTImage*   GetDepthBuffer(){ return(m_DepthBuffer); };
     float       GetZoomFactor() { return(m_ZoomFactor); };
     POINT*      GetViewOffSet() { return(&m_ViewOffset); };
-    bool        IsInitialized() { return m_bNuiInitialized; };
     HRESULT     GetClosestHint(FT_VECTOR3D* pHint3D);
     virtual HRESULT SetTiltAngle(LONG angle) { return NuiCameraElevationSetAngle(angle); }
     virtual HRESULT GetTiltAngle(LONG* angle) { return NuiCameraElevationGetAngle(angle); }
-    static int      NumOfInitilizedSensors;
-protected:
     static DWORD WINAPI ProcessThread(PVOID pParam);
     void        GotVideoAlert();
     void        GotDepthAlert();
@@ -63,12 +65,9 @@ protected:
     HANDLE      m_pVideoStreamHandle;
     HANDLE      m_hThNuiProcess;
     HANDLE      m_hEvNuiProcessStop;
-    bool        m_bNuiInitialized; 
     int         m_FramesTotal;
     int         m_SkeletonTotal;
-    bool        m_bSensorRunning;
     INuiSensor* m_pSensor;
-    EggAvatar     m_eggavatar;
     std::string   m_configArg;
     TrackerConfig m_config;
 

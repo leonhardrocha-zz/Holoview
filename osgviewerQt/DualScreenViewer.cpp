@@ -6,20 +6,34 @@
 #include "IArgs.h"
 #include <math.h>
 #include <iostream>
+#include <algorithm> 
 
 
-
-
-DualScreenViewer::DualScreenViewer(bool swapViews) : osgViewer::CompositeViewer(), m_swapScreens(swapViews), m_angleBetweenScreensInDegrees(120.0)
+DualScreenViewer::DualScreenViewer(bool initialize, bool start) : osgViewer::CompositeViewer(), m_swapScreens(true), m_angleBetweenScreensInDegrees(120.0)
 {
-    
+    if(initialize)
+    {
+        IsInitialized = Init();
+    }
+    if (IsInitialized && start)
+    {
+        IsRunning = true;
+    }
 }
 
 DualScreenViewer::~DualScreenViewer() 
 {
 }
 
-bool DualScreenViewer::InitViews(IArgs* args)
+osgViewer::View* DualScreenViewer::GetView(ViewCompareFunction viewFun)
+{
+    osgViewer::ViewerBase::Views views;
+    getViews(views);
+    std::vector<osgViewer::View*>::iterator firstFound = std::find_if(views.begin(), views.end(), viewFun);
+    return (*firstFound);
+}
+
+bool DualScreenViewer::InitViews()
 {
     // Create View 0 -- Main.
     {
@@ -28,7 +42,7 @@ bool DualScreenViewer::InitViews(IArgs* args)
         view->setDisplaySettings(ds);
 
         OsgExtension::ViewUpdateHandler* viewUpdateHandler = new  OsgExtension::ViewUpdateHandler();
-        viewUpdateHandler->SetCallback(DualScreenViewer::UpdateMap, this, m_viewerArgs);
+        viewUpdateHandler->Set(DualScreenViewer::UpdateMap, this);
         view->addEventHandler( viewUpdateHandler );
 
         osg::ref_ptr<osgGA::TrackerManipulator> trackerManipulator = new osgGA::TrackerManipulator();
@@ -49,8 +63,7 @@ bool DualScreenViewer::InitViews(IArgs* args)
 
         view->setName("main");
         view->getCamera()->setComputeNearFarMode(osgUtil::CullVisitor::DO_NOT_COMPUTE_NEAR_FAR);
-        m_viewerArgs->Set(view->getName(), view);
-        //addView( view );
+        addView( view );
     }
 
     // Create view 1 -- Map.
@@ -58,26 +71,36 @@ bool DualScreenViewer::InitViews(IArgs* args)
         osgViewer::View* view = new osgViewer::View();
         osg::DisplaySettings* ds = new osg::DisplaySettings();
         view->setDisplaySettings(ds);
-        //view->setUpViewInWindow( 10, 510, 640, 480 );
 
         osg::ref_ptr<osgGA::TrackballManipulator> mouseManipulator = new osgGA::TrackballManipulator;
         mouseManipulator->setName("MapMouse");
         view->setCameraManipulator( mouseManipulator );
         view->setName("map");
-        m_viewerArgs->Set(view->getName(), view);
-        //addView( view );
+        addView( view );
+    }
+
+    return true;
+}
+
+bool DualScreenViewer::InitGraphics(osgViewer::View* view)
+{
+    if(!view)
+    {
+        return false;
     }
 
     m_traits = new osg::GraphicsContext::Traits;
 
 #ifndef WIN32
     setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
+#else
+    setThreadingModel( osgViewer::ViewerBase::CullDrawThreadPerContext );
 #endif
 
     setKeyEventSetsDone(0);
-    osgViewer::View* mainView = GetMainView();
-    m_traits->windowName = mainView->getName();
-    osg::DisplaySettings* ds = mainView->getDisplaySettings();
+
+    m_traits->windowName = view->getName();
+    osg::DisplaySettings* ds = view->getDisplaySettings();
     m_traits->width = ds->getScreenWidth();
     m_traits->height = ds->getScreenHeight();
     m_traits->doubleBuffer = true;
@@ -91,13 +114,8 @@ bool DualScreenViewer::InitViews(IArgs* args)
 
     return true;
 }
-
-bool DualScreenViewer::Init(IArgs* args)
+bool DualScreenViewer::Init()
 {
-    m_viewerArgs = args;
-
-    InitViews(args);
-
     m_virtualOrigin = osg::Vec3(0.0,    m_display.Elevation + m_display.Height/2,   0.0);
     m_virtualCenter = osg::Vec3(0.0,    m_virtualOrigin.y(),                        m_display.screenDepth);
 
@@ -113,31 +131,35 @@ bool DualScreenViewer::Init(IArgs* args)
     SetupView();
     SetupProjection();
 
-    osgViewer::View* mainView = GetMainView();
-    CreateGraphicsWindow(mainView);
-    ToggleStereoSettings(mainView);
+    if (InitViews())
+    {
+        osgViewer::View* mainView = GetMainView();
+        osgViewer::View* mapView = GetMapView();
+        setRunFrameScheme( osgViewer::ViewerBase::ON_DEMAND );
+        if(InitGraphics(mainView))
+        {
+            CreateGraphicsWindow(mainView);
+            ToggleStereoSettings(mainView);
+            return true;
+        }
+    }
 
-    osgViewer::View* mapView = GetMapView();
-    m_driver.init(this);
-    m_driver.addView(mainView);
-    m_driver.addView(mapView);
-    
-    return true;
+    return false;
 }
 
-void DualScreenViewer::Update(IArgs *args) 
+void DualScreenViewer::Update() 
 {
     osgViewer::View* view = GetMainView();
     osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(view->getCameraManipulator());
     if (keyManipulator)
     {
         osgGA::CameraManipulator* cameraManipulator = keyManipulator->getCurrentMatrixManipulator(); //keyManipulator->getMatrixManipulatorWithIndex(i);
-        HandleManipulator(cameraManipulator, args);
+        HandleManipulator(cameraManipulator);
     }
     Update(view, m_virtualEye);
 }
 
-void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results)
+void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipulator)
 {
     osg::Quat rotation;
     osg::Vec3d eye;
@@ -145,7 +167,7 @@ void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipul
     if (cameraManipulator->getName() == "Tracker")
     {
         osgGA::TrackerManipulator* trackerManipulator = static_cast<osgGA::TrackerManipulator*>(cameraManipulator);
-        trackerManipulator->setTrackingResults(results, m_virtualCenter, m_virtualOrigin);
+        trackerManipulator->setTrackingResults(m_virtualEye, m_virtualCenter, m_virtualOrigin);
         trackerManipulator->getTransformation(eye, rotation);
     }
 
@@ -164,9 +186,10 @@ void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipul
     m_virtualEye = eye;
 }
 
-void DualScreenViewer::UpdateMap(void* instance, IArgs* args)
+void DualScreenViewer::UpdateMap(void* instance)
 {
     // Update the wireframe frustum
+    
     DualScreenViewer* pThis = static_cast<DualScreenViewer*>(instance);
     osgViewer::View* mapView = pThis->GetMapView();
     osg::Group* root = static_cast<osg::Group*>(mapView->getSceneData());
@@ -200,9 +223,9 @@ void DualScreenViewer::Update(osgViewer::View* view, osg::Vec3 eye)
 {
     osg::Vec3 eyeOffset = eye-m_virtualOrigin;
     osg::Vec3 offset = eye-m_virtualCenter;
-    double offsetX = offset.x()/m_display.screenWidth;
-    double offsetY = offset.y()/m_display.screenHeight;
-    double offsetZ = offset.z()/m_display.screenDepth;
+    //double offsetX = offset.x()/m_display.screenWidth;
+    //double offsetY = offset.y()/m_display.screenHeight;
+    //double offsetZ = offset.z()/m_display.screenDepth;
 
     osg::DisplaySettings* ds = view->getDisplaySettings();
     ds->setScreenDistance(-m_virtualCenter.length());
@@ -272,12 +295,6 @@ void DualScreenViewer::CreateGraphicsWindow(osgViewer::View* view)
         camera->setName(i==Right ? "Right" : "Left");
         if (view->addSlave(camera.get(), m_projectionOffset[i], m_viewOffset[i]))
         {
-            //OsgExtension::View* extView = static_cast<OsgExtension::View*>(view);
-            //if (extView)
-            //{
-            //    OsgExtension::Slave& slave = extView->getSlave(i);
-            //    slave._updateSlaveCallback = new OsgExtension::SlaveCallback();
-            //}
             osg::View::Slave& slave = view->getSlave(j);
             slave._updateSlaveCallback = new OsgExtension::SlaveCallback();
         }

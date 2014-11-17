@@ -39,9 +39,8 @@ class MyDock : public QDockWidget
     QAction *windowModifiedAction;
 
 public:
-    explicit MyDock(const QString &name, QWidget *parent = 0, Qt::WindowFlags flags = 0, QWidget *frame = NULL);
+    explicit MyDock(QWidget *widget = 0, QWidget *parent = 0, Qt::WindowFlags flags = 0);
     ~MyDock() { };
-    QWidget* m_dockFrame;
     QMenu *menu;
     void setCustomSizeHint(const QSize &size);
 

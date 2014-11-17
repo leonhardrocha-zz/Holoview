@@ -62,8 +62,6 @@ public slots:
     void destroyDockWidget(QAction *action);
     int GetMainScreen();
     void SetMainScreen(int id);
-signals:
-    void operate(const QString &);
 private:
     void setupToolBar();
     void setupMenuBar();

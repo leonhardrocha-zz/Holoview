@@ -36,14 +36,16 @@ QColor fgColorForName(const QString &name)
 }
 
 
-DockFrame::DockFrame(const QString &c, QWidget *parent)
-    : QFrame(parent) , color(c)
+DockFrame::DockFrame(const QString& name, QWidget *parent)
+    : QFrame(parent) 
 {
     QFont font = this->font();
     font.setPointSize(8);
     setFont(font);
     szHint = QSize(-1, -1);
     minSzHint = QSize(125, 75);
+    setFrameStyle(QFrame::Box | QFrame::Sunken);
+    setObjectName(name);
 }
 
 QSize DockFrame::sizeHint() const
@@ -69,7 +71,7 @@ static QSpinBox *createSpinBox(int value, QWidget *parent, int max = 1000)
 void DockFrame::changeSizeHints()
 {
     QDialog dialog(this);
-    dialog.setWindowTitle(color);
+    dialog.setWindowTitle(objectName());
 
     QVBoxLayout *topLayout = new QVBoxLayout(&dialog);
 

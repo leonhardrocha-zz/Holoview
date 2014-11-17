@@ -11,13 +11,14 @@
 
 #include "IArgs.h"
 
-typedef void (*ICallback)(void* instance, IArgs* args);
+typedef void (*ICallback)(void* instance);
 
 class ICallable
 {
 public:
-    virtual void SetCallback(ICallback callback, void* instance = NULL, IArgs* args=NULL)=0;
+    virtual void Set(ICallback callback, void* instance = NULL)=0;
     virtual void Call()=0;
+    virtual void SyncCall()=0;
 };
 
 

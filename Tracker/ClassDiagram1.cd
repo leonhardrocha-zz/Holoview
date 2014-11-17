@@ -3,7 +3,7 @@
   <Class Name="EggAvatar" Collapsed="true">
     <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>cFAAACAAAiQgKCgILwQQAcQDJjEAALgUAAKDEkmwRMA=</HashCode>
+      <HashCode>cFAAACAAAiQgKCgILwQQAcQDJjEAALgUAEIBEkmwRMA=</HashCode>
       <FileName>include\eggavatar.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -14,29 +14,10 @@
       <FileName>include\FTImageAdapter.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="KinectFaceTracker" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="KinectFaceTracker::HintStep" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>include\KinectFaceTracker.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-      <Enum Name="KinectFaceTracker::HintJoint" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>include\KinectFaceTracker.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>ADKAADAAAWAIAtgQZAAAARAmEAgAZMQM4EACoDqhEgA=</HashCode>
-      <FileName>include\KinectFaceTracker.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="KinectSensor" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABgCEYQEFKAAAghAQwAQgAAgYggCgYAgMAQiFDaKIBA=</HashCode>
+      <HashCode>ABgCEYAEFKAAAghAQwAQgAAgYggCgYAgMAQiFDKKIBA=</HashCode>
       <FileName>include\KinectSensor.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -45,13 +26,6 @@
     <TypeIdentifier>
       <HashCode>CQAAAIQAACAAABggAAAAAAgAAAAAIAAAIAACABCAEAE=</HashCode>
       <FileName>include\KinectController.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="KinectTracker">
-    <Position X="3.5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAQAAAAAAAABAAAAAA=</HashCode>
-      <FileName>include\KinectTracker.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MotionDetector" Collapsed="true">
@@ -75,17 +49,10 @@
       <FileName>include\TrackerException.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TrackerInitializationException" Collapsed="true">
-    <Position X="3.5" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>include\TrackerException.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="TrackerManager" Collapsed="true">
     <Position X="3.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AhAAAAQBACBAAAgAAQEhSAAAABgKIEUQAACDAERAAAE=</HashCode>
+      <HashCode>AAAAAAAAACAAAAgAAAEhCAAAABgCIAUAAACDAAAAAAA=</HashCode>
       <FileName>include\TrackerManager.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -94,6 +61,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAIAAAAAAAAAAAAAAAAgAAAAAAAgAAAAA=</HashCode>
       <FileName>include\trackerpose.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrackerInitializationException" Collapsed="true">
+    <Position X="3.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>include\TrackerException.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

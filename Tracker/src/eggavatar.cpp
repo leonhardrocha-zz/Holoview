@@ -10,10 +10,10 @@
 #include <math.h>
 #include "TrackerPose.h"
 #include "Position.h"
-#include <FaceTrackLib.h>
 
 
-EggAvatar::EggAvatar(std::string resultsArg) : ResultsArg(resultsArg)
+
+EggAvatar::EggAvatar()
 {
     memset(m_FacePointLatLon, 0, sizeof(m_FacePointLatLon));
     memset(m_FacePointXYZ, 0, sizeof(m_FacePointXYZ));
@@ -54,31 +54,22 @@ EggAvatar::~EggAvatar()
 {
 }
 
-void EggAvatar::TrackEvent(IArgs* args)
+bool EggAvatar::SetPose(IFTResult* pResult)
 {
-    if (args)
+    if (pResult && SUCCEEDED(pResult->GetStatus()))
     {
-        if (!args->Exists(ResultsArg))
-        {
-            return;
-        }
-
-        IFTResult* pResult = static_cast<IFTResult*>(args->Get(ResultsArg));
-        if (pResult && SUCCEEDED(pResult->GetStatus()))
-        {
-            FLOAT* pAU = NULL;
-            UINT numAU;
-            float rotationXYZ[3];
-            float translationXYZ[3];
-            float scale;
-            pResult->GetAUCoefficients(&pAU, &numAU);
-            pResult->Get3DPose(&scale, rotationXYZ,translationXYZ);
-            SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
-            SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
-        }
-        args->Set("position", m_trackedPose.GetPosition());
-        args->Set("attitude", m_trackedPose.GetAttitude());
+        FLOAT* pAU = NULL;
+        UINT numAU;
+        float rotationXYZ[3];
+        float translationXYZ[3];
+        float scale;
+        pResult->GetAUCoefficients(&pAU, &numAU);
+        pResult->Get3DPose(&scale, rotationXYZ,translationXYZ);
+        SetTranslations(translationXYZ[0], translationXYZ[1], translationXYZ[2]);
+        SetRotations(rotationXYZ[0], rotationXYZ[1], rotationXYZ[2]);
+        return true;
     }
+    return false;
 }
 
 bool EggAvatar::SetRandomAU()

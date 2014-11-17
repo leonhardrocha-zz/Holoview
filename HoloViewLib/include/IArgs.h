@@ -1,6 +1,13 @@
+#ifdef _MEMORY_DEBUG
+#include "vld.h"
+#endif
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
 #ifndef _IARGS_H
 #define _IARGS_H
-
 #include <string>
 
 class IArgs

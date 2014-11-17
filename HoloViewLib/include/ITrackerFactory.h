@@ -6,16 +6,20 @@
 #pragma once
 #endif
 
-#ifndef _ITRACKER_FACTORY_H
-#define _ITRACKER_FACTORY_H
+#ifndef _ITRACKERFACTORY_H
+#define _ITRACKERFACTORY_H
+
 #include "ITracker.h"
+#include "IArgs.h"
+#include "Singleton.h"
+#include <string>
 
 class ITrackerFactory
 {
 public:
-    virtual void Init();
-    virtual void Start();
-    virtual ITracker *CreateTracker()=0;
+    virtual ITracker* CreateTracker(const std::string& type)=0;
+    virtual IArgs* GetArgs()=0;
+protected:
+    
 };
-
 #endif

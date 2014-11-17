@@ -3,7 +3,7 @@
 #define _OSG_EXTENSION_H
 #include "TiltedScreen.h"
 #include "MatrixExtension.h"
-#include "ICallable.h"
+#include "Callback.h"
 #include "Args.h"
 
 
@@ -278,33 +278,17 @@ namespace OsgExtension
         double _deltaSpan;
     };
 
-    class ViewUpdateHandler : public osgGA::GUIEventHandler, public ICallable
+    class ViewUpdateHandler : public osgGA::GUIEventHandler, public Callback
     {
     public:
         virtual bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa, osg::Object*, osg::NodeVisitor*) 
         { 
-            Call();
+            if (m_callback)
+            {
+                SyncCall();
+            }
             return osgGA::GUIEventHandler::handle(ea,aa);
         }
-
-        virtual void SetCallback(ICallback callback, void* instance=NULL, IArgs* args=NULL)
-        {
-            m_callback = callback;
-            m_instance = instance;
-            m_callbackArgs = args;
-        };
-
-        virtual void Call() { if (m_callback) { (*m_callback)(m_instance, m_callbackArgs); } else throw new std::exception("Callback is not set or NULL");};
-
-        virtual ICallback GetCallback() { return m_callback;};
-        virtual IArgs* GetArgs() { return m_callbackArgs;};
-        virtual void* GetInstance() { return m_instance;};
-    protected:
-
-        ICallback               m_callback;
-        void*                   m_instance;
-        IArgs*                  m_callbackArgs;
-        osg::ref_ptr<DualScreenViewer> m_parent;
     };
 }
 #endif

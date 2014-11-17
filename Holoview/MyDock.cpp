@@ -18,19 +18,19 @@
 #include <QBitmap>
 #include <QtDebug>
 
-MyDock::MyDock(const QString &name, QWidget *parent, Qt::WindowFlags flags, QWidget *frame)
-    : QDockWidget(parent, flags), m_dockFrame(frame)
-{
-    setObjectName(name + QLatin1String(" Dock Widget"));
-    setWindowTitle(objectName() + QLatin1String(" [*]"));
-    
-    if (m_dockFrame)
+MyDock::MyDock(QWidget *widget, QWidget *parent, Qt::WindowFlags flags)
+    : QDockWidget(parent, flags)
     {
-        setWidget(m_dockFrame);
+    
+    if (widget)
+    {
+        setWidget(widget);
+        setObjectName(widget->objectName() + QLatin1String(" Dock Widget"));
+        setWindowTitle(objectName() + QLatin1String(" [*]"));
     }
 
     changeSizeHintsAction = new QAction(tr("Change Size Hints"), this);
-    connect(changeSizeHintsAction, SIGNAL(triggered()), frame, SLOT(changeSizeHints()));
+    connect(changeSizeHintsAction, SIGNAL(triggered()), widget, SLOT(changeSizeHints()));
 
     closableAction = new QAction(tr("Closable"), this);
     closableAction->setCheckable(true);
@@ -127,7 +127,7 @@ MyDock::MyDock(const QString &name, QWidget *parent, Qt::WindowFlags flags, QWid
     windowModifiedAction->setChecked(false);
     connect(windowModifiedAction, SIGNAL(toggled(bool)), this, SLOT(setWindowModified(bool)));
 
-    menu = new QMenu(name, this);
+    menu = new QMenu(objectName(), this);
     menu->addAction(toggleViewAction());
     QAction *action = menu->addAction(tr("Raise"));
     connect(action, SIGNAL(triggered()), this, SLOT(raise()));

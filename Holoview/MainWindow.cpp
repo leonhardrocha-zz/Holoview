@@ -393,27 +393,6 @@ void MainWindow::setupDockWidgets(const QMap<QString, QSize> &customSizeHints)
     dockWidgetMenu->addMenu(destroyDockWidgetMenu);
 }
 
-bool MainWindow::AddTrackerDockWidget(ITracker *tracker, IArgs *args)
-{
-    KinectTracker* kinectTracker = dynamic_cast<KinectTracker*>(tracker);
-    if(!kinectTracker) return false;
-
-    QString name = QString::fromLatin1("Tracker");
-    int numOfSensors = kinectTracker->GetNumOfTrackingSensors();
-    for (int i =0; i< numOfSensors; i++)
-    {
-        TrackerFrame *frame = new TrackerFrame(this, name);
-        args->Set(frame->TrackerHandlerArg, tracker);
-        frame->setFrameStyle(QFrame::Box | QFrame::Sunken);
-        frame->Init(args);
-        MyDock *trackerDock = new MyDock(name + i, this, Qt::WindowFlags(0), frame);
-        trackerDock->setCustomSizeHint(m_customSizeHints.value(name + i));
-        addDockWidget(Qt::LeftDockWidgetArea, trackerDock);
-        dockWidgetMenu->addMenu(trackerDock->menu); 
-    }
-    return true;
-}
-
 void MainWindow::setCorner(int id)
 {
     switch (id) {

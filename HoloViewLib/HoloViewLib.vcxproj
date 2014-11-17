@@ -71,6 +71,7 @@
       <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>libzmqd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -93,7 +94,9 @@
     <ClInclude Include="include\ICallable.h" />
     <ClInclude Include="include\IIPC.H" />
     <ClInclude Include="include\Args.h" />
+    <ClInclude Include="include\ITrackerFactory.h" />
     <ClInclude Include="include\Singleton.h" />
+    <ClInclude Include="include\Synchronizable.h" />
     <ClInclude Include="include\ZmqIPC.h" />
     <ClInclude Include="include\IPose.h" />
     <ClInclude Include="include\IArgs.h" />

@@ -7,8 +7,12 @@
 #include "TiltedScreen.h"
 #include "MatrixExtension.h"
 #include "OsgWidgetDriver.h"
+#include "Callback.h"
 
-class DualScreenViewer : public osgViewer::CompositeViewer
+typedef bool (*ViewCompareFunction)(osgViewer::View* view);
+
+
+class DualScreenViewer : public osgViewer::CompositeViewer, public Callback
 {
 
 public:
@@ -19,38 +23,40 @@ public:
         NumOfScreens = 2
     };
 
-    DualScreenViewer(bool swapViews = true);
+    DualScreenViewer(bool initialize = true, bool start = true);
     ~DualScreenViewer();
-    virtual bool Init(IArgs* args=NULL);
-    virtual void Setup() { Init(); }; //deprecated
-    virtual void CreateGraphicsWindow(osgViewer::View* view);
-    virtual void Update(IArgs* results);
-    virtual void SetupView();
-    virtual void SetupProjection();
-    virtual void Update(osgViewer::View* view, osg::Vec3 eye);
+    bool    IsInitialized;
+    bool    IsRunning;
+
     osg::ref_ptr<osg::GraphicsContext::Traits> GetTraits() { return m_traits; };
-    osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; };
-    osg::Vec3& GetVirtualCenter() { return m_virtualCenter; };
-    osg::Vec3& GetVirtualEye() { return m_virtualEye; };
-    osg::Matrix GetMasterProjectionMatrix() { return m_projectionMatrix; };
-    osg::Matrix GetSlaveProjectionMatrix(int side) { return m_projectionOffset[side]; };
-    osg::Matrix GetMasterViewMatrix() { return m_viewMatrix; };
-    osg::Matrix GetSlaveViewMatrix(int side) { return m_viewOffset[side]; };
-    osg::Quat& GetInverseAttitude() { return m_inverseAttitude; };
+
+    inline osg::Vec3& GetVirtualOrigin() { return m_virtualOrigin; }
+    inline void SetVirtualOrigin(osg::Vec3& origin) { m_virtualOrigin = origin; }
+    inline osg::Vec3& GetVirtualCenter() { return m_virtualCenter; }
+    inline void SetVirtualCenter(osg::Vec3& center) { m_virtualCenter = center; }
+    inline osg::Vec3& GetVirtualEye() { return m_virtualEye; }
+    inline void SetVirtualEye(osg::Vec3& eye) { m_virtualEye = eye; }
+    virtual bool Init();
+    virtual void Update();
+    osgViewer::View* GetMainView()  { return GetView(isMainView); }
+    osgViewer::View* GetMapView()  { return GetView(isMapView); }
+    static bool isMainView(osgViewer::View* view) { return view->getName() == "main"; }
+    static bool isMapView(osgViewer::View* view) { return view->getName() == "map"; }
     void ToggleStereoSettings(osgViewer::View* view);
     osg::MatrixTransform* DualScreenViewer::makeFrustumFromCamera( osgViewer::View* view );
-    static void UpdateMap(void* instance, IArgs* args);
-    IArgs* GetViewerArgs() { return m_viewerArgs; };
-    OsgWidgetDriver* GetDriver() { return &m_driver; };
-    osgViewer::View* GetMainView()  { return static_cast<osgViewer::View*>(m_viewerArgs->Get("main")); }
-    osgViewer::View* GetMapView()  { return static_cast<osgViewer::View*>(m_viewerArgs->Get("map")); }
 protected:
-    virtual bool InitViews(IArgs* args);
-    IArgs* m_viewerArgs;
+    virtual bool InitViews();
+    virtual bool InitGraphics(osgViewer::View* view);
+    osgViewer::View* GetView(ViewCompareFunction fun);
+    virtual void SetupView();
+    virtual void SetupProjection();
+    virtual void CreateGraphicsWindow(osgViewer::View* view);
+    virtual void Update(osgViewer::View* view, osg::Vec3 eye);
+    virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator);
+
+    static void UpdateMap(void* instance);
     ScreenInfo m_display;
     std::vector<TiltedScreen> m_displays;
-    OsgWidgetDriver m_driver;
-    virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, IArgs *results=NULL);
     osg::Geode* DrawFrustum(ScreenInfo& info);
     osg::Geode* DrawFrustum(TiltedScreen& info);
     osg::Geometry* GetFrustumGeometry(ScreenInfo& info);

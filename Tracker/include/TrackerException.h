@@ -31,7 +31,8 @@ public:
      *          is in posession of the \c Exception object. Callers \a must
      *          not attempt to free the memory.
      */
-    virtual const char* what() const throw (){
+    virtual const char* what() const throw ()
+    {
        std::string message = "File " + file;
        message.append(" line " + line);
        message.append(" : " + msg);
@@ -49,22 +50,13 @@ protected:
 class TrackerInitializationException: public TrackerException
 {
 public:
-    explicit TrackerInitializationException(const char* resource):
-      TrackerException(resource)
-      {
-      }
+    explicit TrackerInitializationException(const char* resource) : TrackerException(resource) { }
+    explicit TrackerInitializationException(const std::string& resource): TrackerException(resource) { }
+};
 
-    /** Constructor (C++ STL strings).
-     *  @param message The error message.
-     */
-    explicit TrackerInitializationException(const std::string& resource):
-      TrackerException(resource)
-      {}
-
-    virtual const char* what() const throw (){
-        std::string message = "File " + file;
-        message.append(" line " + line);
-        message.append(" : " + msg);
-        return message.c_str();
-    }
+class TrackerRuntimeException: public TrackerException
+{
+public:
+    explicit TrackerRuntimeException(const char* resource) : TrackerException(resource) { }
+    explicit TrackerRuntimeException(const std::string& resource): TrackerException(resource) { }
 };

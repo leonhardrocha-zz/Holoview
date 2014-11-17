@@ -11,24 +11,30 @@
 
 int KinectSensor::NumOfInitilizedSensors = 0;
 
-KinectSensor::KinectSensor()
+KinectSensor::KinectSensor(ITracker* parent, bool initialize, bool start) :
+    IsInitialized(false),
+    IsRunning(false),
+    m_hNextDepthFrameEvent(NULL),
+    m_hNextVideoFrameEvent(NULL),
+    m_hNextSkeletonEvent(NULL),
+    m_pDepthStreamHandle(NULL),
+    m_pVideoStreamHandle(NULL),
+    m_hThNuiProcess(NULL),
+    m_hEvNuiProcessStop(NULL),
+    m_FramesTotal(0),
+    m_SkeletonTotal(0),
+    m_VideoBuffer(NULL),
+    m_DepthBuffer(NULL),
+    m_ZoomFactor(1.0f)
 {
-    m_hNextDepthFrameEvent = NULL;
-    m_hNextVideoFrameEvent = NULL;
-    m_hNextSkeletonEvent = NULL;
-    m_pDepthStreamHandle = NULL;
-    m_pVideoStreamHandle = NULL;
-    m_hThNuiProcess=NULL;
-    m_hEvNuiProcessStop=NULL;
-    m_bNuiInitialized = false;
-    m_FramesTotal = 0;
-    m_SkeletonTotal = 0;
-    m_VideoBuffer = NULL;
-    m_DepthBuffer = NULL;
-    m_ZoomFactor = 1.0f;
-    m_ViewOffset.x = 0;
-    m_ViewOffset.y = 0;
-    m_configArg = "TrackerConfig";
+    if(initialize)
+    {
+        IsInitialized = Init();
+    }
+    if (IsInitialized && start)
+    {
+        IsRunning = Start();
+    }
 }
 
 
@@ -38,24 +44,18 @@ KinectSensor::~KinectSensor()
 
     if(m_pSensor)
     {
-        delete m_pSensor;
+        m_pSensor->Release();
+        //delete m_pSensor;
         m_pSensor = NULL;
     }
 }
 
-bool KinectSensor::Init(IArgs* args)
+bool KinectSensor::Init()
 {
     // Get a working kinect sensor
     if (NuiCreateSensorByIndex(NumOfInitilizedSensors, &m_pSensor) >= 0) 
     {
         NumOfInitilizedSensors++;
-        if (args != NULL)
-        {
-            if (args->Exists(m_configArg))
-            {
-                m_config = *(static_cast<TrackerConfig*>(args->Get(m_configArg)));
-            }
-        }
         InitializeSensor(m_config);
         return true;
     }
@@ -194,7 +194,7 @@ HRESULT KinectSensor::InitializeSensor(TrackerConfig& config)
     {
         return hr;
     }
-    m_bNuiInitialized = true;
+    IsInitialized = true;
 
     DWORD dwSkeletonFlags = NUI_SKELETON_TRACKING_FLAG_ENABLE_IN_NEAR_RANGE;
     if (config.IsSeatedSkeletonMode)
@@ -245,25 +245,29 @@ HRESULT KinectSensor::InitializeSensor(TrackerConfig& config)
         }
     }
 
+    m_ViewOffset.x = 0;
+    m_ViewOffset.y = 0;
+
     return hr;
 }
-bool KinectSensor::Start(IArgs* args)
+bool KinectSensor::Start()
 {
+    if(!IsInitialized)
+    {
+        return false;
+    }
+    
     // Start the Nui processing thread
-    m_bSensorRunning = m_bNuiInitialized;
+    IsRunning = IsInitialized;
     m_hEvNuiProcessStop=CreateEvent(NULL,TRUE,FALSE,NULL);
     m_hThNuiProcess=CreateThread(NULL,0,ProcessThread,this,0,NULL);
-    m_bSensorRunning |=  (m_hThNuiProcess !=NULL);
-    m_bSensorRunning |=  (m_hEvNuiProcessStop !=NULL);
-    return m_bSensorRunning;
+    IsRunning |=  (m_hThNuiProcess !=NULL);
+    IsRunning |=  (m_hEvNuiProcessStop !=NULL);
+    return IsRunning;
 }
 
-void KinectSensor::TrackEvent(IArgs* args)
+void KinectSensor::TrackEvent(void* message)
 {
-    if (m_bSensorRunning)
-    {
-        m_eggavatar.TrackEvent(args);
-    }
 }
 
 bool KinectSensor::Stop()
@@ -280,19 +284,19 @@ bool KinectSensor::Stop()
             WaitForSingleObject(m_hThNuiProcess,INFINITE);
             CloseHandle(m_hThNuiProcess);
             m_hThNuiProcess = NULL;
-            m_bSensorRunning = false;
+            IsRunning = false;
         }
         CloseHandle(m_hEvNuiProcessStop);
         m_hEvNuiProcessStop = NULL;
     }
 
-    if (m_bNuiInitialized)
+    if (IsInitialized)
     {
         m_pSensor->NuiShutdown();
     }
-    m_bNuiInitialized = false;
+    IsInitialized = false;
 
-    return !m_bSensorRunning;
+    return !IsRunning;
 }
 
 bool KinectSensor::Release()
@@ -347,7 +351,7 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
     hEvents[3]=pthis->m_hNextSkeletonEvent;
 
     // Main thread loop
-    while (pthis->m_bSensorRunning)
+    while (pthis->IsRunning)
     {
         // Wait for an event to be signaled
         WaitForMultipleObjects(sizeof(hEvents)/sizeof(hEvents[0]),hEvents,FALSE,100);
@@ -380,7 +384,7 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
 
 void KinectSensor::GotVideoAlert( )
 {
-    if (!m_pSensor || !m_bSensorRunning)
+    if (!m_pSensor || !IsRunning)
     {
         return;
     }

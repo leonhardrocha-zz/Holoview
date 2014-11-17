@@ -8,7 +8,7 @@ class DockFrame : public QFrame
 {
     Q_OBJECT
 public:
-    DockFrame(const QString &c, QWidget *parent);
+    DockFrame(const QString &name, QWidget *parent);
 
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
@@ -19,7 +19,7 @@ public slots:
     void changeSizeHints();
 
 protected:
-    QString color;
+    QString name;
     QSize szHint, minSzHint;
 };
 #endif
