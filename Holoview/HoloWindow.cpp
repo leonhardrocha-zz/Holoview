@@ -9,10 +9,10 @@ HoloWindow::HoloWindow(const QMap<QString, QSize> &customSizeHints,
 
 HoloWindow::~HoloWindow()
 {
-    if(!workerThread.isFinished())
+    /*if(!workerThread.isFinished())
     {
         workerThread.terminate();
-    }
+    }*/
     if (worker)
     {
         delete worker;

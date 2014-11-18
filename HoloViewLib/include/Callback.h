@@ -13,9 +13,10 @@
 #include "IArgs.h"
 #include "Synchronizable.h"
 #include <exception>
+#include <omp.h>
 
 
-class Callback : public ICallable, Synchronizable
+class Callback : public ICallable/*, Synchronizable*/
 {
 public:
     Callback() :m_callback(NULL), m_instance(NULL) { }
@@ -30,7 +31,11 @@ public:
     virtual inline ICallback GetCallback() { return m_callback;};
     virtual inline void* GetInstance() { return m_instance;};
     virtual inline void Call() { if (m_callback) { (*m_callback)(m_instance); } else throw new std::exception("Callback is not set or NULL");};
-    virtual inline void SyncCall() { synchronized(Callback) { Call(); }};
+    virtual inline void SyncCall() 
+    { 
+        #pragma omp critical
+        Call();
+    }
     
 protected:
    

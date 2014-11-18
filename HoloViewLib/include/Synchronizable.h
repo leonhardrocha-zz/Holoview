@@ -37,7 +37,7 @@ class Synchronizable: protected Mutex {
 #ifdef OMP_SYNC_JAVA_LIKE
 #define synchronized(obj)  if (Lock obj##_lock = *obj)
 #else
-#define synchronized(cls)  if (Lock obj##_lock = *static_cast<cls*>(this))
+#define synchronized(cls)  if (Lock obj##_lock = *static_cast<cls*>(this)) 
 #endif
 
 #endif OMP_SYNC_H_
