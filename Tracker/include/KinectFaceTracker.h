@@ -11,6 +11,7 @@
 #include <FaceTrackLib.h>
 #include "ZmqIPC.h"
 #include "ITracker.h"
+#include "TrackerBase.h"
 #include "IArgs.h"
 #include "TrackerConfig.h"
 #include "Callback.h"
@@ -23,19 +24,12 @@
 
 class TrackerManager;
 
-class KinectFaceTracker : ITracker
+class KinectFaceTracker : TrackerBase
 {
 public:
-
     friend class TrackerManager;
-
-    KinectFaceTracker(ITracker* parent=NULL, bool initialize = true, bool start = true);
-    ~KinectFaceTracker();
-    virtual bool                Init();
-    virtual bool                Start();
-    virtual bool                Release();
-    virtual bool                Stop();
-    virtual void                TrackEvent(void* message);
+    KinectFaceTracker() : TrackerBase() { if(Init()) Start(); }
+    ~KinectFaceTracker() { if (Stop()) Release(); }
     HRESULT                     GetTrackerResult();
     void                        CheckCameraInput();
     int                         GetId()             { return(m_id);};
@@ -49,8 +43,7 @@ public:
     HANDLE                      GetThreadId()       { return m_hFaceTrackingThread; };
     bool                        GetFaceModel(IFTImage* m_colorImage);
     bool                        LastTrackSucceeded;
-    bool                        IsRunning;
-    bool                        IsInitialized;
+
     std::vector<Callback>       TrackerCallbacks;
     Callback                    UpdateCallback;
 protected:
@@ -59,7 +52,6 @@ protected:
     RECT                        m_Roi;
 //    CRITICAL_SECTION            m_CriticalSection;
 //    CRITICAL_SECTION*           m_pCriticalSection;
-    ITracker*                   m_parent;
     int                         m_id;
     HANDLE                      m_hFaceTrackingThread;
     IFTFaceTracker*             m_pFaceTracker;
@@ -74,8 +66,14 @@ protected:
     double                      m_faceConfidence;
     TrackerConfig               m_config;
     DWORD                       WINAPI FaceTrackingThread();
-
     //ZmqIPC                      m_messageQueue;
+private:
+    virtual bool                do_init();
+    virtual bool                do_start();
+    virtual bool                do_stop();
+    virtual bool                do_release();
+    virtual void                do_trackEvent(void* message);
+
 };
 
 #endif

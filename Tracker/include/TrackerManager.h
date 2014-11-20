@@ -7,46 +7,39 @@
 #pragma once
 #endif
 
-
 #include <FaceTrackLib.h>
-#include "resource.h"
 #include "EggAvatar.h"
 #include "KinectFaceTracker.h"
-#include "ICallable.h"
 #include "CallBack.h"
-#include "ITracker.h"
-#include "IArgs.h"
-#include "IPose.h"
+#include "TrackerBase.h"
 #include <vector>
 #include "AppArgs.h"
 
 class KinectTracker;
 
-class TrackerManager : public ITracker
+class TrackerManager : public TrackerBase
 {
     friend class KinectTracker;
 public:
-    TrackerManager::TrackerManager(ITracker* parent=NULL, bool initialize = true, bool start = true);
-    ~TrackerManager();
+    TrackerManager() : TrackerBase() { if(Init()) Start(); }
+    ~TrackerManager() { if (Stop()) Release(); }
 
-    virtual bool                Init();
-    virtual bool                Start();
-    virtual void                Stop();
-    virtual void                TrackEvent(void* message);
     int                         GetNumOfSensors() { return m_numOfSensors; };
-    bool                        IsRunning;
-    bool                        IsInitialized;
     bool                        AddTrackEventCallback(const Callback& callback);
     bool                        SetTrackerUpdateCallback(const Callback& callback);
+    virtual KinectFaceTracker*  GetBestTracker();
 protected:
 
     int                         m_numOfSensors;
     std::vector<KinectFaceTracker*> m_pFaceTrackers;
-    std::vector<HANDLE>         m_FaceTrackingThreads;
     std::vector<Callback>       TrackerCallbacks;
-    ITracker*                   m_parent;
     KinectFaceTracker*          m_pBestTracker;
-    virtual KinectFaceTracker*  GetBestTracker();
 
+private:
+    virtual bool                do_init();
+    virtual bool                do_start();
+    virtual bool                do_stop();
+    virtual bool                do_release();
+    virtual void                do_trackEvent(void* message);
 
 };

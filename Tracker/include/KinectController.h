@@ -17,13 +17,8 @@
 class KinectController : public KinectSensor
 {
 public:
-    KinectController() : KinectSensor() { };
-    ~KinectController() {  Stop(); Release(); };
-    virtual bool    Init() { return KinectSensor::Init(); };
-    virtual bool    Start();
-    virtual void    TrackEvent(void* message);
-    bool Release();
-    bool Stop();
+    KinectController() : KinectSensor() { if(Init()) Start(); }
+    ~KinectController() {  if(Stop()) Release(); };
 protected:
     virtual LONG    GetTiltAngle() { return m_tiltAngle; }
 
@@ -37,16 +32,19 @@ protected:
         return min(max(NUI_CAMERA_ELEVATION_MINIMUM, angle), NUI_CAMERA_ELEVATION_MAXIMUM);
     }
 private:
-    ITracker*                   m_parent;
     HWND                        m_hWnd;
     static DWORD WINAPI         TiltTrackingStaticThread(PVOID lpParam);
-
-
-private:
+protected:
     LONG m_tiltAngle;
     HANDLE m_hSetTiltAngleEvent;
     HANDLE m_hExitThreadEvent;
     Attitude m_kinectAttitude;
     // Handle to the elevation task thread
     HANDLE m_hElevationTaskThread;
+private:
+    virtual bool                do_init();
+    virtual bool                do_start();
+    virtual bool                do_stop();
+    virtual bool                do_release();
+    virtual void                do_trackEvent(void* message);
 };

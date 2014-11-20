@@ -11,24 +11,12 @@
 // Defines the entry point for the application.
 //
 #include "stdafx.h"
+
 #include "TrackerManager.h"
 #include "TrackerException.h"
 
-TrackerManager::TrackerManager(ITracker* parent, bool initialize, bool start) : m_parent(parent)
+bool TrackerManager::do_release()
 {
-    if(initialize)
-    {
-        IsInitialized = Init();
-    }
-    if (IsInitialized && start)
-    {
-        IsRunning = Start();
-    }
-}
-
-TrackerManager::~TrackerManager()
-{ 
-    Stop();
     for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
     {
         if(*tracker)
@@ -36,22 +24,12 @@ TrackerManager::~TrackerManager()
             delete *tracker;
         }
     }
-
+    return true;
 }
 
-bool TrackerManager::Start()
+bool TrackerManager::do_start()
 {
-    for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
-    {
-        if ((*tracker)->IsRunning)
-        {
-            m_FaceTrackingThreads.push_back((*tracker)->GetThreadId());
-        }
-        else
-        {
-            return false;
-        }
-    }
+
 
     return true;
 }
@@ -61,7 +39,7 @@ bool TrackerManager::AddTrackEventCallback(const Callback& callback)
     for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
     {
         KinectFaceTracker* ftTracker = (*tracker);
-        if (ftTracker->IsInitialized && ftTracker->IsRunning)
+        if (ftTracker->IsInitialized() && ftTracker->IsRunning())
         {
             TrackerCallbacks.push_back(callback);
         }
@@ -79,7 +57,7 @@ bool TrackerManager::SetTrackerUpdateCallback(const Callback& callback)
     for (std::vector<KinectFaceTracker*>::iterator itr = m_pFaceTrackers.begin(); itr != m_pFaceTrackers.end(); ++itr)
     {
         KinectFaceTracker* pTracker = (*itr);
-        if (pTracker->IsInitialized && pTracker->IsRunning)
+        if (pTracker->IsInitialized() && pTracker->IsRunning())
         {
             pTracker->UpdateCallback = callback;
         }
@@ -92,27 +70,28 @@ bool TrackerManager::SetTrackerUpdateCallback(const Callback& callback)
     return true;
 }
 
-bool TrackerManager::Init()
+bool TrackerManager::do_init()
 {
     NuiGetSensorCount(&m_numOfSensors);
     for (int id=0; id < m_numOfSensors; id++)
     {
-        KinectFaceTracker* tracker = new KinectFaceTracker(this);
+        KinectFaceTracker* tracker = new KinectFaceTracker();
         m_pFaceTrackers.push_back(tracker);
-    }          
+    }
     return true;
 }
 
-void TrackerManager::Stop()
+bool TrackerManager::do_stop()
 {
     for (std::vector<KinectFaceTracker*>::iterator tracker = m_pFaceTrackers.begin(); tracker != m_pFaceTrackers.end(); ++tracker)
     {
-        (*tracker)->Stop();
+        ((*tracker)->Stop());
     }
-    IsRunning = false;
+    
+    return true;
 }
 
-void TrackerManager::TrackEvent(void* message)
+void TrackerManager::do_trackEvent(void* message)
 {
     for (std::vector<Callback>::iterator itr = TrackerCallbacks.begin(); itr != TrackerCallbacks.end(); ++itr)
     {
@@ -121,11 +100,6 @@ void TrackerManager::TrackEvent(void* message)
         {
             callback.SyncCall();
         }
-    }
-
-    if (m_parent)
-    {
-        m_parent->TrackEvent(message);
     }
 };
 
@@ -143,7 +117,3 @@ KinectFaceTracker* TrackerManager::GetBestTracker()
     }
     return m_pBestTracker;
 }
-
-
-
-

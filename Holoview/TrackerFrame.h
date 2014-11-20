@@ -31,8 +31,6 @@ public:
         //}
     }
 
-    std::string TrackerHandlerArg;
-
 protected:
     
     virtual bool nativeEvent(const QByteArray& eventType, void * message, long *result)

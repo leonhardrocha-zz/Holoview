@@ -97,6 +97,8 @@
     <ClInclude Include="include\ITrackerFactory.h" />
     <ClInclude Include="include\Singleton.h" />
     <ClInclude Include="include\Synchronizable.h" />
+    <ClInclude Include="include\TrackerBase.h" />
+    <ClInclude Include="include\TrackerFactory.h" />
     <ClInclude Include="include\ZmqIPC.h" />
     <ClInclude Include="include\IPose.h" />
     <ClInclude Include="include\IArgs.h" />

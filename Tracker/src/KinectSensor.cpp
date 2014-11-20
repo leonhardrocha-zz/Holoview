@@ -11,47 +11,20 @@
 
 int KinectSensor::NumOfInitilizedSensors = 0;
 
-KinectSensor::KinectSensor(ITracker* parent, bool initialize, bool start) :
-    IsInitialized(false),
-    IsRunning(false),
-    m_hNextDepthFrameEvent(NULL),
-    m_hNextVideoFrameEvent(NULL),
-    m_hNextSkeletonEvent(NULL),
-    m_pDepthStreamHandle(NULL),
-    m_pVideoStreamHandle(NULL),
-    m_hThNuiProcess(NULL),
-    m_hEvNuiProcessStop(NULL),
-    m_FramesTotal(0),
-    m_SkeletonTotal(0),
-    m_VideoBuffer(NULL),
-    m_DepthBuffer(NULL),
-    m_ZoomFactor(1.0f)
+bool KinectSensor::do_init()
 {
-    if(initialize)
-    {
-        IsInitialized = Init();
-    }
-    if (IsInitialized && start)
-    {
-        IsRunning = Start();
-    }
-}
-
-
-KinectSensor::~KinectSensor()
-{
-    Release();
-
-    if(m_pSensor)
-    {
-        m_pSensor->Release();
-        //delete m_pSensor;
-        m_pSensor = NULL;
-    }
-}
-
-bool KinectSensor::Init()
-{
+    m_hNextDepthFrameEvent=NULL;
+    m_hNextVideoFrameEvent=NULL;
+    m_hNextSkeletonEvent=NULL;
+    m_pDepthStreamHandle=NULL;
+    m_pVideoStreamHandle=NULL;
+    m_hThNuiProcess=NULL;
+    m_hEvNuiProcessStop=NULL;
+    m_FramesTotal=0;
+    m_SkeletonTotal=0;
+    m_VideoBuffer=NULL;
+    m_DepthBuffer=NULL;
+    m_ZoomFactor=1.0f;
     // Get a working kinect sensor
     if (NuiCreateSensorByIndex(NumOfInitilizedSensors, &m_pSensor) >= 0) 
     {
@@ -194,7 +167,6 @@ HRESULT KinectSensor::InitializeSensor(TrackerConfig& config)
     {
         return hr;
     }
-    IsInitialized = true;
 
     DWORD dwSkeletonFlags = NUI_SKELETON_TRACKING_FLAG_ENABLE_IN_NEAR_RANGE;
     if (config.IsSeatedSkeletonMode)
@@ -250,28 +222,29 @@ HRESULT KinectSensor::InitializeSensor(TrackerConfig& config)
 
     return hr;
 }
-bool KinectSensor::Start()
+bool KinectSensor::do_start()
 {
-    if(!IsInitialized)
+    if(!IsInitialized())
     {
         return false;
     }
     
     // Start the Nui processing thread
-    IsRunning = IsInitialized;
+    bool isStarted = IsInitialized();
     m_hEvNuiProcessStop=CreateEvent(NULL,TRUE,FALSE,NULL);
     m_hThNuiProcess=CreateThread(NULL,0,ProcessThread,this,0,NULL);
-    IsRunning |=  (m_hThNuiProcess !=NULL);
-    IsRunning |=  (m_hEvNuiProcessStop !=NULL);
-    return IsRunning;
+    isStarted |=  (m_hThNuiProcess !=NULL);
+    isStarted |=  (m_hEvNuiProcessStop !=NULL);
+    return isStarted;
 }
 
-void KinectSensor::TrackEvent(void* message)
+void KinectSensor::do_trackEvent(void* message)
 {
 }
 
-bool KinectSensor::Stop()
+bool KinectSensor::do_stop()
 {
+    bool isStopped = false;
     // Stop the Nui processing thread
     if(m_hEvNuiProcessStop!=NULL)
     {
@@ -284,24 +257,26 @@ bool KinectSensor::Stop()
             WaitForSingleObject(m_hThNuiProcess,INFINITE);
             CloseHandle(m_hThNuiProcess);
             m_hThNuiProcess = NULL;
-            IsRunning = false;
         }
         CloseHandle(m_hEvNuiProcessStop);
         m_hEvNuiProcessStop = NULL;
+        if(m_pSensor)
+        {
+            m_pSensor->NuiShutdown();
+        }
+        isStopped = true;
     }
 
-    if (IsInitialized)
-    {
-        m_pSensor->NuiShutdown();
-    }
-    IsInitialized = false;
-
-    return !IsRunning;
+    return isStopped;
 }
 
-bool KinectSensor::Release()
+bool KinectSensor::do_release()
 {
-    Stop();
+    if(m_pSensor)
+    {
+        m_pSensor->Release();
+        m_pSensor = NULL;
+    }
 
     if (m_hNextSkeletonEvent && m_hNextSkeletonEvent != INVALID_HANDLE_VALUE)
     {
@@ -351,7 +326,7 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
     hEvents[3]=pthis->m_hNextSkeletonEvent;
 
     // Main thread loop
-    while (pthis->IsRunning)
+    while (pthis->IsRunning())
     {
         // Wait for an event to be signaled
         WaitForMultipleObjects(sizeof(hEvents)/sizeof(hEvents[0]),hEvents,FALSE,100);
@@ -377,6 +352,7 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
             pthis->GotSkeletonAlert();
             pthis->m_SkeletonTotal++;
         }
+        pthis->TrackEvent(pthis);
     }
 
     return 0;
@@ -384,7 +360,7 @@ DWORD WINAPI KinectSensor::ProcessThread(LPVOID pParam)
 
 void KinectSensor::GotVideoAlert( )
 {
-    if (!m_pSensor || !IsRunning)
+    if (!m_pSensor || !IsRunning())
     {
         return;
     }

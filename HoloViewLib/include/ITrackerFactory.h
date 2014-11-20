@@ -17,9 +17,6 @@
 class ITrackerFactory
 {
 public:
-    virtual ITracker* CreateTracker(const std::string& type)=0;
-    virtual IArgs* GetArgs()=0;
-protected:
-    
+    virtual ITracker* CreateTracker()=0;
 };
 #endif

@@ -7,19 +7,7 @@
 #include "KinectFaceTracker.h"
 #include "TrackerException.h"
 
-KinectTracker::KinectTracker(ITracker* parent, bool initialize, bool start) : TrackerManager(parent, initialize, start)
-{
-    if(initialize)
-    {
-        IsInitialized = Init();
-    }
-    if (IsInitialized && start)
-    {
-        IsRunning = Start();
-    }
-}
-
-KinectTracker::~KinectTracker()
+bool KinectTracker::do_release()
 {
     if(m_hWnd)
     {
@@ -38,15 +26,24 @@ KinectTracker::~KinectTracker()
         m_pVideoBuffer->Release();
         m_pVideoBuffer = NULL;
     }
+
+    if (m_pTrackerManager)
+    {
+        delete m_pVideoBuffer;
+        m_pVideoBuffer = NULL;
+    }
+    return true;
+}
+
+bool KinectTracker::do_stop()
+{
+    VideoCallbacks.clear();
+    IsShowingVideo = false;
+    return true;
 }
 
 bool KinectTracker::GetPosition(double& x, double& y, double& z)
 {
-    if(!m_pFaceTracker)
-    {
-        return false;
-    }
-
     EggAvatar* avatar = GetEggAvatar();
     IPose* position = avatar->GetPosition();
     x = position->Get(Position::XAxis);
@@ -56,21 +53,24 @@ bool KinectTracker::GetPosition(double& x, double& y, double& z)
     return true;
 }
 
-bool KinectTracker::Init()
+bool KinectTracker::do_init()
 {
+    m_pTrackerManager = new TrackerManager();
+    m_pFaceTracker = m_pTrackerManager->GetBestTracker();
+    m_pFaceTracker->UpdateCallback.Set(UpdateVideoCallback, this); 
     m_pImageBuffer = FTCreateImage();
     m_pVideoBuffer = FTCreateImage();
     m_pImageBuffer->Allocate(1, 1, FTIMAGEFORMAT_UINT8_B8G8R8A8); //dummy alloc
     m_pVideoBuffer->Allocate(1, 1, FTIMAGEFORMAT_UINT8_B8G8R8A8); //dummy alloc
+    IsShowingVideo = false;
+    FitToWindow = true;
+    IsShowingMask = true;
     return true;
 }
 
-bool KinectTracker::Start()
+bool KinectTracker::do_start()
 {
-    SetTrackerUpdateCallback(Callback(KinectTracker::UpdateVideoCallback, this));
-    IsShowingVideo = false;
-    FitToWindow = true;
-    return true;
+    return AddVideoUpdateCallback(Callback(KinectTracker::UpdateVideoCallback, this));
 }
 
 void KinectTracker::UpdateVideoCallback(void* instance)
@@ -81,6 +81,7 @@ void KinectTracker::UpdateVideoCallback(void* instance)
         RECT rect;
         GetClientRect(pThis->m_hWnd, &rect);
         InvalidateRect(pThis->m_hWnd, &rect, FALSE);
+        Sleep(16);
     }
 }
 
@@ -90,7 +91,6 @@ bool KinectTracker::AddVideoUpdateCallback(const Callback& callback)
 
     return true;
 }
-
 
 bool KinectTracker::SetWindowHandler(void* handler)
 {
@@ -103,15 +103,15 @@ bool KinectTracker::SetWindowHandler(void* handler)
     return false;
 }
 
-void KinectTracker::TrackEvent(void* message)
+void KinectTracker::do_trackEvent(void* message)
 {
-    IFTResult* pResult = static_cast<IFTResult*>(message);
-    if (pResult == NULL)
-    {
-        return;
-    }
     if (IsShowingVideo)
     {
+        IFTResult* pResult = static_cast<IFTResult*>(message);
+        if (pResult == NULL)
+        {
+            return;
+        }
         RECT faceRect;
         pResult->GetFaceRect(&faceRect);
         SetCenterOfImage(faceRect);
@@ -121,9 +121,14 @@ void KinectTracker::TrackEvent(void* message)
 
 void KinectTracker::PaintEvent(void* message)
 {
-    IsShowingVideo = SetWindowHandler(message);
-    if (IsShowingVideo)
+    if(!IsRunning())
     {
+        return;
+    }
+
+    if (SetWindowHandler(message))
+    {
+        IsShowingVideo = true;
         UpdateWindow();
     }
 }
@@ -131,7 +136,7 @@ void KinectTracker::PaintEvent(void* message)
 
 bool KinectTracker::UpdateWindow()
 {
-    if(!IsRunning || !IsShowingVideo)
+    if(!IsShowingVideo)
     {
         return false;
     }
@@ -142,7 +147,7 @@ bool KinectTracker::UpdateWindow()
     PAINTSTRUCT ps;
     m_hdc= BeginPaint(m_hWnd, &ps);
     // Draw the avatar window and the video window
-    bool ret = PaintWindow();
+    bool ret = PaintVideo();
     EndPaint(m_hWnd, &ps);
 
     return ret;
@@ -150,22 +155,18 @@ bool KinectTracker::UpdateWindow()
 
 void KinectTracker::UpdateVideo()
 {
-    if (!IsRunning || !IsShowingVideo) 
+    if (!IsShowingVideo) 
     {
         return;
     }
-    //BOOL ret = FALSE;
-    //RECT rect;
-    //GetClientRect(m_hWnd, &rect);
-    InvalidateRect(m_hWnd, NULL, FALSE);
-    if(UpdateWindow())
+    for(std::vector<Callback>::iterator itr = VideoCallbacks.begin(); itr != VideoCallbacks.end(); itr++)
     {
-        Sleep(16);
+        (*itr).SyncCall();
     }
 }
 
 // Draw the egg head and the camera video with the mask superimposed.
-bool KinectTracker::PaintWindow()
+bool KinectTracker::PaintVideo()
 {    
     if(!IsShowingVideo)
     {
@@ -194,16 +195,7 @@ bool KinectTracker::PaintWindow()
 // Drawing the video window
 bool KinectTracker::ShowVideo(int width, int height, int originX, int originY)
 {
-    if(!m_hWnd)
-    {
-        return false;
-    }
-
-    if(!m_pFaceTrackers.empty())
-    {
-        m_pFaceTracker = GetBestTracker();
-    } 
-    else
+    if(!IsShowingVideo)
     {
         return false;
     }
@@ -216,67 +208,83 @@ bool KinectTracker::ShowVideo(int width, int height, int originX, int originY)
         int iHeight = colorImage->GetHeight();
         if (iWidth > 0 && iHeight > 0)
         {
-            int iTop = 0;
-            int iBottom = iHeight;
-            int iLeft = 0;
-            int iRight = iWidth;
+
             // Keep a separate buffer.
             if (m_pVideoBuffer && SUCCEEDED(m_pVideoBuffer->Allocate(iWidth, iHeight, FTIMAGEFORMAT_UINT8_B8G8R8A8)))
             {
                 // Copy do the video buffer while converting bytes
                 colorImage->CopyTo(m_pVideoBuffer, NULL, 0, 0);
 
-                if(m_pFaceTracker->LastTrackSucceeded)
+                if(m_pFaceTracker->LastTrackSucceeded && IsShowingMask)
                 {
                     m_pFaceTracker->GetFaceModel(m_pVideoBuffer);
-                }
-
-                // Compute the best approximate copy ratio.
-                float w1 = (float)iHeight * (float)width;
-                float w2 = (float)iWidth * (float)height;
-                if (w2 > w1 && height > 0)
-                {
-                    // video image too wide
-                    float wx = w1/height;
-                    iLeft = (int)max(0, GetXCenterFace() - wx / 2);
-                    iRight = iLeft + (int)wx;
-                    if (iRight > iWidth)
-                    {
-                        iRight = iWidth;
-                        iLeft = iRight - (int)wx;
-                    }
-                }
-                else if (w1 > w2 && width > 0)
-                {
-                    // video image too narrow
-                    float hy = w2/width;
-                    iTop = (int)max(0, GetYCenterFace() - hy / 2);
-                    iBottom = iTop + (int)hy;
-                    if (iBottom > iHeight)
-                    {
-                        iBottom = iHeight;
-                        iTop = iBottom - (int)hy;
-                    }
-                }
-                
-                if(m_hdc)
-                {
-                    int const bmpPixSize = m_pVideoBuffer->GetBytesPerPixel();
-                    SetStretchBltMode(m_hdc, HALFTONE);
-                    BITMAPINFO bmi = {sizeof(BITMAPINFO), iWidth, iHeight, 1, static_cast<WORD>(bmpPixSize * CHAR_BIT), BI_RGB, m_pVideoBuffer->GetStride() * iHeight, 5000, 5000, 0, 0};
-                    if (0 == StretchDIBits(m_hdc, originX, originY, width, height,
-                        iLeft, iBottom, iRight-iLeft, iTop-iBottom, m_pVideoBuffer->GetBuffer(), &bmi, DIB_RGB_COLORS, SRCCOPY))
-                    {
-                        return false;
-                    } 
                 }
             }
         }
 
-        
         return true;
     }
     return false;
+}
+
+bool KinectTracker::ResizeVideo(int width, int height, int originX, int originY)
+{
+    if(!IsShowingVideo)
+    {
+        return false;
+    }
+
+    // Now, copy a fraction of the camera image into the screen.
+    IFTImage* colorImage = m_pFaceTracker->GetColorImage();
+    if (colorImage)
+    {
+        int iWidth = colorImage->GetWidth();
+        int iHeight = colorImage->GetHeight();
+        int iTop = 0;
+        int iBottom = iHeight;
+        int iLeft = 0;
+        int iRight = iWidth;
+        // Compute the best approximate copy ratio.
+        float w1 = (float)iHeight * (float)width;
+        float w2 = (float)iWidth * (float)height;
+        if (w2 > w1 && height > 0)
+        {
+            // video image too wide
+            float wx = w1/height;
+            iLeft = (int)max(0, GetXCenterFace() - wx / 2);
+            iRight = iLeft + (int)wx;
+            if (iRight > iWidth)
+            {
+                iRight = iWidth;
+                iLeft = iRight - (int)wx;
+            }
+        }
+        else if (w1 > w2 && width > 0)
+        {
+            // video image too narrow
+            float hy = w2/width;
+            iTop = (int)max(0, GetYCenterFace() - hy / 2);
+            iBottom = iTop + (int)hy;
+            if (iBottom > iHeight)
+            {
+                iBottom = iHeight;
+                iTop = iBottom - (int)hy;
+            }
+        }
+
+        if(m_hdc)
+        {
+            int const bmpPixSize = m_pVideoBuffer->GetBytesPerPixel();
+            SetStretchBltMode(m_hdc, HALFTONE);
+            BITMAPINFO bmi = {sizeof(BITMAPINFO), iWidth, iHeight, 1, static_cast<WORD>(bmpPixSize * CHAR_BIT), BI_RGB, m_pVideoBuffer->GetStride() * iHeight, 5000, 5000, 0, 0};
+            if (0 == StretchDIBits(m_hdc, originX, originY, width, height,
+                iLeft, iBottom, iRight-iLeft, iTop-iBottom, m_pVideoBuffer->GetBuffer(), &bmi, DIB_RGB_COLORS, SRCCOPY))
+            {
+                return false;
+            } 
+        }
+    }
+    return true;
 }
 
 // Drawing code

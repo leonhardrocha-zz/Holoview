@@ -13,9 +13,11 @@
 class ITracker
 {
 public:
-    virtual bool    Init()=0;
-    virtual bool    Start()=0;
-    virtual void    TrackEvent(void* message)=0;
+    virtual bool                Init()=0;
+    virtual bool                Start()=0;
+    virtual bool                Stop()=0;
+    virtual bool                Release()=0;
+    virtual void                TrackEvent(void *message)=0;
 };
 
 #endif

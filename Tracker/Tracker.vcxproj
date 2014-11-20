@@ -124,8 +124,8 @@
     <ClInclude Include="include\KinectSensor.h" />
     <ClInclude Include="include\KinectController.h" />
     <ClInclude Include="include\KinectTracker.h" />
-    <ClInclude Include="include\TrackerBase.h" />
     <ClInclude Include="include\MotionDetector.h" />
+    <ClInclude Include="include\MsTrackerFactory.h" />
     <ClInclude Include="include\Options.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\stdafx.h" />

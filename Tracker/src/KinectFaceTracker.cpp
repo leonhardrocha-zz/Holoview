@@ -14,36 +14,6 @@
 
 using namespace TrackerHelper;
 
-KinectFaceTracker::KinectFaceTracker(ITracker* parent, bool initialize, bool start) :
-          IsInitialized(false),
-          IsRunning(false),
-          m_pKinectSensor( new KinectSensor(parent, initialize, start) ),
-          m_parent(parent), 
-          m_pFaceTracker(NULL), 
-          m_pFTResult(NULL), 
-          m_colorImage(NULL), 
-          m_depthImage(NULL),
-//          m_pCriticalSection(NULL),
-          m_id(KinectSensor::NumOfInitilizedSensors) 
-{
-    if(initialize)
-    {
-        IsInitialized = Init();
-    }
-    if (IsInitialized && start)
-    {
-        IsRunning = Start();
-    }
-};
-
-KinectFaceTracker::~KinectFaceTracker()
-{
-    if(SUCCEEDED(Stop()))
-    {
-        Release();
-    }
-}
-
 
 KinectSensor* KinectFaceTracker::GetSensor()
 {
@@ -63,17 +33,17 @@ IFTFaceTracker* KinectFaceTracker::GetFaceTracker()
     return m_pFaceTracker;
 }
 
-bool KinectFaceTracker::Init()
+bool KinectFaceTracker::do_init()
 {
+    m_pFaceTracker=NULL;
+    m_pFTResult=NULL;
+    m_colorImage=NULL;
+    m_depthImage=NULL;
+    m_pKinectSensor = new KinectSensor();
+    m_id = KinectSensor::NumOfInitilizedSensors-1;
     if (!m_pKinectSensor)
     {
         throw new TrackerInitializationException("Kinect sensor not allocated");
-        return false;
-    }
-
-    if (m_pKinectSensor->Init())
-    {
-        throw new TrackerInitializationException("Could not detect the Kinect sensor");
         return false;
     }
 
@@ -128,7 +98,7 @@ bool KinectFaceTracker::Init()
     return true;
 }
 
-bool KinectFaceTracker::Release()
+bool KinectFaceTracker::do_release()
 {
 
     if (m_pFaceTracker)
@@ -165,17 +135,12 @@ bool KinectFaceTracker::Release()
 
  
 
-bool KinectFaceTracker::Stop()
+bool KinectFaceTracker::do_stop()
 {
     if (m_hFaceTrackingThread)
     {
         WaitForSingleObject(m_hFaceTrackingThread, 5000/*INFINITE*/);
-        IsRunning = false;
         m_hFaceTrackingThread = NULL;
-    }
-    if (m_parent)
-    {
-        m_parent = NULL;
     }
     if (UpdateCallback.GetInstance())
     {
@@ -215,19 +180,13 @@ bool KinectFaceTracker::GetFaceModel(IFTImage* colorImage)
     return true;
 }
 
-bool KinectFaceTracker::Start()
+bool KinectFaceTracker::do_start()
 {
-    if (GetSensor()->Start())
-    {
-        m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
-        SetThreadPriority(m_hFaceTrackingThread, THREAD_PRIORITY_HIGHEST);
-        IsRunning = true;
-        //m_messageQueue.Start();
-        return true;
-    }
-    return false;
+    m_hFaceTrackingThread = CreateThread(NULL, 0, KinectFaceTracker::FaceTrackingStaticThread, (void*) this, 0, 0);
+    SetThreadPriority(m_hFaceTrackingThread, THREAD_PRIORITY_HIGHEST);
+    //m_messageQueue.Start();
+    return true;
 }
-
 
 DWORD WINAPI KinectFaceTracker::FaceTrackingStaticThread(PVOID lpParam)
 {
@@ -242,7 +201,7 @@ DWORD WINAPI KinectFaceTracker::FaceTrackingStaticThread(PVOID lpParam)
 
 DWORD WINAPI KinectFaceTracker::FaceTrackingThread()
 {     
-    while (IsRunning)
+    while (IsRunning())
     {    
         HRESULT hrFT = GetTrackerResult();
         // Get a video image and process it.
@@ -291,7 +250,7 @@ HRESULT KinectFaceTracker::GetTrackerResult()
 {
     HRESULT hrFT = E_FAIL;
     KinectSensor* pSensor = GetSensor();
-    if (pSensor->IsRunning)
+    if (pSensor->IsRunning())
     {
         HRESULT hrCopy = pSensor->GetVideoBuffer()->CopyTo(m_colorImage, NULL, 0, 0);
         if (SUCCEEDED(hrCopy) && pSensor->GetDepthBuffer())
@@ -337,13 +296,22 @@ HRESULT KinectFaceTracker::GetTrackerResult()
     return hrFT;
 }
 
-void KinectFaceTracker::TrackEvent(void* message)
+void KinectFaceTracker::do_trackEvent(void* message)
 { 
-    if (GetSensor()->IsRunning)
-    {
-        if(m_parent)
+    if (IsRunning())
+    {    
+        HRESULT hrFT = GetTrackerResult();
+        // Get a video image and process it.
+        if (LastTrackSucceeded)
         {
-            m_parent->TrackEvent(message);
+            if (SUCCEEDED(m_trackingStatus))
+            {
+                this->TrackEvent(static_cast<void*>(m_pFTResult));
+            }
+        }
+        if(UpdateCallback.GetInstance())
+        {
+            UpdateCallback.Call();
         }
     }
 }

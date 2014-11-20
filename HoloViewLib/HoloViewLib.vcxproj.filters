@@ -49,6 +49,12 @@
     <ClInclude Include="include\Synchronizable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\TrackerBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TrackerFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

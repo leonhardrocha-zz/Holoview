@@ -8,7 +8,7 @@
 #include "Position.h"
 #include "KinectTracker.h"
 
-void KinectController::TrackEvent(void* message)
+void KinectController::do_trackEvent(void* message)
 {
     
 #if 0
@@ -34,7 +34,7 @@ void KinectController::TrackEvent(void* message)
 /// <summary>
 /// Start a new thread to run the elevation task
 /// </summary>
-bool KinectController::Start()
+bool KinectController::do_start()
 {
     // Create the events for elevation task thread
     m_hSetTiltAngleEvent = CreateEventW(NULL, FALSE, FALSE, NULL);
@@ -48,7 +48,7 @@ bool KinectController::Start()
         0,
         NULL);
 
-    return KinectSensor::Start();
+    return true;
 }
 
 /// <summary>
@@ -61,7 +61,7 @@ DWORD WINAPI KinectController::TiltTrackingStaticThread(PVOID lpParam)
     KinectController* pThis = static_cast<KinectController*>(lpParam);
     HANDLE events[numEvents] = {pThis->m_hSetTiltAngleEvent, pThis->m_hExitThreadEvent};
 
-    while(pThis->IsRunning)
+    while(pThis->IsRunning())
     {
         // Check if we have a setting tilt angle event or an exiting thread event
         DWORD dwEvent = WaitForMultipleObjects(numEvents, events, FALSE, INFINITE);
@@ -90,11 +90,11 @@ DWORD WINAPI KinectController::TiltTrackingStaticThread(PVOID lpParam)
 /// <summary>
 /// Release all the resources
 /// </summary>
-bool KinectController::Release()
+bool KinectController::do_release()
 {
-    return KinectSensor::Release();
+    return true;
 }
-bool KinectController::Stop()
+bool KinectController::do_stop()
 {
     // Exit the elevation task thread
     SetEvent(m_hExitThreadEvent);

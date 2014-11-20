@@ -13,11 +13,11 @@ HoloWindow::~HoloWindow()
     {
         workerThread.terminate();
     }*/
-    if (worker)
-    {
-        delete worker;
-        worker = NULL;
-    }
+    //if (worker)
+    //{
+    //    delete worker;
+    //    worker = NULL;
+    //}
 }
 
 void HoloWindow::Init(osgViewer::ViewerBase *viewer)

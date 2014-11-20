@@ -11,24 +11,18 @@
 #include "ITracker.h"
 #include "EggAvatar.h"
 #include "TrackerConfig.h"
+#include "TrackerBase.h"
 #include <FaceTrackLib.h>
 #include <NuiApi.h>
 
 class KinectFaceTracker;
 
-class KinectSensor : public ITracker
+class KinectSensor : public TrackerBase
 {
     friend class KinectFaceTracker;
 public:
-    KinectSensor(ITracker *parent=NULL, bool initialize = true, bool start = true);
-    ~KinectSensor();
-    bool        Init();
-    bool        Start();
-    void        TrackEvent(void* message);
-    bool        Stop();
-    bool        Release();
-    bool        IsInitialized; 
-    bool        IsRunning;
+    KinectSensor() : TrackerBase() { if(Init()) Start(); }
+    ~KinectSensor() { if (Stop()) Release(); }
     static int      NumOfInitilizedSensors;
 protected:
     HRESULT     GetVideoConfiguration(FT_CAMERA_CONFIG* videoConfig);
@@ -70,5 +64,10 @@ protected:
     INuiSensor* m_pSensor;
     std::string   m_configArg;
     TrackerConfig m_config;
-
+private:
+    virtual bool                do_init();
+    virtual bool                do_start();
+    virtual bool                do_stop();
+    virtual bool                do_release();
+    virtual void                do_trackEvent(void* message);
 };
