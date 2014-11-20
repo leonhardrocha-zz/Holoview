@@ -110,6 +110,10 @@ void KinectTracker::TrackEvent(void* message)
     {
         return;
     }
+
+    EggAvatar* avatar = GetEggAvatar();
+    avatar->SetPose(pResult);
+
     if (IsShowingVideo)
     {
         RECT faceRect;
@@ -117,6 +121,7 @@ void KinectTracker::TrackEvent(void* message)
         SetCenterOfImage(faceRect);
         UpdateVideo();
     }
+    TrackerManager::TrackEvent(message);
 }
 
 void KinectTracker::PaintEvent(void* message)
