@@ -12,7 +12,7 @@
 #define _ZmqIPC_H_
 #include "IArgs.h"
 #include "IIPC.h"
-#include "ZeroMQ/zmq.hpp"
+#include "zmq.hpp"
 #include <string>
 
 class ZmqIPC : public IIPC

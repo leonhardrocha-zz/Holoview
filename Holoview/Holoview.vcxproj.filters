@@ -35,21 +35,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DockFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MainWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Toolbar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Toolbar.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -74,15 +59,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Helper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyDock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HoloWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_HoloWindow.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -95,57 +71,81 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Worker.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="src\Helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DockFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyDock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HoloWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Toolbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Worker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TrackerFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_HoloviewMainForm.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="qtLib.h">
+    <ClInclude Include="include\HoloviewHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OsgViewerWidget.h">
+    <ClInclude Include="include\OsgViewerGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OsgFrame.h">
+    <ClInclude Include="include\OsgViewerWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OsgViewerGrid.h">
+    <ClInclude Include="include\qtLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HoloviewHelper.h">
+    <ClInclude Include="include\TrackerFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Holoview.ui">
-      <Filter>Form Files</Filter>
+    <CustomBuild Include="include\DockFrame.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Holoview.qrc">
+    <CustomBuild Include="include\HoloWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\MainWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\MyDock.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\Worker.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\Toolbar.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\Holoview.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="DockFrame.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="MyDock.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Toolbar.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="HoloviewMainForm.ui">
+    <CustomBuild Include="Resources\Holoview.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="HoloWindow.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Worker.h">
-      <Filter>Header Files</Filter>
+    <CustomBuild Include="Resources\HoloviewMainForm.ui">
+      <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

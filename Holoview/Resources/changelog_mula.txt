@@ -1,0 +1,13 @@
+14-7-04
+Add icon for forward and rewind in media.
+
+17/7/04
+Add icon for index. stock_index.svg
+18/7/04
+Add icons for rhythmbox (applet icon, play, pause, etc...)
+24/7/04
+Add stock_disconnect - icon - But I can't view... What program use them?
+fille-roller - I themed all icons :)
+Jobbing in  balsa e-mail client
+25/7/04
+Add all the code for balsa e-mail client. About 80% themed, need more icons.

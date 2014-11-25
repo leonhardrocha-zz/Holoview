@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>$(ProjectDir)include;$(SolutionDir)Dependencies\include\osg;$(SolutionDir)Dependencies\include\DirectX;$(SolutionDir)Dependencies\include\ZeroMQ;$(SolutionDir)Dependencies\include\Kinect;$(SolutionDir)Dependencies\include\3rdparty;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LibraryPath>$(SolutionDir)lib;$(SolutionDir)Dependencies\lib\osg;$(SolutionDir)Dependencies\lib\DirectX;$(SolutionDir)Dependencies\lib\ZeroMQ;$(SolutionDir)Dependencies\lib\Kinect;$(SolutionDir)Dependencies\lib\3rdparty;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup />
+</Project>

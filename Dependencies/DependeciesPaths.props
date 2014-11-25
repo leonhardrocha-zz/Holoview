@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <ExecutablePath>$(SolutionDir)Dependencies\bin\osg;$(SolutionDir)Dependencies\bin\DirectX;$(SolutionDir)Dependencies\bin\ZeroMQ;$(SolutionDir)Dependencies\bin\Kinect;$(SolutionDir)Dependencies\bin\3rdparty;$(VCInstallDir)bin;$(WindowsSdkDir)bin\NETFX 4.0 Tools;$(WindowsSdkDir)bin;$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(FrameworkSDKDir)\bin;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IncludePath>$(SolutionDir)Dependencies\include\osg;$(SolutionDir)Dependencies\include\DirectX;$(SolutionDir)Dependencies\include\ZeroMQ;$(SolutionDir)Dependencies\include\Kinect;$(SolutionDir)Dependencies\include\3rdparty;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LibraryPath>$(SolutionDir)Dependencies\lib\osg;$(SolutionDir)Dependencies\lib\DirectX;$(SolutionDir)Dependencies\lib\ZeroMQ;$(SolutionDir)Dependencies\lib\Kinect;$(SolutionDir)Dependencies\lib\3rdparty;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup />
+  <ItemGroup />
+</Project>
