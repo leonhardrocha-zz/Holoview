@@ -275,17 +275,20 @@ namespace OsgExtension
         double _deltaSpan;
     };
 
-    class ViewUpdateHandler : public osgGA::GUIEventHandler, public Callback
+    class ViewUpdateHandler : public osgGA::GUIEventHandler
     {
     public:
         virtual bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa, osg::Object*, osg::NodeVisitor*) 
         { 
-            if (m_callback)
+            if (updateCallback.GetInstance())
             {
-                SyncCall();
+                updateCallback.SyncCall();
             }
             return osgGA::GUIEventHandler::handle(ea,aa);
         }
+        Callback updateCallback;
     };
+
+
 }
 #endif

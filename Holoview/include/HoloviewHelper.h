@@ -82,8 +82,6 @@ namespace HoloviewHelper
         bool flipY[NumOfSkyBoxes];
     };
 
-    SkyBoxInfo m_skybox;
-
     QMap<QString, QSize> parseCustomSizeHints(int argc, char **argv)
     {
         QMap<QString, QSize> result;
@@ -124,6 +122,20 @@ namespace HoloviewHelper
         {
             dualViewer->SetVirtualEye(eye);
             dualViewer->Update();
+        }
+    }
+    
+    void UpdateMap(void* instance)
+    {
+        // Update the wireframe frustum
+        DualScreenViewer* pThis = static_cast<DualScreenViewer*>(instance);
+        osgViewer::View* mapView = pThis->GetMapView();
+        osg::Group* root = static_cast<osg::Group*>(mapView->getSceneData());
+        if (root) 
+        {
+            osg::Node* map = root->getChild(1);
+            osgViewer::View* mainView = pThis->GetMainView();
+            root->replaceChild(map, pThis->makeFrustumFromCamera( mainView ));
         }
     }
 
@@ -171,7 +183,7 @@ namespace HoloviewHelper
         view->setSceneData( root );
     }
 
-    void AddSkyBox(osgViewer::View* view, std::string name)
+    void AddSkyBox(SkyBoxInfo& skyboxImages, osgViewer::View* view, std::string name)
     {
         osg::Node* scene = view->getSceneData();
 
@@ -183,12 +195,12 @@ namespace HoloviewHelper
         skybox->getOrCreateStateSet()->setTextureAttributeAndModes( 0, new osg::TexGen );
 
         skybox->setEnvironmentMap( 0, 
-                                    m_skybox.ImageList[name][pos_x],
-                                    m_skybox.ImageList[name][neg_x],
-                                    m_skybox.ImageList[name][pos_y],
-                                    m_skybox.ImageList[name][neg_y],
-                                    m_skybox.ImageList[name][pos_z],
-                                    m_skybox.ImageList[name][neg_z]);
+                                    skyboxImages.ImageList[name][pos_x],
+                                    skyboxImages.ImageList[name][neg_x],
+                                    skyboxImages.ImageList[name][pos_y],
+                                    skyboxImages.ImageList[name][neg_y],
+                                    skyboxImages.ImageList[name][pos_z],
+                                    skyboxImages.ImageList[name][neg_z]);
         skybox->addChild( geode );
 
         osg::Group* root = new osg::Group;
@@ -230,8 +242,6 @@ namespace HoloviewHelper
 
         osgViewer::View* mainView = dualViewer.GetMainView();
         mainView->setSceneData( scene.get() );
-        AddGrid( mainView );
-        AddSkyBox( mainView , "snow");
 
         // View 1 -- Contains the loaded model, as well as a wireframe frustum derived from View 0's Camera.
 

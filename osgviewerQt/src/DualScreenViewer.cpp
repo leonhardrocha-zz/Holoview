@@ -41,10 +41,6 @@ bool DualScreenViewer::InitViews()
         osg::DisplaySettings* ds = new osg::DisplaySettings();
         view->setDisplaySettings(ds);
 
-        OsgExtension::ViewUpdateHandler* viewUpdateHandler = new  OsgExtension::ViewUpdateHandler();
-        viewUpdateHandler->Set(DualScreenViewer::UpdateMap, this);
-        view->addEventHandler( viewUpdateHandler );
-
         osg::ref_ptr<osgGA::TrackerManipulator> trackerManipulator = new osgGA::TrackerManipulator();
         trackerManipulator->setName("Tracker");
         trackerManipulator->setVerticalAxisFixed(false);
@@ -134,8 +130,8 @@ bool DualScreenViewer::Init()
     if (InitViews())
     {
         osgViewer::View* mainView = GetMainView();
-        osgViewer::View* mapView = GetMapView();
-        setRunFrameScheme( osgViewer::ViewerBase::ON_DEMAND );
+        //osgViewer::View* mapView = GetMapView();
+        //setRunFrameScheme( osgViewer::ViewerBase::ON_DEMAND );
         if(InitGraphics(mainView))
         {
             CreateGraphicsWindow(mainView);
@@ -153,21 +149,20 @@ void DualScreenViewer::Update()
     osgGA::KeySwitchMatrixManipulator* keyManipulator = static_cast<osgGA::KeySwitchMatrixManipulator*>(view->getCameraManipulator());
     if (keyManipulator)
     {
+        osg::Vec3d eye;
+        osg::Quat rotation;
         osgGA::CameraManipulator* cameraManipulator = keyManipulator->getCurrentMatrixManipulator(); //keyManipulator->getMatrixManipulatorWithIndex(i);
-        HandleManipulator(cameraManipulator);
+        HandleManipulator(cameraManipulator, eye, rotation);
+        Update(view, eye);
     }
-    Update(view, m_virtualEye);
 }
 
-void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipulator)
+void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipulator, osg::Vec3d& eye, osg::Quat& rotation)
 {
-    osg::Quat rotation;
-    osg::Vec3d eye;
-
     if (cameraManipulator->getName() == "Tracker")
     {
         osgGA::TrackerManipulator* trackerManipulator = static_cast<osgGA::TrackerManipulator*>(cameraManipulator);
-        trackerManipulator->setTrackingResults(m_virtualEye, m_virtualCenter, m_virtualOrigin);
+        trackerManipulator->setTrackingResults(m_virtualEye, m_virtualCenter);
         trackerManipulator->getTransformation(eye, rotation);
     }
 
@@ -182,24 +177,8 @@ void DualScreenViewer::HandleManipulator(osgGA::CameraManipulator* cameraManipul
         osgGA::TrackballManipulator* trackballManipulator = static_cast<osgGA::TrackballManipulator*>(cameraManipulator);
         trackballManipulator->getTransformation(eye, rotation);
     }
-
-    m_virtualEye = eye;
 }
 
-void DualScreenViewer::UpdateMap(void* instance)
-{
-    // Update the wireframe frustum
-    
-    DualScreenViewer* pThis = static_cast<DualScreenViewer*>(instance);
-    osgViewer::View* mapView = pThis->GetMapView();
-    osg::Group* root = static_cast<osg::Group*>(mapView->getSceneData());
-    if (root) 
-    {
-        osg::Node* map = root->getChild(1);
-        osgViewer::View* mainView = pThis->GetMainView();
-        root->replaceChild(map, pThis->makeFrustumFromCamera( mainView ));
-    }
-}
 
 
 void DualScreenViewer::SetupView()

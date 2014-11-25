@@ -20,7 +20,7 @@ HoloWindow::~HoloWindow()
     }
 }
 
-void HoloWindow::Init(osgViewer::ViewerBase *viewer)
+void HoloWindow::AddViewer(osgViewer::ViewerBase *viewer)
 {
     worker = new Worker(viewer);
     worker->moveToThread(&workerThread);

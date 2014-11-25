@@ -39,7 +39,7 @@ class HoloWindow : public MainWindow
         virtual void handleResults();
         QThread workerThread;
         Worker* worker;
-        void Init(osgViewer::ViewerBase *viewer);
+        void AddViewer(osgViewer::ViewerBase *viewer);
     signals:
         void operate(const QString& parameter);
     protected:

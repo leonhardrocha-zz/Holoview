@@ -28,7 +28,7 @@ namespace osgGA {
             virtual void getTransformation( osg::Vec3d& eye, osg::Quat& rotation ) const;
             virtual void getTransformation( osg::Vec3d& eye, osg::Vec3d& center, osg::Vec3d& up ) const;
 
-            virtual void setTrackingResults(const osg::Vec3& eye, const osg::Vec3& center, const osg::Vec3& origin);
+            virtual void setTrackingResults(const osg::Vec3& eye, const osg::Vec3& center, const osg::Vec3& viewUp = osg::Vec3(0,1,0));
 
             virtual void setVelocity( const double& velocity );
             inline double getVelocity() const;
@@ -44,6 +44,11 @@ namespace osgGA {
             virtual void home( double );
 
             virtual void init( const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& us );
+
+            osg::Vec3 KinectBasePosition;
+            osg::Vec3 KinectEyeOffset;
+            double KinectPitchAngle;
+
 
         protected:
 

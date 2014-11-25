@@ -41,13 +41,22 @@ int main(int argc, char *argv[])
     
     DualScreenViewer dualViewer;
     HoloviewHelper::Init(dualViewer);
-
     // tracker
-    window.Init(&dualViewer);
-    window.workerThread.start();
-
+    window.AddViewer(&dualViewer);
     //top level tracker update callback
-    dualViewer.Set(HoloviewHelper::ViewUpdateStatic, &dualViewer);
+
+    HoloviewHelper::AddGrid(dualViewer.GetMainView());
+    HoloviewHelper::SkyBoxInfo skyBoxInfo;
+    HoloviewHelper::AddSkyBox( skyBoxInfo, dualViewer.GetMainView() , "snow");
+
+    osg::ref_ptr<OsgExtension::ViewUpdateHandler> viewUpdateHandler = new  OsgExtension::ViewUpdateHandler();
+    viewUpdateHandler->updateCallback.Set(HoloviewHelper::ViewUpdateStatic, &dualViewer);
+    dualViewer.GetMainView()->addEventHandler( viewUpdateHandler );
+
+    OsgExtension::ViewUpdateHandler* mapUpdateHandler = new  OsgExtension::ViewUpdateHandler();
+    mapUpdateHandler->updateCallback.Set(HoloviewHelper::UpdateMap, &dualViewer);
+    dualViewer.GetMapView()->addEventHandler( viewUpdateHandler );
+
     tracker.AddTrackEventCallback(Callback(HoloviewHelper::TrackerUpdateStatic, &tracker));
     // run all modules
     window.show();

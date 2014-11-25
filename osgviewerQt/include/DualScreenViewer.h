@@ -12,7 +12,7 @@
 typedef bool (*ViewCompareFunction)(osgViewer::View* view);
 
 
-class DualScreenViewer : public osgViewer::CompositeViewer, public Callback
+class DualScreenViewer : public osgViewer::CompositeViewer
 {
 
 public:
@@ -52,9 +52,9 @@ protected:
     virtual void SetupProjection();
     virtual void CreateGraphicsWindow(osgViewer::View* view);
     virtual void Update(osgViewer::View* view, osg::Vec3 eye);
-    virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator);
+    virtual void HandleManipulator(osgGA::CameraManipulator* cameraManipulator, osg::Vec3d& eye, osg::Quat& rotation);
 
-    static void UpdateMap(void* instance);
+
     ScreenInfo m_display;
     std::vector<TiltedScreen> m_displays;
     osg::Geode* DrawFrustum(ScreenInfo& info);

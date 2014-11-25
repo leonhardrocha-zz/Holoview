@@ -5,7 +5,7 @@ Worker::~Worker()
 { 
     if (_viewer) 
     { 
-        while (_viewer->areThreadsRunning())
+        if (_viewer->areThreadsRunning())
         {
             _viewer->stopThreading();
         }

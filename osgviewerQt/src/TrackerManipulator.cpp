@@ -40,6 +40,9 @@ TrackerManipulator::TrackerManipulator( int flags )
    setAcceleration( 1.0, true );
    setMaxVelocity( 0.25, true );
    setWheelMovement( 0.05, true );
+   KinectBasePosition.set(0.0, 1.0, 0.45);
+   KinectEyeOffset.set(0.015, 0.06, 0.03);
+   KinectPitchAngle = osg::inDegrees(0.0);
    if( _flags & SET_CENTER_ON_WHEEL_FORWARD_MOVEMENT )
       setAnimationTime( 0.2 );
 }
@@ -149,19 +152,17 @@ void TrackerManipulator::setVelocity( const double& velocity )
    _velocity = velocity;
 }
 
-void TrackerManipulator::setTrackingResults(const osg::Vec3& eye, const osg::Vec3& center, const osg::Vec3& origin)
+void TrackerManipulator::setTrackingResults(const osg::Vec3& eye, const osg::Vec3& center, const osg::Vec3& viewUp)
 {
-    const osg::Vec3 kinectBasePosition(0.0, 1.0, 0.45);
-    const osg::Vec3 kinectEyeOffset(0.015, 0.06, 0.03);
-    const double kinectPitchAngle = osg::inDegrees(0.0);
+
     const osg::Vec3 xAxis(1.0, 0.0, 0.0);
 
-    osg::Vec3 kinectFrustumOffset(eye.x(), eye.y() + eye.z() * sin(kinectPitchAngle), eye.z() * cos(kinectPitchAngle));
-    osg::Vec3 kinectFrustumOrigin = kinectBasePosition + osg::Matrix::rotate(kinectPitchAngle, xAxis) * kinectEyeOffset;
+    osg::Vec3 kinectFrustumOffset(eye.x(), eye.y() + eye.z() * sin(KinectPitchAngle), eye.z() * cos(KinectPitchAngle));
+    osg::Vec3 kinectFrustumOrigin = KinectBasePosition + osg::Matrix::rotate(KinectPitchAngle, xAxis) * KinectEyeOffset;
 
-    setTransformation( kinectFrustumOrigin + kinectFrustumOffset - origin,
-                       center - origin, 
-                       osg::Vec3d(0,1,0) );
+    setTransformation( kinectFrustumOrigin + kinectFrustumOffset,
+                       center, 
+                       viewUp);
 }
 /** Sets acceleration.
  *
